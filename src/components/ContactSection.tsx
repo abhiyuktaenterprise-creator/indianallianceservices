@@ -57,7 +57,7 @@ const ContactSection = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="phone">Mobile Number *</Label>
-                <Input id="phone" type="tel" placeholder="+91 95496 58894" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} maxLength={15} required />
+                <Input id="phone" type="tel" placeholder="Enter your mobile number" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} maxLength={15} required />
               </div>
 
               <div className="space-y-2">
@@ -123,7 +123,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <div className="text-xs text-muted-foreground">Call</div>
-                    <div className="font-semibold text-foreground">+91 95496 58894</div>
+                    <div className="font-semibold text-foreground">+91 95496*****</div>
                   </div>
                 </a>
                 <a href="mailto:infor.airportcareerservices@gmail.com" className="flex items-baseline md:items-center gap-3 group flex-col md:flex-row">

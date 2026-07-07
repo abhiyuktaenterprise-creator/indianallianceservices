@@ -123,7 +123,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <div className="text-xs text-muted-foreground">Call</div>
-                    <div className="font-semibold text-foreground">+91 95496*****</div>
+                    <div className="font-semibold text-foreground">+91 *****58894</div>
                   </div>
                 </a>
                 <a href="mailto:infor.airportcareerservices@gmail.com" className="flex items-baseline md:items-center gap-3 group flex-col md:flex-row">

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, Plane } from "lucide-react";
+import { Menu, X, Plane } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [
@@ -50,10 +50,9 @@ const Navbar = () => {
               {link.label}
             </a>
           ))}
-          <a href="tel:+919549658894">
+          <a href="#contact">
             <Button variant="gold" size="sm" className="gap-2">
-              <Phone className="h-4 w-4" />
-              Call Now
+              Enquire Now
             </Button>
           </a>
         </div>
@@ -82,10 +81,9 @@ const Navbar = () => {
                 {link.label}
               </a>
             ))}
-            <a href="tel:+919549658894" className="mt-2">
+            <a href="#contact" className="mt-2" onClick={() => setIsOpen(false)}>
               <Button variant="gold" className="w-full gap-2">
-                <Phone className="h-4 w-4" />
-                Call Now
+                Enquire Now
               </Button>
             </a>
           </div>

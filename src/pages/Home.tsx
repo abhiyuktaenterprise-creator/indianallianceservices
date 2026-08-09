@@ -435,7 +435,7 @@ export default function Home() {
           <SectionHeading
             badge="Why Airport Career Services"
             title="Complete End-to-End Support for Your"
-            highlight="Aviation Career"
+            highlight="Placement"
             description="From the moment you express interest to your first day at the airport terminal, our experienced advisors provide structured guidance at every milestone."
           />
 

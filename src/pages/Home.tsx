@@ -505,17 +505,12 @@ export default function Home() {
                 className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-lg hover:border-secondary/50 transition-all flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2.5">
-                      <div className="rounded-xl bg-primary/10 p-3 text-primary">
-                        <role.icon className="h-6 w-6" />
-                      </div>
-                      <span className="font-mono text-xs font-bold text-secondary bg-secondary/15 px-2.5 py-1 rounded-md border border-secondary/25">
-                        {role.code}
-                      </span>
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <div className="rounded-xl bg-primary/10 p-3 text-primary">
+                      <role.icon className="h-6 w-6" />
                     </div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wider bg-muted text-muted-foreground px-2.5 py-1 rounded-full">
-                      {role.eligibility}
+                    <span className="font-mono text-xs font-bold text-secondary bg-secondary/15 px-2.5 py-1 rounded-md border border-secondary/25">
+                      {role.code}
                     </span>
                   </div>
 

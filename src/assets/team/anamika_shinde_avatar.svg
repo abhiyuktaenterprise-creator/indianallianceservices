@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="skinGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d49a6a" />
+      <stop offset="100%" stop-color="#b87a48" />
+    </linearGradient>
+    <linearGradient id="suitGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="hairGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a1a" />
+      <stop offset="100%" stop-color="#0d0d0d" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="98" fill="url(#bgGrad1)" />
+
+  <!-- Inner Soft Glow -->
+  <circle cx="100" cy="100" r="90" fill="#f8fafc" fill-opacity="0.12" />
+
+  <!-- Hair Back -->
+  <path d="M 60 85 C 55 125, 65 145, 68 150 L 132 150 C 135 145, 145 125, 140 85 C 138 50, 62 50, 60 85 Z" fill="url(#hairGrad1)" />
+
+  <!-- Neck -->
+  <rect x="88" y="115" width="24" height="28" rx="4" fill="url(#skinGrad1)" />
+
+  <!-- Collar / Blouse -->
+  <polygon points="100,135 84,120 116,120" fill="#0284c7" />
+  <polygon points="100,142 90,120 110,120" fill="#ffffff" />
+
+  <!-- Shoulders & Blazer -->
+  <path d="M 38 190 C 42 148, 70 132, 85 130 L 100 152 L 115 130 C 130 132, 158 148, 162 190 Z" fill="url(#suitGrad1)" />
+  <!-- Blazer Lapels -->
+  <polygon points="85,130 100,175 75,190 60,190" fill="#1e293b" />
+  <polygon points="115,130 100,175 125,190 140,190" fill="#334155" />
+
+  <!-- Head / Face -->
+  <ellipse cx="100" cy="92" rx="30" ry="36" fill="url(#skinGrad1)" />
+
+  <!-- Hair Front / Style -->
+  <path d="M 68 85 C 68 55, 132 55, 132 85 C 120 70, 110 68, 100 68 C 88 68, 80 72, 68 85 Z" fill="url(#hairGrad1)" />
+  <!-- Side Bangs -->
+  <path d="M 70 78 C 72 95, 78 105, 76 112 C 72 105, 68 95, 70 78 Z" fill="url(#hairGrad1)" />
+  <path d="M 130 78 C 128 95, 122 105, 124 112 C 128 105, 132 95, 130 78 Z" fill="url(#hairGrad1)" />
+
+  <!-- Subtle Bindi & Features -->
+  <circle cx="100" cy="80" r="2.2" fill="#be123c" />
+
+  <!-- Eyes -->
+  <ellipse cx="88" cy="90" rx="3.5" ry="2" fill="#1e293b" />
+  <ellipse cx="112" cy="90" rx="3.5" ry="2" fill="#1e293b" />
+  <!-- Eyebrows -->
+  <path d="M 83 85 Q 88 82 94 85" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round" />
+  <path d="M 106 85 Q 112 82 117 85" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round" />
+
+  <!-- Nose & Smile -->
+  <path d="M 100 89 L 98 98 L 102 98" stroke="#a16207" stroke-width="1.5" fill="none" stroke-linecap="round" />
+  <path d="M 92 108 Q 100 116 108 108" stroke="#be123c" stroke-width="2.5" fill="none" stroke-linecap="round" />
+
+  <!-- Small Elegant Earrings -->
+  <circle cx="68" cy="98" r="3" fill="#f59e0b" />
+  <circle cx="132" cy="98" r="3" fill="#f59e0b" />
+</svg>

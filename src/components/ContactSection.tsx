@@ -7,12 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 
 const locations = [
-  { city: "Mumbai", address: "Office No. 312, Andheri Trade Centre, Andheri East, Mumbai – 400069" },
-  { city: "Kolkata", address: "Suite 5B, Millennium Tower, Salt Lake Sector V, Kolkata – 700091" },
-  { city: "Chennai", address: "2nd Floor, Sky Business Park, Guindy, Chennai – 600032" },
-  { city: "Visakhapatnam", address: "Plot 14, MVP Colony, Sector 6, Visakhapatnam – 530017" },
-  { city: "Pune", address: "Unit 201, Baner Business Hub, Baner Road, Pune – 411045" },
-  { city: "Nagpur", address: "Office 8, Dharampeth Tower, Civil Lines, Nagpur – 440001" },
+  { city: "Mumbai / Navi Mumbai", address: "Office No. 402, Sai Arcade Complex, Old Mumbai-Pune Highway, Panvel, Navi Mumbai – 410206" },
+  { city: "Delhi NCR", address: "Unit 315, Galaxy Diamond Plaza, Sector 4, Greater Noida West, Uttar Pradesh – 201308" },
+  { city: "Madhya Pradesh", address: "Office No. 208, Silver Estate Business Park, A.B. Road Bypass, Indore – 452010" },
+  { city: "Andhra Pradesh", address: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool District – 518010" },
+  { city: "Gujarat", address: "Office No. 204, GIDC Business Hub, Sanand-Viramgam Highway, Sanand, Gujarat – 382110" },
 ];
 
 const ContactSection = () => {
@@ -122,8 +121,9 @@ const ContactSection = () => {
                     <Phone className="h-5 w-5 text-secondary" />
                   </div>
                   <div>
-                    <div className="text-xs text-muted-foreground">Call</div>
-                    <div className="font-semibold text-foreground">+91 *****65963</div>
+                    <a href="tel:+917851836860" className="font-semibold text-foreground hover:text-secondary transition-colors block">
+                      +91 7851836860
+                    </a>
                   </div>
                 </div>
                 <a href="mailto:infor.airportcareerservices@gmail.com" className="flex items-baseline md:items-center gap-3 group flex-col md:flex-row">

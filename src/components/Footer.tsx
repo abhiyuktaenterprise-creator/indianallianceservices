@@ -41,14 +41,14 @@ const Footer = () => (
         <div>
           <h4 className="font-heading font-semibold text-primary-foreground mb-4">Contact</h4>
           <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-2 text-sm text-primary-foreground/50">
-              <Phone className="h-4 w-4" />+91 *****65963
-            </div>
+            <a href="tel:+917851836860" className="flex items-center gap-2 text-sm text-primary-foreground/50 hover:text-secondary transition-colors">
+              <Phone className="h-4 w-4" />+91 7851836860
+            </a>
             <a href="mailto:infor.airportcareerservices@gmail.com" className="flex items-center gap-2 text-sm text-primary-foreground/50 hover:text-secondary transition-colors">
               <Mail className="h-4 w-4" /> infor.airportcareerservices@gmail.com
             </a>
             <div className="flex items-start gap-2 text-sm text-primary-foreground/50">
-              <MapPin className="h-4 w-4 shrink-0 mt-0.5" /> Ranipet Highway, Orvakal, Pudicherla, Andhra Pradesh 518010
+              <MapPin className="h-4 w-4 shrink-0 mt-0.5" /> Mumbai • Delhi NCR • MP • AP • Gujarat
             </div>
           </div>
         </div>

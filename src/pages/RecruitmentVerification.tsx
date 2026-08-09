@@ -12,6 +12,7 @@ import {
   HelpCircle,
   Building2,
   ArrowRight,
+  Award,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/common/SEO";
@@ -116,11 +117,19 @@ export default function RecruitmentVerification() {
             className="text-primary-foreground/70 mb-4"
           />
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-secondary/20 border border-secondary/30 px-3.5 py-1 mb-4">
-              <ShieldCheck className="h-3.5 w-3.5 text-secondary" />
-              <span className="text-xs font-semibold text-secondary">
-                Official Candidate Advisory & Trust
-              </span>
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 border border-amber-500/30 px-3.5 py-1">
+                <Award className="h-3.5 w-3.5 text-amber-300" />
+                <span className="text-xs font-bold text-amber-200">
+                  NHDC Certified Quality Standards
+                </span>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-secondary/20 border border-secondary/30 px-3.5 py-1">
+                <ShieldCheck className="h-3.5 w-3.5 text-secondary" />
+                <span className="text-xs font-semibold text-secondary">
+                  Official Candidate Advisory & Trust
+                </span>
+              </div>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-primary-foreground leading-tight">
               Recruitment Verification Guide

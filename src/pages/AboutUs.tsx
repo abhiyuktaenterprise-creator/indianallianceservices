@@ -390,6 +390,21 @@ export default function AboutUs() {
                 </div>
 
                 <div className="flex items-start gap-3">
+                  <div className="rounded-lg bg-amber-500/20 p-2 text-amber-500 shrink-0 mt-0.5 border border-amber-500/30">
+                    <Award className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-heading font-semibold text-foreground text-sm flex items-center gap-1.5">
+                      <span>NHDC Certified Guidance Standards</span>
+                      <span className="text-[10px] bg-amber-500/20 text-amber-600 dark:text-amber-300 font-bold px-1.5 py-0.2 rounded">Certified</span>
+                    </h4>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      Our training curriculum, student eligibility criteria, and interview coaching frameworks follow recognized NHDC quality standards.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
                   <div className="rounded-lg bg-secondary/15 p-2 text-secondary shrink-0 mt-0.5">
                     <CheckCircle2 className="h-5 w-5" />
                   </div>

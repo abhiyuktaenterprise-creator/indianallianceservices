@@ -23,6 +23,7 @@ import {
   Building2,
   HelpCircle,
   BadgeCheck,
+  Award,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -57,28 +58,28 @@ const whyACSFeatures = [
   },
   {
     icon: Route,
-    title: "Aviation Career Guidance",
-    desc: "Comprehensive roadmap for airport ground staff, customer service, airline operations, cargo, and flight services.",
+    title: "Eligibility Evaluation",
+    desc: "Transparent assessment of physical criteria, age limit, educational marksheets, and English fluency before airline interview registration.",
   },
   {
     icon: GraduationCap,
-    title: "Training Guidance",
-    desc: "Practical guidance on airport terminology, ticketing software familiarity, grooming standards, and aviation safety protocols.",
+    title: "Grooming & Training Guidance",
+    desc: "Professional guidance on airport customer service etiquette, cabin crew grooming, aviation security fundamentals, and documentation.",
   },
   {
     icon: UserCheck,
-    title: "Interview Preparation",
-    desc: "Rigorous mock interview sessions, HR telephonic screening practice, group discussion coaching, and resume formatting.",
+    title: "Mock Interview Drills",
+    desc: "Real-world simulation of airline HR rounds, group discussions, voice modulation, and telephonic screening techniques.",
   },
   {
     icon: Briefcase,
     title: "Placement Assistance",
-    desc: "End-to-end placement support, regular job notifications, interview scheduling, and coordination till successful onboarding.",
+    desc: "Direct coordination with ground handling agencies, airline recruiters, and airport retail concessionaires for active hiring drives.",
   },
   {
     icon: Heart,
-    title: "Candidate Support",
-    desc: "Continuous mentor support, pre-joining documentation guidance, and ongoing career advice for long-term growth in aviation.",
+    title: "Anti-Fraud Verification",
+    desc: "Official recruiter ID validation, 100% transparent procedures, and clear guidance to protect candidates from recruitment scams.",
   },
 ];
 
@@ -164,6 +165,10 @@ const howWeHelpSteps = [
 
 // Core Why Choose Us Pillars
 const whyChoosePillars = [
+  {
+    title: "NHDC Certified Quality Standards",
+    desc: "Our career counselling, curriculum guidance, and interview coaching frameworks comply with recognized NHDC quality benchmarks.",
+  },
   {
     title: "Student-First Philosophy",
     desc: "We focus on real candidate capabilities and realistic aviation career matching rather than unrealistic promises.",
@@ -306,9 +311,12 @@ export default function Home() {
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             {/* Hero Left Content */}
             <div className="lg:col-span-7 space-y-6">
-              {/* Trust Badge */}
-              <div className="inline-flex items-center gap-2 rounded-full bg-secondary/20 border border-secondary/30 px-4 py-1.5 backdrop-blur-sm">
-                <Sparkles className="h-4 w-4 text-secondary" />
+              {/* Trust Badge & NHDC Certificate */}
+              <div className="inline-flex flex-wrap items-center gap-2 rounded-full bg-secondary/20 border border-secondary/35 px-4 py-1.5 backdrop-blur-sm shadow-sm">
+                <span className="inline-flex items-center gap-1.5 text-amber-300 font-bold text-xs sm:text-sm">
+                  <Award className="h-4 w-4" /> NHDC Certified Guidance
+                </span>
+                <span className="h-1.5 w-1.5 rounded-full bg-secondary/60 hidden sm:inline-block" />
                 <span className="text-xs sm:text-sm font-semibold tracking-wide text-secondary-foreground/95">
                   India's Dedicated Aviation Career Consultancy
                 </span>
@@ -364,6 +372,10 @@ export default function Home() {
 
               {/* Quick Trust Bar */}
               <div className="pt-4 flex flex-wrap items-center gap-6 text-xs text-primary-foreground/70">
+                <div className="flex items-center gap-2 text-amber-300 font-semibold">
+                  <Award className="h-4 w-4" />
+                  <span>NHDC Certificate Standards</span>
+                </div>
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4 text-secondary" />
                   <span>100% Transparent Counselling</span>

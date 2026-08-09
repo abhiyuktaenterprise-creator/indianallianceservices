@@ -8,6 +8,7 @@ import {
   ArrowRight,
   Clock,
   CheckCircle2,
+  Award,
 } from "lucide-react";
 
 export default function Footer() {
@@ -22,9 +23,14 @@ export default function Footer() {
                 <ShieldCheck className="h-7 w-7" />
               </div>
               <div>
-                <h3 className="text-lg font-heading font-bold text-primary-foreground">
-                  Received a Recruitment Message from Airport Career Services?
-                </h3>
+                <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <h3 className="text-lg font-heading font-bold text-primary-foreground">
+                    Received a Recruitment Message from Airport Career Services?
+                  </h3>
+                  <span className="inline-flex items-center gap-1 rounded bg-amber-500/25 text-amber-300 px-2 py-0.5 font-bold text-[11px] border border-amber-500/30">
+                    <Award className="h-3 w-3" /> NHDC Certified Standards
+                  </span>
+                </div>
                 <p className="text-sm text-primary-foreground/75 mt-1 max-w-2xl">
                   Protect yourself against impersonators. Verify interview calls, official emails, and candidate requirements directly through our verified portal.
                 </p>

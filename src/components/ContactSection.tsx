@@ -78,16 +78,16 @@ const ContactSection = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="role">Interested Airport Role</Label>
+                <Label htmlFor="role">Interested Airport Placement Role</Label>
                 <Select value={formData.role} onValueChange={(v) => setFormData({ ...formData, role: v })}>
                   <SelectTrigger><SelectValue placeholder="Select role" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ground-staff">Airport Ground Staff</SelectItem>
-                    <SelectItem value="cse">Customer Service Executive (CSE)</SelectItem>
-                    <SelectItem value="cabin-crew">Cabin Crew (Guidance)</SelectItem>
-                    <SelectItem value="operations">Airport Operations</SelectItem>
-                    <SelectItem value="cargo">Cargo & Baggage Handling</SelectItem>
-                    <SelectItem value="support">Airline Support Staff</SelectItem>
+                    <SelectItem value="ags">AGS — Airport Ground Staff</SelectItem>
+                    <SelectItem value="csa">CSA — Customer Service Assistant</SelectItem>
+                    <SelectItem value="cabin-crew">Cabin Crew</SelectItem>
+                    <SelectItem value="gsa">GSA — Ground Service Assistant</SelectItem>
+                    <SelectItem value="psa">PSA — Passenger Service Assistant</SelectItem>
+                    <SelectItem value="airhostess">Airhostess</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

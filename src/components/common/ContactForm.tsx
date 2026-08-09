@@ -223,14 +223,14 @@ export default function ContactForm({
               <SelectValue placeholder="Select interested role" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Airport Ground Staff">Airport Ground Staff</SelectItem>
-              <SelectItem value="Customer Service Executive">Customer Service Executive (CSE)</SelectItem>
-              <SelectItem value="Cabin Crew Guidance">Cabin Crew Guidance</SelectItem>
-              <SelectItem value="Airport Operations">Airport Operations</SelectItem>
-              <SelectItem value="Cargo & Baggage Handling">Cargo & Baggage Handling</SelectItem>
-              <SelectItem value="Airline Support Staff">Airline Support Staff</SelectItem>
+              <SelectItem value="AGS — Airport Ground Staff">AGS — Airport Ground Staff</SelectItem>
+              <SelectItem value="CSA — Customer Service Assistant">CSA — Customer Service Assistant</SelectItem>
+              <SelectItem value="Cabin Crew">Cabin Crew</SelectItem>
+              <SelectItem value="GSA — Ground Service Assistant">GSA — Ground Service Assistant</SelectItem>
+              <SelectItem value="PSA — Passenger Service Assistant">PSA — Passenger Service Assistant</SelectItem>
+              <SelectItem value="Airhostess">Airhostess</SelectItem>
               <SelectItem value="HR & Telecalling Executive">HR & Telecalling Executive (Open Job)</SelectItem>
-              <SelectItem value="General Career Guidance">General Career Guidance</SelectItem>
+              <SelectItem value="General Placement Guidance">General Placement Guidance</SelectItem>
             </SelectContent>
           </Select>
         </div>

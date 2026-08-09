@@ -20,6 +20,8 @@ import {
   Info,
   ShieldCheck,
   TrendingUp,
+  Award,
+  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/common/SEO";
@@ -398,6 +400,32 @@ export default function Careers() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Certificate & Eligibility Clarification (IATA & NHDC Standards) */}
+          <div className="max-w-5xl mx-auto mt-10 bg-card rounded-2xl border border-secondary/30 p-6 sm:p-8 shadow-sm space-y-4">
+            <div className="flex items-center gap-2.5 text-foreground font-heading font-bold text-lg">
+              <Award className="h-5 w-5 text-amber-500" />
+              <h3>Candidate Certification & Experience Advisory (IATA & NHDC Standards)</h3>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              <div className="p-4 rounded-xl bg-muted/40 border border-border/60 space-y-1.5">
+                <div className="font-semibold text-foreground flex items-center gap-1.5">
+                  <CheckCircle2 className="h-4 w-4 text-secondary" /> Is IATA Certificate Mandatory?
+                </div>
+                <p>
+                  <strong>No.</strong> Prior IATA certificate is <strong>not mandatory</strong> for entry-level airport ground roles (12th pass / graduates). However, candidates holding IATA or ticketing certifications receive high preference during international airline screening.
+                </p>
+              </div>
+              <div className="p-4 rounded-xl bg-muted/40 border border-border/60 space-y-1.5">
+                <div className="font-semibold text-foreground flex items-center gap-1.5">
+                  <CheckCircle2 className="h-4 w-4 text-secondary" /> Is NHDC / Prior Experience Certificate Required?
+                </div>
+                <p>
+                  <strong>No.</strong> Freshers can directly apply without prior experience. Our NHDC-aligned training modules and mock interview coaching provide complete preparation to help freshers clear airline selection rounds.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -29,14 +29,15 @@ import CTASection from "@/components/common/CTASection";
 import EnquiryModal from "@/components/common/EnquiryModal";
 import JobApplicationModal from "@/components/common/JobApplicationModal";
 
-// A. 6 Aviation Career Paths with rich details
+// A. 6 Target Airport Placement Career Paths (AGS, CSA, Cabin Crew, GSA, PSA, Airhostess)
 const aviationCareerPaths = [
   {
-    id: "ground-staff",
+    id: "ags",
+    code: "AGS",
     icon: Users,
-    title: "Airport Ground Staff",
+    title: "Airport Ground Staff (AGS)",
     overview:
-      "Airport ground staff are the backbone of passenger operations at terminal departure and arrival gates, ensuring smooth boarding, check-in, and passenger coordination.",
+      "Airport Ground Staff (AGS) are the backbone of passenger operations at departure and arrival gates, ensuring smooth boarding, check-in, and passenger coordination across domestic and international airport terminals.",
     responsibilities: [
       "Boarding gate announcements and passenger queue management",
       "Verifying passenger identity, boarding passes, and travel documents",
@@ -46,15 +47,16 @@ const aviationCareerPaths = [
     ],
     eligibility: "12th Pass or Any Graduate (Male & Female)",
     skills: ["Pleasing personality", "Clear verbal communication", "Calm attitude under pressure", "Basic computer literacy"],
-    growth: "Junior Executive → Senior Customer Associate → Team Lead → Duty Supervisor → Airport Terminal Manager",
+    growth: "AGS Executive → Senior Customer Associate → Team Lead → Duty Supervisor → Airport Terminal Manager",
     acsSupport: "Mock boarding gate drills, phonetic alphabet training, document check procedures, and airline interview preparation.",
   },
   {
-    id: "customer-service",
+    id: "csa",
+    code: "CSA",
     icon: Headphones,
-    title: "Customer Service Executive (CSE)",
+    title: "Customer Service Assistant (CSA)",
     overview:
-      "Customer Service Executives manage airline ticketing, check-in counters, passenger inquiries, baggage tagging, and airport lounge customer experience.",
+      "Customer Service Assistants (CSA) manage airline ticketing, check-in counters, passenger inquiries, baggage weighing/tagging, and airport lounge customer assistance.",
     responsibilities: [
       "Operating passenger check-in desks and baggage weighing systems",
       "Issuing boarding passes and handling seat assignments",
@@ -64,15 +66,16 @@ const aviationCareerPaths = [
     ],
     eligibility: "12th Pass or Any Graduate",
     skills: ["Good spoken English & Hindi/regional language", "Empathetic listening", "Customer service orientation", "Typing & computer skills"],
-    growth: "CSE → Senior CSE → Shift Coordinator → Customer Service Team Manager",
+    growth: "CSA → Senior CSA → Shift Coordinator → Customer Service Team Manager",
     acsSupport: "Check-in simulation questions, passenger conflict handling techniques, grooming standards coaching, and telephonic interview practice.",
   },
   {
     id: "cabin-crew",
+    code: "Cabin Crew",
     icon: Plane,
-    title: "Cabin Crew (Guidance & Preparation)",
+    title: "Cabin Crew",
     overview:
-      "Cabin crew members are responsible for passenger safety, comfort, emergency evacuation procedures, and in-flight hospitality onboard domestic and international flights.",
+      "Cabin Crew members are responsible for in-flight passenger safety, comfort, emergency evacuation readiness, and premium inflight hospitality onboard domestic and international flights.",
     responsibilities: [
       "Conducting pre-flight safety equipment checks and briefings",
       "Welcoming passengers and guiding them to allocated seating",
@@ -86,11 +89,12 @@ const aviationCareerPaths = [
     acsSupport: "Body language and posture grooming, skin & personality guidance, emergency scenario interview questions, and panel interview drills.",
   },
   {
-    id: "operations",
+    id: "gsa",
+    code: "GSA",
     icon: Settings,
-    title: "Airport Operations & Ramp Support",
+    title: "Ground Service Assistant (GSA)",
     overview:
-      "Operations personnel oversee airside aircraft turnaround, fueling safety, marshaling coordination, ramp vehicle movements, and airport regulatory compliance.",
+      "Ground Service Assistants (GSA) oversee airside aircraft turnaround, ramp coordination, fueling safety, marshaling support, baggage conveyor handling, and airport equipment operations.",
     responsibilities: [
       "Monitoring aircraft turnaround schedule to ensure on-time departures",
       "Coordinating ramp equipment (pushback tractors, baggage tugs, GPU)",
@@ -98,46 +102,48 @@ const aviationCareerPaths = [
       "Ensuring airside safety protocols and FOD (Foreign Object Debris) prevention",
       "Compiling flight load sheets and departure reports",
     ],
-    eligibility: "Graduate (Science/Commerce/Arts) or Aviation/Logistics Diploma preferred",
+    eligibility: "10th Pass / 12th Pass / Graduate / Diploma Preferred",
     skills: ["Strong situational awareness", "Attention to detail", "Time management", "Basic technical aptitude"],
-    growth: "Ramp Agent → Operations Executive → Flight Dispatch Assistant → Ramp Duty Manager",
+    growth: "GSA Trainee → GSA Senior Agent → Ramp Operations Executive → Ramp Duty Manager",
     acsSupport: "Aviation terminology, turnaround process flow understanding, airside safety guidelines, and operations interview coaching.",
   },
   {
-    id: "cargo",
-    icon: Package,
-    title: "Cargo & Baggage Handling",
-    overview:
-      "Cargo specialists oversee the sorting, weighing, loading, security screening, and documentation of air freight, dangerous goods, and passenger baggage.",
-    responsibilities: [
-      "Receiving, inspecting, and documenting commercial air shipments",
-      "Baggage make-up and breakdown at conveyor systems",
-      "Ensuring proper weight distribution and cargo manifest accuracy",
-      "Handling courier shipments and cold-chain pharmaceutical cargo",
-      "Operating terminal scanners and barcode tracking systems",
-    ],
-    eligibility: "10th Pass / 12th Pass / Graduate",
-    skills: ["Physical stamina", "Accuracy with numbers and codes", "Basic computer knowledge", "Team coordination"],
-    growth: "Cargo Loader/Tagger → Cargo Handling Executive → Dangerous Goods Specialist → Cargo Terminal Supervisor",
-    acsSupport: "Cargo documentation concepts, airway bill terminology, security guidelines overview, and interview preparation.",
-  },
-  {
-    id: "support-staff",
+    id: "psa",
+    code: "PSA",
     icon: UserCheck,
-    title: "Airline Support Staff",
+    title: "Passenger Service Assistant (PSA)",
     overview:
-      "Support staff handle airline back-office operations, crew scheduling assistance, telephonic passenger reservations, lost and found desks, and administrative coordination.",
+      "Passenger Service Assistants (PSA) provide dedicated airport floor assistance, wheelchair passenger escorting, unaccompanied minor care, immigration line facilitation, and VIP reception.",
     responsibilities: [
-      "Managing inbound telephone inquiries regarding flight bookings and re-routing",
-      "Coordinating airline crew transport and layover schedules",
-      "Maintaining internal records, flight logs, and passenger manifests",
-      "Assisting station managers with administrative airport documentation",
-      "Handling lost & found passenger claims and baggage tracing",
+      "Assisting PRM (Passengers with Reduced Mobility) and medical travellers",
+      "Escorting unaccompanied minors safely from check-in to aircraft seat",
+      "Managing immigration and security queue flow during peak flight hours",
+      "Providing airport direction and transit assistance for connecting flights",
+      "Coordinating with airline duty managers for special service requests (SSR)",
     ],
     eligibility: "12th Pass / Any Graduate",
-    skills: ["Good phone etiquette", "MS Office / Excel proficiency", "Organized record-keeping", "Problem solving"],
-    growth: "Support Associate → Senior Coordinator → Station Admin Manager",
-    acsSupport: "Telephonic screening drills, Excel basics overview, office communication etiquette, and airline interview guidance.",
+    skills: ["Polite communication", "Helpful and patient attitude", "Active on feet", "Problem-solving skills"],
+    growth: "PSA Executive → Senior PSA → Floor Supervisor → Terminal Duty Lead",
+    acsSupport: "Special service codes training, PRM handling protocol overview, customer etiquette, and airline interview preparation.",
+  },
+  {
+    id: "airhostess",
+    code: "Airhostess",
+    icon: Sparkles,
+    title: "Airhostess",
+    overview:
+      "Airhostesses represent the airline's premium hospitality and safety standards onboard flights, welcoming passengers, managing inflight dining, safety demonstrations, and first-aid support.",
+    responsibilities: [
+      "Welcoming guests onboard and maintaining cabin atmosphere",
+      "Conducting safety demonstrations and verifying seatbelt compliance",
+      "Serving inflight meals, duty-free items, and beverages",
+      "Handling in-flight customer requests with warmth and professionalism",
+      "Executing standard emergency and first-aid protocols when required",
+    ],
+    eligibility: "12th Pass / Graduate (Minimum height ~155cm; clear complexion; fluent English & Hindi)",
+    skills: ["Pleasing demeanor", "Grooming & elegance", "Calm hospitality", "Team coordination"],
+    growth: "Airhostess Trainee → Senior Airhostess → In-flight Supervisor → Base In-Flight Manager",
+    acsSupport: "Complete personality grooming, voice modulation, cabin hospitality simulation, and panel interview coaching.",
   },
 ];
 
@@ -303,10 +309,15 @@ export default function Careers() {
                       <career.icon className="h-7 w-7" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-heading font-bold text-foreground">
-                        {career.title}
-                      </h3>
-                      <p className="text-xs text-secondary font-semibold uppercase tracking-wider">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-2xl font-heading font-bold text-foreground">
+                          {career.title}
+                        </h3>
+                        <span className="font-mono text-xs font-bold text-secondary bg-secondary/15 px-2.5 py-0.5 rounded-md border border-secondary/25">
+                          {career.code}
+                        </span>
+                      </div>
+                      <p className="text-xs text-secondary font-semibold uppercase tracking-wider mt-0.5">
                         Eligibility: {career.eligibility}
                       </p>
                     </div>

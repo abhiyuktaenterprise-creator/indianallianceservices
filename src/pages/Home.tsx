@@ -83,49 +83,55 @@ const whyACSFeatures = [
   },
 ];
 
-// 6 Aviation Roles
+// 6 Airport Placement Roles with Official Designations (AGS, CSA, Cabin Crew, GSA, PSA, Airhostess)
 const careerRoles = [
   {
     icon: Users,
-    title: "Airport Ground Staff",
-    desc: "Boarding gate coordination, passenger assistance, and terminal floor management at domestic and international airports.",
+    code: "AGS",
+    title: "Airport Ground Staff (AGS)",
+    desc: "Boarding gate management, baggage clearance, tarmac coordination, and terminal floor passenger assistance at domestic & international airports.",
     eligibility: "12th Pass / Graduate",
-    link: "/careers#ground-staff",
+    link: "/careers#ags",
   },
   {
     icon: Headphones,
-    title: "Customer Service Executive",
-    desc: "Check-in counter operations, reservation handling, passenger query resolution, and premium lounge service.",
+    code: "CSA",
+    title: "Customer Service Assistant (CSA)",
+    desc: "Check-in counter operations, ticket reservation handling, passenger query resolution, and executive airport lounge assistance.",
     eligibility: "12th Pass / Any Graduate",
-    link: "/careers#customer-service",
+    link: "/careers#csa",
   },
   {
     icon: Plane,
-    title: "Cabin Crew (Guidance)",
-    desc: "In-flight passenger safety, hospitality standards, personality grooming, and airline crew selection preparation.",
-    eligibility: "12th Pass / Minimum Height Criteria",
+    code: "Cabin Crew",
+    title: "Cabin Crew",
+    desc: "In-flight passenger safety, hospitality standards, safety equipment checks, and professional flight attendant readiness.",
+    eligibility: "12th Pass / Height Criteria",
     link: "/careers#cabin-crew",
   },
   {
     icon: Settings,
-    title: "Airport Operations",
-    desc: "Airside coordination, ramp supervision, flight turnaround monitoring, and airport security protocol compliance.",
-    eligibility: "Graduate / Diploma Preferred",
-    link: "/careers#operations",
-  },
-  {
-    icon: Package,
-    title: "Cargo & Baggage Handling",
-    desc: "Air cargo documentation, dangerous goods handling protocols, baggage sorting, and logistics management.",
+    code: "GSA",
+    title: "Ground Service Assistant (GSA)",
+    desc: "Ramp operations, aircraft turnaround support, airside safety coordination, and ground equipment handling.",
     eligibility: "10th / 12th Pass / Graduate",
-    link: "/careers#cargo",
+    link: "/careers#gsa",
   },
   {
     icon: UserCheck,
-    title: "Airline Support Staff",
-    desc: "Back-office airline support, crew scheduling coordination, lost & found assistance, and telephonic guest support.",
+    code: "PSA",
+    title: "Passenger Service Assistant (PSA)",
+    desc: "Special passenger assistance, unaccompanied minor care, wheelchair handling, immigration guidance, and VIP reception.",
     eligibility: "12th Pass / Any Graduate",
-    link: "/careers#support-staff",
+    link: "/careers#psa",
+  },
+  {
+    icon: Sparkles,
+    code: "Airhostess",
+    title: "Airhostess",
+    desc: "In-flight guest hospitality, personality grooming, safety demonstrations, first-aid assistance, and airline screening preparation.",
+    eligibility: "12th Pass / Height Criteria",
+    link: "/careers#airhostess",
   },
 ];
 
@@ -481,15 +487,15 @@ export default function Home() {
       </section>
 
       {/* ==================================================
-          3. EXPLORE AVIATION CAREERS (6 Roles)
+          3. TARGET AIRPORT PLACEMENT ROLES (6 Key Roles)
           ================================================== */}
       <section className="py-20 gradient-sky border-y border-border">
         <div className="container mx-auto px-4">
           <SectionHeading
-            badge="Aviation Career Paths"
-            title="Explore Lucrative Careers in"
-            highlight="Airport & Airline Operations"
-            description="India's aviation sector is expanding rapidly with new airports and international routes. Discover the high-demand job roles we guide candidates for."
+            badge="Target Airport Placement Roles"
+            title="Explore High-Demand Opportunities in"
+            highlight="Airport Placement Services"
+            description="We provide dedicated placement services for verified airport roles including AGS (Airport Ground Staff), CSA (Customer Service Assistant), Cabin Crew, GSA (Ground Service Assistant), PSA (Passenger Service Assistant), and Airhostess across major Indian airports."
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -500,10 +506,15 @@ export default function Home() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="rounded-xl bg-primary/10 p-3 text-primary">
-                      <role.icon className="h-6 w-6" />
+                    <div className="flex items-center gap-2.5">
+                      <div className="rounded-xl bg-primary/10 p-3 text-primary">
+                        <role.icon className="h-6 w-6" />
+                      </div>
+                      <span className="font-mono text-xs font-bold text-secondary bg-secondary/15 px-2.5 py-1 rounded-md border border-secondary/25">
+                        {role.code}
+                      </span>
                     </div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wider bg-secondary/10 text-secondary px-2.5 py-1 rounded-full">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider bg-muted text-muted-foreground px-2.5 py-1 rounded-full">
                       {role.eligibility}
                     </span>
                   </div>
@@ -527,11 +538,11 @@ export default function Home() {
 
                   <Button
                     size="sm"
-                    variant="ghost"
+                    variant="outline"
                     onClick={() => setIsModalOpen(true)}
-                    className="text-xs font-semibold hover:bg-secondary/10 hover:text-secondary"
+                    className="text-xs font-semibold"
                   >
-                    Enquire
+                    Apply for Placement
                   </Button>
                 </div>
               </div>

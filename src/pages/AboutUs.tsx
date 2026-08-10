@@ -43,7 +43,12 @@ import aditiImg from "@/assets/team/aditi_thakur.jpg";
 import arpitaImg from "@/assets/team/arpita_shinde.jpg";
 import preetiImg from "@/assets/team/preeti_sharma.jpg";
 import prachiImg from "@/assets/team/prachi_sharma.jpg";
-import adityaDhanrajImg from "@/assets/team/aditya_dhanraj.jpg";
+import akankshaImg from "@/assets/team/akanksha_sharma.jpg";
+import monikaImg from "@/assets/team/monika_sharma.jpg";
+import vanshikaImg from "@/assets/team/vanshika_tiwari.jpg";
+import kavyaImg from "@/assets/team/kavya_mittal.jpg";
+import anikaImg from "@/assets/team/anika_dhanraj.jpg";
+import hsShinghaniyaImg from "@/assets/team/hs_shinghaniya.jpg";
 
 // 1. Executive Leadership & Management (Strictly 3 members in 3 columns)
 const leadershipMembers = [
@@ -128,26 +133,145 @@ const seniorHRMembers = [
 
 // 3. Mid-Level HR Team (12 HR Executives)
 const hrExecutiveMembers = [
-  { name: "Diksha Pawar", code: "ACS-HR-02", designation: "HR Executive", initials: "DP", image: dikshaImg, color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400" },
-  { name: "Komal Sharma", code: "ACS-HR-03", designation: "HR Executive", initials: "KS", image: komalImg, color: "bg-emerald-600/15 text-emerald-700 dark:text-emerald-400" },
-  { name: "Avni Sharma", code: "ACS-HR-04", designation: "HR Executive", initials: "AS", image: avniImg, color: "bg-sky-600/15 text-sky-700 dark:text-sky-400" },
-  { name: "Priya Sharma", code: "ACS-HR-06", designation: "HR Executive", initials: "PS", image: priyaImg, color: "bg-violet-600/15 text-violet-700 dark:text-violet-400" },
-  { name: "Aditi Thakur", code: "ACS-HR-07", designation: "HR Executive", initials: "AT", image: aditiImg, color: "bg-teal-600/15 text-teal-700 dark:text-teal-400" },
-  { name: "Arpita Shinde", code: "ACS-HR-08", designation: "HR Executive", initials: "AS", image: arpitaImg, color: "bg-rose-600/15 text-rose-700 dark:text-rose-400" },
-  { name: "Preeti Sharma", code: "ACS-HR-10", designation: "HR Executive", initials: "PS", image: preetiImg, color: "bg-blue-600/15 text-blue-700 dark:text-blue-400" },
-  { name: "Prachi Sharma", code: "ACS-HR-11", designation: "HR Executive", initials: "PS", image: prachiImg, color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400" },
-  { name: "Akanksha Sharma", code: "ACS-HR-12", designation: "HR Executive", initials: "AS", color: "bg-emerald-600/15 text-emerald-700 dark:text-emerald-400" },
-  { name: "Monika Sharma", code: "ACS-HR-14", designation: "HR Executive", initials: "MS", color: "bg-cyan-600/15 text-cyan-700 dark:text-cyan-400" },
-  { name: "Vanshika Tiwari", code: "ACS-HR-15", designation: "HR Executive", initials: "VT", color: "bg-violet-600/15 text-violet-700 dark:text-violet-400" },
-  { name: "Kavya Mittal", code: "ACS-HR-16", designation: "HR Executive", initials: "KM", color: "bg-teal-600/15 text-teal-700 dark:text-teal-400" },
+  {
+    name: "Diksha Pawar",
+    code: "ACS-HR-02",
+    designation: "HR Executive",
+    initials: "DP",
+    image: dikshaImg,
+    color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400",
+    description: "Conducts telephonic screening, eligibility validation, and interview scheduling for ground staff aspirants.",
+  },
+  {
+    name: "Komal Sharma",
+    code: "ACS-HR-03",
+    designation: "HR Executive",
+    initials: "KS",
+    image: komalImg,
+    color: "bg-emerald-600/15 text-emerald-700 dark:text-emerald-400",
+    description: "Manages candidate evaluations, customer service orientation checks, and placement drive schedules.",
+  },
+  {
+    name: "Avni Sharma",
+    code: "ACS-HR-04",
+    designation: "HR Executive",
+    initials: "AS",
+    image: avniImg,
+    color: "bg-sky-600/15 text-sky-700 dark:text-sky-400",
+    description: "Assists freshers with basic eligibility criteria, document verification, and initial interview rounds.",
+  },
+  {
+    name: "Priya Sharma",
+    code: "ACS-HR-06",
+    designation: "HR Executive",
+    initials: "PS",
+    image: priyaImg,
+    color: "bg-violet-600/15 text-violet-700 dark:text-violet-400",
+    description: "Specializes in airport ground operations candidate screening and structured communication coaching.",
+  },
+  {
+    name: "Aditi Thakur",
+    code: "ACS-HR-07",
+    designation: "HR Executive",
+    initials: "AT",
+    image: aditiImg,
+    color: "bg-teal-600/15 text-teal-700 dark:text-teal-400",
+    description: "Evaluates prospective candidates for customer service, retail, and passenger handling career tracks.",
+  },
+  {
+    name: "Arpita Shinde",
+    code: "ACS-HR-08",
+    designation: "HR Executive",
+    initials: "AS",
+    image: arpitaImg,
+    color: "bg-rose-600/15 text-rose-700 dark:text-rose-400",
+    description: "Coordinates regional telecalling drives, mock question drills, and verified applicant onboarding.",
+  },
+  {
+    name: "Preeti Sharma",
+    code: "ACS-HR-10",
+    designation: "HR Executive",
+    initials: "PS",
+    image: preetiImg,
+    color: "bg-blue-600/15 text-blue-700 dark:text-blue-400",
+    description: "Oversees telephonic screening sessions, eligibility guidance, and scheduling with senior recruiters.",
+  },
+  {
+    name: "Prachi Sharma",
+    code: "ACS-HR-11",
+    designation: "HR Executive",
+    initials: "PS",
+    image: prachiImg,
+    color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400",
+    description: "Guides applicants through initial registration, screening standards, and airline interview protocols.",
+  },
+  {
+    name: "Akanksha Sharma",
+    code: "ACS-HR-12",
+    designation: "HR Executive",
+    initials: "AS",
+    image: akankshaImg,
+    color: "bg-emerald-600/15 text-emerald-700 dark:text-emerald-400",
+    description: "Handles telephonic qualification evaluations and guides applicants on aviation career opportunities.",
+  },
+  {
+    name: "Monika Sharma",
+    code: "ACS-HR-14",
+    designation: "HR Executive",
+    initials: "MS",
+    image: monikaImg,
+    color: "bg-cyan-600/15 text-cyan-700 dark:text-cyan-400",
+    description: "Conducts preliminary profile screening, student documentation checks, and interview follow-ups.",
+  },
+  {
+    name: "Vanshika Tiwari",
+    code: "ACS-HR-15",
+    designation: "HR Executive",
+    initials: "VT",
+    image: vanshikaImg,
+    color: "bg-violet-600/15 text-violet-700 dark:text-violet-400",
+    description: "Provides telephonic advisory on airport job eligibility, height/age criteria, and preparation.",
+  },
+  {
+    name: "Kavya Mittal",
+    code: "ACS-HR-16",
+    designation: "HR Executive",
+    initials: "KM",
+    image: kavyaImg,
+    color: "bg-teal-600/15 text-teal-700 dark:text-teal-400",
+    description: "Coordinates candidate screening pipelines, applicant inquiries, and official recruitment updates.",
+  },
 ];
 
-// 4. Junior / Associate Level (4 HR Associates)
+// 4. Junior / Associate Level (3 HR Associates)
 const hrAssociateMembers = [
-  { name: "Anika Dhanraj", code: "ACS-HR-17", designation: "HR Associate", initials: "AD", color: "bg-rose-600/15 text-rose-700 dark:text-rose-400" },
-  { name: "Aditya Dhanraj", code: "ACS-HR-18", designation: "HR Associate", initials: "AD", image: adityaDhanrajImg, color: "bg-blue-600/15 text-blue-700 dark:text-blue-400" },
-  { name: "Hansraj Shinghaniya (H.S. Shinghaniya)", code: "ACS-HR-19", designation: "HR Associate", initials: "HS", color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400" },
-  { name: "Mrs. Any Dussoja", code: "ACS-HR-21", designation: "HR Associate", initials: "AD", image: anyDussojaImg, color: "bg-purple-600/15 text-purple-700 dark:text-purple-400" },
+  {
+    name: "Anika Dhanraj",
+    code: "ACS-HR-17",
+    designation: "HR Associate",
+    initials: "AD",
+    image: anikaImg,
+    color: "bg-rose-600/15 text-rose-700 dark:text-rose-400",
+    description: "Supports candidate outreach, telephonic verification calls, and application status logs.",
+  },
+  {
+    name: "H.S. Shinghaniya",
+    code: "ACS-HR-19",
+    designation: "HR Associate",
+    initials: "HS",
+    image: hsShinghaniyaImg,
+    color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400",
+    description: "Coordinates initial telephone queries, applicant onboarding assistance, and record management.",
+  },
+  {
+    name: "Mrs. Any Dussoja",
+    code: "ACS-HR-21",
+    designation: "HR Associate",
+    initials: "AD",
+    image: anyDussojaImg,
+    color: "bg-purple-600/15 text-purple-700 dark:text-purple-400",
+    description: "Provides candidate assistance on documentation verification, interview schedules, and applicant support.",
+  },
 ];
 
 const coreValues = [
@@ -686,7 +810,7 @@ export default function AboutUs() {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 border-b border-border pb-6">
               <div>
                 <h3 className="text-xl font-heading font-bold text-foreground">
-                  Verified HR Screening Roster (16 Team Members)
+                  Verified HR Screening Roster (15 Team Members)
                 </h3>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   Verify the identity, designation, and official employee ID of HR members reaching out to you.
@@ -704,95 +828,137 @@ export default function AboutUs() {
 
             {/* Mid-Level HR Executives (12 Members) */}
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-secondary bg-secondary/15 px-3 py-1 rounded-full border border-secondary/25">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="text-xs font-bold uppercase tracking-wider text-secondary bg-secondary/15 px-3.5 py-1 rounded-full border border-secondary/25">
                   Mid-Level HR Team (12 HR Executives)
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {hrExecutiveMembers.map((member) => (
                   <div
                     key={member.code}
-                    className="bg-muted/40 rounded-2xl p-4 border border-border/70 hover:bg-card hover:border-secondary/50 hover:shadow-md transition-all flex items-center justify-between gap-3 group"
+                    className="bg-card rounded-3xl border border-secondary/35 p-6 shadow-sm hover:shadow-xl hover:border-secondary transition-all duration-300 flex flex-col justify-between text-center group h-full"
                   >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-heading font-extrabold text-sm shrink-0 shadow-sm ${member.color}`}>
-                        {member.initials}
-                      </div>
-
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <h4 className="font-heading font-bold text-foreground text-sm truncate">
-                            {member.name}
-                          </h4>
-                          <BadgeCheck className="h-4 w-4 text-secondary shrink-0" />
+                    <div>
+                      {/* Circular Portrait */}
+                      {member.image ? (
+                        <div className="relative w-28 h-28 rounded-full overflow-hidden mx-auto mb-4 border-4 border-secondary/40 shadow-lg group-hover:scale-105 transition-transform duration-300 bg-muted">
+                          <img
+                            src={member.image}
+                            alt={member.name}
+                            className="w-full h-full object-cover object-top"
+                            loading="lazy"
+                          />
                         </div>
-                        <p className="text-[11px] text-muted-foreground truncate font-medium">
+                      ) : (
+                        <div className={`w-28 h-28 rounded-full flex items-center justify-center font-heading font-extrabold text-2xl mx-auto mb-4 border-4 border-secondary/40 shadow-lg group-hover:scale-105 transition-transform duration-300 ${member.color}`}>
+                          {member.initials}
+                        </div>
+                      )}
+
+                      {/* Header Info */}
+                      <div className="space-y-1 mb-2.5">
+                        <h4 className="text-base font-heading font-extrabold text-foreground leading-snug pt-1">
+                          {member.name}
+                        </h4>
+                        <p className="text-xs font-bold text-secondary truncate">
                           {member.designation}
                         </p>
-                        <span className="inline-block text-[10px] font-mono font-semibold text-secondary">
-                          Emp ID: {member.code}
-                        </span>
+                        <div className="pt-0.5">
+                          <span className="inline-block text-[10px] font-mono font-bold text-secondary bg-secondary/10 border border-secondary/25 px-2 py-0.5 rounded-md">
+                            Emp ID: {member.code}
+                          </span>
+                        </div>
                       </div>
+
+                      {/* Description */}
+                      <p className="text-xs text-muted-foreground leading-relaxed pt-1">
+                        {member.description}
+                      </p>
                     </div>
 
-                    <Link
-                      to="/recruitment-verification"
-                      className="text-[11px] font-semibold text-secondary hover:underline shrink-0 opacity-80 group-hover:opacity-100"
-                    >
-                      Verify
-                    </Link>
+                    {/* Card Footer: Verification */}
+                    <div className="mt-5 pt-3 border-t border-border/60 flex items-center justify-between text-[11px]">
+                      <span className="text-muted-foreground text-[10px] font-medium">
+                        Official Team
+                      </span>
+                      <Link
+                        to="/recruitment-verification"
+                        className="font-semibold text-secondary hover:underline inline-flex items-center gap-1"
+                      >
+                        <BadgeCheck className="h-3.5 w-3.5 text-secondary" />
+                        <span>Verified</span>
+                      </Link>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Junior / Associate Level (4 Members) */}
-            <div className="pt-4 border-t border-border/60">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
-                  Junior / Associate Level (4 HR Associates)
+            {/* Junior / Associate Level (3 Members) */}
+            <div className="pt-6 border-t border-border/60">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="text-xs font-bold uppercase tracking-wider text-primary bg-primary/10 px-3.5 py-1 rounded-full border border-primary/20">
+                  Junior / Associate Level (3 HR Associates)
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {hrAssociateMembers.map((member) => (
                   <div
                     key={member.code}
-                    className="bg-muted/40 rounded-2xl p-4 border border-border/70 hover:bg-card hover:border-secondary/50 hover:shadow-md transition-all flex items-center justify-between gap-3 group"
+                    className="bg-card rounded-3xl border border-secondary/35 p-6 shadow-sm hover:shadow-xl hover:border-secondary transition-all duration-300 flex flex-col justify-between text-center group h-full"
                   >
-                    <div className="flex items-center gap-3 min-w-0">
+                    <div>
+                      {/* Circular Portrait */}
                       {member.image ? (
-                        <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-secondary/40 bg-muted">
-                          <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top" loading="lazy" />
+                        <div className="relative w-28 h-28 rounded-full overflow-hidden mx-auto mb-4 border-4 border-secondary/40 shadow-lg group-hover:scale-105 transition-transform duration-300 bg-muted">
+                          <img
+                            src={member.image}
+                            alt={member.name}
+                            className="w-full h-full object-cover object-top"
+                            loading="lazy"
+                          />
                         </div>
                       ) : (
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-heading font-extrabold text-sm shrink-0 shadow-sm ${member.color}`}>
+                        <div className={`w-28 h-28 rounded-full flex items-center justify-center font-heading font-extrabold text-2xl mx-auto mb-4 border-4 border-secondary/40 shadow-lg group-hover:scale-105 transition-transform duration-300 ${member.color}`}>
                           {member.initials}
                         </div>
                       )}
 
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <h4 className="font-heading font-bold text-foreground text-sm truncate">
-                            {member.name}
-                          </h4>
-                          <BadgeCheck className="h-4 w-4 text-secondary shrink-0" />
-                        </div>
-                        <p className="text-[11px] text-muted-foreground truncate font-medium">
+                      {/* Header Info */}
+                      <div className="space-y-1 mb-2.5">
+                        <h4 className="text-base font-heading font-extrabold text-foreground leading-snug pt-1">
+                          {member.name}
+                        </h4>
+                        <p className="text-xs font-bold text-secondary truncate">
                           {member.designation}
                         </p>
-                        <span className="inline-block text-[10px] font-mono font-semibold text-secondary">
-                          Emp ID: {member.code}
-                        </span>
+                        <div className="pt-0.5">
+                          <span className="inline-block text-[10px] font-mono font-bold text-secondary bg-secondary/10 border border-secondary/25 px-2 py-0.5 rounded-md">
+                            Emp ID: {member.code}
+                          </span>
+                        </div>
                       </div>
+
+                      {/* Description */}
+                      <p className="text-xs text-muted-foreground leading-relaxed pt-1">
+                        {member.description}
+                      </p>
                     </div>
 
-                    <Link
-                      to="/recruitment-verification"
-                      className="text-[11px] font-semibold text-secondary hover:underline shrink-0 opacity-80 group-hover:opacity-100"
-                    >
-                      Verify
-                    </Link>
+                    {/* Card Footer: Verification */}
+                    <div className="mt-5 pt-3 border-t border-border/60 flex items-center justify-between text-[11px]">
+                      <span className="text-muted-foreground text-[10px] font-medium">
+                        Official Team
+                      </span>
+                      <Link
+                        to="/recruitment-verification"
+                        className="font-semibold text-secondary hover:underline inline-flex items-center gap-1"
+                      >
+                        <BadgeCheck className="h-3.5 w-3.5 text-secondary" />
+                        <span>Verified</span>
+                      </Link>
+                    </div>
                   </div>
                 ))}
               </div>

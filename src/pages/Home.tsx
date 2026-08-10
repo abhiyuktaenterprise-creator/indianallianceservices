@@ -43,6 +43,19 @@ import teenaImg from "@/assets/team/teena_roy.jpg";
 import anamikaImg from "@/assets/team/anamika_shinde.jpg";
 import padmavatiImg from "@/assets/team/padmavati.jpg";
 import anyDussojaImg from "@/assets/team/any_dussoja.jpg";
+import dikshaImg from "@/assets/team/diksha_pawar.jpg";
+import komalImg from "@/assets/team/komal_sharma.jpg";
+import avniImg from "@/assets/team/avni_sharma.jpg";
+import priyaImg from "@/assets/team/priya_sharma.jpg";
+import aditiImg from "@/assets/team/aditi_thakur.jpg";
+import arpitaImg from "@/assets/team/arpita_shinde.jpg";
+import preetiImg from "@/assets/team/preeti_sharma.jpg";
+import prachiImg from "@/assets/team/prachi_sharma.jpg";
+
+import candPriyaImg from "@/assets/candidates/priya_sharma.jpg";
+import candRahulImg from "@/assets/candidates/rahul_verma.jpg";
+import candAnanyaImg from "@/assets/candidates/ananya_patel.jpg";
+import candIrfanImg from "@/assets/candidates/mohammed_irfan.jpg";
 import SEO from "@/components/common/SEO";
 import SectionHeading from "@/components/common/SectionHeading";
 import CTASection from "@/components/common/CTASection";
@@ -198,24 +211,28 @@ const testimonials = [
   {
     name: "Priya Sharma",
     role: "Ground Staff, Delhi Airport",
+    image: candPriyaImg,
     text: "Airport Career Services guided me from zero knowledge to landing my dream job at Delhi Airport. The training and interview prep were outstanding!",
     rating: 5,
   },
   {
     name: "Rahul Verma",
     role: "Cargo Operations, Mumbai Airport",
+    image: candRahulImg,
     text: "I was confused about career options after 12th. Their counselling helped me discover airport cargo operations — and now I'm working at Mumbai Airport!",
     rating: 5,
   },
   {
     name: "Ananya Patel",
     role: "Customer Service, Bangalore Airport",
+    image: candAnanyaImg,
     text: "The entire process was transparent and supportive. Within 3 months of joining, I was placed as a Customer Service Executive.",
     rating: 5,
   },
   {
     name: "Mohammed Irfan",
     role: "Cabin Crew, IndiGo",
+    image: candIrfanImg,
     text: "Professional grooming and mock interviews gave me the confidence I needed. Today I fly with IndiGo — thanks to Airport Career Services!",
     rating: 5,
   },
@@ -831,21 +848,21 @@ export default function Home() {
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               {[
-                { name: "Diksha Pawar", code: "ACS-HR-02", role: "HR Executive", initials: "DP" },
-                { name: "Komal Sharma", code: "ACS-HR-03", role: "HR Executive", initials: "KS" },
-                { name: "Avni Sharma", code: "ACS-HR-04", role: "HR Executive", initials: "AS" },
-                { name: "Priya Sharma", code: "ACS-HR-06", role: "HR Executive", initials: "PS" },
-                { name: "Aditi Thakur", code: "ACS-HR-07", role: "HR Executive", initials: "AT" },
-                { name: "Arpita Shinde", code: "ACS-HR-08", role: "HR Executive", initials: "AS" },
-                { name: "Preeti Sharma", code: "ACS-HR-10", role: "HR Executive", initials: "PS" },
-                { name: "Prachi Sharma", code: "ACS-HR-11", role: "HR Executive", initials: "PS" },
+                { name: "Diksha Pawar", code: "ACS-HR-02", role: "HR Executive", image: dikshaImg },
+                { name: "Komal Sharma", code: "ACS-HR-03", role: "HR Executive", image: komalImg },
+                { name: "Avni Sharma", code: "ACS-HR-04", role: "HR Executive", image: avniImg },
+                { name: "Priya Sharma", code: "ACS-HR-06", role: "HR Executive", image: priyaImg },
+                { name: "Aditi Thakur", code: "ACS-HR-07", role: "HR Executive", image: aditiImg },
+                { name: "Arpita Shinde", code: "ACS-HR-08", role: "HR Executive", image: arpitaImg },
+                { name: "Preeti Sharma", code: "ACS-HR-10", role: "HR Executive", image: preetiImg },
+                { name: "Prachi Sharma", code: "ACS-HR-11", role: "HR Executive", image: prachiImg },
               ].map((member, idx) => (
                 <div
                   key={`${member.name}-${idx}`}
                   className="bg-muted/50 rounded-xl p-3 border border-border/50 hover:bg-muted transition-colors flex items-center gap-2.5"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-secondary/15 text-secondary flex items-center justify-center font-heading font-bold text-xs shrink-0">
-                    {member.initials}
+                  <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0 border border-secondary/30 bg-muted shadow-sm">
+                    <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top" loading="lazy" />
                   </div>
                   <div className="overflow-hidden">
                     <p className="font-semibold text-foreground truncate">{member.name}</p>
@@ -891,17 +908,22 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-border/60">
-                  <div className="flex gap-0.5 mb-2">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} className="h-3.5 w-3.5 fill-gold text-gold" />
-                    ))}
+                <div className="pt-4 border-t border-border/60 flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 border-2 border-secondary/40 shadow-sm bg-muted">
+                    <img src={t.image} alt={t.name} className="w-full h-full object-cover object-top" loading="lazy" />
                   </div>
-                  <div className="font-heading font-bold text-foreground text-sm">
-                    {t.name}
-                  </div>
-                  <div className="text-xs text-secondary font-medium">
-                    {t.role}
+                  <div className="min-w-0">
+                    <div className="flex gap-0.5 mb-1">
+                      {Array.from({ length: t.rating }).map((_, i) => (
+                        <Star key={i} className="h-3 w-3 fill-gold text-gold" />
+                      ))}
+                    </div>
+                    <div className="font-heading font-bold text-foreground text-sm truncate">
+                      {t.name}
+                    </div>
+                    <div className="text-[11px] text-secondary font-medium truncate">
+                      {t.role}
+                    </div>
                   </div>
                 </div>
               </div>

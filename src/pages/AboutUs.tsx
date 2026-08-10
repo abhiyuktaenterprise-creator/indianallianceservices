@@ -35,6 +35,15 @@ import teenaImg from "@/assets/team/teena_roy.jpg";
 import anamikaImg from "@/assets/team/anamika_shinde.jpg";
 import padmavatiImg from "@/assets/team/padmavati.jpg";
 import anyDussojaImg from "@/assets/team/any_dussoja.jpg";
+import dikshaImg from "@/assets/team/diksha_pawar.jpg";
+import komalImg from "@/assets/team/komal_sharma.jpg";
+import avniImg from "@/assets/team/avni_sharma.jpg";
+import priyaImg from "@/assets/team/priya_sharma.jpg";
+import aditiImg from "@/assets/team/aditi_thakur.jpg";
+import arpitaImg from "@/assets/team/arpita_shinde.jpg";
+import preetiImg from "@/assets/team/preeti_sharma.jpg";
+import prachiImg from "@/assets/team/prachi_sharma.jpg";
+import adityaDhanrajImg from "@/assets/team/aditya_dhanraj.jpg";
 
 // 1. Executive Leadership & Management (Strictly 3 members in 3 columns)
 const leadershipMembers = [
@@ -119,14 +128,14 @@ const seniorHRMembers = [
 
 // 3. Mid-Level HR Team (12 HR Executives)
 const hrExecutiveMembers = [
-  { name: "Diksha Pawar", code: "ACS-HR-02", designation: "HR Executive", initials: "DP", color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400" },
-  { name: "Komal Sharma", code: "ACS-HR-03", designation: "HR Executive", initials: "KS", color: "bg-emerald-600/15 text-emerald-700 dark:text-emerald-400" },
-  { name: "Avni Sharma", code: "ACS-HR-04", designation: "HR Executive", initials: "AS", color: "bg-sky-600/15 text-sky-700 dark:text-sky-400" },
-  { name: "Priya Sharma", code: "ACS-HR-06", designation: "HR Executive", initials: "PS", color: "bg-violet-600/15 text-violet-700 dark:text-violet-400" },
-  { name: "Aditi Thakur", code: "ACS-HR-07", designation: "HR Executive", initials: "AT", color: "bg-teal-600/15 text-teal-700 dark:text-teal-400" },
-  { name: "Arpita Shinde", code: "ACS-HR-08", designation: "HR Executive", initials: "AS", color: "bg-rose-600/15 text-rose-700 dark:text-rose-400" },
-  { name: "Preeti Sharma", code: "ACS-HR-10", designation: "HR Executive", initials: "PS", color: "bg-blue-600/15 text-blue-700 dark:text-blue-400" },
-  { name: "Prachi Sharma", code: "ACS-HR-11", designation: "HR Executive", initials: "PS", color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400" },
+  { name: "Diksha Pawar", code: "ACS-HR-02", designation: "HR Executive", initials: "DP", image: dikshaImg, color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400" },
+  { name: "Komal Sharma", code: "ACS-HR-03", designation: "HR Executive", initials: "KS", image: komalImg, color: "bg-emerald-600/15 text-emerald-700 dark:text-emerald-400" },
+  { name: "Avni Sharma", code: "ACS-HR-04", designation: "HR Executive", initials: "AS", image: avniImg, color: "bg-sky-600/15 text-sky-700 dark:text-sky-400" },
+  { name: "Priya Sharma", code: "ACS-HR-06", designation: "HR Executive", initials: "PS", image: priyaImg, color: "bg-violet-600/15 text-violet-700 dark:text-violet-400" },
+  { name: "Aditi Thakur", code: "ACS-HR-07", designation: "HR Executive", initials: "AT", image: aditiImg, color: "bg-teal-600/15 text-teal-700 dark:text-teal-400" },
+  { name: "Arpita Shinde", code: "ACS-HR-08", designation: "HR Executive", initials: "AS", image: arpitaImg, color: "bg-rose-600/15 text-rose-700 dark:text-rose-400" },
+  { name: "Preeti Sharma", code: "ACS-HR-10", designation: "HR Executive", initials: "PS", image: preetiImg, color: "bg-blue-600/15 text-blue-700 dark:text-blue-400" },
+  { name: "Prachi Sharma", code: "ACS-HR-11", designation: "HR Executive", initials: "PS", image: prachiImg, color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400" },
   { name: "Akanksha Sharma", code: "ACS-HR-12", designation: "HR Executive", initials: "AS", color: "bg-emerald-600/15 text-emerald-700 dark:text-emerald-400" },
   { name: "Monika Sharma", code: "ACS-HR-14", designation: "HR Executive", initials: "MS", color: "bg-cyan-600/15 text-cyan-700 dark:text-cyan-400" },
   { name: "Vanshika Tiwari", code: "ACS-HR-15", designation: "HR Executive", initials: "VT", color: "bg-violet-600/15 text-violet-700 dark:text-violet-400" },
@@ -136,7 +145,7 @@ const hrExecutiveMembers = [
 // 4. Junior / Associate Level (4 HR Associates)
 const hrAssociateMembers = [
   { name: "Anika Dhanraj", code: "ACS-HR-17", designation: "HR Associate", initials: "AD", color: "bg-rose-600/15 text-rose-700 dark:text-rose-400" },
-  { name: "Aditya Dhanraj", code: "ACS-HR-18", designation: "HR Associate", initials: "AD", color: "bg-blue-600/15 text-blue-700 dark:text-blue-400" },
+  { name: "Aditya Dhanraj", code: "ACS-HR-18", designation: "HR Associate", initials: "AD", image: adityaDhanrajImg, color: "bg-blue-600/15 text-blue-700 dark:text-blue-400" },
   { name: "Hansraj Shinghaniya (H.S. Shinghaniya)", code: "ACS-HR-19", designation: "HR Associate", initials: "HS", color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400" },
   { name: "Mrs. Any Dussoja", code: "ACS-HR-21", designation: "HR Associate", initials: "AD", image: anyDussojaImg, color: "bg-purple-600/15 text-purple-700 dark:text-purple-400" },
 ];

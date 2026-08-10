@@ -395,11 +395,11 @@ export default function AboutUs() {
                   </div>
                   <div>
                     <h4 className="font-heading font-semibold text-foreground text-sm flex items-center gap-1.5">
-                      <span>NHDC Certified Guidance Standards</span>
+                      <span>IATA & NHDC Certified Standards</span>
                       <span className="text-[10px] bg-amber-500/20 text-amber-600 dark:text-amber-300 font-bold px-1.5 py-0.2 rounded">Certified</span>
                     </h4>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                      Our training curriculum, student eligibility criteria, and interview coaching frameworks follow recognized NHDC quality standards.
+                      Our training curriculum, student eligibility criteria, and interview coaching frameworks follow recognized IATA international benchmarks and NHDC quality standards.
                     </p>
                   </div>
                 </div>

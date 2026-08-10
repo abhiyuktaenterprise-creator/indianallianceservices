@@ -172,8 +172,8 @@ const howWeHelpSteps = [
 // Core Why Choose Us Pillars
 const whyChoosePillars = [
   {
-    title: "NHDC Certified Quality Standards",
-    desc: "Our career counselling, curriculum guidance, and interview coaching frameworks comply with recognized NHDC quality benchmarks.",
+    title: "IATA & NHDC Certified Quality Standards",
+    desc: "Our career counselling, curriculum guidance, and interview coaching frameworks align with IATA international benchmarks and NHDC quality standards.",
   },
   {
     title: "Student-First Philosophy",
@@ -317,14 +317,14 @@ export default function Home() {
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             {/* Hero Left Content */}
             <div className="lg:col-span-7 space-y-6">
-              {/* Trust Badge & NHDC Certificate */}
+              {/* Trust Badge & IATA / NHDC Certificate */}
               <div className="inline-flex flex-wrap items-center gap-2 rounded-full bg-secondary/20 border border-secondary/35 px-4 py-1.5 backdrop-blur-sm shadow-sm">
                 <span className="inline-flex items-center gap-1.5 text-amber-300 font-bold text-xs sm:text-sm">
-                  <Award className="h-4 w-4" /> NHDC Certified Guidance
+                  <Award className="h-4 w-4" /> IATA & NHDC Certified Guidance
                 </span>
                 <span className="h-1.5 w-1.5 rounded-full bg-secondary/60 hidden sm:inline-block" />
                 <span className="text-xs sm:text-sm font-semibold tracking-wide text-secondary-foreground/95">
-                  India's Dedicated Aviation Career Consultancy
+                  India's Dedicated Aviation Placement Services
                 </span>
               </div>
 
@@ -380,7 +380,7 @@ export default function Home() {
               <div className="pt-4 flex flex-wrap items-center gap-6 text-xs text-primary-foreground/70">
                 <div className="flex items-center gap-2 text-amber-300 font-semibold">
                   <Award className="h-4 w-4" />
-                  <span>NHDC Certificate Standards</span>
+                  <span>IATA & NHDC Certificate Standards</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4 text-secondary" />

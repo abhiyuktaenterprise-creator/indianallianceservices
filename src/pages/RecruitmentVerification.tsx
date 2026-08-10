@@ -121,7 +121,7 @@ export default function RecruitmentVerification() {
               <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 border border-amber-500/30 px-3.5 py-1">
                 <Award className="h-3.5 w-3.5 text-amber-300" />
                 <span className="text-xs font-bold text-amber-200">
-                  NHDC Certified Quality Standards
+                  IATA & NHDC Certified Quality Standards
                 </span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full bg-secondary/20 border border-secondary/30 px-3.5 py-1">

@@ -52,7 +52,7 @@ export default function Navbar() {
         <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
             <span className="inline-flex items-center gap-1 rounded bg-amber-500/25 text-amber-300 px-2 py-0.5 font-bold text-[11px] border border-amber-500/30">
-              <Award className="h-3 w-3" /> NHDC Certified
+              <Award className="h-3 w-3" /> IATA & NHDC Certified
             </span>
             <span className="inline-flex items-center gap-1 rounded bg-secondary/20 text-secondary px-2 py-0.5 font-semibold text-[11px]">
               <Sparkles className="h-3 w-3" /> Free Guidance

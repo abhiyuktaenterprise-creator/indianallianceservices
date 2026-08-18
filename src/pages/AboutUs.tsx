@@ -466,17 +466,26 @@ export default function AboutUs() {
               <div className="inline-flex items-center gap-1.5 rounded-full bg-secondary/15 border border-secondary/30 px-3.5 py-1">
                 <Building2 className="h-3.5 w-3.5 text-secondary" />
                 <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
-                  Who We Are
+                  About Indian Alliance Services
                 </span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-heading font-bold text-foreground leading-tight">
-                Your Trusted Compass in the Aviation Ecosystem Since 2015
+                Connecting Talent with Aviation & Airline Opportunities
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Founded in 2015 under the visionary leadership of Founder & CEO Anthony Ghospade, Indian Alliance Services has dedicated over a decade to delivering transparent, student-first aviation career advisory. We guide candidates step-by-step — from career selection to training, grooming, interview coaching, and final airport job opportunities.
+                Indian Alliance Services is a professional organization focused on creating career opportunities for candidates aspiring to build a future in the aviation and airline industry. We help job seekers explore suitable employment opportunities across various departments and roles within the aviation sector.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                The aviation sector in India is expanding rapidly with new greenfield airports and domestic fleet expansions. However, many students from across India lack access to authentic information about job roles, eligibility criteria, and hiring procedures. We exist to provide transparent, student-first guidance to help freshers build sustainable careers.
+                Our services cover a wide range of career areas, including Cabin Crew, Customer Service, Airport Operations, Security, Engineering, Flight Operations, Ground Handling, and Guest Services. We aim to connect candidates with opportunities that match their qualifications, skills, experience, and career goals.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                With our understanding of the aviation employment sector and industry-oriented approach, Indian Alliance Services assists candidates throughout their job-search journey. From identifying relevant positions to understanding the application process, we strive to provide candidates with useful guidance and support at every stage.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Our objective is to make the process of finding airline and aviation-related employment simpler, more accessible, and more organized for aspiring professionals. Whether you are beginning your aviation career or looking for a new opportunity in the industry, Indian Alliance Services works to help you discover suitable career options.
+              </p>
+              <p className="text-foreground font-medium italic border-l-4 border-secondary pl-3.5 leading-relaxed">
+                At Indian Alliance Services, we believe in connecting the right talent with the right opportunities and supporting individuals in their journey toward a successful and rewarding career in the aviation industry.
               </p>
 
               <div className="pt-2">

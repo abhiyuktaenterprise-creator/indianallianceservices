@@ -55,7 +55,7 @@ export default function Footer() {
           <div className="lg:col-span-2 space-y-5">
             <Link to="/" className="inline-flex items-center">
               <img
-                src="/logo.png"
+                src="/logo.png?v=ias2026"
                 alt="Indian Alliance Services"
                 className="h-20 sm:h-26 lg:h-32 w-auto max-w-[380px] sm:max-w-[480px] object-contain"
               />

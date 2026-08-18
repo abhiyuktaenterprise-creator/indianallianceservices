@@ -107,7 +107,7 @@ export default function Navbar() {
           {/* Royal Brand Emblem & Logo */}
           <Link to="/" className="flex items-center gap-3 py-1">
             <img
-              src="/logo.png"
+              src="/logo.png?v=ias2026"
               alt="Indian Alliance Services"
               className="h-[60px] sm:h-[75px] md:h-[80px] w-auto max-w-[280px] sm:max-w-[380px] md:max-w-[500px] object-contain transition-transform hover:scale-[1.02]"
               style={{ height: "80px", maxHeight: "80px" }}

@@ -18,48 +18,13 @@ import Breadcrumbs from "@/components/common/Breadcrumbs";
 import SectionHeading from "@/components/common/SectionHeading";
 import ContactForm from "@/components/common/ContactForm";
 
-// Primary Office Locations (Mumbai/Navi Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, Gujarat & Lakshadweep Backup Office)
+// Official Office Location
 const officeLocations = [
-  {
-    city: "Mumbai / Navi Mumbai",
-    officeName: "Mumbai / Navi Mumbai Office",
-    address: "Office No. 402, Sai Arcade Complex, Old Mumbai-Pune Highway, Panvel, Navi Mumbai, Maharashtra – 410206",
-    notice: "Visits strictly by prior appointment only.",
-    email: "support@indianallianceservices.com",
-  },
-  {
-    city: "Delhi NCR",
-    officeName: "Delhi NCR Office",
-    address: "Unit 315, Galaxy Diamond Plaza, Sector 4, Greater Noida West, Uttar Pradesh – 201308",
-    notice: "Visits strictly by prior appointment only.",
-    email: "support@indianallianceservices.com",
-  },
-  {
-    city: "Madhya Pradesh",
-    officeName: "Madhya Pradesh Office",
-    address: "Office No. 208, Silver Estate Business Park, A.B. Road Bypass, Indore, Madhya Pradesh – 452010",
-    notice: "Visits strictly by prior appointment only.",
-    email: "support@indianallianceservices.com",
-  },
-  {
-    city: "Andhra Pradesh",
-    officeName: "Andhra Pradesh Office",
-    address: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool District, Andhra Pradesh – 518010",
-    notice: "Visits strictly by prior appointment only.",
-    email: "support@indianallianceservices.com",
-  },
-  {
-    city: "Gujarat",
-    officeName: "Gujarat Office",
-    address: "Office No. 204, GIDC Business Hub, Sanand-Viramgam Highway, Sanand, Gujarat – 382110",
-    notice: "Visits strictly by prior appointment only.",
-    email: "support@indianallianceservices.com",
-  },
   {
     city: "Lakshadweep",
     officeName: "Indian Alliance Services Backup Office",
     address: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553",
-    notice: "Official Administrative & Backup Office.",
+    notice: "Official Administrative & Backup Office. Visits strictly by prior appointment only.",
     email: "support@indianallianceservices.com",
   },
 ];
@@ -92,7 +57,7 @@ export default function ContactUs() {
         url: "https://indianallianceservices.com/contact",
         name: "Contact Indian Alliance Services | Career Counselling & Enquiries",
         description:
-          "Official contact details for Indian Alliance Services: Offices in Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat, phone, email, and online enquiry form.",
+          "Official contact details for Indian Alliance Services Backup Office (152, Agatti, Lakshadweep 682553), helpline phone, official email, and online enquiry form.",
         publisher: {
           "@type": "Organization",
           name: "Indian Alliance Services",
@@ -123,7 +88,7 @@ export default function ContactUs() {
     <>
       <SEO
         title="Contact Indian Alliance Services | Official Helpdesk & Offices"
-        description={`Contact Indian Alliance Services for expert aviation career guidance. Call ${settings.helplinePhone}, email ${settings.supportEmail}, or connect with our offices in Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat.`}
+        description={`Contact Indian Alliance Services for expert aviation career guidance. Call ${settings.helplinePhone}, email ${settings.supportEmail}, or connect with our Backup Office: Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553.`}
         canonical="https://indianallianceservices.com/contact"
         schema={contactSchema}
       />
@@ -232,13 +197,9 @@ export default function ContactUs() {
                     </div>
                     <div>
                       <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                        Office Locations
+                        Office Location
                       </div>
-                      <div className="text-sm font-medium text-foreground mt-0.5 leading-snug">
-                        Mumbai / Navi Mumbai • Delhi NCR • Madhya Pradesh • Andhra Pradesh • Gujarat
-                      </div>
-                      <div className="text-xs font-bold text-amber-800 dark:text-amber-300 mt-2 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/25">
-                        <span className="font-extrabold uppercase text-[10px] tracking-wider block text-amber-700 dark:text-amber-400 mb-0.5">Backup Office:</span>
+                      <div className="text-sm font-semibold text-foreground mt-0.5 leading-snug">
                         Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553
                       </div>
                     </div>
@@ -285,15 +246,15 @@ export default function ContactUs() {
       </section>
 
       {/* ==================================================
-          OFFICE LOCATIONS (5 REGIONAL OFFICES)
+          OFFICE LOCATION
           ================================================== */}
       <section className="py-20 gradient-sky border-t border-border">
         <div className="container mx-auto px-4">
           <SectionHeading
-            badge="Our Office Locations"
-            title="Visit or Connect with Our"
-            highlight="Offices Across India"
-            description="Connect with our dedicated career counselling and candidate guidance teams across Mumbai / Navi Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat."
+            badge="Our Office Location"
+            title="Official Administrative &"
+            highlight="Backup Office"
+            description="Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553."
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">

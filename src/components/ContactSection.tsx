@@ -8,12 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 
 const locations = [
-  { city: "Lakshadweep (Backup Office)", address: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553" },
-  { city: "Mumbai / Navi Mumbai", address: "Office No. 402, Sai Arcade Complex, Old Mumbai-Pune Highway, Panvel, Navi Mumbai – 410206" },
-  { city: "Delhi NCR", address: "Unit 315, Galaxy Diamond Plaza, Sector 4, Greater Noida West, Uttar Pradesh – 201308" },
-  { city: "Madhya Pradesh", address: "Office No. 208, Silver Estate Business Park, A.B. Road Bypass, Indore – 452010" },
-  { city: "Andhra Pradesh", address: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool District – 518010" },
-  { city: "Gujarat", address: "Office No. 204, GIDC Business Hub, Sanand-Viramgam Highway, Sanand, Gujarat – 382110" },
+  { city: "Lakshadweep", address: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553" },
 ];
 
 const ContactSection = () => {

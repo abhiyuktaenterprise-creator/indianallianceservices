@@ -18,8 +18,15 @@ import Breadcrumbs from "@/components/common/Breadcrumbs";
 import SectionHeading from "@/components/common/SectionHeading";
 import ContactForm from "@/components/common/ContactForm";
 
-// 5 Primary Office Locations (Mumbai/Navi Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, Gujarat)
+// Primary Office Locations (Lakshadweep Backup Office, Mumbai/Navi Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, Gujarat)
 const officeLocations = [
+  {
+    city: "Lakshadweep",
+    officeName: "Indian Alliance Services Backup Office",
+    address: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553",
+    notice: "Official Administrative & Backup Office.",
+    email: "support@indianallianceservices.com",
+  },
   {
     city: "Mumbai / Navi Mumbai",
     officeName: "Mumbai / Navi Mumbai Office",
@@ -228,7 +235,7 @@ export default function ContactUs() {
                         Office Locations
                       </div>
                       <div className="text-sm font-medium text-foreground mt-0.5 leading-snug">
-                        Mumbai / Navi Mumbai • Delhi NCR • Madhya Pradesh • Andhra Pradesh • Gujarat
+                        Lakshadweep (Backup Office) • Mumbai • Delhi NCR • Madhya Pradesh • Andhra Pradesh • Gujarat
                       </div>
                     </div>
                   </div>

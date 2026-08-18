@@ -279,7 +279,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   helplinePhone: "+91 7851836860",
   whatsappPhone: "+91 7851836860",
   supportEmail: "support@indianallianceservices.com",
-  displayAddress: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool District, Andhra Pradesh – 518010",
+  displayAddress: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553",
   officeHours: "Mon – Sat: 9:30 AM – 6:30 PM (IST)",
   bannerNotice: "",
   enableNoticeBanner: false,
@@ -649,6 +649,15 @@ const DEFAULT_VERIFICATIONS: VerificationCandidate[] = [
 
 const DEFAULT_BRANCHES: OfficeBranch[] = [
   {
+    id: "branch-00",
+    city: "Lakshadweep",
+    officeName: "Indian Alliance Services Backup Office",
+    address: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553",
+    phone: "+91 7851836860",
+    email: "support@indianallianceservices.com",
+    notice: "Official Administrative & Backup Office.",
+  },
+  {
     id: "branch-01",
     city: "Mumbai / Navi Mumbai",
     officeName: "Maharashtra State Office",
@@ -740,9 +749,19 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         const bannerNotice = hasAdvisory ? "" : (parsed.bannerNotice || "");
         const enableNoticeBanner = hasAdvisory ? false : (parsed.enableNoticeBanner ?? false);
 
+        const hasOldAddress =
+          !parsed.displayAddress ||
+          parsed.displayAddress.includes("Ranipet") ||
+          parsed.displayAddress.includes("Kurnool") ||
+          parsed.displayAddress.includes("Orvakal");
+        const displayAddress = hasOldAddress
+          ? "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553"
+          : parsed.displayAddress;
+
         return {
           ...DEFAULT_SETTINGS,
           ...parsed,
+          displayAddress,
           bannerNotice,
           enableNoticeBanner,
           supportEmail: parsed.supportEmail?.includes("airportcareerservices") ? "support@indianallianceservices.com" : (parsed.supportEmail || DEFAULT_SETTINGS.supportEmail),

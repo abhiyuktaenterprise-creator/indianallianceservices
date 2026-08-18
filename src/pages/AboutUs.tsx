@@ -1001,7 +1001,7 @@ export default function AboutUs() {
                 What is Indian Alliance Services?
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Indian Alliance Services is an Indian aviation career guidance, training advisory, and placement portal based in Andhra Pradesh with regional counselling support across India.
+                Indian Alliance Services is an Indian aviation career guidance, training advisory, and placement portal with nationwide counselling support across India.
               </p>
             </div>
 

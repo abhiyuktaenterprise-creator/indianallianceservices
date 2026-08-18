@@ -443,14 +443,14 @@ export default function AboutUs() {
             <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 mb-4 shadow-md">
               <Sparkles className="h-3.5 w-3.5 text-gold" />
               <span className="text-xs font-bold text-gold">
-                Who We Are & What Drives Us
+                Est. 2015 — 10+ Years of Aviation Guidance Excellence
               </span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
               About Indian Alliance <span className="gold-gradient-text">Services</span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
-              A dedicated aviation career guidance and opportunity portal helping aspiring candidates bridge the gap between education and airport employment.
+              Established in 2015, Indian Alliance Services is a premier aviation career guidance and opportunity advisory helping aspiring candidates bridge the gap between education and airport employment.
             </p>
           </div>
         </div>
@@ -470,10 +470,10 @@ export default function AboutUs() {
                 </span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-heading font-bold text-foreground leading-tight">
-                Your Trusted Compass in the Aviation Ecosystem
+                Your Trusted Compass in the Aviation Ecosystem Since 2015
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Indian Alliance Services is a dedicated aviation career guidance and opportunity consultancy. We guide students step-by-step — from career selection to training, grooming, interview coaching, and final airport job opportunities.
+                Founded in 2015 under the visionary leadership of Founder & CEO Anthony Ghospade, Indian Alliance Services has dedicated over a decade to delivering transparent, student-first aviation career advisory. We guide candidates step-by-step — from career selection to training, grooming, interview coaching, and final airport job opportunities.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 The aviation sector in India is expanding rapidly with new greenfield airports and domestic fleet expansions. However, many students from across India lack access to authentic information about job roles, eligibility criteria, and hiring procedures. We exist to provide transparent, student-first guidance to help freshers build sustainable careers.

@@ -62,8 +62,13 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-slate-600 leading-relaxed max-w-sm font-normal">
-              India's premier AI-powered aviation career advisory, training coaching, and airport opportunity gateway. Guiding 10th, 12th pass, and graduate candidates toward rewarding airline careers.
+              India's premier AI-powered aviation career advisory, training coaching, and airport opportunity gateway. Serving aviation aspirants across India since 2015.
             </p>
+
+            <div className="inline-flex items-center gap-2 rounded-xl bg-amber-500/15 border border-gold/40 px-3 py-1.5 text-xs font-bold text-amber-900">
+              <Sparkles className="h-3.5 w-3.5 text-amber-600" />
+              <span>Est. 2015 — 10+ Years of Aviation Guidance Excellence</span>
+            </div>
 
             <div className="space-y-3 pt-2 text-xs text-slate-700 font-semibold">
               <div className="flex items-center gap-2.5">
@@ -243,7 +248,7 @@ export default function Footer() {
       <div className="bg-[#f3eee6] border-t border-gold/30 py-5 px-4">
         <div className="container mx-auto text-xs text-slate-600 text-center">
           <p className="font-normal">
-            © 2026 Indian Alliance Services. All rights reserved. Aviation Careers & Training — India's Premier Aviation Career Advisory & Opportunity Portal.
+            © 2015 – 2026 Indian Alliance Services. All rights reserved. Est. 2015 — India's Premier Aviation Career Advisory & Opportunity Portal.
           </p>
         </div>
       </div>

@@ -69,6 +69,10 @@ export default function Navbar() {
             <span className="inline-flex items-center gap-1 rounded-full bg-gold/15 text-gold px-2.5 py-0.5 font-bold text-[11px] border border-gold/30">
               <Award className="h-3 w-3 text-gold" /> IATA & NSDC Standards
             </span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/20 text-amber-300 px-2.5 py-0.5 font-bold text-[11px] border border-amber-500/35">
+              <span>🌟 Est. 2015</span>
+              <span className="hidden sm:inline">| 10+ Years of Excellence</span>
+            </span>
             <span className="inline-flex items-center gap-1 rounded-full bg-secondary/20 text-secondary px-2.5 py-0.5 font-semibold text-[11px] border border-secondary/30">
               <Sparkles className="h-3 w-3" /> 100% Verified Opportunities
             </span>

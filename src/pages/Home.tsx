@@ -440,7 +440,10 @@ export default function Home() {
               </h1>
 
               {/* 3 Core Value Pillars */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm font-bold text-gold">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold text-gold">
+                <span className="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full border border-amber-500/40">
+                  <Sparkles className="h-4 w-4 text-amber-300" /> Est. 2015 (10+ Years Excellence)
+                </span>
                 <span className="inline-flex items-center gap-1.5 bg-gold/10 px-3 py-1 rounded-full border border-gold/30">
                   <CheckCircle2 className="h-4 w-4 text-gold" /> Direct Eligibility Match
                 </span>

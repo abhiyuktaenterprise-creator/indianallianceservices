@@ -88,12 +88,14 @@ export default function AdminLogin() {
               <ArrowLeft className="h-4 w-4" /> Back to Website
             </Link>
 
-            <div className="flex justify-center mb-4">
-              <img
-                src="/logo.png"
-                alt="Indian Alliance Services"
-                className="h-20 sm:h-28 w-auto max-w-[420px] object-contain"
-              />
+            <div className="flex justify-center mb-5">
+              <div className="bg-white p-3 sm:p-4 rounded-2xl shadow-xl border border-slate-700/40 inline-flex items-center">
+                <img
+                  src="/logo.png?v=ias2026"
+                  alt="Indian Alliance Services"
+                  className="h-14 sm:h-18 w-auto max-w-[320px] object-contain"
+                />
+              </div>
             </div>
 
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-amber-500/30 text-amber-400 text-xs font-bold shadow-sm">

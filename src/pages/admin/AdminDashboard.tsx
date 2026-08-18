@@ -466,11 +466,13 @@ export default function AdminDashboard() {
         <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 shadow-md">
           <div className="container mx-auto px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-3.5">
-              <img
-                src="/logo.png"
-                alt="Indian Alliance Services"
-                className="h-14 sm:h-16 w-auto max-w-[280px] object-contain"
-              />
+              <div className="bg-white px-3 py-1 rounded-xl shadow-sm border border-slate-700/40 flex items-center">
+                <img
+                  src="/logo.png?v=ias2026"
+                  alt="Indian Alliance Services"
+                  className="h-10 sm:h-12 w-auto max-w-[240px] object-contain"
+                />
+              </div>
               <div className="hidden sm:block h-6 w-px bg-slate-800" />
               <span className="hidden sm:inline-flex items-center gap-1 text-xs font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
                 <ShieldCheck className="h-3.5 w-3.5" /> Admin Portal

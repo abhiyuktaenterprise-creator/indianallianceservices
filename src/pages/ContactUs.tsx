@@ -18,15 +18,8 @@ import Breadcrumbs from "@/components/common/Breadcrumbs";
 import SectionHeading from "@/components/common/SectionHeading";
 import ContactForm from "@/components/common/ContactForm";
 
-// Primary Office Locations (Lakshadweep Backup Office, Mumbai/Navi Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, Gujarat)
+// Primary Office Locations (Mumbai/Navi Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, Gujarat & Lakshadweep Backup Office)
 const officeLocations = [
-  {
-    city: "Lakshadweep",
-    officeName: "Indian Alliance Services Backup Office",
-    address: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553",
-    notice: "Official Administrative & Backup Office.",
-    email: "support@indianallianceservices.com",
-  },
   {
     city: "Mumbai / Navi Mumbai",
     officeName: "Mumbai / Navi Mumbai Office",
@@ -60,6 +53,13 @@ const officeLocations = [
     officeName: "Gujarat Office",
     address: "Office No. 204, GIDC Business Hub, Sanand-Viramgam Highway, Sanand, Gujarat – 382110",
     notice: "Visits strictly by prior appointment only.",
+    email: "support@indianallianceservices.com",
+  },
+  {
+    city: "Lakshadweep",
+    officeName: "Indian Alliance Services Backup Office",
+    address: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553",
+    notice: "Official Administrative & Backup Office.",
     email: "support@indianallianceservices.com",
   },
 ];
@@ -235,7 +235,11 @@ export default function ContactUs() {
                         Office Locations
                       </div>
                       <div className="text-sm font-medium text-foreground mt-0.5 leading-snug">
-                        Lakshadweep (Backup Office) • Mumbai • Delhi NCR • Madhya Pradesh • Andhra Pradesh • Gujarat
+                        Mumbai / Navi Mumbai • Delhi NCR • Madhya Pradesh • Andhra Pradesh • Gujarat
+                      </div>
+                      <div className="text-xs font-bold text-amber-800 dark:text-amber-300 mt-2 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/25">
+                        <span className="font-extrabold uppercase text-[10px] tracking-wider block text-amber-700 dark:text-amber-400 mb-0.5">Backup Office:</span>
+                        Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553
                       </div>
                     </div>
                   </div>

@@ -38,7 +38,7 @@ const detailedServices = [
     ],
     benefit:
       "Prevents wasted time and money by guiding you towards airport roles where you realistically meet airline requirements.",
-    ctaText: "Book Free Counselling Session",
+    ctaText: "Book Counselling Session",
   },
   {
     id: "aviation-guidance",
@@ -133,7 +133,7 @@ const serviceFaqs = [
     a: "We provide comprehensive 100% placement assistance, meaning we provide interview opportunities, extensive preparation, and complete coordination. However, the final hiring selection always rests on the candidate's interview performance and the hiring airline's criteria. We maintain a strictly ethical, transparent policy without deceptive false guarantees.",
   },
   {
-    q: "How soon can I expect an interview after joining ACS guidance?",
+    q: "How soon can I expect an interview after joining Airport Career Services guidance?",
     a: "Timelines depend on your current preparation level, communication fluency, and active hiring drives across airports. Most prepared candidates undergo screening within 4 to 12 weeks of completing mock drills.",
   },
   {
@@ -156,10 +156,10 @@ export default function Services() {
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://airportcareersarvices.com/services/#page",
-        url: "https://airportcareersarvices.com/services",
+        "@id": "https://airportcareerservices.com/services/#page",
+        url: "https://airportcareerservices.com/services",
         name: "Aviation Career Services | Career Guidance, Training & Placement Assistance",
-        description: "Explore 6 core aviation career services by Airport Career Services: Counselling, Guidance, Training Support, Mock Interviews, Placement Assistance, and Ongoing Candidate Support.",
+        description: "Explore 6 core aviation career services by Airport Career Services (ACS): Counselling, Guidance, Training Support, Mock Interviews, Placement Assistance, and Ongoing Candidate Support.",
       },
       {
         "@type": "BreadcrumbList",
@@ -168,13 +168,13 @@ export default function Services() {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://airportcareersarvices.com",
+            item: "https://airportcareerservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Services",
-            item: "https://airportcareersarvices.com/services",
+            item: "https://airportcareerservices.com/services",
           },
         ],
       },
@@ -184,35 +184,30 @@ export default function Services() {
   return (
     <>
       <SEO
-        title="Aviation Career Services | Career Guidance, Training & Placement Assistance"
-        description="Comprehensive aviation career services: Free career counselling, profile eligibility assessment, interview preparation, grooming guidance, and transparent placement assistance for airport jobs."
-        canonical="https://airportcareersarvices.com/services"
+        title="Aviation Career Services | Airport Career Services (ACS) Guidance & Placement"
+        description="Comprehensive aviation career services: Professional career counselling, profile eligibility assessment, interview preparation, grooming guidance, and transparent placement assistance for airport jobs."
+        canonical="https://airportcareerservices.com/services"
         schema={servicesSchema}
       />
 
       {/* Page Header */}
-      <section className="bg-primary text-primary-foreground py-14 border-b border-primary-foreground/10">
-        <div className="container mx-auto px-4">
+      <section className="bg-navy-midnight text-white py-14 lg:py-16 border-b border-gold/25 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.18),transparent_50%)]" />
+        <div className="container mx-auto px-4 relative z-10">
           <Breadcrumbs items={[{ label: "Services" }]} className="text-primary-foreground/70 mb-4" />
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-2 mb-4">
-              <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 border border-amber-500/30 px-3.5 py-1">
-                <Award className="h-3.5 w-3.5 text-amber-300" />
-                <span className="text-xs font-bold text-amber-200">
+              <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 shadow-md">
+                <Award className="h-3.5 w-3.5 text-gold" />
+                <span className="text-xs font-bold text-gold">
                   IATA & NHDC Certified Quality Standards
                 </span>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-secondary/20 border border-secondary/30 px-3.5 py-1">
-                <Sparkles className="h-3.5 w-3.5 text-secondary" />
-                <span className="text-xs font-semibold text-secondary">
-                  Professional Aviation Solutions
-                </span>
-              </div>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-primary-foreground leading-tight">
-              Our Aviation Career Services
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
+              Our Aviation <span className="gold-gradient-text">Career Services</span>
             </h1>
-            <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed">
+            <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
               Structured, transparent, and candidate-centric services designed to guide you from eligibility evaluation to successful airport placement.
             </p>
           </div>
@@ -382,7 +377,7 @@ export default function Services() {
         title="Ready to Access Our"
         highlight="Career Services?"
         description="Book your personalized session today and get guided by dedicated aviation career specialists."
-        primaryCtaText="Get Free Career Counselling"
+        primaryCtaText="Get Career Counselling"
         primaryCtaLink="/contact"
         secondaryCtaText="View Career Job Paths"
         secondaryCtaLink="/careers"

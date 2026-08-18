@@ -35,7 +35,7 @@ export default function Breadcrumbs({
         <div className="rounded-md bg-secondary/20 p-1">
           <Home className="h-3.5 w-3.5 text-secondary" />
         </div>
-        <span className={isOnDark ? "text-primary-foreground/90 hover:text-secondary" : "text-foreground hover:text-secondary"}>
+        <span className={isOnDark ? "text-slate-200 hover:text-gold" : "text-foreground hover:text-secondary"}>
           Home
         </span>
       </Link>
@@ -46,7 +46,7 @@ export default function Breadcrumbs({
           <div key={item.label} className="flex items-center gap-1.5">
             <ChevronRight
               className={`h-3.5 w-3.5 shrink-0 ${
-                isOnDark ? "text-primary-foreground/45" : "text-muted-foreground/60"
+                isOnDark ? "text-gold" : "text-muted-foreground/60"
               }`}
             />
             {item.href && !isLast ? (
@@ -54,7 +54,7 @@ export default function Breadcrumbs({
                 to={item.href}
                 className={`font-medium transition-colors ${
                   isOnDark
-                    ? "text-primary-foreground/80 hover:text-secondary"
+                    ? "text-slate-300 hover:text-gold"
                     : "text-foreground/80 hover:text-secondary"
                 }`}
               >
@@ -62,9 +62,9 @@ export default function Breadcrumbs({
               </Link>
             ) : (
               <span
-                className={`font-bold px-2 py-0.5 rounded-md text-xs sm:text-sm truncate max-w-[220px] sm:max-w-none ${
+                className={`font-extrabold px-2.5 py-0.5 rounded-md text-xs sm:text-sm truncate max-w-[220px] sm:max-w-none ${
                   isOnDark
-                    ? "text-primary-foreground bg-primary-foreground/15 border border-primary-foreground/20 shadow-sm"
+                    ? "text-white bg-gold/20 border border-gold/40 shadow-sm"
                     : "text-foreground bg-muted border border-border"
                 }`}
                 aria-current="page"

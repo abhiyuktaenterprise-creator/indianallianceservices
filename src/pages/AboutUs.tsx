@@ -58,7 +58,7 @@ const leadershipMembers = [
     image: anthonyImg,
     badge: "Executive Leadership",
     description:
-      "Anthony Ghospade is the Founder and CEO of Airport Career Services. With strong industry understanding and a student-first approach, he guides aspiring aviation professionals toward the right career path with clarity, honesty, and long-term vision.",
+      "Anthony Ghospade is the Founder and CEO of Airport Career Services (ACS). With strong industry understanding and a student-first approach, he guides aspiring aviation professionals toward the right career path with clarity, honesty, and long-term vision.",
   },
   {
     name: "Aditya Gujral",
@@ -324,14 +324,14 @@ export default function AboutUs() {
     "@graph": [
       {
         "@type": "AboutPage",
-        "@id": "https://airportcareersarvices.com/about/#about",
-        url: "https://airportcareersarvices.com/about",
+        "@id": "https://airportcareerservices.com/about/#about",
+        url: "https://airportcareerservices.com/about",
         name: "About Airport Career Services",
-        description: "Learn about Airport Career Services, our leadership, our mission, vision, values, and our dedicated HR team.",
+        description: "Learn about Airport Career Services (ACS), our leadership, our mission, vision, values, and our dedicated HR team.",
         publisher: {
           "@type": "Organization",
           name: "Airport Career Services",
-          url: "https://airportcareersarvices.com",
+          url: "https://airportcareerservices.com",
         },
       },
       {
@@ -341,13 +341,13 @@ export default function AboutUs() {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://airportcareersarvices.com",
+            item: "https://airportcareerservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "About Us",
-            item: "https://airportcareersarvices.com/about",
+            item: "https://airportcareerservices.com/about",
           },
         ],
       },
@@ -355,7 +355,7 @@ export default function AboutUs() {
         "@type": "Person",
         name: "Anthony Ghospade",
         jobTitle: "Founder & CEO",
-        image: "https://airportcareersarvices.com/assets/team/anthony_ghospade.jpg",
+        image: "https://airportcareerservices.com/assets/team/anthony_ghospade.jpg",
         worksFor: {
           "@type": "Organization",
           name: "Airport Career Services",
@@ -365,7 +365,7 @@ export default function AboutUs() {
         "@type": "Person",
         name: "Aditya Gujral",
         jobTitle: "Assistant Manager",
-        image: "https://airportcareersarvices.com/assets/team/aditya_gujral.jpg",
+        image: "https://airportcareerservices.com/assets/team/aditya_gujral.jpg",
         worksFor: {
           "@type": "Organization",
           name: "Airport Career Services",
@@ -375,7 +375,7 @@ export default function AboutUs() {
         "@type": "Person",
         name: "P.K. Chadda",
         jobTitle: "Senior Assistant Manager",
-        image: "https://airportcareersarvices.com/assets/team/prashant_chadda.jpg",
+        image: "https://airportcareerservices.com/assets/team/prashant_chadda.jpg",
         worksFor: {
           "@type": "Organization",
           name: "Airport Career Services",
@@ -385,7 +385,7 @@ export default function AboutUs() {
         "@type": "Person",
         name: "Ankita Singh",
         jobTitle: "HR Director / Head of HR",
-        image: "https://airportcareersarvices.com/assets/team/ankita_singh.jpg",
+        image: "https://airportcareerservices.com/assets/team/ankita_singh.jpg",
         worksFor: {
           "@type": "Organization",
           name: "Airport Career Services",
@@ -395,7 +395,7 @@ export default function AboutUs() {
         "@type": "Person",
         name: "Mrs. Padmavati",
         jobTitle: "Senior HR Manager",
-        image: "https://airportcareersarvices.com/assets/team/padmavati.jpg",
+        image: "https://airportcareerservices.com/assets/team/padmavati.jpg",
         worksFor: {
           "@type": "Organization",
           name: "Airport Career Services",
@@ -406,7 +406,7 @@ export default function AboutUs() {
         name: "Anamika Shinde",
         jobTitle: "Assistant HR Manager",
         telephone: "+91 8787253845",
-        image: "https://airportcareersarvices.com/assets/team/anamika_shinde.jpg",
+        image: "https://airportcareerservices.com/assets/team/anamika_shinde.jpg",
         worksFor: {
           "@type": "Organization",
           name: "Airport Career Services",
@@ -416,7 +416,7 @@ export default function AboutUs() {
         "@type": "Person",
         name: "Alia Mirza",
         jobTitle: "Senior HR Executive",
-        image: "https://airportcareersarvices.com/assets/team/alia_mirza.jpg",
+        image: "https://airportcareerservices.com/assets/team/alia_mirza.jpg",
         worksFor: {
           "@type": "Organization",
           name: "Airport Career Services",
@@ -428,28 +428,29 @@ export default function AboutUs() {
   return (
     <>
       <SEO
-        title="About Airport Career Services | Aviation Career Guidance & Team"
-        description="Discover Airport Career Services: Our mission, vision, values, leadership team (Founder & CEO Anthony Ghospade, Aditya Gujral, P.K. Chadda), Senior HR leaders (HR Director Ankita Singh, Senior HR Manager Divya Sharma, Senior HR Manager Mrs. Padmavati, HR Manager Teena Roy, Assistant HR Manager Anamika Shinde, Alia Mirza) and verified recruitment team."
-        canonical="https://airportcareersarvices.com/about"
+        title="About Airport Career Services (ACS) | Aviation Career Guidance & Leadership"
+        description="Discover Airport Career Services (ACS): Our mission, vision, values, leadership team (Founder & CEO Anthony Ghospade, Aditya Gujral, P.K. Chadda), Senior HR leaders (HR Director Ankita Singh, Senior HR Manager Divya Sharma, Senior HR Manager Mrs. Padmavati, HR Manager Teena Roy, Assistant HR Manager Anamika Shinde, Alia Mirza) and verified recruitment team."
+        canonical="https://airportcareerservices.com/about"
         schema={aboutSchema}
       />
 
       {/* Page Header */}
-      <section className="bg-primary text-primary-foreground py-14 border-b border-primary-foreground/10">
-        <div className="container mx-auto px-4">
-          <Breadcrumbs items={[{ label: "About Us" }]} className="mb-4" />
+      <section className="bg-navy-midnight text-white py-14 lg:py-16 border-b border-gold/25 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.18),transparent_50%)]" />
+        <div className="container mx-auto px-4 relative z-10">
+          <Breadcrumbs items={[{ label: "About Us" }]} className="text-primary-foreground/70 mb-4" />
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-secondary/20 border border-secondary/30 px-3.5 py-1 mb-4">
-              <Sparkles className="h-3.5 w-3.5 text-secondary" />
-              <span className="text-xs font-semibold text-secondary">
+            <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 mb-4 shadow-md">
+              <Sparkles className="h-3.5 w-3.5 text-gold" />
+              <span className="text-xs font-bold text-gold">
                 Who We Are & What Drives Us
               </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-primary-foreground leading-tight">
-              About Airport Career Services
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
+              About Airport Career <span className="gold-gradient-text">Services (ACS)</span>
             </h1>
-            <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed">
-              A dedicated aviation career guidance and placement consultancy helping aspiring candidates bridge the gap between education and airport employment.
+            <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
+              A dedicated aviation career guidance and placement portal helping aspiring candidates bridge the gap between education and airport employment.
             </p>
           </div>
         </div>
@@ -472,7 +473,7 @@ export default function AboutUs() {
                 Your Trusted Compass in the Aviation Ecosystem
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Airport Career Services is a dedicated aviation career guidance and placement consultancy. We guide students step-by-step — from career selection to training, grooming, interview coaching, and final airport job placement.
+                Airport Career Services (ACS) is a dedicated aviation career guidance and placement consultancy. We guide students step-by-step — from career selection to training, grooming, interview coaching, and final airport job placement.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 The aviation sector in India is expanding rapidly with new greenfield airports and domestic fleet expansions. However, many students from across India lack access to authentic information about job roles, eligibility criteria, and hiring procedures. We exist to provide transparent, student-first guidance to help freshers build sustainable careers.
@@ -484,7 +485,7 @@ export default function AboutUs() {
                   onClick={() => setIsModalOpen(true)}
                   className="gap-2 font-semibold shadow-md"
                 >
-                  <Sparkles className="h-4 w-4" /> Get Free Career Counselling
+                  <Sparkles className="h-4 w-4" /> Get Career Counselling
                 </Button>
               </div>
             </div>
@@ -997,10 +998,10 @@ export default function AboutUs() {
           <div className="space-y-4 text-sm">
             <div className="bg-card rounded-xl border border-border p-6">
               <h3 className="font-heading font-bold text-foreground text-base mb-2">
-                What is Airport Career Services?
+                What is Airport Career Services (ACS)?
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Airport Career Services is an Indian aviation career guidance, training advisory, and placement assistance consultancy based in Andhra Pradesh with regional counselling support across India.
+                Airport Career Services (ACS) is an Indian aviation career guidance, training advisory, and placement portal based in Andhra Pradesh with regional counselling support across India.
               </p>
             </div>
 
@@ -1009,7 +1010,7 @@ export default function AboutUs() {
                 What does Airport Career Services do?
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                ACS provides profile eligibility assessment, career counselling, training guidance, mock interview preparation, and placement coordination for airport ground staff, customer service executives, cargo handlers, and airline support roles.
+                Airport Career Services provides profile eligibility assessment, career counselling, training guidance, mock interview preparation, and placement coordination for airport ground staff, customer service executives, cargo handlers, and airline support roles.
               </p>
             </div>
 
@@ -1030,7 +1031,7 @@ export default function AboutUs() {
         title="Ready to Connect with Our"
         highlight="Career Advisors?"
         description="Get personalized career advice tailored to your eligibility and start your aviation journey today."
-        primaryCtaText="Get Free Career Counselling"
+        primaryCtaText="Get Career Counselling"
         primaryCtaLink="/contact"
         secondaryCtaText="Explore Aviation Career Paths"
         secondaryCtaLink="/careers"

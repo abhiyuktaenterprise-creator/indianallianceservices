@@ -1,163 +1,183 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import {
-  Plane,
   Phone,
   Mail,
   MapPin,
-  ShieldCheck,
-  ArrowRight,
   Clock,
+  ShieldAlert,
+  Sparkles,
+  ChevronRight,
+  ShieldCheck,
+  Plane,
   CheckCircle2,
-  Award,
 } from "lucide-react";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 export default function Footer() {
+  const { settings } = useSiteConfig();
+
   return (
-    <footer className="gradient-navy text-primary-foreground border-t border-primary-foreground/10 pt-16 pb-8">
-      <div className="container mx-auto px-4">
-        {/* Top Trust & Verification Banner */}
-        <div className="bg-primary-foreground/5 border border-primary-foreground/10 rounded-2xl p-6 sm:p-8 mb-14">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div className="flex items-start gap-4">
-              <div className="rounded-xl bg-secondary/20 p-3 text-secondary shrink-0">
-                <ShieldCheck className="h-7 w-7" />
-              </div>
-              <div>
-                <div className="flex flex-wrap items-center gap-2 mb-1">
-                  <h3 className="text-lg font-heading font-bold text-primary-foreground">
-                    Received a Recruitment Message from Airport Career Services?
-                  </h3>
-                  <span className="inline-flex items-center gap-1 rounded bg-amber-500/25 text-amber-300 px-2 py-0.5 font-bold text-[11px] border border-amber-500/30">
-                    <Award className="h-3 w-3" /> IATA & NHDC Certified Standards
-                  </span>
-                </div>
-                <p className="text-sm text-primary-foreground/75 mt-1 max-w-2xl">
-                  Protect yourself against impersonators. Verify interview calls, official emails, and candidate requirements directly through our verified portal.
-                </p>
-              </div>
+    <footer className="bg-[#FAF7F2] text-slate-800 border-t border-gold/40 relative z-10">
+      {/* Golden Aviation Top Accent Line */}
+      <div className="h-1.5 w-full bg-gradient-to-r from-amber-600 via-yellow-400 to-amber-600" />
+
+      {/* Safety Alert Header Banner */}
+      <div className="bg-[#f0e8dc] border-b border-gold/30 py-4 px-4">
+        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
+          <div className="flex items-center gap-3">
+            <div className="rounded-full bg-amber-600/15 p-2 text-amber-800 shrink-0">
+              <ShieldAlert className="h-5 w-5" />
             </div>
-
-            <Link
-              to="/recruitment-verification"
-              className="inline-flex items-center gap-2 rounded-xl bg-secondary hover:bg-secondary/90 text-secondary-foreground px-5 py-3 text-sm font-semibold shadow-md transition-all shrink-0"
-            >
-              <ShieldCheck className="h-4 w-4" /> Verify Recruitment Message
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
-          {/* Brand Col */}
-          <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="flex items-center gap-2.5">
-              <div className="rounded-lg bg-secondary p-2 text-white">
-                <Plane className="h-5 w-5" />
-              </div>
-              <span className="text-xl font-heading font-bold text-primary-foreground">
-                Airport Career Services
+            <div>
+              <span className="font-heading font-black text-amber-900 text-sm block">
+                Official Candidate Advisory & Anti-Fraud Notice
               </span>
+              <p className="text-xs text-slate-700 leading-snug">
+                Airport Career Services (ACS) does not solicit cash payments, personal WhatsApp transfers, or processing fees. Always verify official notifications.
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/recruitment-verification"
+            className="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-xl transition-all shadow-sm shrink-0"
+          >
+            <ShieldCheck className="h-4 w-4" /> Verify Reference ID
+          </Link>
+        </div>
+      </div>
+
+      {/* Main Footer Container */}
+      <div className="container mx-auto px-4 py-14 lg:py-16">
+        {/* Main Footer Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 mb-14">
+          {/* Brand Col */}
+          <div className="lg:col-span-2 space-y-5">
+            <Link to="/" className="inline-flex items-center">
+              <img
+                src="/logo.png"
+                alt="Airport Career Services (ACS)"
+                className="h-16 sm:h-20 lg:h-24 w-auto max-w-[340px] sm:max-w-[440px] object-contain"
+              />
             </Link>
 
-            <p className="text-sm text-primary-foreground/75 leading-relaxed max-w-sm">
-              India's dedicated aviation career counselling, training guidance, and placement consultancy. Guiding aspiring candidates step-by-step toward rewarding airport and airline careers.
+            <p className="text-sm text-slate-600 leading-relaxed max-w-sm font-normal">
+              India's premier AI-powered aviation career advisory, training coaching, and airport placement gateway. Guiding 10th, 12th pass, and graduate candidates toward rewarding airline careers.
             </p>
 
-            <div className="space-y-2 pt-2 text-xs text-primary-foreground/70">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-secondary shrink-0" />
-                <span>Ethical & Transparent Career Counselling</span>
+            <div className="space-y-3 pt-2 text-xs text-slate-700 font-semibold">
+              <div className="flex items-center gap-2.5">
+                <div className="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center shrink-0 border border-gold/40">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-amber-700" />
+                </div>
+                <span>Ethical & Transparent Career Advisory</span>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-secondary shrink-0" />
-                <span>Structured Profile & Eligibility Assessment</span>
+              <div className="flex items-center gap-2.5">
+                <div className="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center shrink-0 border border-gold/40">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-amber-700" />
+                </div>
+                <span>Pan-India Airport & Airline Placements</span>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-secondary shrink-0" />
-                <span>End-to-End Interview Preparation</span>
+              <div className="flex items-center gap-2.5">
+                <div className="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center shrink-0 border border-gold/40">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-amber-700" />
+                </div>
+                <span>Personalized Interview Preparation & Mock GD Screening</span>
               </div>
             </div>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="font-heading font-bold text-primary-foreground text-base tracking-wide border-b border-primary-foreground/10 pb-2">
-              Quick Links
+            <h4 className="font-heading font-black text-[#0a1128] text-base tracking-wider uppercase border-b-2 border-gold/40 pb-2.5 flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-amber-600" /> Navigation
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link to="/" className="text-primary-foreground/70 hover:text-secondary transition-colors">
-                  Home
+                <Link to="/" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Home</span>
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-primary-foreground/70 hover:text-secondary transition-colors">
-                  About Us & Leadership
+                <Link to="/about" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>About Us & Leadership</span>
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-primary-foreground/70 hover:text-secondary transition-colors">
-                  Our Services
+                <Link to="/services" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Our 6 Core Services</span>
                 </Link>
               </li>
               <li>
-                <Link to="/careers" className="text-primary-foreground/70 hover:text-secondary transition-colors">
-                  Aviation Careers & Jobs
+                <Link to="/careers" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Latest Aviation Jobs</span>
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-primary-foreground/70 hover:text-secondary transition-colors">
-                  Contact Us
+                <Link to="/interview-tips" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Interview & GD Tips</span>
                 </Link>
               </li>
               <li>
-                <Link to="/recruitment-verification" className="text-secondary font-medium hover:underline transition-colors flex items-center gap-1">
-                  <ShieldCheck className="h-3.5 w-3.5" /> Recruitment Verification
+                <Link to="/notifications" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Recruitment Notices</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Contact Our Team</span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Aviation Career Paths */}
+          {/* Programs & Roles */}
           <div className="space-y-4">
-            <h4 className="font-heading font-bold text-primary-foreground text-base tracking-wide border-b border-primary-foreground/10 pb-2">
-              Aviation Careers
+            <h4 className="font-heading font-black text-[#0a1128] text-base tracking-wider uppercase border-b-2 border-gold/40 pb-2.5 flex items-center gap-2">
+              <Plane className="h-4 w-4 text-amber-600" /> Career Paths
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link to="/careers#ground-staff" className="text-primary-foreground/70 hover:text-secondary transition-colors">
-                  Airport Ground Staff
+                <Link to="/careers#ags" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Airport Ground Staff</span>
                 </Link>
               </li>
               <li>
-                <Link to="/careers#customer-service" className="text-primary-foreground/70 hover:text-secondary transition-colors">
-                  Customer Service Executive
+                <Link to="/careers#csa" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Customer Service (CSA)</span>
                 </Link>
               </li>
               <li>
-                <Link to="/careers#cabin-crew" className="text-primary-foreground/70 hover:text-secondary transition-colors">
-                  Cabin Crew Guidance
+                <Link to="/careers#cabin-crew" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Cabin Crew Guidance</span>
                 </Link>
               </li>
               <li>
-                <Link to="/careers#operations" className="text-primary-foreground/70 hover:text-secondary transition-colors">
-                  Airport Operations
+                <Link to="/careers#airhostess" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Airhostess Training</span>
                 </Link>
               </li>
               <li>
-                <Link to="/careers#cargo" className="text-primary-foreground/70 hover:text-secondary transition-colors">
-                  Cargo & Baggage Handling
+                <Link to="/careers#gsa" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Ground Service (Ramp)</span>
                 </Link>
               </li>
               <li>
-                <Link to="/careers#support-staff" className="text-primary-foreground/70 hover:text-secondary transition-colors">
-                  Airline Support Staff
-                </Link>
-              </li>
-              <li>
-                <Link to="/careers#telecalling-job" className="text-primary-foreground/70 hover:text-secondary transition-colors font-medium">
-                  HR & Telecalling Executive (Open)
+                <Link to="/careers#cargo-logistics" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Air Cargo Logistics</span>
                 </Link>
               </li>
             </ul>
@@ -165,84 +185,54 @@ export default function Footer() {
 
           {/* Verified Contact Details */}
           <div className="space-y-4">
-            <h4 className="font-heading font-bold text-primary-foreground text-base tracking-wide border-b border-primary-foreground/10 pb-2">
-              Verified Contact
+            <h4 className="font-heading font-black text-[#0a1128] text-base tracking-wider uppercase border-b-2 border-gold/40 pb-2.5 flex items-center gap-2">
+              <Phone className="h-4 w-4 text-amber-600" /> Helpdesk & Bureau
             </h4>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center gap-2.5 text-primary-foreground/80">
-                <Phone className="h-4 w-4 text-secondary shrink-0" />
-                <a href="tel:+917851836860" className="font-semibold text-primary-foreground hover:text-secondary transition-colors">
-                  +91 7851836860
+            <div className="space-y-4 text-sm">
+              <div className="p-3.5 rounded-2xl bg-white border border-gold/40 shadow-sm">
+                <div className="text-[11px] uppercase tracking-wider text-amber-800 font-bold mb-1">
+                  Candidate Advisory Line
+                </div>
+                <a
+                  href={`tel:${settings.helplinePhone.replace(/\s+/g, "")}`}
+                  className="font-mono font-black text-[#0a1128] hover:text-amber-700 transition-colors text-lg flex items-center gap-2"
+                >
+                  <Phone className="h-4 w-4 text-amber-600 shrink-0" /> {settings.helplinePhone}
                 </a>
               </div>
 
-              <a
-                href="mailto:infor.airportcareerservices@gmail.com"
-                className="flex items-start gap-2.5 text-primary-foreground/80 hover:text-secondary transition-colors break-all"
-              >
-                <Mail className="h-4 w-4 text-secondary shrink-0 mt-1" />
-                <span>infor.airportcareerservices@gmail.com</span>
-              </a>
+              <div className="flex items-start gap-2.5 text-slate-700">
+                <Mail className="h-4 w-4 text-amber-600 shrink-0 mt-1" />
+                <a
+                  href={`mailto:${settings.supportEmail}`}
+                  className="text-slate-700 hover:text-amber-700 transition-colors break-all text-xs font-semibold"
+                >
+                  {settings.supportEmail}
+                </a>
+              </div>
 
-              <div className="flex items-start gap-2.5 text-primary-foreground/75">
-                <MapPin className="h-4 w-4 text-secondary shrink-0 mt-1" />
-                <span className="leading-snug">
-                  Mumbai / Navi Mumbai • Delhi NCR • Madhya Pradesh • Andhra Pradesh • Gujarat
+              <div className="flex items-start gap-2.5 text-slate-700">
+                <MapPin className="h-4 w-4 text-amber-600 shrink-0 mt-1" />
+                <span className="leading-snug text-xs text-slate-600">
+                  {settings.displayAddress}
                 </span>
               </div>
 
-              <div className="flex items-center gap-2.5 text-primary-foreground/75 text-xs pt-1">
-                <Clock className="h-3.5 w-3.5 text-secondary shrink-0" />
-                <span>Mon – Sat: 9:30 AM – 6:30 PM (By Appt Only)</span>
+              <div className="flex items-center gap-2.5 text-xs text-amber-800 font-semibold pt-1">
+                <Clock className="h-3.5 w-3.5 text-amber-600 shrink-0" />
+                <span>{settings.officeHours}</span>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Regional Locations Footer Banner */}
-        <div className="border-t border-primary-foreground/10 py-6 text-xs text-primary-foreground/65">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
-              <strong className="text-primary-foreground/90 font-semibold">Our Office Locations:</strong>{" "}
-              Mumbai / Navi Mumbai • Delhi NCR • Madhya Pradesh • Andhra Pradesh • Gujarat
-            </div>
-            <Link
-              to="/contact"
-              className="text-secondary hover:underline inline-flex items-center gap-1 font-medium"
-            >
-              <span>View Verified Office Addresses</span>
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-          </div>
-        </div>
-
-        {/* Disclaimer & Copyright */}
-        <div className="border-t border-primary-foreground/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-primary-foreground/50 text-center md:text-left">
-          <p>
-            © 2026 Airport Career Services (ACS). All rights reserved. Aviation Career Counselling & Guidance Consultancy.
+      {/* Disclaimer & Copyright Bar */}
+      <div className="bg-[#f3eee6] border-t border-gold/30 py-5 px-4">
+        <div className="container mx-auto text-xs text-slate-600 text-center">
+          <p className="font-normal">
+            © 2026 Airport Career Services (ACS). All rights reserved. Aviation Careers & Training — India's Premier Aviation Career Advisory & Placement Portal.
           </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to="/about" className="hover:text-secondary transition-colors">
-              About
-            </Link>
-            <span>•</span>
-            <Link to="/services" className="hover:text-secondary transition-colors">
-              Services
-            </Link>
-            <span>•</span>
-            <Link to="/careers" className="hover:text-secondary transition-colors">
-              Careers
-            </Link>
-            <span>•</span>
-            <Link to="/recruitment-verification" className="hover:text-secondary transition-colors">
-              Recruitment Verification
-            </Link>
-            <span>•</span>
-            <Link to="/contact" className="hover:text-secondary transition-colors">
-              Contact
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

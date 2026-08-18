@@ -22,6 +22,8 @@ import {
   TrendingUp,
   Award,
   HelpCircle,
+  Search,
+  Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/common/SEO";
@@ -30,126 +32,9 @@ import SectionHeading from "@/components/common/SectionHeading";
 import CTASection from "@/components/common/CTASection";
 import EnquiryModal from "@/components/common/EnquiryModal";
 import JobApplicationModal from "@/components/common/JobApplicationModal";
+import { useSiteConfig, JobPost } from "@/context/SiteConfigContext";
 
-// A. 6 Target Airport Placement Career Paths (AGS, CSA, Cabin Crew, GSA, PSA, Airhostess)
-const aviationCareerPaths = [
-  {
-    id: "ags",
-    code: "AGS",
-    icon: Users,
-    title: "Airport Ground Staff (AGS)",
-    overview:
-      "Airport Ground Staff (AGS) are the backbone of passenger operations at departure and arrival gates, ensuring smooth boarding, check-in, and passenger coordination across domestic and international airport terminals.",
-    responsibilities: [
-      "Boarding gate announcements and passenger queue management",
-      "Verifying passenger identity, boarding passes, and travel documents",
-      "Assisting special-needs passengers, unaccompanied minors, and elderly travelers",
-      "Coordinating with ramp staff and cabin crew during aircraft boarding",
-      "Handling transit passenger connections and terminal announcements",
-    ],
-    eligibility: "12th Pass or Any Graduate (Male & Female)",
-    skills: ["Pleasing personality", "Clear verbal communication", "Calm attitude under pressure", "Basic computer literacy"],
-    growth: "AGS Executive → Senior Customer Associate → Team Lead → Duty Supervisor → Airport Terminal Manager",
-    acsSupport: "Mock boarding gate drills, phonetic alphabet training, document check procedures, and airline interview preparation.",
-  },
-  {
-    id: "csa",
-    code: "CSA",
-    icon: Headphones,
-    title: "Customer Service Assistant (CSA)",
-    overview:
-      "Customer Service Assistants (CSA) manage airline ticketing, check-in counters, passenger inquiries, baggage weighing/tagging, and airport lounge customer assistance.",
-    responsibilities: [
-      "Operating passenger check-in desks and baggage weighing systems",
-      "Issuing boarding passes and handling seat assignments",
-      "Managing passenger inquiries regarding flight timings and delays",
-      "Providing assistance in premium airline lounges and information desks",
-      "Assisting passengers with lost baggage claims and report filing",
-    ],
-    eligibility: "12th Pass or Any Graduate",
-    skills: ["Good spoken English & Hindi/regional language", "Empathetic listening", "Customer service orientation", "Typing & computer skills"],
-    growth: "CSA → Senior CSA → Shift Coordinator → Customer Service Team Manager",
-    acsSupport: "Check-in simulation questions, passenger conflict handling techniques, grooming standards coaching, and telephonic interview practice.",
-  },
-  {
-    id: "cabin-crew",
-    code: "Cabin Crew",
-    icon: Plane,
-    title: "Cabin Crew",
-    overview:
-      "Cabin Crew members are responsible for in-flight passenger safety, comfort, emergency evacuation readiness, and premium inflight hospitality onboard domestic and international flights.",
-    responsibilities: [
-      "Conducting pre-flight safety equipment checks and briefings",
-      "Welcoming passengers and guiding them to allocated seating",
-      "Demonstrating safety protocols and emergency equipment usage",
-      "Serving in-flight meals, beverages, and catering items",
-      "Handling medical emergencies and passenger requests during flight",
-    ],
-    eligibility: "12th Pass / Graduate (Height criteria: Minimum ~155cm female, ~170cm male; good eyesight and clear skin)",
-    skills: ["Confident posture", "Polite and hospitable demeanor", "Fluent English & Hindi", "Quick decision making"],
-    growth: "Junior Cabin Crew → Senior Flight Attendant → In-Flight Lead (Purser) → Cabin Services Director",
-    acsSupport: "Body language and posture grooming, skin & personality guidance, emergency scenario interview questions, and panel interview drills.",
-  },
-  {
-    id: "gsa",
-    code: "GSA",
-    icon: Settings,
-    title: "Ground Service Assistant (GSA)",
-    overview:
-      "Ground Service Assistants (GSA) oversee airside aircraft turnaround, ramp coordination, fueling safety, marshaling support, baggage conveyor handling, and airport equipment operations.",
-    responsibilities: [
-      "Monitoring aircraft turnaround schedule to ensure on-time departures",
-      "Coordinating ramp equipment (pushback tractors, baggage tugs, GPU)",
-      "Liaising between Air Traffic Control (ATC), airline flight dispatch, and ground crews",
-      "Ensuring airside safety protocols and FOD (Foreign Object Debris) prevention",
-      "Compiling flight load sheets and departure reports",
-    ],
-    eligibility: "10th Pass / 12th Pass / Graduate / Diploma Preferred",
-    skills: ["Strong situational awareness", "Attention to detail", "Time management", "Basic technical aptitude"],
-    growth: "GSA Trainee → GSA Senior Agent → Ramp Operations Executive → Ramp Duty Manager",
-    acsSupport: "Aviation terminology, turnaround process flow understanding, airside safety guidelines, and operations interview coaching.",
-  },
-  {
-    id: "psa",
-    code: "PSA",
-    icon: UserCheck,
-    title: "Passenger Service Assistant (PSA)",
-    overview:
-      "Passenger Service Assistants (PSA) provide dedicated airport floor assistance, wheelchair passenger escorting, unaccompanied minor care, immigration line facilitation, and VIP reception.",
-    responsibilities: [
-      "Assisting PRM (Passengers with Reduced Mobility) and medical travellers",
-      "Escorting unaccompanied minors safely from check-in to aircraft seat",
-      "Managing immigration and security queue flow during peak flight hours",
-      "Providing airport direction and transit assistance for connecting flights",
-      "Coordinating with airline duty managers for special service requests (SSR)",
-    ],
-    eligibility: "12th Pass / Any Graduate",
-    skills: ["Polite communication", "Helpful and patient attitude", "Active on feet", "Problem-solving skills"],
-    growth: "PSA Executive → Senior PSA → Floor Supervisor → Terminal Duty Lead",
-    acsSupport: "Special service codes training, PRM handling protocol overview, customer etiquette, and airline interview preparation.",
-  },
-  {
-    id: "airhostess",
-    code: "Airhostess",
-    icon: Sparkles,
-    title: "Airhostess",
-    overview:
-      "Airhostesses represent the airline's premium hospitality and safety standards onboard flights, welcoming passengers, managing inflight dining, safety demonstrations, and first-aid support.",
-    responsibilities: [
-      "Welcoming guests onboard and maintaining cabin atmosphere",
-      "Conducting safety demonstrations and verifying seatbelt compliance",
-      "Serving inflight meals, duty-free items, and beverages",
-      "Handling in-flight customer requests with warmth and professionalism",
-      "Executing standard emergency and first-aid protocols when required",
-    ],
-    eligibility: "12th Pass / Graduate (Minimum height ~155cm; clear complexion; fluent English & Hindi)",
-    skills: ["Pleasing demeanor", "Grooming & elegance", "Calm hospitality", "Team coordination"],
-    growth: "Airhostess Trainee → Senior Airhostess → In-flight Supervisor → Base In-Flight Manager",
-    acsSupport: "Complete personality grooming, voice modulation, cabin hospitality simulation, and panel interview coaching.",
-  },
-];
-
-// D. Aviation Industry Updates & New Airline Routes (Neutral Terminology - NOT claimed as ACS partners)
+// Industry Updates & New Airline Routes (Neutral Information)
 const industryUpdates = [
   {
     airline: "Air India",
@@ -194,64 +79,75 @@ const industryUpdates = [
 ];
 
 export default function Careers() {
+  const { jobPosts } = useSiteConfig();
   const [isEnquiryModalOpen, setIsEnquiryModalOpen] = useState(false);
   const [isJobModalOpen, setIsJobModalOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<"all" | "aviation" | "non-aviation">("all");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const activeJobs = jobPosts.filter((j) => j.status === "active");
+
+  const filteredJobs = activeJobs.filter((job) => {
+    // Filter by Category
+    const isNonAviation =
+      job.department.toLowerCase().includes("retail") ||
+      job.department.toLowerCase().includes("cargo") ||
+      job.department.toLowerCase().includes("lounge") ||
+      job.department.toLowerCase().includes("talent") ||
+      job.department.toLowerCase().includes("hr");
+
+    let matchesCategory = true;
+    if (selectedCategory === "aviation") matchesCategory = !isNonAviation;
+    if (selectedCategory === "non-aviation") matchesCategory = isNonAviation;
+
+    // Filter by Search Query
+    const matchesSearch =
+      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.department.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.jobCode.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      job.location.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
 
   const handleOpenCounselling = (roleName: string) => {
     setSelectedRole(roleName);
     setIsEnquiryModalOpen(true);
   };
 
-  // JobPosting Schema for HR & Telecalling Executive
+  const handleOpenApplyJob = (jobTitle: string) => {
+    setSelectedRole(jobTitle);
+    setIsJobModalOpen(true);
+  };
+
+  // Structured Data Schema
   const careersSchema = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://airportcareersarvices.com/careers/#page",
-        url: "https://airportcareersarvices.com/careers",
-        name: "Aviation Careers & Airport Jobs | Airport Career Services",
-        description: "Explore rewarding aviation careers: Ground staff, customer service executive, cabin crew guidance, operations, and apply for open HR & Telecalling Executive jobs.",
+        "@id": "https://airportcareerservices.com/careers/#page",
+        url: "https://airportcareerservices.com/careers",
+        name: "Aviation Careers & Airport Jobs | Airport Career Services (ACS)",
+        description: "Explore rewarding aviation careers: Ground staff, customer service executive, cabin crew guidance, operations, and apply for open airport job vacancies.",
       },
       {
-        "@type": "JobPosting",
-        title: "HR & Telecalling Executive",
-        description:
-          "Responsible for identifying potential candidates, contacting applicants, conducting initial telephonic screening, explaining aviation career opportunities, and coordinating interviews.",
-        identifier: {
-          "@type": "PropertyValue",
-          name: "Airport Career Services",
-          value: "ACS-HR-TELE-2026",
-        },
-        datePosted: "2026-08-01",
-        validThrough: "2026-12-31",
-        employmentType: "FULL_TIME",
-        hiringOrganization: {
-          "@type": "Organization",
-          name: "Airport Career Services",
-          sameAs: "https://airportcareersarvices.com",
-        },
-        jobLocation: {
-          "@type": "Place",
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: "Ranipet Highway, Orvakal",
-            addressLocality: "Pudicherla",
-            addressRegion: "Andhra Pradesh",
-            postalCode: "518010",
-            addressCountry: "IN",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://airportcareerservices.com",
           },
-        },
-        baseSalary: {
-          "@type": "MonetaryAmount",
-          currency: "INR",
-          value: {
-            "@type": "QuantitativeValue",
-            value: "Best in industry + incentives",
-            unitText: "MONTH",
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Careers",
+            item: "https://airportcareerservices.com/careers",
           },
-        },
+        ],
       },
     ],
   };
@@ -259,157 +155,251 @@ export default function Careers() {
   return (
     <>
       <SEO
-        title="Aviation Careers & Airport Jobs | Airport Career Services"
-        description="Explore airport career pathways (Ground Staff, Customer Service Executive, Cabin Crew, Operations, Cargo) and apply for HR & Telecalling Executive openings at Airport Career Services."
-        canonical="https://airportcareersarvices.com/careers"
+        title="Aviation Careers & Airport Job Vacancies 2026 | Airport Career Services (ACS)"
+        description="Verified airport job openings for Ground Staff, CSA, Cabin Crew, Air Cargo, and Airport Hospitality across Indian metro airports. Apply online with 100% placement guidance."
+        keywords="airport ground staff jobs, cabin crew vacancies 2026, aviation career guide, airport customer service associate, airline walk-in drive"
+        canonical="https://airportcareerservices.com/careers"
         schema={careersSchema}
       />
 
-      {/* Page Header */}
-      <section className="bg-primary text-primary-foreground py-14 border-b border-primary-foreground/10">
-        <div className="container mx-auto px-4">
-          <Breadcrumbs items={[{ label: "Careers" }]} className="text-primary-foreground/70 mb-4" />
+      {/* Hero Banner */}
+      <section className="bg-navy-midnight text-white py-14 lg:py-18 border-b border-gold/25 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.18),transparent_50%)]" />
+        <div className="container mx-auto px-4 relative z-10">
+          <Breadcrumbs
+            items={[{ label: "Aviation Careers & Jobs" }]}
+            className="text-primary-foreground/70 mb-4"
+          />
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-secondary/20 border border-secondary/30 px-3.5 py-1 mb-4">
-              <Sparkles className="h-3.5 w-3.5 text-secondary" />
-              <span className="text-xs font-semibold text-secondary">
-                Aviation Career Pathways & Opportunities
+            <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 mb-4 shadow-md">
+              <Sparkles className="h-3.5 w-3.5 text-gold" />
+              <span className="text-xs font-bold text-gold">
+                Official ACS Career Portal
               </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-primary-foreground leading-tight">
-              Aviation Careers & Airport Job Guidance
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
+              Aviation & Airport <span className="gold-gradient-text">Career Openings</span>
             </h1>
-            <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed">
-              Explore in-demand job roles across Indian airports, understand real eligibility criteria, and apply for active internal openings at Airport Career Services.
+            <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
+              Explore in-demand job roles across Indian airports, understand real eligibility criteria, and submit your application for verified placements.
             </p>
           </div>
         </div>
       </section>
 
       {/* ==================================================
-          A. AVIATION CAREER PATHS (6 Roles)
+          UNIFIED VERIFIED JOB VACANCIES SECTION
           ================================================== */}
-      <section className="py-20 bg-background">
+      <section id="openings" className="py-16 lg:py-20 bg-background">
         <div className="container mx-auto px-4">
           <SectionHeading
-            badge="Career Pathways"
-            title="Explore In-Demand"
-            highlight="Airport & Airline Roles"
-            description="Detailed breakdowns of responsibilities, basic qualifications, useful skills, and career growth for major airport positions."
+            badge="Verified Hiring"
+            title="Explore Active"
+            highlight="Airport & Airline Vacancies"
+            description="Detailed breakdowns of salary scales, responsibilities, qualifications, and direct application channels for verified airport positions."
           />
 
-          <div className="space-y-12 max-w-5xl mx-auto">
-            {aviationCareerPaths.map((career) => (
-              <div
-                key={career.id}
-                id={career.id}
-                className="bg-card rounded-2xl border border-border p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-secondary/50 transition-all space-y-6"
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
-                  <div className="flex items-center gap-3.5">
-                    <div className="rounded-xl bg-secondary/15 p-3 text-secondary shrink-0">
-                      <career.icon className="h-7 w-7" />
-                    </div>
-                    <div>
-                      <div className="flex flex-wrap items-center gap-2">
-                        <h3 className="text-2xl font-heading font-bold text-foreground">
-                          {career.title}
-                        </h3>
-                        <span className="font-mono text-xs font-bold text-secondary bg-secondary/15 px-2.5 py-0.5 rounded-md border border-secondary/25">
-                          {career.code}
-                        </span>
-                      </div>
-                      <p className="text-xs text-secondary font-semibold uppercase tracking-wider mt-0.5">
-                        Eligibility: {career.eligibility}
-                      </p>
-                    </div>
-                  </div>
+          {/* Filter & Search Bar */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 max-w-5xl mx-auto mb-10">
+            {/* Category Pills */}
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {[
+                { id: "all", label: `All Vacancies (${activeJobs.length})` },
+                { id: "aviation", label: "✈️ Aviation & Airline Track" },
+                { id: "non-aviation", label: "🏢 Non-Aviation & Airport Ops" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setSelectedCategory(tab.id as any)}
+                  className={`px-4 py-2 rounded-2xl font-bold text-xs sm:text-sm transition-all shadow-sm ${
+                    selectedCategory === tab.id
+                      ? "bg-primary text-primary-foreground border border-gold/40 shadow-md scale-105"
+                      : "bg-card hover:bg-muted text-foreground border border-border"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
-                  <Button
-                    variant="hero"
-                    size="sm"
-                    onClick={() => handleOpenCounselling(career.title)}
-                    className="shrink-0 text-xs font-semibold gap-1.5 shadow-sm"
-                  >
-                    <Sparkles className="h-3.5 w-3.5" /> Get Guidance for This Role
-                  </Button>
-                </div>
-
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {career.overview}
-                </p>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  {/* Responsibilities */}
-                  <div className="bg-muted/40 rounded-xl p-5 border border-border/50">
-                    <h4 className="font-heading font-bold text-foreground text-xs uppercase tracking-wider mb-3 text-secondary">
-                      Typical Responsibilities:
-                    </h4>
-                    <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
-                      {career.responsibilities.map((resp, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-secondary shrink-0 mt-0.5" />
-                          <span className="leading-snug">{resp}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Skills & Growth */}
-                  <div className="space-y-4">
-                    <div className="bg-muted/40 rounded-xl p-5 border border-border/50">
-                      <h4 className="font-heading font-bold text-foreground text-xs uppercase tracking-wider mb-2 text-secondary">
-                        Useful Skills:
-                      </h4>
-                      <div className="flex flex-wrap gap-1.5">
-                        {career.skills.map((skill, i) => (
-                          <span
-                            key={i}
-                            className="bg-card border border-border text-foreground px-2.5 py-1 rounded-md text-xs font-medium"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="bg-muted/40 rounded-xl p-5 border border-border/50">
-                      <h4 className="font-heading font-bold text-foreground text-xs uppercase tracking-wider mb-1 text-secondary flex items-center gap-1.5">
-                        <TrendingUp className="h-3.5 w-3.5" /> Career Growth Path:
-                      </h4>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
-                        {career.growth}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-secondary/10 border border-secondary/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-                  <div>
-                    <strong className="text-foreground font-semibold">How ACS Supports You: </strong>
-                    <span className="text-muted-foreground">{career.acsSupport}</span>
-                  </div>
-                  <Button
-                    variant="link"
-                    size="sm"
-                    onClick={() => handleOpenCounselling(career.title)}
-                    className="text-secondary p-0 h-auto font-bold shrink-0 hover:underline"
-                  >
-                    Start Preparation →
-                  </Button>
-                </div>
-              </div>
-            ))}
+            {/* Quick Search Box */}
+            <div className="relative w-full md:w-72">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search vacancies or code..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-card border border-border rounded-2xl pl-10 pr-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary/50 shadow-sm"
+              />
+            </div>
           </div>
 
+          {/* Single Deduplicated Job List */}
+          {filteredJobs.length === 0 ? (
+            <div className="text-center py-16 max-w-2xl mx-auto bg-card rounded-3xl border border-border p-8 text-muted-foreground text-sm space-y-3">
+              <p>No job vacancies match your current filter.</p>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setSelectedCategory("all");
+                  setSearchQuery("");
+                }}
+              >
+                Reset Filters
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-8 max-w-5xl mx-auto">
+              {filteredJobs.map((job) => (
+                <div
+                  key={job.id}
+                  id={job.id}
+                  className="bg-card rounded-3xl border border-border p-6 sm:p-8 shadow-sm hover:shadow-lg hover:border-secondary/50 transition-all space-y-6"
+                >
+                  {/* Job Header */}
+                  <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border-b border-border pb-5">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2 mb-2">
+                        <span className="font-mono text-xs font-bold text-secondary bg-secondary/15 px-3 py-1 rounded-full border border-secondary/30">
+                          {job.jobCode}
+                        </span>
+                        <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                          {job.salaryRange}
+                        </span>
+                        <span className="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20">
+                          {job.openings} Seats Available
+                        </span>
+                        {job.badge && (
+                          <span className="text-xs font-bold text-amber-700 dark:text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
+                            {job.badge}
+                          </span>
+                        )}
+                      </div>
+
+                      <h3 className="text-2xl sm:text-3xl font-heading font-black text-foreground">
+                        {job.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground font-medium mt-1">
+                        {job.department} • <span className="text-secondary font-semibold">{job.type}</span>
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-3 shrink-0 w-full lg:w-auto">
+                      <Button
+                        variant="hero"
+                        size="lg"
+                        onClick={() => handleOpenApplyJob(job.title)}
+                        className="flex-1 lg:flex-none font-bold gap-2 px-7 py-5 rounded-2xl shadow-md text-xs sm:text-sm bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 hover:brightness-105"
+                      >
+                        <Send className="h-4 w-4" /> Apply for This Role
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        onClick={() => handleOpenCounselling(job.title)}
+                        className="font-semibold text-xs border-border hover:bg-muted rounded-2xl py-5"
+                      >
+                        Counselling
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Summary & Metadata Grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-muted/30 p-4 rounded-2xl border border-border/60 text-xs">
+                    <div>
+                      <span className="text-muted-foreground block text-[10px] uppercase font-semibold">Eligibility</span>
+                      <strong className="text-foreground font-bold">{job.qualification}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground block text-[10px] uppercase font-semibold">Experience</span>
+                      <strong className="text-foreground font-bold">{job.experience}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground block text-[10px] uppercase font-semibold">Age Criteria</span>
+                      <strong className="text-foreground font-bold">{job.ageLimit}</strong>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground block text-[10px] uppercase font-semibold">Base Location</span>
+                      <strong className="text-foreground font-bold truncate block">{job.location}</strong>
+                    </div>
+                  </div>
+
+                  {/* Overview */}
+                  {job.overview && (
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {job.overview}
+                    </p>
+                  )}
+
+                  {/* Responsibilities & Requirements Grid */}
+                  <div className="grid md:grid-cols-2 gap-5">
+                    {/* Responsibilities */}
+                    {job.responsibilities && job.responsibilities.length > 0 && (
+                      <div className="bg-muted/40 rounded-2xl p-5 border border-border/50">
+                        <h4 className="font-heading font-bold text-xs uppercase tracking-wider mb-3 text-secondary flex items-center gap-1.5">
+                          <CheckCircle2 className="h-4 w-4" /> Key Job Responsibilities:
+                        </h4>
+                        <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
+                          {job.responsibilities.map((resp, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                              <span className="h-1.5 w-1.5 rounded-full bg-secondary shrink-0 mt-2" />
+                              <span className="leading-snug">{resp}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Requirements */}
+                    {job.requirements && job.requirements.length > 0 && (
+                      <div className="bg-muted/40 rounded-2xl p-5 border border-border/50">
+                        <h4 className="font-heading font-bold text-xs uppercase tracking-wider mb-3 text-secondary flex items-center gap-1.5">
+                          <ShieldCheck className="h-4 w-4" /> Candidate Requirements:
+                        </h4>
+                        <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
+                          {job.requirements.map((req, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0 mt-2" />
+                              <span className="leading-snug">{req}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Card Bottom CTA Strip */}
+                  <div className="p-3.5 rounded-2xl bg-secondary/10 border border-secondary/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                    <div>
+                      <strong className="text-foreground font-semibold">Dedicated Placement Support: </strong>
+                      <span className="text-muted-foreground">
+                        Mock interview coaching, GD rounds, phonetic alphabet, and document verification assistance.
+                      </span>
+                    </div>
+                    <Button
+                      variant="link"
+                      size="sm"
+                      onClick={() => handleOpenApplyJob(job.title)}
+                      className="text-secondary p-0 h-auto font-bold shrink-0 hover:underline"
+                    >
+                      Apply Now →
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* Certificate & Eligibility Clarification (IATA & NHDC Standards) */}
-          <div className="max-w-5xl mx-auto mt-10 bg-card rounded-2xl border border-secondary/30 p-6 sm:p-8 shadow-sm space-y-4">
+          <div className="max-w-5xl mx-auto mt-12 bg-card rounded-3xl border border-secondary/30 p-6 sm:p-8 shadow-sm space-y-4">
             <div className="flex items-center gap-2.5 text-foreground font-heading font-bold text-lg">
               <Award className="h-5 w-5 text-amber-500" />
               <h3>Candidate Certification & Experience Advisory (IATA & NHDC Standards)</h3>
             </div>
             <div className="grid sm:grid-cols-2 gap-4 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-              <div className="p-4 rounded-xl bg-muted/40 border border-border/60 space-y-1.5">
+              <div className="p-4 rounded-2xl bg-muted/40 border border-border/60 space-y-1.5">
                 <div className="font-semibold text-foreground flex items-center gap-1.5">
                   <CheckCircle2 className="h-4 w-4 text-secondary" /> Is IATA Certificate Mandatory?
                 </div>
@@ -417,7 +407,7 @@ export default function Careers() {
                   <strong>No.</strong> Prior IATA certificate is <strong>not mandatory</strong> for entry-level airport ground roles (12th pass / graduates). However, candidates holding IATA or ticketing certifications receive high preference during international airline screening.
                 </p>
               </div>
-              <div className="p-4 rounded-xl bg-muted/40 border border-border/60 space-y-1.5">
+              <div className="p-4 rounded-2xl bg-muted/40 border border-border/60 space-y-1.5">
                 <div className="font-semibold text-foreground flex items-center gap-1.5">
                   <CheckCircle2 className="h-4 w-4 text-secondary" /> Is NHDC / Prior Experience Certificate Required?
                 </div>
@@ -431,117 +421,9 @@ export default function Careers() {
       </section>
 
       {/* ==================================================
-          C. HR & TELECALLING EXECUTIVE (JOB OPENING)
+          UPCOMING OPPORTUNITIES & HIRING ECOSYSTEM
           ================================================== */}
-      <section id="telecalling-job" className="py-20 gradient-navy text-primary-foreground">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <div className="inline-flex items-center gap-2 rounded-full bg-secondary/20 border border-secondary/30 px-4 py-1.5 mb-4">
-              <Briefcase className="h-4 w-4 text-secondary" />
-              <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
-                Internal Career Opening at ACS
-              </span>
-            </div>
-
-            <div className="bg-primary-foreground/5 border border-primary-foreground/15 rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-sm space-y-8">
-              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 border-b border-primary-foreground/10 pb-6">
-                <div>
-                  <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-primary-foreground">
-                    HR & Telecalling Executive
-                  </h2>
-                  <p className="text-sm font-semibold text-secondary mt-1">
-                    Alternative: HR Executive – Tele Recruitment • Department: Human Resources / Talent Acquisition
-                  </p>
-                </div>
-
-                <Button
-                  variant="hero"
-                  size="lg"
-                  onClick={() => setIsJobModalOpen(true)}
-                  className="gap-2 font-bold px-8 py-6 rounded-xl shadow-xl hover:shadow-secondary/25 shrink-0"
-                >
-                  <Send className="h-4 w-4" /> Apply Now for This Role
-                </Button>
-              </div>
-
-              {/* Job Summary */}
-              <div>
-                <h3 className="font-heading font-bold text-lg text-primary-foreground mb-2">
-                  Job Summary
-                </h3>
-                <p className="text-sm sm:text-base text-primary-foreground/80 leading-relaxed">
-                  Responsible for identifying potential candidates, contacting prospective applicants, conducting initial telephonic screening, explaining airport job opportunities with clarity, and coordinating counselling and interview schedules with the senior recruitment team.
-                </p>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-8">
-                {/* Responsibilities */}
-                <div className="bg-primary-foreground/5 border border-primary-foreground/10 rounded-2xl p-6">
-                  <h4 className="font-heading font-bold text-sm uppercase tracking-wider text-secondary mb-4">
-                    Key Responsibilities
-                  </h4>
-                  <ul className="space-y-2.5 text-xs sm:text-sm text-primary-foreground/85">
-                    {[
-                      "Source candidates through job portals, social media, and incoming enquiries",
-                      "Contact prospective candidates via phone calls and WhatsApp",
-                      "Explain aviation job roles, eligibility criteria, and guidance process",
-                      "Conduct initial telephone screening and assess spoken communication",
-                      "Schedule candidates for senior counsellor evaluations and interviews",
-                      "Maintain candidate follow-ups and address applicant doubts politely",
-                      "Maintain accurate candidate records in MS Excel / CRM",
-                      "Coordinate daily candidate pipelines with the HR & management team",
-                    ].map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle2 className="h-4 w-4 text-secondary shrink-0 mt-0.5" />
-                        <span className="leading-snug">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Requirements */}
-                <div className="bg-primary-foreground/5 border border-primary-foreground/10 rounded-2xl p-6 flex flex-col justify-between">
-                  <div>
-                    <h4 className="font-heading font-bold text-sm uppercase tracking-wider text-secondary mb-4">
-                      Candidate Requirements
-                    </h4>
-                    <ul className="space-y-2.5 text-xs sm:text-sm text-primary-foreground/85">
-                      {[
-                        "Good Hindi and local regional language communication skills",
-                        "Basic English communication (conversational)",
-                        "Basic computer knowledge and proficiency in MS Excel",
-                        "Professional, polite, and confident telephone etiquette",
-                        "Positive attitude, patience, and student empathy",
-                        "Previous recruitment, BPO, or telecalling experience preferred (freshers with good communication are also welcome)",
-                      ].map((item, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-secondary shrink-0 mt-0.5" />
-                          <span className="leading-snug">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="pt-6 mt-6 border-t border-primary-foreground/10">
-                    <Button
-                      variant="hero"
-                      className="w-full gap-2 font-bold py-5"
-                      onClick={() => setIsJobModalOpen(true)}
-                    >
-                      <Send className="h-4 w-4" /> Apply as HR Executive
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ==================================================
-          B. CURRENT / UPCOMING OPPORTUNITIES (Flexible Section)
-          ================================================== */}
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-muted/30 border-t border-border">
         <div className="container mx-auto px-4">
           <SectionHeading
             badge="Hiring Ecosystem"
@@ -551,7 +433,7 @@ export default function Careers() {
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="bg-card rounded-3xl border border-border p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[10px] font-bold uppercase tracking-wider bg-secondary/10 text-secondary px-2.5 py-1 rounded-full">
@@ -575,7 +457,7 @@ export default function Careers() {
               </div>
             </div>
 
-            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="bg-card rounded-3xl border border-border p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[10px] font-bold uppercase tracking-wider bg-secondary/10 text-secondary px-2.5 py-1 rounded-full">
@@ -599,7 +481,7 @@ export default function Careers() {
               </div>
             </div>
 
-            <div className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="bg-card rounded-3xl border border-border p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[10px] font-bold uppercase tracking-wider bg-secondary/10 text-secondary px-2.5 py-1 rounded-full">
@@ -627,7 +509,7 @@ export default function Careers() {
       </section>
 
       {/* ==================================================
-          D. AVIATION INDUSTRY INFORMATION & ROUTES (Neutral Terminology)
+          AVIATION INDUSTRY INFORMATION & ROUTES
           ================================================== */}
       <section className="py-20 gradient-sky border-t border-border">
         <div className="container mx-auto px-4">
@@ -642,7 +524,7 @@ export default function Careers() {
             {industryUpdates.map((item) => (
               <div
                 key={item.airline}
-                className="bg-card rounded-xl border border-border p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+                className="bg-card rounded-2xl border border-border p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center gap-2 mb-2">
@@ -662,10 +544,10 @@ export default function Careers() {
             ))}
           </div>
 
-          <div className="max-w-3xl mx-auto bg-card rounded-xl border border-border p-5 text-xs text-muted-foreground flex items-start gap-3 shadow-sm">
+          <div className="max-w-3xl mx-auto bg-card rounded-2xl border border-border p-5 text-xs text-muted-foreground flex items-start gap-3 shadow-sm">
             <Info className="h-5 w-5 text-secondary shrink-0 mt-0.5" />
             <p className="leading-relaxed">
-              <strong>Industry Information Notice:</strong> Airline names, trademarks, and route updates are cited for educational and candidate awareness purposes regarding aviation sector opportunities. Airport Career Services operates as an independent guidance consultancy.
+              <strong>Industry Information Notice:</strong> Airline names, trademarks, and route updates are cited for educational and candidate awareness purposes regarding aviation sector opportunities. Airport Career Services operates as an independent guidance portal.
             </p>
           </div>
         </div>
@@ -675,11 +557,11 @@ export default function Careers() {
       <CTASection
         title="Start Preparing for Your"
         highlight="Aviation Career"
-        description="Book your profile assessment today with Airport Career Services and get trained for standard airport recruitment drives."
-        primaryCtaText="Get Free Career Counselling"
+        description="Book your profile assessment today with Airport Career Services (ACS) and get trained for standard airport recruitment drives."
+        primaryCtaText="Get Career Counselling"
         primaryCtaLink="/contact"
-        secondaryCtaText="Apply for HR Job Opening"
-        secondaryCtaLink="#telecalling-job"
+        secondaryCtaText="Apply for Open Vacancies"
+        secondaryCtaLink="#openings"
       />
 
       <EnquiryModal

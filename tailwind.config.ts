@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        heading: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        heading: ['"Outfit"', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
         body: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -57,9 +58,11 @@ export default {
         },
         navy: {
           dark: "hsl(var(--navy-dark))",
+          midnight: "hsl(var(--navy-midnight))",
         },
         gold: {
           DEFAULT: "hsl(var(--gold))",
+          glow: "hsl(var(--gold-glow))",
           foreground: "hsl(var(--gold-foreground))",
         },
         success: {
@@ -103,6 +106,14 @@ export default {
           from: { opacity: "0", transform: "scale(0.8)" },
           to: { opacity: "1", transform: "scale(1)" },
         },
+        "shimmer": {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -110,6 +121,8 @@ export default {
         "fade-in-up": "fade-in-up 0.6s ease-out forwards",
         "fade-in": "fade-in 0.5s ease-out forwards",
         "count-up": "count-up 0.5s ease-out forwards",
+        "shimmer": "shimmer 2.5s infinite linear",
+        "float": "float 3.5s ease-in-out infinite",
       },
     },
   },

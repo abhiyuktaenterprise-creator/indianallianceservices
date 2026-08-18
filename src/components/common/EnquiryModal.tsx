@@ -24,10 +24,10 @@ export default function EnquiryModal({
       <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto p-6 sm:p-8">
         <DialogHeader className="mb-2">
           <DialogTitle className="text-2xl font-heading font-bold text-foreground">
-            Get Free Career Counselling
+            Get Career Counselling
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">
-            Fill in your basic details and an Airport Career Services advisor will connect with you to evaluate your profile.
+            Fill in your basic details and an Airport Career Services (ACS) advisor will connect with you to evaluate your profile.
           </DialogDescription>
         </DialogHeader>
 

@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
+import { useSiteConfig } from "@/context/SiteConfigContext";
+
 interface JobApplicationModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
@@ -32,6 +34,7 @@ export default function JobApplicationModal({
   jobTitle = "HR & Telecalling Executive",
 }: JobApplicationModalProps) {
   const { toast } = useToast();
+  const { addLead } = useSiteConfig();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -45,7 +48,7 @@ export default function JobApplicationModal({
     skills: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.name.trim() || !formData.phone.trim()) {
@@ -59,14 +62,23 @@ export default function JobApplicationModal({
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      toast({
-        title: "Application Submitted Successfully!",
-        description: `Your application for ${jobTitle} has been received by our Talent Acquisition team.`,
-      });
-    }, 600);
+    await addLead({
+      name: formData.name.trim(),
+      phone: formData.phone.trim(),
+      email: formData.email.trim() || undefined,
+      qualification: formData.experience ? `Exp: ${formData.experience}` : undefined,
+      targetRole: jobTitle,
+      city: formData.city || undefined,
+      source: "Careers Job Application",
+      notes: `Notice: ${formData.noticePeriod || "Immediate"} | Skills: ${formData.skills || "N/A"}`,
+    });
+
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    toast({
+      title: "Application Submitted Successfully!",
+      description: `Your application for ${jobTitle} has been received by our Talent Acquisition team.`,
+    });
   };
 
   return (

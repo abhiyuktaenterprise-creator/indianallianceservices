@@ -28,20 +28,20 @@ export default function SectionHeading({
   return (
     <div className={`max-w-3xl mb-12 ${alignmentClasses} ${className}`}>
       {badge && (
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-secondary/15 border border-secondary/30 px-3.5 py-1 mb-3">
-          <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
-          <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
+        <div className="inline-flex items-center gap-1.5 rounded-full bg-gold/10 border border-gold/35 px-4 py-1 mb-3.5 shadow-sm">
+          <span className="h-2 w-2 rounded-full bg-gold" />
+          <span className="text-xs font-bold uppercase tracking-wider text-gold font-mono">
             {badge}
           </span>
         </div>
       )}
 
       <HeadingTag
-        className={`text-3xl sm:text-4xl font-heading font-extrabold tracking-tight leading-tight ${
+        className={`text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold tracking-tight leading-tight ${
           isDark ? "text-primary-foreground" : "text-foreground"
         }`}
       >
-        {title} {highlight && <span className="text-secondary">{highlight}</span>}
+        {title} {highlight && <span className="gold-gradient-text">{highlight}</span>}
       </HeadingTag>
 
       {description && (

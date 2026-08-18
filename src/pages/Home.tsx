@@ -24,6 +24,7 @@ import {
   HelpCircle,
   BadgeCheck,
   Award,
+  MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +33,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import heroImage from "@/assets/hero-airport.jpg";
+import heroImage from "@/assets/hero-aviation.jpg";
+import groundServicesImg from "@/assets/ground-services.jpg";
 import anthonyImg from "@/assets/team/anthony_ghospade.jpg";
 import adityaImg from "@/assets/team/aditya_gujral.jpg";
 import prashantImg from "@/assets/team/prashant_chadda.jpg";
@@ -61,90 +63,144 @@ import SectionHeading from "@/components/common/SectionHeading";
 import CTASection from "@/components/common/CTASection";
 import ContactForm from "@/components/common/ContactForm";
 import EnquiryModal from "@/components/common/EnquiryModal";
+import AIEvaluationMatcher from "@/components/common/AIEvaluationMatcher";
+import AIResumeScanner from "@/components/common/AIResumeScanner";
 
-// 6 Core Pillars
-const whyACSFeatures = [
+// ==========================================
+// 1. WHAT WE ARE OFFERING (6 Core Offerings)
+// ==========================================
+const whatWeAreOffering = [
   {
     icon: Compass,
-    title: "Career Counselling",
-    desc: "1-on-1 personalized counselling to match your educational background, communication skills, and personality with viable aviation paths.",
-  },
-  {
-    icon: Route,
-    title: "Eligibility Evaluation",
-    desc: "Transparent assessment of physical criteria, age limit, educational marksheets, and English fluency before airline interview registration.",
-  },
-  {
-    icon: GraduationCap,
-    title: "Grooming & Training Guidance",
-    desc: "Professional guidance on airport customer service etiquette, cabin crew grooming, aviation security fundamentals, and documentation.",
-  },
-  {
-    icon: UserCheck,
-    title: "Mock Interview Drills",
-    desc: "Real-world simulation of airline HR rounds, group discussions, voice modulation, and telephonic screening techniques.",
-  },
-  {
-    icon: Briefcase,
-    title: "Placement Assistance",
-    desc: "Direct coordination with ground handling agencies, airline recruiters, and airport retail concessionaires for active hiring drives.",
-  },
-  {
-    icon: Heart,
-    title: "Anti-Fraud Verification",
-    desc: "Official recruiter ID validation, 100% transparent procedures, and clear guidance to protect candidates from recruitment scams.",
-  },
-];
-
-// 6 Airport Placement Roles with Official Designations (AGS, CSA, Cabin Crew, GSA, PSA, Airhostess)
-const careerRoles = [
-  {
-    icon: Users,
-    code: "AGS",
-    title: "Airport Ground Staff (AGS)",
-    desc: "Boarding gate management, baggage clearance, tarmac coordination, and terminal floor passenger assistance at domestic & international airports.",
-    eligibility: "12th Pass / Graduate",
-    link: "/careers#ags",
-  },
-  {
-    icon: Headphones,
-    code: "CSA",
-    title: "Customer Service Assistant (CSA)",
-    desc: "Check-in counter operations, ticket reservation handling, passenger query resolution, and executive airport lounge assistance.",
-    eligibility: "12th Pass / Any Graduate",
-    link: "/careers#csa",
-  },
-  {
-    icon: Plane,
-    code: "Cabin Crew",
-    title: "Cabin Crew",
-    desc: "In-flight passenger safety, hospitality standards, safety equipment checks, and professional flight attendant readiness.",
-    eligibility: "12th Pass / Height Criteria",
-    link: "/careers#cabin-crew",
-  },
-  {
-    icon: Settings,
-    code: "GSA",
-    title: "Ground Service Assistant (GSA)",
-    desc: "Ramp operations, aircraft turnaround support, airside safety coordination, and ground equipment handling.",
-    eligibility: "10th / 12th Pass / Graduate",
-    link: "/careers#gsa",
-  },
-  {
-    icon: UserCheck,
-    code: "PSA",
-    title: "Passenger Service Assistant (PSA)",
-    desc: "Special passenger assistance, unaccompanied minor care, wheelchair handling, immigration guidance, and VIP reception.",
-    eligibility: "12th Pass / Any Graduate",
-    link: "/careers#psa",
+    badge: "Offering 01",
+    title: "Profile & Eligibility Assessment",
+    desc: "Personalized evaluation of educational criteria (10th/12th/Graduate), age, height standards, spoken English fluency, and airport role compatibility.",
+    benefits: ["Profile Screening", "Real Eligibility Check", "Personalized Roadmap"],
+    link: "/contact",
   },
   {
     icon: Sparkles,
-    code: "Airhostess",
-    title: "Airhostess",
-    desc: "In-flight guest hospitality, personality grooming, safety demonstrations, first-aid assistance, and airline screening preparation.",
-    eligibility: "12th Pass / Height Criteria",
-    link: "/careers#airhostess",
+    badge: "Offering 02",
+    title: "Aviation Grooming & Personality Mastery",
+    desc: "Comprehensive coaching on international airline grooming benchmarks, body language, executive etiquette, and customer delight standards.",
+    benefits: ["Uniform & Styling Guidelines", "Verbal Communication Drills", "Confidence Building"],
+    link: "/interview-tips",
+  },
+  {
+    icon: UserCheck,
+    badge: "Offering 03",
+    title: "Aviation GD & Airline Mock Interview Drills",
+    desc: "Real-world simulation of airline HR rounds, technical ground handling Q&A, and Group Discussion (GD) leadership rules.",
+    benefits: ["Live Simulated Panel Drills", "Top 15 Airline HR Answers", "Instant Trainer Feedback"],
+    link: "/interview-tips",
+  },
+  {
+    icon: GraduationCap,
+    badge: "Offering 04",
+    title: "ATS-Optimized Aviation Resume Crafting",
+    desc: "Transform your CV into an IATA-aligned aviation resume with industry-specific keywords that pass automated airline recruitment screening.",
+    benefits: ["Aviation Keyword Optimization", "Gate Pass Compliance", "Professional Formatting"],
+    link: "/careers",
+  },
+  {
+    icon: Briefcase,
+    badge: "Offering 05",
+    title: "Direct Placement & Walk-In Drive Coordination",
+    desc: "Active scheduling and alerts for confirmed recruitment drives across 45+ domestic and international airport hubs throughout India.",
+    benefits: ["Pan-India Airport Coverage", "Interview Admit Pass Support", "Regular Walk-In Alerts"],
+    link: "/notifications",
+  },
+  {
+    icon: ShieldCheck,
+    badge: "Offering 06",
+    title: "Anti-Fraud Verification & Candidate Trust",
+    desc: "Protecting students through instant recruiter ID lookup, verified official correspondence, and a strict 100% zero-donation hiring policy.",
+    benefits: ["Live Candidate ID Check", "Zero Hidden Charges", "Safe Recruitment Advisory"],
+    link: "/recruitment-verification",
+  },
+];
+
+// ==========================================
+// 2. LATEST JOBS OF AVIATION (Active Openings)
+// ==========================================
+const latestAviationJobs = [
+  {
+    id: "ags",
+    code: "AGS-2026",
+    badge: "Actively Hiring",
+    title: "Airport Ground Staff (AGS)",
+    department: "Terminal & Ramp Operations",
+    salary: "₹24,000 – ₹38,000 / mo",
+    locations: ["Delhi (DEL)", "Mumbai (BOM)", "Bangalore (BLR)", "Jaipur (JAI)"],
+    eligibility: "12th Pass / Graduate (Freshers Eligible)",
+    openings: "45+ Openings",
+    desc: "Boarding gate operations, baggage reconciliation, tarmac assistance, and passenger embarkation management.",
+    roleName: "Airport Ground Staff",
+  },
+  {
+    id: "csa",
+    code: "CSA-2026",
+    badge: "High Demand",
+    title: "Customer Service Associate (CSA)",
+    department: "Passenger Services & Ticketing",
+    salary: "₹26,000 – ₹42,000 / mo",
+    locations: ["Pan-India Metro & Regional Airports"],
+    eligibility: "12th Pass / Any Graduate",
+    openings: "38+ Openings",
+    desc: "Check-in counter operations, flight boarding announcements, query resolution, and executive airport lounge hosting.",
+    roleName: "Customer Service Associate",
+  },
+  {
+    id: "cabin-crew",
+    code: "CC-2026",
+    badge: "Walk-In Drive",
+    title: "Cabin Crew / Air Hostess",
+    department: "In-Flight Services & Hospitality",
+    salary: "₹48,000 – ₹85,000 / mo",
+    locations: ["Delhi (DEL)", "Mumbai (BOM)", "Hyderabad (HYD)", "Kolkata (CCU)"],
+    eligibility: "12th Pass (Min 155cm Female / 170cm Male)",
+    openings: "25+ Openings",
+    desc: "In-flight passenger safety, world-class hospitality, emergency readiness, and safety equipment operations.",
+    roleName: "Cabin Crew",
+  },
+  {
+    id: "cargo",
+    code: "CARGO-2026",
+    badge: "Freshers Welcome",
+    title: "Air Cargo & Freight Handler",
+    department: "Air Cargo Logistics & Airside Warehouse",
+    salary: "₹20,000 – ₹32,000 / mo",
+    locations: ["Major Domestic & International Cargo Hubs"],
+    eligibility: "10th / 12th Pass",
+    openings: "50+ Openings",
+    desc: "Air cargo documentation, dangerous goods handling assistance, parcel tagging, and airside cargo logistics.",
+    roleName: "Air Cargo Handling",
+  },
+  {
+    id: "security",
+    code: "SEC-2026",
+    badge: "Immediate Requirement",
+    title: "Airport Security & Tarmac Marshall",
+    department: "Aviation Security & Airside Safety",
+    salary: "₹23,000 – ₹36,000 / mo",
+    locations: ["Tier 1 & Tier 2 Regional Airports"],
+    eligibility: "12th Pass / Basic Physical Fitness",
+    openings: "30+ Openings",
+    desc: "Passenger screening support, terminal access control, ramp marshaling, and safety protocol enforcement.",
+    roleName: "Airport Security",
+  },
+  {
+    id: "hr-tele",
+    code: "ACS-HR-2026",
+    badge: "Internal ACS Hiring",
+    title: "HR & Telecalling Executive",
+    department: "Talent Acquisition & Student Guidance",
+    salary: "Best in Industry + Performance Incentives",
+    locations: ["Pudicherla Office / Hybrid Available"],
+    eligibility: "Any Graduate / Strong Spoken Communication",
+    openings: "12 Openings",
+    desc: "Telephonic candidate screening, aviation counselling coordination, student follow-ups, and interview scheduling.",
+    roleName: "HR & Telecalling Executive",
   },
 ];
 
@@ -242,24 +298,33 @@ const testimonials = [
 const homeFaqs = [
   {
     q: "What is Airport Career Services (ACS)?",
-    a: "Airport Career Services is a dedicated aviation career guidance and placement consultancy in India. We help students, freshers, and job seekers choose the right aviation career path through professional counselling, eligibility assessment, grooming, interview preparation, and placement assistance.",
+    a: "Airport Career Services (ACS) is India's premier aviation career guidance, training support, and airport placement network. We help freshers, 10+2, and graduates secure high-demand airline and airport roles through structured counselling, grooming, mock interviews, and verified hiring connections.",
   },
   {
     q: "What airport jobs are available for 10th and 12th pass freshers?",
     a: "Candidates with 12th pass qualification can apply for Airport Ground Staff, Customer Service Executive (CSE), Cabin Crew (subject to age and height criteria), Cargo Handling, and Airline Support roles. Select entry-level cargo and baggage handling roles are also open to 10th pass candidates.",
   },
   {
-    q: "Does Airport Career Services provide free career counselling?",
-    a: "Yes. We offer free initial career counselling to evaluate your eligibility, communication skills, and personal interests, guiding you to the most appropriate airport role before you begin preparation.",
+    q: "What career guidance and counselling does Airport Career Services provide?",
+    a: "We offer comprehensive career counselling to evaluate your eligibility, communication skills, and personal interests, guiding you to the most appropriate airport role before you begin preparation.",
   },
   {
-    q: "How can I verify a recruitment message or interview call from ACS?",
-    a: "You can verify any official communication by visiting our official website (airportcareersarvices.com), emailing our official helpdesk at infor.airportcareerservices@gmail.com, or visiting our dedicated Recruitment Verification portal.",
+    q: "How can I verify a recruitment message or interview call from Airport Career Services (ACS)?",
+    a: "You can verify any official communication by visiting our official website (airportcareerservices.com), emailing our official helpdesk at support@airportcareerservices.com, or using our dedicated Recruitment Verification portal.",
   },
 ];
 
+import { useSiteConfig } from "@/context/SiteConfigContext";
+
 export default function Home() {
+  const { homeContent, settings } = useSiteConfig();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("");
+
+  const handleOpenRoleModal = (roleTitle: string) => {
+    setSelectedRole(roleTitle);
+    setIsModalOpen(true);
+  };
 
   // Schema.org Structured Data
   const homeSchema = {
@@ -267,12 +332,13 @@ export default function Home() {
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://airportcareersarvices.com/#organization",
+        "@id": "https://airportcareerservices.com/#organization",
         name: "Airport Career Services",
-        url: "https://airportcareersarvices.com",
-        logo: "https://airportcareersarvices.com/hero-airport.jpg",
+        alternateName: "ACS - Aviation Careers & Training",
+        url: "https://airportcareerservices.com",
+        logo: "https://airportcareerservices.com/logo.png",
         description: "Aviation Career Guidance, Training Guidance & Placement Assistance Consultancy in India.",
-        email: "infor.airportcareerservices@gmail.com",
+        email: settings.supportEmail,
         address: {
           "@type": "PostalAddress",
           streetAddress: "Ranipet Highway, Orvakal",
@@ -284,16 +350,16 @@ export default function Home() {
       },
       {
         "@type": "WebSite",
-        "@id": "https://airportcareersarvices.com/#website",
-        url: "https://airportcareersarvices.com",
-        name: "Airport Career Services",
+        "@id": "https://airportcareerservices.com/#website",
+        url: "https://airportcareerservices.com",
+        name: "Airport Career Services (ACS)",
         publisher: {
-          "@id": "https://airportcareersarvices.com/#organization",
+          "@id": "https://airportcareerservices.com/#organization",
         },
       },
       {
         "@type": "FAQPage",
-        "@id": "https://airportcareersarvices.com/#faq",
+        "@id": "https://airportcareerservices.com/#faq",
         mainEntity: homeFaqs.map((faq) => ({
           "@type": "Question",
           name: faq.q,
@@ -309,120 +375,162 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Airport Career Services | Aviation Careers & Career Guidance India"
-        description="Airport Career Services offers professional aviation career guidance, eligibility assessment, interview coaching, and placement assistance for airport ground staff, customer service, cabin crew, and airport operations jobs."
-        canonical="https://airportcareersarvices.com"
+        title="Airport Career Services (ACS) | Aviation Careers, Training & Airport Jobs"
+        description="India's leading aviation career consultancy. Professional eligibility matching, IATA-aligned grooming, and direct walk-in interview drives for Airport Ground Staff, Cabin Crew, and Cargo Operations."
+        canonical="https://airportcareerservices.com/"
         schema={homeSchema}
       />
 
+      {/* Real-Time Flight Radar Walk-in Drive Ticker */}
+      <div className="bg-[#0b1220] border-b border-gold/30 py-2 px-4 text-primary-foreground text-xs overflow-hidden">
+        <div className="container mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-extrabold text-[10px] uppercase px-2.5 py-0.5 rounded-full flex items-center gap-1.5 shadow-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-slate-950 animate-ping" /> LIVE FLIGHT RADAR
+            </span>
+            <span className="font-bold text-gold hidden sm:inline text-xs">
+              Recruitment Drive:
+            </span>
+          </div>
+          <div className="truncate text-xs text-primary-foreground/90 font-medium">
+            {homeContent.tickerNotice}
+          </div>
+          <Link
+            to="/notifications"
+            className="shrink-0 text-gold hover:text-amber-300 hover:underline font-bold text-xs flex items-center gap-1"
+          >
+            <span>View All Notices</span>
+            <ArrowRight className="h-3 w-3" />
+          </Link>
+        </div>
+      </div>
+
       {/* ==================================================
-          1. HERO SECTION
+          1. ROYAL AVIATION LUXURY HERO SECTION
           ================================================== */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-primary text-primary-foreground">
-        {/* Background Image & Overlay */}
+      <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-navy-midnight text-primary-foreground">
+        {/* Background Image & Luxury Radial Overlay */}
         <div className="absolute inset-0">
           <img
             src={heroImage}
             alt="Airport professionals and ground staff walking in modern terminal"
-            className="w-full h-full object-cover object-center scale-105 animate-fade-in"
+            className="w-full h-full object-cover object-center scale-105 animate-fade-in opacity-35"
             loading="eager"
           />
-          <div className="absolute inset-0 gradient-hero opacity-90" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-midnight via-navy-midnight/90 to-navy-dark/95" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl pointer-events-none" />
         </div>
 
-        <div className="container relative mx-auto px-4 py-20 lg:py-28">
+        <div className="container relative mx-auto px-4 py-20 lg:py-24">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             {/* Hero Left Content */}
             <div className="lg:col-span-7 space-y-6">
               {/* Trust Badge & IATA / NHDC Certificate */}
-              <div className="inline-flex flex-wrap items-center gap-2 rounded-full bg-secondary/20 border border-secondary/35 px-4 py-1.5 backdrop-blur-sm shadow-sm">
-                <span className="inline-flex items-center gap-1.5 text-amber-300 font-bold text-xs sm:text-sm">
-                  <Award className="h-4 w-4" /> IATA & NHDC Certified Guidance
-                </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-secondary/60 hidden sm:inline-block" />
-                <span className="text-xs sm:text-sm font-semibold tracking-wide text-secondary-foreground/95">
-                  India's Dedicated Aviation Placement Services
+              <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark/90 border border-gold/40 px-4 py-1.5 backdrop-blur-md shadow-lg">
+                <Sparkles className="h-4 w-4 text-gold animate-pulse" />
+                <span className="text-xs sm:text-sm font-mono font-bold tracking-wide text-gold uppercase">
+                  {homeContent.heroBadge}
                 </span>
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-primary-foreground leading-tight tracking-tight">
-                Launch Your Aviation Career with{" "}
-                <span className="text-secondary">Expert Guidance & Placement Support</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-black text-white leading-tight tracking-tight">
+                {homeContent.heroHeadline}
               </h1>
 
               {/* 3 Core Value Pillars */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-sm sm:text-base font-semibold text-secondary">
-                <span className="inline-flex items-center gap-1.5">
-                  <CheckCircle2 className="h-4 w-4" /> Career Counselling
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm font-bold text-gold">
+                <span className="inline-flex items-center gap-1.5 bg-gold/10 px-3 py-1 rounded-full border border-gold/30">
+                  <CheckCircle2 className="h-4 w-4 text-gold" /> Direct Eligibility Match
                 </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-secondary/60 hidden sm:inline-block" />
-                <span className="inline-flex items-center gap-1.5">
-                  <CheckCircle2 className="h-4 w-4" /> Interview Preparation
+                <span className="inline-flex items-center gap-1.5 bg-gold/10 px-3 py-1 rounded-full border border-gold/30">
+                  <CheckCircle2 className="h-4 w-4 text-gold" /> Airline GD & Grooming
                 </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-secondary/60 hidden sm:inline-block" />
-                <span className="inline-flex items-center gap-1.5">
-                  <CheckCircle2 className="h-4 w-4" /> Placement Assistance
+                <span className="inline-flex items-center gap-1.5 bg-emerald-500/15 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/30">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-400" /> Direct Walk-in Drives
                 </span>
               </div>
 
               {/* Supporting Description */}
-              <p className="text-base sm:text-lg text-primary-foreground/80 leading-relaxed max-w-2xl">
-                Airport Career Services helps 10th pass, 12th pass, and graduates discover high-growth airport career pathways, master telephonic & airline interviews, and achieve successful placements across India's booming aviation ecosystem.
+              <p className="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl font-normal">
+                {homeContent.heroSubtitle}
               </p>
 
+              {/* Live Airport Telemetry Stats */}
+              <div className="grid grid-cols-3 gap-3 max-w-lg pt-1 pb-1">
+                <div className="bg-[#0b1220]/80 border border-gold/30 rounded-2xl p-3.5 text-center backdrop-blur-md shadow-md">
+                  <div className="text-2xl sm:text-3xl font-mono font-black text-gold">{homeContent.statHubs}</div>
+                  <div className="text-[11px] text-slate-300 font-semibold uppercase mt-0.5">Airport Hubs</div>
+                </div>
+                <div className="bg-[#0b1220]/80 border border-gold/30 rounded-2xl p-3.5 text-center backdrop-blur-md shadow-md">
+                  <div className="text-2xl sm:text-3xl font-mono font-black text-emerald-400">{homeContent.statStudents}</div>
+                  <div className="text-[11px] text-slate-300 font-semibold uppercase mt-0.5">Students Guided</div>
+                </div>
+                <div className="bg-[#0b1220]/80 border border-gold/30 rounded-2xl p-3.5 text-center backdrop-blur-md shadow-md">
+                  <div className="text-2xl sm:text-3xl font-mono font-black text-gold">{homeContent.statPlacementRate}</div>
+                  <div className="text-[11px] text-slate-300 font-semibold uppercase mt-0.5">Placement Rate</div>
+                </div>
+              </div>
+
               {/* Hero Action CTAs */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-2">
+              <div className="flex flex-wrap items-center gap-4 pt-2">
                 <Button
                   variant="hero"
                   size="lg"
                   onClick={() => setIsModalOpen(true)}
-                  className="text-base font-bold gap-2 px-8 py-6 rounded-xl shadow-xl hover:shadow-secondary/25"
+                  className="text-base font-extrabold gap-2 px-8 py-6 rounded-2xl shadow-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 hover:brightness-110 transition-all hover:scale-105"
                 >
-                  <Sparkles className="h-5 w-5" /> Get Free Career Counselling
+                  <Sparkles className="h-5 w-5" /> Get Career Counselling
                 </Button>
 
-                <Link to="/careers">
+                <a href="#ai-matcher">
                   <Button
                     variant="hero-outline"
                     size="lg"
-                    className="w-full sm:w-auto text-base font-semibold gap-2 px-8 py-6 rounded-xl border-primary-foreground/30 hover:bg-primary-foreground/10"
+                    className="w-full sm:w-auto text-base font-bold gap-2 px-8 py-6 rounded-2xl border-gold/40 text-gold hover:bg-gold/10 hover:border-gold"
                   >
-                    Explore Career Opportunities <ArrowRight className="h-5 w-5" />
+                    <Plane className="h-5 w-5 text-gold" /> Run AI Eligibility Matcher
                   </Button>
-                </Link>
+                </a>
               </div>
 
               {/* Quick Trust Bar */}
-              <div className="pt-4 flex flex-wrap items-center gap-6 text-xs text-primary-foreground/70">
-                <div className="flex items-center gap-2 text-amber-300 font-semibold">
-                  <Award className="h-4 w-4" />
-                  <span>IATA & NHDC Certificate Standards</span>
+              <div className="pt-2 flex flex-wrap items-center gap-6 text-xs text-slate-300">
+                <div className="flex items-center gap-2 text-gold font-bold">
+                  <Award className="h-4 w-4 text-gold" />
+                  <span>IATA & NHDC Standards</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-secondary" />
-                  <span>100% Transparent Counselling</span>
+                <div className="flex items-center gap-2 font-medium">
+                  <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                  <span>100% Anti-Fraud Guarantee</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-secondary" />
-                  <span>Personal 1-on-1 Advisor</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Building2 className="h-4 w-4 text-secondary" />
-                  <span>Pan-India Airport Guidance</span>
+                <div className="flex items-center gap-2 font-medium">
+                  <CheckCircle2 className="h-4 w-4 text-gold" />
+                  <span>Direct Application Desk</span>
                 </div>
               </div>
             </div>
 
-            {/* Hero Right Quick Form */}
+            {/* Hero Right Visual Card with Airport Hub Visuals & Telemetry */}
             <div className="lg:col-span-5">
-              <div className="relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-secondary to-primary/40 rounded-3xl blur-lg opacity-40" />
-                <ContactForm
-                  showTitle={true}
-                  submitButtonText="Get Free Career Counselling"
-                  className="relative bg-card/98 backdrop-blur-md shadow-2xl border-border"
+              <div className="relative rounded-3xl overflow-hidden border border-gold/40 shadow-2xl bg-[#080d1a] p-3 group">
+                <img
+                  src={groundServicesImg}
+                  alt="Airport Career Services Airport Operations"
+                  className="rounded-2xl object-cover w-full h-[380px] group-hover:scale-105 transition-transform duration-500"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-transparent to-transparent rounded-2xl flex flex-col justify-end p-6">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 px-3.5 py-1 text-xs font-black w-fit mb-2 shadow-md">
+                    <Award className="h-3.5 w-3.5" /> Verified Placement Desk
+                  </div>
+                  <h3 className="font-heading font-extrabold text-xl text-white">
+                    Direct Connections to 45+ Airport Terminals
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1">
+                    Delhi • Mumbai • Bangalore • Hyderabad • Kolkata • Jaipur • Ahmedabad
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -437,7 +545,7 @@ export default function Home() {
           <div className="flex items-center gap-2.5 text-foreground font-medium">
             <ShieldCheck className="h-5 w-5 text-secondary shrink-0" />
             <span>
-              <strong>Candidate Alert:</strong> Received an SMS, WhatsApp, or interview call from Airport Career Services?
+              <strong>Candidate Alert:</strong> Received an SMS, WhatsApp, or interview call from Airport Career Services (ACS)?
             </span>
           </div>
           <Link
@@ -451,52 +559,230 @@ export default function Home() {
       </section>
 
       {/* ==================================================
-          2. WHY AIRPORT CAREER SERVICES (6 Pillars)
+          AI GAN ELIGIBILITY MATCHER MODULE
           ================================================== */}
-      <section className="py-20 bg-background">
+      <section id="ai-matcher" className="py-20 lg:py-24 bg-[#040711] text-white border-b border-gold/25 relative overflow-hidden">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <SectionHeading
+            theme="dark"
+            badge="AI Aviation Engine"
+            title="Instant AI Candidate Matcher &"
+            highlight="ATS Eligibility Evaluation"
+            description="Discover your highest-compatibility airport role based on age, height reach, qualification marksheets, and English communication level."
+          />
+
+          <AIEvaluationMatcher onSelectRole={(role) => {
+            setSelectedRole(role);
+            setIsModalOpen(true);
+          }} />
+        </div>
+      </section>
+
+      {/* ==================================================
+          2. WHAT WE'RE OFFERING (Specialized Aviation Guidance)
+          ================================================== */}
+      <section id="offerings" className="py-20 lg:py-24 bg-muted/20 border-t border-border relative overflow-hidden">
         <div className="container mx-auto px-4">
           <SectionHeading
-            badge="Why Airport Career Services"
-            title="Complete End-to-End Support for Your"
-            highlight="Airport Placement Services"
-            description="From the moment you express interest to your first day at the airport terminal, our experienced advisors provide structured guidance at every milestone."
+            badge="ACS Ecosystem"
+            title="What We're Offering —"
+            highlight="Complete Aviation Career Gateway"
+            description="Tailored for 10th pass, 12th pass, and graduate candidates aspiring for high-paying airline and airport roles across India."
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {whyACSFeatures.map((item) => (
+            {whatWeAreOffering.map((offering) => (
               <div
-                key={item.title}
-                className="group bg-card rounded-2xl border border-border p-7 hover:border-secondary/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                key={offering.title}
+                className="group bg-card rounded-3xl border border-border p-7 sm:p-8 hover:border-gold/50 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
               >
+                {/* Top Gold Hairline Glow on Hover */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+
                 <div>
-                  <div className="rounded-xl bg-secondary/10 p-3.5 w-fit mb-5 group-hover:bg-secondary/20 transition-colors text-secondary">
-                    <item.icon className="h-7 w-7" />
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="rounded-2xl bg-gold/15 p-3.5 text-gold group-hover:bg-gold group-hover:text-slate-950 transition-colors shadow-sm">
+                      <offering.icon className="h-6 w-6" />
+                    </div>
+                    <span className="font-mono text-xs font-extrabold text-gold bg-gold/10 px-3 py-1 rounded-full border border-gold/25 uppercase tracking-wider">
+                      {offering.badge}
+                    </span>
                   </div>
-                  <h3 className="text-xl font-heading font-bold text-foreground mb-2.5">
-                    {item.title}
+
+                  <h3 className="text-xl font-heading font-extrabold text-foreground mb-3 leading-snug group-hover:text-gold transition-colors">
+                    {offering.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {item.desc}
+
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6 font-normal">
+                    {offering.desc}
+                  </p>
+
+                  {/* Key Deliverables / Benefits */}
+                  <div className="space-y-2 mb-6">
+                    {offering.benefits.map((benefit, i) => (
+                      <div key={i} className="flex items-center gap-2 text-xs font-semibold text-foreground/90">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                        <span>{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-5 border-t border-border flex items-center justify-between">
+                  <Link
+                    to={offering.link}
+                    className="text-xs font-bold text-secondary hover:text-gold inline-flex items-center gap-1.5 transition-colors"
+                  >
+                    <span>Explore Details</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleOpenRoleModal(offering.title)}
+                    className="text-xs font-bold rounded-xl border-gold/30 hover:bg-gold hover:text-slate-950 hover:border-gold transition-all"
+                  >
+                    Enquire Now
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom Trust Note */}
+          <div className="max-w-4xl mx-auto mt-12 p-6 rounded-3xl bg-navy-midnight border border-gold/30 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5 text-center sm:text-left">
+              <div className="p-3 rounded-2xl bg-gold/20 text-gold shrink-0">
+                <Award className="h-7 w-7" />
+              </div>
+              <div>
+                <h4 className="font-heading font-bold text-sm text-gold">
+                  Official Profile Assessment & Placement Guidance
+                </h4>
+                <p className="text-xs text-primary-foreground/80">
+                  Airport Career Services (ACS) provides complete profile eligibility review and placement preparation support.
+                </p>
+              </div>
+            </div>
+
+            <Button
+              variant="hero"
+              onClick={() => handleOpenRoleModal("General Aviation Guidance")}
+              className="shrink-0 text-xs font-bold px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950"
+            >
+              Book Profile Review
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================================================
+          3. LATEST JOBS OF AVIATION (Active Hiring Drives)
+          ================================================== */}
+      <section id="latest-jobs" className="py-20 lg:py-24 gradient-sky border-y border-border relative">
+        <div className="container mx-auto px-4">
+          <SectionHeading
+            badge="Active Openings 2026"
+            title="Latest Jobs of Aviation &"
+            highlight="Airport Hiring Openings"
+            description="Active vacancies across Indian airports with verified pay scales, eligibility criteria, and immediate interview scheduling."
+          />
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {latestAviationJobs.map((job) => (
+              <div
+                key={job.id}
+                className="bg-card rounded-3xl border border-border hover:border-gold/50 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+              >
+                {/* Card Header (Boarding Pass Style) */}
+                <div className="p-6 pb-4 border-b border-border/70 bg-gradient-to-b from-muted/40 to-transparent">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="font-mono text-xs font-extrabold text-gold bg-navy-midnight px-2.5 py-1 rounded-md border border-gold/30">
+                      {job.code}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      {job.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-heading font-extrabold text-foreground mb-1 group-hover:text-gold transition-colors">
+                    {job.title}
+                  </h3>
+                  <p className="text-xs text-secondary font-semibold">
+                    {job.department}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-border/50">
-                  <Link
-                    to="/services"
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-secondary group-hover:gap-2 transition-all"
-                  >
-                    <span>Learn More About This Service</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
+                {/* Card Body */}
+                <div className="p-6 space-y-4 flex-1">
+                  {/* Salary & Openings */}
+                  <div className="flex items-center justify-between p-3 rounded-2xl bg-muted/50 border border-border/60">
+                    <div>
+                      <div className="text-[10px] uppercase font-bold text-muted-foreground">Salary Scale</div>
+                      <div className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">{job.salary}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-[10px] uppercase font-bold text-muted-foreground">Vacancies</div>
+                      <div className="text-xs font-bold text-foreground font-mono">{job.openings}</div>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {job.desc}
+                  </p>
+
+                  {/* Eligibility & Locations */}
+                  <div className="space-y-2 pt-2 border-t border-border/50 text-xs">
+                    <div className="flex items-start gap-2">
+                      <GraduationCap className="h-4 w-4 text-gold shrink-0 mt-0.5" />
+                      <span className="text-muted-foreground">
+                        <strong className="text-foreground">Eligibility:</strong> {job.eligibility}
+                      </span>
+                    </div>
+
+                    <div className="flex items-start gap-2">
+                      <MapPin className="h-4 w-4 text-secondary shrink-0 mt-0.5" />
+                      <span className="text-muted-foreground">
+                        <strong className="text-foreground">Airports:</strong> {job.locations.join(" • ")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Action Footer */}
+                <div className="p-6 pt-0 flex items-center gap-3">
+                  <Link to="/careers" className="flex-1">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full text-xs font-bold rounded-xl border-border hover:bg-muted"
+                    >
+                      View Role Guide
+                    </Button>
                   </Link>
+                  <Button
+                    variant="hero"
+                    size="sm"
+                    onClick={() => handleOpenRoleModal(job.roleName)}
+                    className="flex-1 text-xs font-bold rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 shadow-md gap-1.5"
+                  >
+                    <Sparkles className="h-3.5 w-3.5" /> Apply Now
+                  </Button>
                 </div>
               </div>
             ))}
           </div>
 
           <div className="text-center mt-12">
-            <Link to="/services">
-              <Button variant="outline" size="lg" className="gap-2 font-semibold">
-                Explore All Services & Candidate Benefits <ArrowRight className="h-4 w-4" />
+            <Link to="/careers">
+              <Button
+                variant="outline"
+                size="lg"
+                className="gap-2 font-bold px-8 py-5 rounded-2xl border-gold/40 text-foreground hover:bg-gold/10 hover:border-gold shadow-sm"
+              >
+                View All 9+ Aviation & Airport Job Openings <ArrowRight className="h-4 w-4 text-gold" />
               </Button>
             </Link>
           </div>
@@ -504,80 +790,7 @@ export default function Home() {
       </section>
 
       {/* ==================================================
-          3. TARGET AIRPORT PLACEMENT ROLES (6 Key Roles)
-          ================================================== */}
-      <section className="py-20 gradient-sky border-y border-border">
-        <div className="container mx-auto px-4">
-          <SectionHeading
-            badge="Target Airport Placement Roles"
-            title="Explore High-Demand Opportunities in"
-            highlight="Airport Placement Services"
-            description="We provide dedicated placement services for verified airport roles including AGS (Airport Ground Staff), CSA (Customer Service Assistant), Cabin Crew, GSA (Ground Service Assistant), PSA (Passenger Service Assistant), and Airhostess across major Indian airports."
-          />
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {careerRoles.map((role) => (
-              <div
-                key={role.title}
-                className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-lg hover:border-secondary/50 transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center gap-2.5 mb-4">
-                    <div className="rounded-xl bg-primary/10 p-3 text-primary">
-                      <role.icon className="h-6 w-6" />
-                    </div>
-                    <span className="font-mono text-xs font-bold text-secondary bg-secondary/15 px-2.5 py-1 rounded-md border border-secondary/25">
-                      {role.code}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-heading font-bold text-foreground mb-2">
-                    {role.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                    {role.desc}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-border flex items-center justify-between">
-                  <Link
-                    to={role.link}
-                    className="text-xs font-bold text-secondary hover:underline inline-flex items-center gap-1"
-                  >
-                    <span>View Role Details & Eligibility</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => setIsModalOpen(true)}
-                    className="text-xs font-semibold"
-                  >
-                    Apply for Placement
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12 space-y-3">
-            <p className="text-xs text-muted-foreground italic">
-              * Eligibility, criteria, and available openings depend on candidate profile, age, and airport location.
-            </p>
-            <div>
-              <Link to="/careers">
-                <Button variant="default" size="lg" className="gap-2 font-bold px-8 shadow-md">
-                  View All Career Paths & Open Opportunities <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ==================================================
-          4. HOW WE HELP (6 Steps)
+          4. HOW WE HELP (6 Steps Structured Roadmap)
           ================================================== */}
       <section className="py-20 gradient-navy text-primary-foreground">
         <div className="container mx-auto px-4">
@@ -633,7 +846,7 @@ export default function Home() {
               <div className="inline-flex items-center gap-1.5 rounded-full bg-secondary/15 border border-secondary/30 px-3.5 py-1">
                 <Sparkles className="h-3.5 w-3.5 text-secondary" />
                 <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
-                  The ACS Difference
+                  The ACS Advantage
                 </span>
               </div>
 
@@ -971,15 +1184,19 @@ export default function Home() {
       <CTASection
         title="Ready to Start Your"
         highlight="Aviation Career?"
-        description="Book your free 1-on-1 career counselling session today. Let our experts evaluate your profile and guide you step-by-step to airport placement."
-        primaryCtaText="Get Free Career Counselling"
+        description="Book your 1-on-1 career counselling session today. Let our experts evaluate your profile and guide you step-by-step to airport placement."
+        primaryCtaText="Get Career Counselling"
         primaryCtaLink="/contact"
         secondaryCtaText="Explore Open Opportunities"
         secondaryCtaLink="/careers"
       />
 
       {/* Enquiry Modal */}
-      <EnquiryModal isOpen={isModalOpen} onOpenChange={setIsModalOpen} />
+      <EnquiryModal
+        isOpen={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        defaultRole={selectedRole}
+      />
     </>
   );
 }

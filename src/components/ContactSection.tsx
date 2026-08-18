@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 const locations = [
   { city: "Mumbai / Navi Mumbai", address: "Office No. 402, Sai Arcade Complex, Old Mumbai-Pune Highway, Panvel, Navi Mumbai – 410206" },
@@ -16,6 +17,7 @@ const locations = [
 
 const ContactSection = () => {
   const { toast } = useToast();
+  const { settings, addLead } = useSiteConfig();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -25,13 +27,27 @@ const ContactSection = () => {
     location: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.phone.trim()) {
       toast({ title: "Please fill in all required fields", variant: "destructive" });
       return;
     }
-    toast({ title: "Enquiry Submitted!", description: "Our team will contact you within 24 hours." });
+
+    await addLead({
+      name: formData.name.trim(),
+      phone: formData.phone.trim(),
+      email: formData.email.trim() || undefined,
+      qualification: formData.qualification || undefined,
+      targetRole: formData.role || "Airport Placement Enquiry",
+      city: formData.location || undefined,
+      source: "Homepage Contact Section",
+    });
+
+    toast({
+      title: "Enquiry Submitted Successfully!",
+      description: "Our aviation counsellor will call you within 24 hours.",
+    });
     setFormData({ name: "", phone: "", email: "", qualification: "", role: "", location: "" });
   };
 
@@ -82,12 +98,12 @@ const ContactSection = () => {
                 <Select value={formData.role} onValueChange={(v) => setFormData({ ...formData, role: v })}>
                   <SelectTrigger><SelectValue placeholder="Select role" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ags">AGS — Airport Ground Staff</SelectItem>
-                    <SelectItem value="csa">CSA — Customer Service Assistant</SelectItem>
-                    <SelectItem value="cabin-crew">Cabin Crew</SelectItem>
-                    <SelectItem value="gsa">GSA — Ground Service Assistant</SelectItem>
-                    <SelectItem value="psa">PSA — Passenger Service Assistant</SelectItem>
-                    <SelectItem value="airhostess">Airhostess</SelectItem>
+                    <SelectItem value="Airport Ground Staff (AGS)">AGS — Airport Ground Staff</SelectItem>
+                    <SelectItem value="Customer Service Assistant (CSA)">CSA — Customer Service Assistant</SelectItem>
+                    <SelectItem value="Cabin Crew / Flight Attendant">Cabin Crew</SelectItem>
+                    <SelectItem value="Ground Service Assistant (GSA)">GSA — Ground Service Assistant</SelectItem>
+                    <SelectItem value="Passenger Service Assistant (PSA)">PSA — Passenger Service Assistant</SelectItem>
+                    <SelectItem value="Airhostess Hospitality">Airhostess</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -98,13 +114,13 @@ const ContactSection = () => {
                   <SelectTrigger><SelectValue placeholder="Select city" /></SelectTrigger>
                   <SelectContent>
                     {locations.map((loc) => (
-                      <SelectItem key={loc.city} value={loc.city.toLowerCase()}>{loc.city}</SelectItem>
+                      <SelectItem key={loc.city} value={loc.city}>{loc.city}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
 
-              <Button type="submit" className="w-full gap-2" size="lg">
+              <Button type="submit" className="w-full gap-2 font-bold" size="lg">
                 <Send className="h-4 w-4" /> Submit Enquiry
               </Button>
             </form>
@@ -121,18 +137,18 @@ const ContactSection = () => {
                     <Phone className="h-5 w-5 text-secondary" />
                   </div>
                   <div>
-                    <a href="tel:+917851836860" className="font-semibold text-foreground hover:text-secondary transition-colors block">
-                      +91 7851836860
+                    <a href={`tel:${settings.helplinePhone.replace(/\s+/g, "")}`} className="font-semibold text-foreground hover:text-secondary transition-colors block">
+                      {settings.helplinePhone}
                     </a>
                   </div>
                 </div>
-                <a href="mailto:infor.airportcareerservices@gmail.com" className="flex items-baseline md:items-center gap-3 group flex-col md:flex-row">
+                <a href={`mailto:${settings.supportEmail}`} className="flex items-baseline md:items-center gap-3 group flex-col md:flex-row">
                   <div className="rounded-lg bg-secondary/10 p-2.5 group-hover:bg-secondary/20 transition-colors">
                     <Mail className="h-5 w-5 text-secondary" />
                   </div>
                   <div>
                     <div className="text-xs text-muted-foreground">Email</div>
-                    <div className="font-semibold text-foreground">infor.airportcareerservices@gmail.com</div>
+                    <div className="font-semibold text-foreground">{settings.supportEmail}</div>
                   </div>
                 </a>
               </div>
@@ -141,11 +157,10 @@ const ContactSection = () => {
             {/* Locations */}
             <div className="bg-card rounded-xl border border-border p-6">
               <h3 className="font-heading font-bold text-lg text-foreground mb-4">Our Locations</h3>
-              {/* <p className="text-sm text-muted-foreground mb-4">We Serve Students Across India</p> */}
               <div className="grid grid-cols-1 gap-3">
                 <div className="flex items-center gap-2 text-foreground">
-                    <MapPin className="h-4 w-4 text-secondary shrink-0" />
-                    <span className="font-medium">Ranipet Highway, Orvakal, Pudicherla, Andhra Pradesh 518010</span>
+                  <MapPin className="h-4 w-4 text-secondary shrink-0" />
+                  <span className="font-medium">{settings.displayAddress}</span>
                 </div>
               </div>
             </div>

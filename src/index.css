@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,82 +6,88 @@
 
 @layer base {
   :root {
-    --background: 210 33% 98%;
-    --foreground: 215 35% 15%;
+    /* Royal Deep Navy + Metallic Champagne Gold + Pure White Palette */
+    --background: 0 0% 100%;
+    --foreground: 222 65% 9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 35% 15%;
+    --card-foreground: 222 65% 9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 35% 15%;
+    --popover-foreground: 222 65% 9%;
 
-    --primary: 215 70% 22%;
+    /* Deep Midnight Navy */
+    --primary: 220 58% 11%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 85% 55%;
-    --secondary-foreground: 0 0% 100%;
+    /* Metallic Champagne Gold */
+    --secondary: 42 90% 50%;
+    --secondary-foreground: 222 65% 9%;
 
-    --muted: 210 25% 94%;
-    --muted-foreground: 215 15% 45%;
+    --muted: 215 25% 96%;
+    --muted-foreground: 218 20% 40%;
 
-    --accent: 200 85% 55%;
-    --accent-foreground: 0 0% 100%;
+    /* Radiant Gold Accent */
+    --accent: 42 90% 50%;
+    --accent-foreground: 222 65% 9%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214 25% 88%;
-    --input: 214 25% 88%;
-    --ring: 215 70% 22%;
+    --border: 40 25% 90%;
+    --input: 40 25% 90%;
+    --ring: 42 90% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.95rem;
 
-    --sky-light: 200 80% 95%;
-    --sky-medium: 200 75% 85%;
-    --navy-dark: 215 70% 12%;
-    --gold: 40 85% 55%;
-    --gold-foreground: 215 70% 12%;
-    --success: 160 60% 40%;
+    --sky-light: 40 60% 97%;
+    --sky-medium: 40 50% 92%;
+    --navy-dark: 222 65% 7%;
+    --navy-midnight: 220 58% 10%;
+    --gold: 42 90% 50%;
+    --gold-glow: 42 95% 62%;
+    --gold-foreground: 222 65% 8%;
+    --success: 156 72% 38%;
     --success-foreground: 0 0% 100%;
 
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-primary: 220 58% 11%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 40 50% 95%;
+    --sidebar-accent-foreground: 220 58% 11%;
+    --sidebar-border: 40 25% 90%;
+    --sidebar-ring: 42 90% 50%;
   }
 
   .dark {
-    --background: 215 35% 8%;
-    --foreground: 210 25% 94%;
-    --card: 215 35% 12%;
-    --card-foreground: 210 25% 94%;
-    --popover: 215 35% 12%;
-    --popover-foreground: 210 25% 94%;
-    --primary: 200 85% 55%;
-    --primary-foreground: 215 70% 12%;
-    --secondary: 215 50% 25%;
-    --secondary-foreground: 210 25% 94%;
-    --muted: 215 30% 18%;
-    --muted-foreground: 215 15% 60%;
-    --accent: 200 85% 55%;
-    --accent-foreground: 215 70% 12%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 215 30% 20%;
-    --input: 215 30% 20%;
-    --ring: 200 85% 55%;
-    --sidebar-background: 240 5.9% 10%;
+    --background: 222 65% 7%;
+    --foreground: 0 0% 98%;
+    --card: 220 55% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 55% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 42 90% 50%;
+    --primary-foreground: 222 65% 8%;
+    --secondary: 42 90% 50%;
+    --secondary-foreground: 222 65% 8%;
+    --muted: 220 45% 14%;
+    --muted-foreground: 215 20% 70%;
+    --accent: 42 90% 50%;
+    --accent-foreground: 222 65% 8%;
+    --destructive: 0 62.8% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 42 30% 20%;
+    --input: 42 30% 20%;
+    --ring: 42 90% 50%;
+    --sidebar-background: 222 65% 7%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 42 90% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent: 220 45% 14%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-border: 42 30% 20%;
+    --sidebar-ring: 42 90% 50%;
   }
 }
 
@@ -91,30 +97,100 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-background text-foreground font-body antialiased selection:bg-gold/30 selection:text-foreground;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
+    @apply font-heading tracking-tight;
   }
 }
 
 @layer utilities {
+  /* Deep Navy + Metallic Gold Gradients */
   .gradient-hero {
-    background: linear-gradient(135deg, hsl(215 70% 22%) 0%, hsl(215 70% 12%) 50%, hsl(200 85% 25%) 100%);
-  }
-
-  .gradient-sky {
-    background: linear-gradient(180deg, hsl(200 80% 95%) 0%, hsl(0 0% 100%) 100%);
+    background: radial-gradient(circle at 80% 15%, rgba(212, 175, 55, 0.22) 0%, transparent 55%),
+                linear-gradient(135deg, hsl(222 65% 7%) 0%, hsl(220 58% 11%) 50%, hsl(218 50% 16%) 100%);
   }
 
   .gradient-navy {
-    background: linear-gradient(135deg, hsl(215 70% 22%) 0%, hsl(215 70% 16%) 100%);
+    background: linear-gradient(135deg, hsl(222 65% 7%) 0%, hsl(220 58% 11%) 55%, hsl(218 45% 18%) 100%);
+  }
+
+  .gradient-sky {
+    background: linear-gradient(180deg, #FBFBFB 0%, #FFFFFF 100%);
+  }
+
+  .gradient-gold {
+    background: linear-gradient(135deg, #D4AF37 0%, #FFDF73 45%, #AA771C 100%);
+  }
+
+  .metallic-gold-gradient {
+    background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+  }
+
+  .gold-gradient-text {
+    @apply bg-clip-text text-transparent font-extrabold;
+    background-image: linear-gradient(135deg, #F5B027 0%, #FFDF73 40%, #E5A93C 70%, #C58917 100%);
   }
 
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(200 85% 55%), hsl(215 70% 22%));
+    background-image: linear-gradient(135deg, #F5B027 0%, #FFDF73 100%);
+  }
+
+  /* Frosted Glassmorphism with Metallic Gold Rim */
+  .glass-luxury {
+    background: rgba(7, 19, 36, 0.88);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    box-shadow: 0 12px 40px -5px rgba(2, 8, 18, 0.6);
+  }
+
+  .glass-luxury-light {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    box-shadow: 0 8px 30px -4px rgba(7, 19, 36, 0.08);
+  }
+
+  .gold-glow {
+    box-shadow: 0 0 30px -4px rgba(245, 176, 39, 0.35);
+  }
+
+  .gold-border-glow {
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    box-shadow: 0 0 20px -3px rgba(212, 175, 55, 0.2);
+  }
+
+  /* Boarding Pass Ticket Styling */
+  .boarding-pass-card {
+    position: relative;
+    border-radius: 1.25rem;
+    overflow: hidden;
+  }
+
+  .boarding-pass-notch {
+    position: relative;
+  }
+  .boarding-pass-notch::before,
+  .boarding-pass-notch::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: hsl(var(--background));
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  .boarding-pass-notch::before {
+    left: -8px;
+  }
+  .boarding-pass-notch::after {
+    right: -8px;
   }
 }
 

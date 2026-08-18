@@ -12,14 +12,14 @@ const Footer = () => (
             <span className="font-heading font-bold text-primary-foreground">Airport Career Services</span>
           </div>
           <p className="text-sm text-primary-foreground/50 leading-relaxed">
-            Career Guidance | Aviation Careers | Placement Support
+            Aviation Careers & Training | Airport Placements | Career Support
           </p>
         </div>
 
         <div>
           <h4 className="font-heading font-semibold text-primary-foreground mb-4">Quick Links</h4>
           <div className="flex flex-col gap-2">
-            {["Home", "About Us", "Career Paths", "Placement", "Contact"].map((link) => (
+            {["Home", "About Us", "Job Openings", "Interview Tips", "Notifications", "Contact"].map((link) => (
               <a key={link} href={`#${link.toLowerCase().replace(/\s+/g, "-").replace("home", "home")}`} className="text-sm text-primary-foreground/50 hover:text-secondary transition-colors">
                 {link}
               </a>
@@ -28,7 +28,7 @@ const Footer = () => (
         </div>
 
         <div>
-          <h4 className="font-heading font-semibold text-primary-foreground mb-4">Career Paths</h4>
+          <h4 className="font-heading font-semibold text-primary-foreground mb-4">Career Roles</h4>
           <div className="flex flex-col gap-2">
             {["Ground Staff", "Cabin Crew", "Customer Service", "Cargo Handling", "Airport Operations"].map((path) => (
               <a key={path} href="#careers" className="text-sm text-primary-foreground/50 hover:text-secondary transition-colors">
@@ -44,18 +44,18 @@ const Footer = () => (
             <a href="tel:+917851836860" className="flex items-center gap-2 text-sm text-primary-foreground/50 hover:text-secondary transition-colors">
               <Phone className="h-4 w-4" />+91 7851836860
             </a>
-            <a href="mailto:infor.airportcareerservices@gmail.com" className="flex items-center gap-2 text-sm text-primary-foreground/50 hover:text-secondary transition-colors">
-              <Mail className="h-4 w-4" /> infor.airportcareerservices@gmail.com
+            <a href="mailto:support@airportcareerservices.com" className="flex items-center gap-2 text-sm text-primary-foreground/50 hover:text-secondary transition-colors">
+              <Mail className="h-4 w-4" /> support@airportcareerservices.com
             </a>
             <div className="flex items-start gap-2 text-sm text-primary-foreground/50">
-              <MapPin className="h-4 w-4 shrink-0 mt-0.5" /> Mumbai • Delhi NCR • MP • AP • Gujarat
+              <MapPin className="h-4 w-4 shrink-0 mt-0.5" /> Mumbai • Delhi NCR • Jaipur • BLR • HYD • AP
             </div>
           </div>
         </div>
       </div>
 
       <div className="border-t border-primary-foreground/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-xs text-primary-foreground/40">© 2026 Airport Career Services. All rights reserved.</p>
+        <p className="text-xs text-primary-foreground/40">© 2026 Airport Career Services (ACS). All rights reserved.</p>
         <div className="flex gap-4">
           <a href="#" className="text-xs text-primary-foreground/40 hover:text-secondary transition-colors">Privacy Policy</a>
           <a href="#" className="text-xs text-primary-foreground/40 hover:text-secondary transition-colors">Terms of Service</a>

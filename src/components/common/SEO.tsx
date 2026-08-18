@@ -10,13 +10,13 @@ export interface SEOProps {
   schema?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
-const BASE_URL = "https://airportcareersarvices.com";
-const DEFAULT_IMAGE = `${BASE_URL}/hero-airport.jpg`;
+const BASE_URL = "https://airportcareerservices.com";
+const DEFAULT_IMAGE = `${BASE_URL}/logo.png`;
 
 export default function SEO({
   title,
   description,
-  keywords = "Airport Career Services, aviation careers, airport jobs, career counselling, airport ground staff, cabin crew guidance, interview preparation, placement assistance",
+  keywords = "Airport Career Services, ACS, Aviation Careers & Training, aviation careers, airport jobs, career counselling, airport ground staff, cabin crew guidance, interview preparation, placement assistance, aviation training India",
   canonical,
   ogType = "website",
   schema,
@@ -50,7 +50,7 @@ export default function SEO({
     setMetaTag("property", "og:description", description);
     setMetaTag("property", "og:url", canonicalUrl);
     setMetaTag("property", "og:type", ogType);
-    setMetaTag("property", "og:site_name", "Airport Career Services");
+    setMetaTag("property", "og:site_name", "Airport Career Services (ACS)");
     setMetaTag("property", "og:image", DEFAULT_IMAGE);
 
     // Twitter

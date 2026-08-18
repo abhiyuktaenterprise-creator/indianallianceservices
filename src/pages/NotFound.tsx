@@ -8,8 +8,8 @@ export default function NotFound() {
   return (
     <>
       <SEO
-        title="404 - Page Not Found | Airport Career Services"
-        description="The page you are looking for does not exist. Return to Airport Career Services homepage or explore career pathways."
+        title="404 - Page Not Found | Airport Career Services (ACS)"
+        description="The page you are looking for does not exist. Return to Airport Career Services (ACS) homepage or explore career pathways."
       />
 
       <div className="min-h-[80vh] flex items-center justify-center bg-muted/40 py-20 px-4">

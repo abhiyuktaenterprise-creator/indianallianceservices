@@ -1,9 +1,9 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "airport-career-services",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://airportcareersarvices.com",
+  "homepage": "https://airportcareerservices.com",
   "scripts": {
     "dev": "vite",
     "predeploy": "npm run build",

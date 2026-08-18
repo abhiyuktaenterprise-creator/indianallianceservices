@@ -9,15 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg shadow-secondary/25 font-semibold",
-        "hero-outline": "border-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 font-semibold",
-        gold: "bg-gold text-gold-foreground hover:bg-gold/90 font-semibold shadow-lg",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 font-bold shadow-sm",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 font-bold",
+        outline: "border border-gold/30 bg-background text-foreground hover:bg-gold/10 hover:border-gold font-bold",
+        secondary: "bg-gold/15 text-gold-foreground hover:bg-gold/25 border border-gold/30 font-bold",
+        ghost: "hover:bg-gold/10 hover:text-gold font-medium",
+        link: "text-gold underline-offset-4 hover:underline font-bold",
+        hero: "bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 hover:from-amber-600 hover:to-yellow-600 shadow-lg shadow-gold/20 font-bold hover:scale-[1.02] active:scale-98 transition-all",
+        "hero-outline": "border-2 border-gold/50 text-gold hover:bg-gold/10 hover:border-gold font-bold transition-all",
+        gold: "bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 hover:brightness-110 font-extrabold shadow-md",
       },
       size: {
         default: "h-10 px-4 py-2",

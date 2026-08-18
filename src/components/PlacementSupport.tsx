@@ -1,7 +1,7 @@
 import { MessageSquare, Route, FileText, UserCheck, Briefcase, Shield } from "lucide-react";
 
 const steps = [
-  { icon: MessageSquare, step: "1", title: "Free Career Counselling" },
+  { icon: MessageSquare, step: "1", title: "Career Counselling & Assessment" },
   { icon: Route, step: "2", title: "Career Path Selection" },
   { icon: FileText, step: "3", title: "Training & Documentation Support" },
   { icon: UserCheck, step: "4", title: "Interview Preparation" },

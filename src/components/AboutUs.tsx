@@ -12,7 +12,7 @@ const teamMembers = [
     name: "Anthony Ghospade",
     role: "Founder & CEO",
     description:
-      "Anthony Ghospade is the Founder and CEO of Airport Career Services. With strong industry understanding and a student-first approach, he guides aspiring aviation professionals toward the right career path with clarity, honesty, and long-term vision. ",
+      "Anthony Ghospade is the Founder and CEO of Airport Career Services (ACS). With strong industry understanding and a student-first approach, he guides aspiring aviation professionals toward the right career path with clarity, honesty, and long-term vision. ",
   },
   {
     name: "Aditya Gujral",
@@ -39,7 +39,7 @@ const AboutUs = () => (
 
         <div className="bg-card rounded-xl border border-border p-8 shadow-sm mb-16">
           <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-            Airport Career Services is a dedicated aviation career guidance and placement consultancy.
+            Airport Career Services (ACS) is a dedicated aviation career guidance and training placement portal.
             We guide students step-by-step — from career selection to training and final airport job placement.
           </p>
 

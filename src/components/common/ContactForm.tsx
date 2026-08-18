@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 interface ContactFormProps {
   defaultRole?: string;
@@ -23,12 +24,13 @@ interface ContactFormProps {
 
 export default function ContactForm({
   defaultRole = "",
-  submitButtonText = "Get Free Career Counselling",
+  submitButtonText = "Get Career Counselling",
   showTitle = true,
   className = "",
   onSuccess,
 }: ContactFormProps) {
   const { toast } = useToast();
+  const { addLead } = useSiteConfig();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -42,7 +44,7 @@ export default function ContactForm({
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.name.trim() || !formData.phone.trim()) {
@@ -65,19 +67,27 @@ export default function ContactForm({
 
     setIsSubmitting(true);
 
-    // Simulate reliable submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      toast({
-        title: "Career Counselling Request Received!",
-        description: "Our senior counselling team will call you within 24 business hours.",
-      });
+    await addLead({
+      name: formData.name.trim(),
+      phone: formData.phone.trim(),
+      email: formData.email.trim() || undefined,
+      qualification: formData.qualification || undefined,
+      targetRole: formData.role || defaultRole || "General Aviation Career",
+      city: formData.city || undefined,
+      source: "Contact Form",
+      notes: formData.message.trim() || undefined,
+    });
 
-      if (onSuccess) {
-        onSuccess();
-      }
-    }, 600);
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    toast({
+      title: "Career Counselling Request Received!",
+      description: "Our senior counselling team will call you within 24 business hours.",
+    });
+
+    if (onSuccess) {
+      onSuccess();
+    }
   };
 
   if (isSubmitted) {
@@ -90,7 +100,7 @@ export default function ContactForm({
           Thank You, {formData.name || "Candidate"}!
         </h3>
         <p className="text-muted-foreground mb-6 leading-relaxed max-w-md mx-auto">
-          Your request for free career counselling has been logged. Our student advisor will contact you on{" "}
+          Your request for career counselling has been logged. Our student advisor will contact you on{" "}
           <strong className="text-foreground font-semibold">{formData.phone}</strong>.
         </p>
         <div className="bg-muted/60 rounded-xl p-4 text-sm text-muted-foreground text-left mb-6 max-w-md mx-auto space-y-1.5 border border-border/50">
@@ -130,10 +140,10 @@ export default function ContactForm({
             <Sparkles className="h-3.5 w-3.5" /> Direct Candidate Registration
           </div>
           <h3 className="text-xl font-heading font-bold text-foreground">
-            Get Free Career Counselling
+            Get Career Counselling
           </h3>
           <p className="text-xs text-muted-foreground mt-1">
-            Speak with an aviation career expert. Zero obligation. 100% transparent guidance.
+            Speak with an aviation career expert. Transparent placement guidance.
           </p>
         </div>
       )}

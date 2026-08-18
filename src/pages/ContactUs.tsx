@@ -25,42 +25,42 @@ const officeLocations = [
     officeName: "Mumbai / Navi Mumbai Office",
     address: "Office No. 402, Sai Arcade Complex, Old Mumbai-Pune Highway, Panvel, Navi Mumbai, Maharashtra – 410206",
     notice: "Visits strictly by prior appointment only.",
-    email: "infor.airportcareerservices@gmail.com",
+    email: "support@airportcareerservices.com",
   },
   {
     city: "Delhi NCR",
     officeName: "Delhi NCR Office",
     address: "Unit 315, Galaxy Diamond Plaza, Sector 4, Greater Noida West, Uttar Pradesh – 201308",
     notice: "Visits strictly by prior appointment only.",
-    email: "infor.airportcareerservices@gmail.com",
+    email: "support@airportcareerservices.com",
   },
   {
     city: "Madhya Pradesh",
     officeName: "Madhya Pradesh Office",
     address: "Office No. 208, Silver Estate Business Park, A.B. Road Bypass, Indore, Madhya Pradesh – 452010",
     notice: "Visits strictly by prior appointment only.",
-    email: "infor.airportcareerservices@gmail.com",
+    email: "support@airportcareerservices.com",
   },
   {
     city: "Andhra Pradesh",
     officeName: "Andhra Pradesh Office",
     address: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool District, Andhra Pradesh – 518010",
     notice: "Visits strictly by prior appointment only.",
-    email: "infor.airportcareerservices@gmail.com",
+    email: "support@airportcareerservices.com",
   },
   {
     city: "Gujarat",
     officeName: "Gujarat Office",
     address: "Office No. 204, GIDC Business Hub, Sanand-Viramgam Highway, Sanand, Gujarat – 382110",
     notice: "Visits strictly by prior appointment only.",
-    email: "infor.airportcareerservices@gmail.com",
+    email: "support@airportcareerservices.com",
   },
 ];
 
 const contactFaqs = [
   {
     q: "How can I contact Airport Career Services for counselling?",
-    a: "You can submit an online enquiry form on our website, call our official helpdesk at +91 7851836860, or email our support desk at infor.airportcareerservices@gmail.com. Our student advisors connect back within 24 business hours.",
+    a: "You can submit an online enquiry form on our website, call our official helpdesk at +91 7851836860, or email our support desk at support@airportcareerservices.com. Our student advisors connect back within 24 business hours.",
   },
   {
     q: "Do I need an appointment for in-person or telephonic counselling?",
@@ -72,21 +72,24 @@ const contactFaqs = [
   },
 ];
 
+import { useSiteConfig } from "@/context/SiteConfigContext";
+
 export default function ContactUs() {
+  const { settings, branches } = useSiteConfig();
   const contactSchema = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "ContactPage",
-        "@id": "https://airportcareersarvices.com/contact/#contact",
-        url: "https://airportcareersarvices.com/contact",
+        "@id": "https://airportcareerservices.com/contact/#contact",
+        url: "https://airportcareerservices.com/contact",
         name: "Contact Airport Career Services | Career Counselling & Enquiries",
         description:
           "Official contact details for Airport Career Services: Offices in Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat, phone, email, and online enquiry form.",
         publisher: {
           "@type": "Organization",
           name: "Airport Career Services",
-          url: "https://airportcareersarvices.com",
+          url: "https://airportcareerservices.com",
         },
       },
       {
@@ -96,13 +99,13 @@ export default function ContactUs() {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://airportcareersarvices.com",
+            item: "https://airportcareerservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Contact Us",
-            item: "https://airportcareersarvices.com/contact",
+            item: "https://airportcareerservices.com/contact",
           },
         ],
       },
@@ -112,27 +115,28 @@ export default function ContactUs() {
   return (
     <>
       <SEO
-        title="Contact Us | Airport Career Services - Mumbai, Delhi NCR, MP, AP & Gujarat"
-        description="Contact Airport Career Services for free aviation career guidance. Call +91 7851836860, email infor.airportcareerservices@gmail.com, or connect with our offices in Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat."
-        canonical="https://airportcareersarvices.com/contact"
+        title="Contact Airport Career Services (ACS) | Official Helpdesk & Offices"
+        description={`Contact Airport Career Services (ACS) for expert aviation career guidance. Call ${settings.helplinePhone}, email ${settings.supportEmail}, or connect with our offices in Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat.`}
+        canonical="https://airportcareerservices.com/contact"
         schema={contactSchema}
       />
 
       {/* Page Header */}
-      <section className="bg-primary text-primary-foreground py-14 border-b border-primary-foreground/10">
-        <div className="container mx-auto px-4">
+      <section className="bg-navy-midnight text-white py-14 lg:py-16 border-b border-gold/25 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.18),transparent_50%)]" />
+        <div className="container mx-auto px-4 relative z-10">
           <Breadcrumbs items={[{ label: "Contact Us" }]} className="text-primary-foreground/70 mb-4" />
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-secondary/20 border border-secondary/30 px-3.5 py-1 mb-4">
-              <Sparkles className="h-3.5 w-3.5 text-secondary" />
-              <span className="text-xs font-semibold text-secondary">
+            <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 mb-4 shadow-md">
+              <Sparkles className="h-3.5 w-3.5 text-gold" />
+              <span className="text-xs font-bold text-gold">
                 Official Helpdesk & Enquiries
               </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-primary-foreground leading-tight">
-              Contact Airport Career Services
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
+              Contact Airport Career <span className="gold-gradient-text">Services (ACS)</span>
             </h1>
-            <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed">
+            <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
               Have questions about aviation eligibility, airport ground staff roles, or interview preparation? Our senior counsellors are here to guide you.
             </p>
           </div>
@@ -149,19 +153,19 @@ export default function ContactUs() {
             <div className="lg:col-span-7 space-y-6">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-secondary">
-                  Free Student Registration
+                  Direct Student Registration
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-heading font-bold text-foreground mt-1 mb-2">
-                  Request Free Career Counselling
+                  Request Career Counselling
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Fill out this form and a dedicated career advisor from Airport Career Services will call you within 24 hours.
+                  Fill out this form and a dedicated career advisor from Airport Career Services (ACS) will call you within 24 hours.
                 </p>
               </div>
 
               <ContactForm
                 showTitle={false}
-                submitButtonText="Get Free Career Counselling"
+                submitButtonText="Get Career Counselling"
                 className="bg-card shadow-sm border-border"
               />
             </div>
@@ -184,13 +188,13 @@ export default function ContactUs() {
                         Official Helpline
                       </div>
                       <a
-                        href="tel:+917851836860"
+                        href={`tel:${settings.helplinePhone.replace(/\s+/g, "")}`}
                         className="text-lg font-heading font-bold text-foreground hover:text-secondary transition-colors mt-0.5 block"
                       >
-                        +91 7851836860
+                        {settings.helplinePhone}
                       </a>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        Mon – Sat: 9:30 AM – 6:30 PM (IST)
+                        {settings.officeHours}
                       </p>
                     </div>
                   </div>
@@ -204,10 +208,10 @@ export default function ContactUs() {
                         Official Email
                       </div>
                       <a
-                        href="mailto:infor.airportcareerservices@gmail.com"
+                        href={`mailto:${settings.supportEmail}`}
                         className="text-sm font-semibold text-secondary hover:underline break-all block mt-0.5"
                       >
-                        infor.airportcareerservices@gmail.com
+                        {settings.supportEmail}
                       </a>
                       <p className="text-xs text-muted-foreground mt-0.5">
                         For student enquiries & recruitment verification
@@ -282,13 +286,16 @@ export default function ContactUs() {
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {officeLocations.map((loc) => (
+            {branches.map((loc) => (
               <div
-                key={loc.city}
+                key={loc.id}
                 className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md hover:border-secondary/50 transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="mb-2">
+                    <span className="text-[10px] font-bold text-secondary uppercase tracking-wider bg-secondary/10 px-2 py-0.5 rounded-full mb-1 inline-block">
+                      {loc.city}
+                    </span>
                     <h3 className="font-heading font-bold text-foreground text-base">
                       {loc.officeName}
                     </h3>
@@ -297,9 +304,11 @@ export default function ContactUs() {
                     <MapPin className="h-4 w-4 text-secondary shrink-0 mt-0.5" />
                     <span>{loc.address}</span>
                   </div>
-                  <div className="text-[11px] font-semibold text-amber-700 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-md mb-4 inline-block">
-                    {loc.notice}
-                  </div>
+                  {loc.notice && (
+                    <div className="text-[11px] font-semibold text-amber-700 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-md mb-4 inline-block">
+                      {loc.notice}
+                    </div>
+                  )}
                 </div>
 
                 <div className="pt-3 border-t border-border/60 flex items-center justify-between text-xs">

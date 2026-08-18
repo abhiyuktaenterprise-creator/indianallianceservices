@@ -129,7 +129,7 @@ export default function Careers() {
         "@type": "WebPage",
         "@id": "https://indianallianceservices.com/careers/#page",
         url: "https://indianallianceservices.com/careers",
-        name: "Aviation Careers & Airport Jobs | Indian Alliance Services (IAS)",
+        name: "Aviation Careers & Airport Jobs | Indian Alliance Services",
         description: "Explore rewarding aviation careers: Ground staff, customer service executive, cabin crew guidance, operations, and apply for open airport job vacancies.",
       },
       {
@@ -155,7 +155,7 @@ export default function Careers() {
   return (
     <>
       <SEO
-        title="Aviation Careers & Airport Job Vacancies 2026 | Indian Alliance Services (IAS)"
+        title="Aviation Careers & Airport Job Vacancies 2026 | Indian Alliance Services"
         description="Verified airport job openings for Ground Staff, CSA, Cabin Crew, Air Cargo, and Airport Hospitality across Indian metro airports. Apply online with 100% placement guidance."
         keywords="airport ground staff jobs, cabin crew vacancies 2026, aviation career guide, airport customer service associate, airline walk-in drive"
         canonical="https://indianallianceservices.com/careers"
@@ -557,7 +557,7 @@ export default function Careers() {
       <CTASection
         title="Start Preparing for Your"
         highlight="Aviation Career"
-        description="Book your profile assessment today with Indian Alliance Services (IAS) and get trained for standard airport recruitment drives."
+        description="Book your profile assessment today with Indian Alliance Services and get trained for standard airport recruitment drives."
         primaryCtaText="Get Career Counselling"
         primaryCtaLink="/contact"
         secondaryCtaText="Apply for Open Vacancies"

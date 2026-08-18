@@ -17,7 +17,7 @@ const DEFAULT_IMAGE = `${BASE_URL}/logo.png`;
 export default function SEO({
   title,
   description,
-  keywords = "Indian Alliance Services, IAS, Aviation Careers & Training, aviation careers, airport jobs, career counselling, airport ground staff, cabin crew guidance, interview preparation, placement assistance, aviation training India",
+  keywords = "Indian Alliance Services, Aviation Careers & Training, aviation careers, airport jobs, career counselling, airport ground staff, cabin crew guidance, interview preparation, placement assistance, aviation training India",
   canonical,
   ogType = "website",
   schema,
@@ -56,7 +56,7 @@ export default function SEO({
     setMetaTag("property", "og:description", description);
     setMetaTag("property", "og:url", canonicalUrl);
     setMetaTag("property", "og:type", ogType);
-    setMetaTag("property", "og:site_name", "Indian Alliance Services (IAS)");
+    setMetaTag("property", "og:site_name", "Indian Alliance Services");
     setMetaTag("property", "og:image", DEFAULT_IMAGE);
 
     // Twitter

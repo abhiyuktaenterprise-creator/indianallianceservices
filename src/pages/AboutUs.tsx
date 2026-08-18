@@ -58,7 +58,7 @@ const leadershipMembers = [
     image: anthonyImg,
     badge: "Executive Leadership",
     description:
-      "Anthony Ghospade is the Founder and CEO of Indian Alliance Services (IAS). With strong industry understanding and a student-first approach, he guides aspiring aviation professionals toward the right career path with clarity, honesty, and long-term vision.",
+      "Anthony Ghospade is the Founder and CEO of Indian Alliance Services. With strong industry understanding and a student-first approach, he guides aspiring aviation professionals toward the right career path with clarity, honesty, and long-term vision.",
   },
   {
     name: "Aditya Gujral",
@@ -327,7 +327,7 @@ export default function AboutUs() {
         "@id": "https://indianallianceservices.com/about/#about",
         url: "https://indianallianceservices.com/about",
         name: "About Indian Alliance Services",
-        description: "Learn about Indian Alliance Services (IAS), our leadership, our mission, vision, values, and our dedicated HR team.",
+        description: "Learn about Indian Alliance Services, our leadership, our mission, vision, values, and our dedicated HR team.",
         publisher: {
           "@type": "Organization",
           name: "Indian Alliance Services",
@@ -428,8 +428,8 @@ export default function AboutUs() {
   return (
     <>
       <SEO
-        title="About Indian Alliance Services (IAS) | Aviation Career Guidance & Leadership"
-        description="Discover Indian Alliance Services (IAS): Our mission, vision, values, leadership team (Founder & CEO Anthony Ghospade, Aditya Gujral, P.K. Chadda), Senior HR leaders (HR Director Ankita Singh, Senior HR Manager Divya Sharma, Senior HR Manager Mrs. Padmavati, HR Manager Teena Roy, Assistant HR Manager Anamika Shinde, Alia Mirza) and verified recruitment team."
+        title="About Indian Alliance Services | Aviation Career Guidance & Leadership"
+        description="Discover Indian Alliance Services: Our mission, vision, values, leadership team (Founder & CEO Anthony Ghospade, Aditya Gujral, P.K. Chadda), Senior HR leaders (HR Director Ankita Singh, Senior HR Manager Divya Sharma, Senior HR Manager Mrs. Padmavati, HR Manager Teena Roy, Assistant HR Manager Anamika Shinde, Alia Mirza) and verified recruitment team."
         canonical="https://indianallianceservices.com/about"
         schema={aboutSchema}
       />
@@ -447,7 +447,7 @@ export default function AboutUs() {
               </span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
-              About Indian Alliance <span className="gold-gradient-text">Services (IAS)</span>
+              About Indian Alliance <span className="gold-gradient-text">Services</span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
               A dedicated aviation career guidance and placement portal helping aspiring candidates bridge the gap between education and airport employment.
@@ -473,7 +473,7 @@ export default function AboutUs() {
                 Your Trusted Compass in the Aviation Ecosystem
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Indian Alliance Services (IAS) is a dedicated aviation career guidance and placement consultancy. We guide students step-by-step — from career selection to training, grooming, interview coaching, and final airport job placement.
+                Indian Alliance Services is a dedicated aviation career guidance and placement consultancy. We guide students step-by-step — from career selection to training, grooming, interview coaching, and final airport job placement.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 The aviation sector in India is expanding rapidly with new greenfield airports and domestic fleet expansions. However, many students from across India lack access to authentic information about job roles, eligibility criteria, and hiring procedures. We exist to provide transparent, student-first guidance to help freshers build sustainable careers.
@@ -998,10 +998,10 @@ export default function AboutUs() {
           <div className="space-y-4 text-sm">
             <div className="bg-card rounded-xl border border-border p-6">
               <h3 className="font-heading font-bold text-foreground text-base mb-2">
-                What is Indian Alliance Services (IAS)?
+                What is Indian Alliance Services?
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Indian Alliance Services (IAS) is an Indian aviation career guidance, training advisory, and placement portal based in Andhra Pradesh with regional counselling support across India.
+                Indian Alliance Services is an Indian aviation career guidance, training advisory, and placement portal based in Andhra Pradesh with regional counselling support across India.
               </p>
             </div>
 

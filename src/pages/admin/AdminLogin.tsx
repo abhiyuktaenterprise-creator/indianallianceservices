@@ -91,8 +91,8 @@ export default function AdminLogin() {
             <div className="flex justify-center mb-4">
               <img
                 src="/logo.png"
-                alt="Indian Alliance Services (IAS)"
-                className="h-16 sm:h-20 w-auto max-w-[320px] object-contain"
+                alt="Indian Alliance Services"
+                className="h-20 sm:h-28 w-auto max-w-[420px] object-contain"
               />
             </div>
 

@@ -80,8 +80,8 @@ export default function Notifications() {
   return (
     <>
       <SEO
-        title="Official Notifications & Recruitment Circulars | Indian Alliance Services (IAS)"
-        description="Stay updated with official Indian Alliance Services (IAS) recruitment notices, walk-in drive schedules, admit card updates, selection lists, and fraud alerts."
+        title="Official Notifications & Recruitment Circulars | Indian Alliance Services"
+        description="Stay updated with official Indian Alliance Services recruitment notices, walk-in drive schedules, admit card updates, selection lists, and fraud alerts."
         keywords="aviation notifications, airport walk-in drive 2026, cabin crew admit card, ground staff circular, Indian Alliance Services notifications"
         canonical="https://indianallianceservices.com/notifications"
       />

@@ -1,7 +1,7 @@
-# Indian Alliance Services (IAS)
+# Indian Alliance Services
 
 **Official Portal**: [https://indianallianceservices.com](https://indianallianceservices.com)  
-**Brand**: Indian Alliance Services (IAS) – Aviation Careers & Training  
+**Brand**: Indian Alliance Services – Aviation Careers & Training  
 **Helpline / WhatsApp**: +91 7851836860  
 **Official Email**: support@indianallianceservices.com  
 
@@ -9,7 +9,7 @@
 
 ## 🛫 Overview
 
-**Indian Alliance Services (IAS)** is a modern, responsive, and SEO-optimized aviation career guidance, training, and placement portal built with React, Vite, TypeScript, and Tailwind CSS.
+**Indian Alliance Services** is a modern, responsive, and SEO-optimized aviation career guidance, training, and placement portal built with React, Vite, TypeScript, and Tailwind CSS.
 
 ### Key Features
 - **Job Vacancies & Career Paths**: Ground Staff, Customer Service Associate (CSA), Cabin Crew, Airport Cargo, Airport Retail, Lounge Operations, and HR Coordinators.

@@ -159,7 +159,7 @@ export default function Services() {
         "@id": "https://indianallianceservices.com/services/#page",
         url: "https://indianallianceservices.com/services",
         name: "Aviation Career Services | Career Guidance, Training & Placement Assistance",
-        description: "Explore 6 core aviation career services by Indian Alliance Services (IAS): Counselling, Guidance, Training Support, Mock Interviews, Placement Assistance, and Ongoing Candidate Support.",
+        description: "Explore 6 core aviation career services by Indian Alliance Services: Counselling, Guidance, Training Support, Mock Interviews, Placement Assistance, and Ongoing Candidate Support.",
       },
       {
         "@type": "BreadcrumbList",
@@ -184,7 +184,7 @@ export default function Services() {
   return (
     <>
       <SEO
-        title="Aviation Career Services | Indian Alliance Services (IAS) Guidance & Placement"
+        title="Aviation Career Services | Indian Alliance Services Guidance & Placement"
         description="Comprehensive aviation career services: Professional career counselling, profile eligibility assessment, interview preparation, grooming guidance, and transparent placement assistance for airport jobs."
         canonical="https://indianallianceservices.com/services"
         schema={servicesSchema}

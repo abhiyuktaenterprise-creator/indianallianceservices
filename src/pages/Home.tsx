@@ -192,7 +192,7 @@ const latestAviationJobs = [
   {
     id: "hr-tele",
     code: "IAS-HR-2026",
-    badge: "Internal IAS Hiring",
+    badge: "Internal Hiring",
     title: "HR & Telecalling Executive",
     department: "Talent Acquisition & Student Guidance",
     salary: "Best in Industry + Performance Incentives",
@@ -297,8 +297,8 @@ const testimonials = [
 // FAQ preview
 const homeFaqs = [
   {
-    q: "What is Indian Alliance Services (IAS)?",
-    a: "Indian Alliance Services (IAS) is India's premier aviation career guidance, training support, and airport placement network. We help freshers, 10+2, and graduates secure high-demand airline and airport roles through structured counselling, grooming, mock interviews, and verified hiring connections.",
+    q: "What is Indian Alliance Services?",
+    a: "Indian Alliance Services is India's premier aviation career guidance, training support, and airport placement network. We help freshers, 10+2, and graduates secure high-demand airline and airport roles through structured counselling, grooming, mock interviews, and verified hiring connections.",
   },
   {
     q: "What airport jobs are available for 10th and 12th pass freshers?",
@@ -309,7 +309,7 @@ const homeFaqs = [
     a: "We offer comprehensive career counselling to evaluate your eligibility, communication skills, and personal interests, guiding you to the most appropriate airport role before you begin preparation.",
   },
   {
-    q: "How can I verify a recruitment message or interview call from Indian Alliance Services (IAS)?",
+    q: "How can I verify a recruitment message or interview call from Indian Alliance Services?",
     a: "You can verify any official communication by visiting our official website (indianallianceservices.com), emailing our official helpdesk at support@indianallianceservices.com, or using our dedicated Recruitment Verification portal.",
   },
 ];
@@ -334,7 +334,7 @@ export default function Home() {
         "@type": "Organization",
         "@id": "https://indianallianceservices.com/#organization",
         name: "Indian Alliance Services",
-        alternateName: "IAS - Aviation Careers & Training",
+        alternateName: "Indian Alliance Services - Aviation Careers & Training",
         url: "https://indianallianceservices.com",
         logo: "https://indianallianceservices.com/logo.png",
         description: "Aviation Career Guidance, Training Guidance & Placement Assistance Consultancy in India.",
@@ -352,7 +352,7 @@ export default function Home() {
         "@type": "WebSite",
         "@id": "https://indianallianceservices.com/#website",
         url: "https://indianallianceservices.com",
-        name: "Indian Alliance Services (IAS)",
+        name: "Indian Alliance Services",
         publisher: {
           "@id": "https://indianallianceservices.com/#organization",
         },
@@ -375,7 +375,7 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Indian Alliance Services (IAS) | Aviation Careers, Training & Airport Jobs"
+        title="Indian Alliance Services | Aviation Careers, Training & Airport Jobs"
         description="India's leading aviation career consultancy. Professional eligibility matching, IATA-aligned grooming, and direct walk-in interview drives for Airport Ground Staff, Cabin Crew, and Cargo Operations."
         canonical="https://indianallianceservices.com/"
         schema={homeSchema}
@@ -545,7 +545,7 @@ export default function Home() {
           <div className="flex items-center gap-2.5 text-foreground font-medium">
             <ShieldCheck className="h-5 w-5 text-secondary shrink-0" />
             <span>
-              <strong>Candidate Alert:</strong> Received an SMS, WhatsApp, or interview call from Indian Alliance Services (IAS)?
+              <strong>Candidate Alert:</strong> Received an SMS, WhatsApp, or interview call from Indian Alliance Services?
             </span>
           </div>
           <Link
@@ -584,7 +584,7 @@ export default function Home() {
       <section id="offerings" className="py-20 lg:py-24 bg-muted/20 border-t border-border relative overflow-hidden">
         <div className="container mx-auto px-4">
           <SectionHeading
-            badge="IAS Ecosystem"
+            badge="Indian Alliance Services Ecosystem"
             title="What We're Offering —"
             highlight="Complete Aviation Career Gateway"
             description="Tailored for 10th pass, 12th pass, and graduate candidates aspiring for high-paying airline and airport roles across India."
@@ -661,7 +661,7 @@ export default function Home() {
                   Official Profile Assessment & Placement Guidance
                 </h4>
                 <p className="text-xs text-primary-foreground/80">
-                  Indian Alliance Services (IAS) provides complete profile eligibility review and placement preparation support.
+                  Indian Alliance Services provides complete profile eligibility review and placement preparation support.
                 </p>
               </div>
             </div>
@@ -846,7 +846,7 @@ export default function Home() {
               <div className="inline-flex items-center gap-1.5 rounded-full bg-secondary/15 border border-secondary/30 px-3.5 py-1">
                 <Sparkles className="h-3.5 w-3.5 text-secondary" />
                 <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
-                  The IAS Advantage
+                  The Indian Alliance Services Advantage
                 </span>
               </div>
 
@@ -1153,7 +1153,7 @@ export default function Home() {
           <SectionHeading
             badge="Frequently Asked Questions"
             title="Common Questions About"
-            highlight="Aviation Careers & IAS"
+            highlight="Aviation Careers & Indian Alliance Services"
             description="Clear, factual answers to help students and parents make informed career decisions."
           />
 

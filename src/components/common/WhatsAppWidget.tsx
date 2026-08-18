@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 
 const quickPrompts = [
-  "Hi IAS! I want details on Airport Ground Staff roles & eligibility.",
+  "Hello Indian Alliance Services! I want details on Airport Ground Staff roles & eligibility.",
   "Hello! I am interested in Cabin Crew / Air Hostess career guidance.",
   "Hi, I want to verify my interview status / application ID.",
   "Hello! Please share details on airport customer service & ticketing courses.",
@@ -40,14 +40,14 @@ export default function WhatsAppWidget() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="h-10 w-10 rounded-2xl bg-gold/20 flex items-center justify-center font-bold text-sm text-gold backdrop-blur-sm border border-gold/40">
+                  <div className="h-10 w-10 rounded-2xl bg-gold/20 flex items-center justify-center font-bold text-xs text-gold backdrop-blur-sm border border-gold/40">
                     IAS
                   </div>
                   <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-400 border-2 border-slate-950" />
                 </div>
                 <div>
                   <h4 className="font-heading font-extrabold text-sm leading-snug flex items-center gap-1.5 text-white">
-                    IAS Concierge
+                    Indian Alliance Services Desk
                     <ShieldCheck className="h-3.5 w-3.5 text-gold" />
                   </h4>
                   <p className="text-[11px] text-primary-foreground/80 flex items-center gap-1">

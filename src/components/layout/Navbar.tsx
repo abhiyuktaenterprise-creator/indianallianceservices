@@ -108,8 +108,8 @@ export default function Navbar() {
           <Link to="/" className="flex items-center gap-3 py-1">
             <img
               src="/logo.png"
-              alt="Indian Alliance Services (IAS)"
-              className="h-12 sm:h-16 md:h-18 lg:h-20 w-auto max-w-[260px] sm:max-w-[340px] md:max-w-[400px] lg:max-w-[440px] object-contain transition-transform hover:scale-[1.02]"
+              alt="Indian Alliance Services"
+              className="h-14 sm:h-18 md:h-22 lg:h-26 w-auto max-w-[280px] sm:max-w-[380px] md:max-w-[480px] lg:max-w-[560px] object-contain transition-transform hover:scale-[1.02]"
             />
           </Link>
 

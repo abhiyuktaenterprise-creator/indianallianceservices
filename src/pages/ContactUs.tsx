@@ -115,8 +115,8 @@ export default function ContactUs() {
   return (
     <>
       <SEO
-        title="Contact Indian Alliance Services (IAS) | Official Helpdesk & Offices"
-        description={`Contact Indian Alliance Services (IAS) for expert aviation career guidance. Call ${settings.helplinePhone}, email ${settings.supportEmail}, or connect with our offices in Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat.`}
+        title="Contact Indian Alliance Services | Official Helpdesk & Offices"
+        description={`Contact Indian Alliance Services for expert aviation career guidance. Call ${settings.helplinePhone}, email ${settings.supportEmail}, or connect with our offices in Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat.`}
         canonical="https://indianallianceservices.com/contact"
         schema={contactSchema}
       />
@@ -134,7 +134,7 @@ export default function ContactUs() {
               </span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
-              Contact Indian Alliance <span className="gold-gradient-text">Services (IAS)</span>
+              Contact Indian Alliance <span className="gold-gradient-text">Services</span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
               Have questions about aviation eligibility, airport ground staff roles, or interview preparation? Our senior counsellors are here to guide you.
@@ -159,7 +159,7 @@ export default function ContactUs() {
                   Request Career Counselling
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Fill out this form and a dedicated career advisor from Indian Alliance Services (IAS) will call you within 24 hours.
+                  Fill out this form and a dedicated career advisor from Indian Alliance Services will call you within 24 hours.
                 </p>
               </div>
 
@@ -334,7 +334,7 @@ export default function ContactUs() {
           <SectionHeading
             badge="Contact FAQ"
             title="Frequently Asked Questions About"
-            highlight="Connecting with IAS"
+            highlight="Connecting with Indian Alliance Services"
           />
 
           <div className="space-y-4 text-sm">

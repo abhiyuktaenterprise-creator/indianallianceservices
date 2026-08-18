@@ -120,20 +120,20 @@ export default function InterviewTips() {
   return (
     <>
       <SEO
-        title="Aviation Interview Tips & Grooming Guide | Indian Alliance Services (IAS)"
-        description="Comprehensive airline interview preparation masterclass by Indian Alliance Services (IAS). Cabin crew grooming rules, top ground staff interview Q&As, and mock screening guidelines."
+        title="Aviation Interview Tips & Grooming Guide | Indian Alliance Services"
+        description="Comprehensive airline interview preparation masterclass by Indian Alliance Services. Cabin crew grooming rules, top ground staff interview Q&As, and mock screening guidelines."
         keywords="aviation interview questions, ground staff interview tips, cabin crew grooming, airport job interview, mock interview guidance, Indian Alliance Services interview prep"
         canonical="https://indianallianceservices.com/interview-tips"
       />
 
-      {/* Hero Banner */}
+      {/* Hero Section */}
       <section className="bg-navy-midnight text-white py-14 lg:py-16 border-b border-gold/25 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.18),transparent_50%)]" />
         <div className="container mx-auto px-4 relative z-10">
-          <Breadcrumbs items={[{ label: "Interview Preparation" }]} className="text-primary-foreground/70 mb-4" />
+          <Breadcrumbs items={[{ label: "Interview Tips" }]} className="text-primary-foreground/70 mb-4" />
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 text-xs font-extrabold text-gold mb-4 shadow-md">
-              <Sparkles className="h-3.5 w-3.5 text-gold" /> IAS Career Academy
+            <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 mb-4 shadow-md text-gold text-xs font-bold">
+              <Sparkles className="h-3.5 w-3.5 text-gold" /> Indian Alliance Services Career Academy
             </div>
             <h1 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-white mb-4">
               Master Your Airline & Airport <span className="gold-gradient-text">Job Interviews</span>

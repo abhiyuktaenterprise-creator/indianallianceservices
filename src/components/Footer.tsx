@@ -55,7 +55,7 @@ const Footer = () => (
       </div>
 
       <div className="border-t border-primary-foreground/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-xs text-primary-foreground/40">© 2026 Indian Alliance Services (IAS). All rights reserved.</p>
+        <p className="text-xs text-primary-foreground/40">© 2026 Indian Alliance Services. All rights reserved.</p>
         <div className="flex gap-4">
           <a href="#" className="text-xs text-primary-foreground/40 hover:text-secondary transition-colors">Privacy Policy</a>
           <a href="#" className="text-xs text-primary-foreground/40 hover:text-secondary transition-colors">Terms of Service</a>

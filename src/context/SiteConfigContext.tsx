@@ -283,7 +283,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   officeHours: "Mon – Sat: 9:30 AM – 6:30 PM (IST)",
   bannerNotice: "",
   enableNoticeBanner: false,
-  companyName: "Indian Alliance Services (IAS)",
+  companyName: "Indian Alliance Services",
   tagline: "Aviation Careers & Training",
 };
 
@@ -612,7 +612,7 @@ const DEFAULT_NOTICES: NoticeItem[] = [
     date: "05 August 2026",
     expiryDate: "2026-12-31",
     badge: "Important Advisory",
-    description: "Indian Alliance Services (IAS) does not solicit unauthorized cash payments or direct WhatsApp bank transfers. Always verify your official reference code through our secure portal.",
+    description: "Indian Alliance Services does not solicit unauthorized cash payments or direct WhatsApp bank transfers. Always verify your official reference code through our secure portal.",
     location: "National Notice",
     isNew: false,
     linkText: "Read Safety Guidelines",
@@ -746,7 +746,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
           bannerNotice,
           enableNoticeBanner,
           supportEmail: parsed.supportEmail?.includes("airportcareerservices") ? "support@indianallianceservices.com" : (parsed.supportEmail || DEFAULT_SETTINGS.supportEmail),
-          companyName: "Indian Alliance Services (IAS)",
+          companyName: "Indian Alliance Services",
         };
       } catch (e) {}
     }

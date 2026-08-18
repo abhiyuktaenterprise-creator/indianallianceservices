@@ -34,7 +34,7 @@ export default function Footer() {
                 Official Candidate Advisory & Anti-Fraud Notice
               </span>
               <p className="text-xs text-slate-700 leading-snug">
-                Indian Alliance Services (IAS) does not solicit cash payments, personal WhatsApp transfers, or processing fees. Always verify official notifications.
+                Indian Alliance Services does not solicit cash payments, personal WhatsApp transfers, or processing fees. Always verify official notifications.
               </p>
             </div>
           </div>
@@ -56,8 +56,8 @@ export default function Footer() {
             <Link to="/" className="inline-flex items-center">
               <img
                 src="/logo.png"
-                alt="Indian Alliance Services (IAS)"
-                className="h-16 sm:h-20 lg:h-24 w-auto max-w-[340px] sm:max-w-[440px] object-contain"
+                alt="Indian Alliance Services"
+                className="h-20 sm:h-26 lg:h-32 w-auto max-w-[380px] sm:max-w-[480px] object-contain"
               />
             </Link>
 
@@ -231,7 +231,7 @@ export default function Footer() {
       <div className="bg-[#f3eee6] border-t border-gold/30 py-5 px-4">
         <div className="container mx-auto text-xs text-slate-600 text-center">
           <p className="font-normal">
-            © 2026 Indian Alliance Services (IAS). All rights reserved. Aviation Careers & Training — India's Premier Aviation Career Advisory & Placement Portal.
+            © 2026 Indian Alliance Services. All rights reserved. Aviation Careers & Training — India's Premier Aviation Career Advisory & Placement Portal.
           </p>
         </div>
       </div>

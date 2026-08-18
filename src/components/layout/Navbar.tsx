@@ -109,7 +109,8 @@ export default function Navbar() {
             <img
               src="/logo.png"
               alt="Indian Alliance Services"
-              className="h-14 sm:h-18 md:h-22 lg:h-26 w-auto max-w-[280px] sm:max-w-[380px] md:max-w-[480px] lg:max-w-[560px] object-contain transition-transform hover:scale-[1.02]"
+              className="h-[60px] sm:h-[75px] md:h-[80px] w-auto max-w-[280px] sm:max-w-[380px] md:max-w-[500px] object-contain transition-transform hover:scale-[1.02]"
+              style={{ height: "80px", maxHeight: "80px" }}
             />
           </Link>
 

@@ -30,7 +30,7 @@ const Footer = () => (
         <div>
           <h4 className="font-heading font-semibold text-primary-foreground mb-4">Career Roles</h4>
           <div className="flex flex-col gap-2">
-            {["Ground Staff", "Cabin Crew", "Customer Service", "Cargo Handling", "Airport Operations"].map((path) => (
+            {["Ground Staff", "Cabin Crew", "Customer Service", "Cargo Handling", "Airport Operations", "Airlines Ticketing & Reservation"].map((path) => (
               <a key={path} href="#careers" className="text-sm text-primary-foreground/50 hover:text-secondary transition-colors">
                 {path}
               </a>

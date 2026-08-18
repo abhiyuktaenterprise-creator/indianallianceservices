@@ -10,6 +10,7 @@ import {
   ArrowRight,
   Award,
   AlertTriangle,
+  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import EnquiryModal from "@/components/common/EnquiryModal";

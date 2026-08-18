@@ -77,6 +77,19 @@ export default function Notifications() {
     }
   };
 
+  const notificationsSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": "https://indianallianceservices.com/notifications/#page",
+        url: "https://indianallianceservices.com/notifications",
+        name: "Official Notifications & Recruitment Circulars | Indian Alliance Services",
+        description: "Official real-time notice board for airport ground staff walk-in screening, cabin crew schedules, and candidate advisories.",
+      },
+    ],
+  };
+
   return (
     <>
       <SEO
@@ -84,6 +97,7 @@ export default function Notifications() {
         description="Stay updated with official Indian Alliance Services recruitment notices, walk-in drive schedules, admit card updates, selection lists, and fraud alerts."
         keywords="aviation notifications, airport walk-in drive 2026, cabin crew admit card, ground staff circular, Indian Alliance Services notifications"
         canonical="https://indianallianceservices.com/notifications"
+        schema={notificationsSchema}
       />
 
       {/* Hero Banner */}

@@ -20,6 +20,7 @@ const navLinks = [
   { label: "About Us", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Job Openings", href: "/careers" },
+  { label: "Career Guides", href: "/guides" },
   { label: "Interview Tips", href: "/interview-tips" },
   { label: "Notifications", href: "/notifications" },
   { label: "Contact Us", href: "/contact" },

@@ -27,6 +27,14 @@
     <priority>0.9</priority>
   </url>
 
+  <!-- Aviation Career Guides & Articles -->
+  <url>
+    <loc>https://indianallianceservices.com/guides</loc>
+    <lastmod>2026-08-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
   <!-- Aviation Training & Placement Services -->
   <url>
     <loc>https://indianallianceservices.com/services</loc>

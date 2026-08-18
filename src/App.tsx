@@ -21,6 +21,7 @@ import ContactUs from "./pages/ContactUs";
 import RecruitmentVerification from "./pages/RecruitmentVerification";
 import InterviewTips from "./pages/InterviewTips";
 import Notifications from "./pages/Notifications";
+import CareerGuides from "./pages/CareerGuides";
 import NotFound from "./pages/NotFound";
 
 // Admin Components
@@ -54,6 +55,9 @@ function AppLayout() {
           <Route path="/services" element={<Services />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/opportunities" element={<Careers />} />
+          <Route path="/guides" element={<CareerGuides />} />
+          <Route path="/blog" element={<CareerGuides />} />
+          <Route path="/career-guides" element={<CareerGuides />} />
           <Route path="/interview-tips" element={<InterviewTips />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/contact" element={<ContactUs />} />

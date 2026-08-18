@@ -118,6 +118,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/guides" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Career Guides & Blog</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/interview-tips" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
                   <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
                   <span>Interview & GD Tips</span>

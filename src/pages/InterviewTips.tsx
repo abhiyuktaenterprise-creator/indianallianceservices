@@ -117,6 +117,39 @@ export default function InterviewTips() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("grooming");
 
+  const interviewTipsSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "HowTo",
+        name: "How to Prepare and Clear Airport Ground Staff & Cabin Crew Interviews",
+        description: "A complete step-by-step masterclass covering formal grooming standards, airline group discussions, situational questions, and documentation checklists.",
+        step: [
+          {
+            "@type": "HowToStep",
+            name: "Aviation Grooming & Professional Attire",
+            text: "Adhere to formal business attire, neat hairstyles (donut bun for women / clean parted cut for men), polished black shoes, and subtle natural makeup.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Master Situational HR Questions",
+            text: "Use the LAST method (Listen, Apologize, Solve, Thank) to handle customer conflict questions and articulate reasons for choosing aviation over other sectors.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Practice Group Discussion (GD) Tactics",
+            text: "Collaborate constructively, listen actively, avoid aggressive interruptions, and use polite bridging phrases.",
+          },
+          {
+            "@type": "HowToStep",
+            name: "Assemble Airport Documentation",
+            text: "Organize 2 copies of aviation-format CV, 10th/12th/degree marksheets, valid passport, Aadhaar, PAN card, and 8 white-background photographs.",
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
       <SEO
@@ -124,6 +157,7 @@ export default function InterviewTips() {
         description="Comprehensive airline interview preparation masterclass by Indian Alliance Services. Cabin crew grooming rules, top ground staff interview Q&As, and mock screening guidelines."
         keywords="aviation interview questions, ground staff interview tips, cabin crew grooming, airport job interview, mock interview guidance, Indian Alliance Services interview prep"
         canonical="https://indianallianceservices.com/interview-tips"
+        schema={interviewTipsSchema}
       />
 
       {/* Hero Section */}

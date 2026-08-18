@@ -60,33 +60,83 @@
       }(window.location))
     </script>
 
-    <!-- Structured Data (Schema.org Organization) -->
+    <!-- Structured Data (Schema.org Organization & WebSite Graph) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "@id": "https://indianallianceservices.com/#organization",
-        "name": "Indian Alliance Services",
-        "alternateName": "IAS - Aviation Careers & Training",
-        "url": "https://indianallianceservices.com",
-        "logo": "https://indianallianceservices.com/logo.png",
-        "description": "Premier Aviation Career Guidance, Training Portal & Opportunity Assistance Network across India.",
-        "email": "support@indianallianceservices.com",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "152, Agatti",
-          "addressLocality": "Agatti",
-          "addressRegion": "Lakshadweep",
-          "postalCode": "682553",
-          "addressCountry": "IN"
-        },
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "telephone": "+91-7851836860",
-          "contactType": "customer support",
-          "email": "support@indianallianceservices.com",
-          "availableLanguage": ["English", "Hindi"]
-        }
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://indianallianceservices.com/#website",
+            "url": "https://indianallianceservices.com",
+            "name": "Indian Alliance Services",
+            "description": "Official Aviation Career Guidance, Training Advisory & Opportunity Portal of India.",
+            "publisher": {
+              "@id": "https://indianallianceservices.com/#organization"
+            },
+            "inLanguage": "en-IN"
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://indianallianceservices.com/#organization",
+            "name": "Indian Alliance Services",
+            "alternateName": "IAS — Aviation Careers & Training",
+            "url": "https://indianallianceservices.com",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://indianallianceservices.com/logo.png",
+              "width": 2172,
+              "height": 724
+            },
+            "description": "Premier Aviation Career Guidance, Training Portal & Opportunity Assistance Network across India.",
+            "email": "support@indianallianceservices.com",
+            "telephone": "+91-7851836860",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "152, Agatti",
+              "addressLocality": "Agatti",
+              "addressRegion": "Lakshadweep",
+              "postalCode": "682553",
+              "addressCountry": "IN"
+            },
+            "contactPoint": [
+              {
+                "@type": "ContactPoint",
+                "telephone": "+91-7851836860",
+                "contactType": "customer service",
+                "areaServed": "IN",
+                "availableLanguage": ["English", "Hindi"]
+              }
+            ],
+            "department": [
+              {
+                "@type": "LocalBusiness",
+                "name": "Indian Alliance Services - Maharashtra State Office",
+                "address": "Office No. 402, Sai Arcade Complex, Panvel, Navi Mumbai, Maharashtra – 410206"
+              },
+              {
+                "@type": "LocalBusiness",
+                "name": "Indian Alliance Services - Northern Regional Office",
+                "address": "Unit 315, Galaxy Diamond Plaza, Greater Noida West, Uttar Pradesh – 201308"
+              },
+              {
+                "@type": "LocalBusiness",
+                "name": "Indian Alliance Services - Central India Office",
+                "address": "Office No. 208, Silver Estate Business Park, Indore, Madhya Pradesh – 452010"
+              },
+              {
+                "@type": "LocalBusiness",
+                "name": "Indian Alliance Services - Southern Regional Office",
+                "address": "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool, Andhra Pradesh – 518010"
+              },
+              {
+                "@type": "LocalBusiness",
+                "name": "Indian Alliance Services - Gujarat Office",
+                "address": "Office No. 204, GIDC Business Hub, Sanand, Gujarat – 382110"
+              }
+            ]
+          }
+        ]
       }
     </script>
   </head>

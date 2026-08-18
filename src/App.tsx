@@ -22,6 +22,9 @@ import RecruitmentVerification from "./pages/RecruitmentVerification";
 import InterviewTips from "./pages/InterviewTips";
 import Notifications from "./pages/Notifications";
 import CareerGuides from "./pages/CareerGuides";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import Disclaimer from "./pages/Disclaimer";
 import NotFound from "./pages/NotFound";
 
 // Admin Components
@@ -64,6 +67,11 @@ function AppLayout() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/recruitment-verification" element={<RecruitmentVerification />} />
           <Route path="/verify" element={<RecruitmentVerification />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/disclaimer" element={<Disclaimer />} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />

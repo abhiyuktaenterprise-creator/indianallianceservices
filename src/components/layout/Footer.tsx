@@ -246,10 +246,19 @@ export default function Footer() {
 
       {/* Disclaimer & Copyright Bar */}
       <div className="bg-[#f3eee6] border-t border-gold/30 py-5 px-4">
-        <div className="container mx-auto text-xs text-slate-600 text-center">
+        <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 text-center sm:text-left">
           <p className="font-normal">
             © 2015 – 2026 Indian Alliance Services. All rights reserved. Est. 2015 — India's Premier Aviation Career Advisory & Opportunity Portal.
           </p>
+          <div className="flex flex-wrap items-center justify-center gap-4 font-semibold text-slate-700">
+            <Link to="/privacy-policy" className="hover:text-amber-700 transition-colors">Privacy Policy</Link>
+            <span>•</span>
+            <Link to="/terms" className="hover:text-amber-700 transition-colors">Terms of Service</Link>
+            <span>•</span>
+            <Link to="/disclaimer" className="hover:text-amber-700 transition-colors">Disclaimer</Link>
+            <span>•</span>
+            <Link to="/recruitment-verification" className="text-amber-800 hover:text-amber-900 transition-colors">Anti-Fraud Verification</Link>
+          </div>
         </div>
       </div>
     </footer>

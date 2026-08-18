@@ -87,7 +87,7 @@ export default function AdminDashboard() {
     displayAddress: settings.displayAddress || "",
     officeHours: settings.officeHours || "Mon – Sat: 9:30 AM – 6:30 PM (IST)",
     bannerNotice: settings.bannerNotice || "",
-    enableNoticeBanner: settings.enableNoticeBanner ?? true,
+    enableNoticeBanner: settings.enableNoticeBanner ?? false,
     googleSheetsNoticeUrl: settings.googleSheetsNoticeUrl || "",
   });
 

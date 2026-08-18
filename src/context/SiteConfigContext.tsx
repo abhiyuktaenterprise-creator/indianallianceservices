@@ -281,8 +281,8 @@ const DEFAULT_SETTINGS: SiteSettings = {
   supportEmail: "support@indianallianceservices.com",
   displayAddress: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool District, Andhra Pradesh – 518010",
   officeHours: "Mon – Sat: 9:30 AM – 6:30 PM (IST)",
-  bannerNotice: "ADVISORY: Indian Alliance Services (IAS) does not solicit unauthorized cash payments or direct WhatsApp bank transfers. Always verify through our official portal.",
-  enableNoticeBanner: true,
+  bannerNotice: "",
+  enableNoticeBanner: false,
   companyName: "Indian Alliance Services (IAS)",
   tagline: "Aviation Careers & Training",
 };
@@ -732,9 +732,19 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
+        const hasAdvisory =
+          parsed.bannerNotice?.includes("unauthorized cash payments") ||
+          parsed.bannerNotice?.includes("ADVISORY:") ||
+          parsed.bannerNotice?.includes("Airport Career Services") ||
+          parsed.bannerNotice?.includes("ACS");
+        const bannerNotice = hasAdvisory ? "" : (parsed.bannerNotice || "");
+        const enableNoticeBanner = hasAdvisory ? false : (parsed.enableNoticeBanner ?? false);
+
         return {
           ...DEFAULT_SETTINGS,
           ...parsed,
+          bannerNotice,
+          enableNoticeBanner,
           supportEmail: parsed.supportEmail?.includes("airportcareerservices") ? "support@indianallianceservices.com" : (parsed.supportEmail || DEFAULT_SETTINGS.supportEmail),
           companyName: "Indian Alliance Services (IAS)",
         };

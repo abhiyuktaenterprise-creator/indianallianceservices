@@ -92,9 +92,9 @@ const detailedServices = [
     ctaText: "Start Interview Prep",
   },
   {
-    id: "placement-assistance",
+    id: "opportunity-assistance",
     icon: Briefcase,
-    title: "5. Placement Assistance",
+    title: "5. Opportunity Assistance",
     overview:
       "Active coordination, recruitment drive notifications, interview scheduling, and document verification support for airport job openings.",
     includes: [
@@ -106,7 +106,7 @@ const detailedServices = [
     ],
     benefit:
       "Structured access to authentic recruitment drives across major Indian airports with continuous advisor backing.",
-    ctaText: "Enquire About Placement",
+    ctaText: "Enquire About Opportunities",
   },
   {
     id: "candidate-support",
@@ -129,8 +129,8 @@ const detailedServices = [
 
 const serviceFaqs = [
   {
-    q: "Does Indian Alliance Services guarantee 100% placement?",
-    a: "We provide comprehensive 100% placement assistance, meaning we provide interview opportunities, extensive preparation, and complete coordination. However, the final hiring selection always rests on the candidate's interview performance and the hiring airline's criteria. We maintain a strictly ethical, transparent policy without deceptive false guarantees.",
+    q: "Does Indian Alliance Services guarantee 100% opportunities?",
+    a: "We provide comprehensive 100% opportunity assistance, meaning we provide interview opportunities, extensive preparation, and complete coordination. However, the final hiring selection always rests on the candidate's interview performance and the hiring airline's criteria. We maintain a strictly ethical, transparent policy without deceptive false guarantees.",
   },
   {
     q: "How soon can I expect an interview after joining Indian Alliance Services guidance?",
@@ -158,8 +158,8 @@ export default function Services() {
         "@type": "WebPage",
         "@id": "https://indianallianceservices.com/services/#page",
         url: "https://indianallianceservices.com/services",
-        name: "Aviation Career Services | Career Guidance, Training & Placement Assistance",
-        description: "Explore 6 core aviation career services by Indian Alliance Services: Counselling, Guidance, Training Support, Mock Interviews, Placement Assistance, and Ongoing Candidate Support.",
+        name: "Aviation Career Services | Career Guidance, Training & Opportunity Assistance",
+        description: "Explore 6 core aviation career services by Indian Alliance Services: Counselling, Guidance, Training Support, Mock Interviews, Opportunity Assistance, and Ongoing Candidate Support.",
       },
       {
         "@type": "BreadcrumbList",
@@ -184,8 +184,8 @@ export default function Services() {
   return (
     <>
       <SEO
-        title="Aviation Career Services | Indian Alliance Services Guidance & Placement"
-        description="Comprehensive aviation career services: Professional career counselling, profile eligibility assessment, interview preparation, grooming guidance, and transparent placement assistance for airport jobs."
+        title="Aviation Career Services | Indian Alliance Services Guidance & Opportunities"
+        description="Comprehensive aviation career services: Professional career counselling, profile eligibility assessment, interview preparation, grooming guidance, and transparent opportunity assistance for airport jobs."
         canonical="https://indianallianceservices.com/services"
         schema={servicesSchema}
       />
@@ -200,7 +200,7 @@ export default function Services() {
               <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 shadow-md">
                 <Award className="h-3.5 w-3.5 text-gold" />
                 <span className="text-xs font-bold text-gold">
-                  IATA & NHDC Certified Quality Standards
+                  IATA & NSDC Certified Quality Standards
                 </span>
               </div>
             </div>
@@ -208,7 +208,7 @@ export default function Services() {
               Our Aviation <span className="gold-gradient-text">Career Services</span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
-              Structured, transparent, and candidate-centric services designed to guide you from eligibility evaluation to successful airport placement.
+              Structured, transparent, and candidate-centric services designed to guide you from eligibility evaluation to successful airport opportunity.
             </p>
           </div>
         </div>
@@ -310,7 +310,7 @@ export default function Services() {
             </h2>
 
             <p className="text-base sm:text-lg text-primary-foreground/80 leading-relaxed">
-              We believe in honest career advisory. We never make unsupported promises or claim guaranteed employment without evaluation. Placement assistance is provided through merit, thorough preparation, and active airport interview opportunities.
+              We believe in honest career advisory. We never make unsupported promises or claim guaranteed employment without evaluation. Opportunity assistance is provided through merit, thorough preparation, and active airport interview opportunities.
             </p>
 
             <div className="grid sm:grid-cols-3 gap-6 pt-6 text-left">
@@ -354,7 +354,7 @@ export default function Services() {
             badge="Frequently Asked Questions"
             title="Questions About Our"
             highlight="Aviation Services"
-            description="Clear answers about our counselling, interview drills, and placement coordination."
+            description="Clear answers about our counselling, interview drills, and opportunity coordination."
           />
 
           <div className="space-y-4 text-sm">

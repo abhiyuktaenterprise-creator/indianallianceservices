@@ -16,7 +16,7 @@ interface CTASectionProps {
 export default function CTASection({
   title = "Ready to Start Your Aviation Career?",
   highlight = "Get Started Today",
-  description = "Join hundreds of students who achieved their dream airport and airline careers with structured guidance, interview coaching, and transparent placement assistance.",
+  description = "Join hundreds of students who achieved their dream airport and airline careers with structured guidance, interview coaching, and transparent opportunity assistance.",
   primaryCtaText = "Apply for Career Counselling",
   primaryCtaLink = "/contact",
   secondaryCtaText = "Explore Career Opportunities",

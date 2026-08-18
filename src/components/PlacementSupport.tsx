@@ -5,14 +5,14 @@ const steps = [
   { icon: Route, step: "2", title: "Career Path Selection" },
   { icon: FileText, step: "3", title: "Training & Documentation Support" },
   { icon: UserCheck, step: "4", title: "Interview Preparation" },
-  { icon: Briefcase, step: "5", title: "Placement Assistance" },
+  { icon: Briefcase, step: "5", title: "Opportunity Assistance" },
 ];
 
 const PlacementSupport = () => (
   <section id="placement" className="py-20 gradient-navy">
     <div className="container mx-auto px-4">
       <div className="text-center mb-14">
-        <span className="text-sm font-semibold text-secondary uppercase tracking-wider">Our Placement Process</span>
+        <span className="text-sm font-semibold text-secondary uppercase tracking-wider">Our Opportunity Process</span>
         <h2 className="text-3xl sm:text-4xl font-heading font-bold text-primary-foreground mt-2 mb-4">
           Simple & Transparent Process
         </h2>

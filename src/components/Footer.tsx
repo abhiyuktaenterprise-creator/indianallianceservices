@@ -12,7 +12,7 @@ const Footer = () => (
             <span className="font-heading font-bold text-primary-foreground">Indian Alliance Services</span>
           </div>
           <p className="text-sm text-primary-foreground/50 leading-relaxed">
-            Aviation Careers & Training | Airport Placements | Career Support
+            Aviation Careers & Training | Airport Opportunities | Career Support
           </p>
         </div>
 
@@ -48,7 +48,7 @@ const Footer = () => (
               <Mail className="h-4 w-4" /> support@indianallianceservices.com
             </a>
             <div className="flex items-start gap-2 text-sm text-primary-foreground/50">
-              <MapPin className="h-4 w-4 shrink-0 mt-0.5" /> Mumbai • Delhi NCR • Jaipur • BLR • HYD • AP
+              <MapPin className="h-4 w-4 shrink-0 mt-0.5" /> 152, Agatti, Lakshadweep 682553
             </div>
           </div>
         </div>

@@ -143,7 +143,7 @@ export default function ContactForm({
             Get Career Counselling
           </h3>
           <p className="text-xs text-muted-foreground mt-1">
-            Speak with an aviation career expert. Transparent placement guidance.
+            Speak with an aviation career expert. Transparent opportunity guidance.
           </p>
         </div>
       )}
@@ -240,7 +240,7 @@ export default function ContactForm({
               <SelectItem value="PSA — Passenger Service Assistant">PSA — Passenger Service Assistant</SelectItem>
               <SelectItem value="Airhostess">Airhostess</SelectItem>
               <SelectItem value="HR & Telecalling Executive">HR & Telecalling Executive (Open Job)</SelectItem>
-              <SelectItem value="General Placement Guidance">General Placement Guidance</SelectItem>
+              <SelectItem value="General Opportunity Guidance">General Opportunity Guidance</SelectItem>
             </SelectContent>
           </Select>
         </div>

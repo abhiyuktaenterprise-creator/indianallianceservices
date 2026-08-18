@@ -6,7 +6,7 @@ const navLinks = [
   { label: "Home", href: "#home" },
   { label: "About Us", href: "#about" },
   { label: "Career Paths", href: "#careers" },
-  { label: "Placement", href: "#placement" },
+  { label: "Opportunities", href: "#placement" },
   { label: "Why Choose Us", href: "#why-us" },
   { label: "Contact", href: "#contact" },
 ];

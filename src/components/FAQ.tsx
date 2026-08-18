@@ -6,9 +6,9 @@ import {
 } from "@/components/ui/accordion";
 
 const faqs = [
-  { q: "Do you guarantee placement?", a: "We provide complete placement assistance based on eligibility and performance. Final selection depends on your interview performance and meeting role requirements." },
-  { q: "Is prior experience required?", a: "Most airport roles are open for freshers. We guide you through the complete process from training to placement." },
-  { q: "Can students from any city apply?", a: "Yes, we guide students from all over India. We have offices in Mumbai, Kolkata, Chennai, Visakhapatnam, Pune, and Nagpur." },
+  { q: "Do you guarantee opportunities?", a: "We provide complete opportunity assistance based on eligibility and performance. Final selection depends on your interview performance and meeting role requirements." },
+  { q: "Is prior experience required?", a: "Most airport roles are open for freshers. We guide you through the complete process from training to airport opportunity." },
+  { q: "Can students from any city apply?", a: "Yes, we guide students from all over India with remote and in-person assistance." },
 ];
 
 const FAQ = () => (
@@ -20,7 +20,7 @@ const FAQ = () => (
           Frequently Asked Questions
         </h2>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Answers to common questions from students and parents about airport career opportunities and our placement process.
+          Answers to common questions from students and parents about airport career opportunities and our guidance process.
         </p>
       </div>
 

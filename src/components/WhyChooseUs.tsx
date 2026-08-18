@@ -4,7 +4,7 @@ const reasons = [
   { icon: Target, title: "Industry-Focused Career Guidance" },
   { icon: Users, title: "Student & Parent Friendly Counselling" },
   { icon: Route, title: "Clear Career Pathway" },
-  { icon: Briefcase, title: "Placement-Oriented Support" },
+  { icon: Briefcase, title: "Opportunity-Oriented Support" },
   { icon: MapPin, title: "Multiple City Presence" },
   { icon: Eye, title: "Honest & Transparent Process" },
 ];

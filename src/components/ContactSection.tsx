@@ -35,7 +35,7 @@ const ContactSection = () => {
       phone: formData.phone.trim(),
       email: formData.email.trim() || undefined,
       qualification: formData.qualification || undefined,
-      targetRole: formData.role || "Airport Placement Enquiry",
+      targetRole: formData.role || "Airport Opportunity Enquiry",
       city: formData.location || undefined,
       source: "Homepage Contact Section",
     });
@@ -90,7 +90,7 @@ const ContactSection = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="role">Interested Airport Placement Role</Label>
+                <Label htmlFor="role">Interested Airport Opportunity Role</Label>
                 <Select value={formData.role} onValueChange={(v) => setFormData({ ...formData, role: v })}>
                   <SelectTrigger><SelectValue placeholder="Select role" /></SelectTrigger>
                   <SelectContent>

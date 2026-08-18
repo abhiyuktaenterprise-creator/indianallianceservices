@@ -23,11 +23,11 @@ const Hero = () => {
             <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
             <span>Training</span>
             <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
-            <span>Placement Support</span>
+            <span>Opportunity Support</span>
           </div>
 
           <p className="text-lg sm:text-xl text-primary-foreground/75 mb-6 max-w-2xl animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-            Indian Alliance Services helps students and job seekers choose the right aviation & airport career path and supports them till successful placement in the industry.
+            Indian Alliance Services helps students and job seekers choose the right aviation & airport career path and supports them till successful opportunity onboarding in the industry.
           </p>
 
           <div className="inline-flex items-center gap-2 rounded-full bg-secondary/20 border border-secondary/30 px-4 py-2 mb-8 animate-fade-in-up" style={{ animationDelay: "0.25s" }}>

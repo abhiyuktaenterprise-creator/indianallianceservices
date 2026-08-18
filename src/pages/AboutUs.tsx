@@ -66,7 +66,7 @@ const leadershipMembers = [
     image: adityaImg,
     badge: "Operations & Guidance",
     description:
-      "Aditya Gujral supports students throughout their counselling and placement journey. He ensures smooth coordination, accurate guidance, and timely assistance, helping students move confidently from counselling to final placement.",
+      "Aditya Gujral supports students throughout their counselling and career opportunity journey. He ensures smooth coordination, accurate guidance, and timely assistance, helping students move confidently from counselling to final airport opportunity.",
   },
   {
     name: "P.K. Chadda",
@@ -111,7 +111,7 @@ const seniorHRMembers = [
     code: "IAS-HR-20",
     image: padmavatiImg,
     description:
-      "Provides senior advisory on career transitions, eligibility validation, and long-term placement roadmaps for prospective airport personnel.",
+      "Provides senior advisory on career transitions, eligibility validation, and long-term opportunity roadmaps for prospective airport personnel.",
   },
   {
     name: "Teena Roy",
@@ -149,7 +149,7 @@ const hrExecutiveMembers = [
     initials: "KS",
     image: komalImg,
     color: "bg-emerald-600/15 text-emerald-700 dark:text-emerald-400",
-    description: "Manages candidate evaluations, customer service orientation checks, and placement drive schedules.",
+    description: "Manages candidate evaluations, customer service orientation checks, and opportunity drive schedules.",
   },
   {
     name: "Avni Sharma",
@@ -288,11 +288,11 @@ const coreValues = [
   {
     icon: Route,
     title: "Structured Career Path",
-    desc: "Guiding candidates step-by-step from initial evaluation to training, interview preparation, and placement onboarding.",
+    desc: "Guiding candidates step-by-step from initial evaluation to training, interview preparation, and opportunity onboarding.",
   },
   {
     icon: Users,
-    title: "Dedicated Placement Assistance",
+    title: "Dedicated Opportunity Assistance",
     desc: "Continuous coordination with hiring channels, timely interview alerts, and post-screening follow-up.",
   },
 ];
@@ -450,7 +450,7 @@ export default function AboutUs() {
               About Indian Alliance <span className="gold-gradient-text">Services</span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
-              A dedicated aviation career guidance and placement portal helping aspiring candidates bridge the gap between education and airport employment.
+              A dedicated aviation career guidance and opportunity portal helping aspiring candidates bridge the gap between education and airport employment.
             </p>
           </div>
         </div>
@@ -473,7 +473,7 @@ export default function AboutUs() {
                 Your Trusted Compass in the Aviation Ecosystem
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Indian Alliance Services is a dedicated aviation career guidance and placement consultancy. We guide students step-by-step — from career selection to training, grooming, interview coaching, and final airport job placement.
+                Indian Alliance Services is a dedicated aviation career guidance and opportunity consultancy. We guide students step-by-step — from career selection to training, grooming, interview coaching, and final airport job opportunities.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 The aviation sector in India is expanding rapidly with new greenfield airports and domestic fleet expansions. However, many students from across India lack access to authentic information about job roles, eligibility criteria, and hiring procedures. We exist to provide transparent, student-first guidance to help freshers build sustainable careers.
@@ -529,11 +529,11 @@ export default function AboutUs() {
                   </div>
                   <div>
                     <h4 className="font-heading font-semibold text-foreground text-sm flex items-center gap-1.5">
-                      <span>IATA & NHDC Certified Standards</span>
+                      <span>IATA & NSDC Certified Standards</span>
                       <span className="text-[10px] bg-amber-500/20 text-amber-600 dark:text-amber-300 font-bold px-1.5 py-0.2 rounded">Certified</span>
                     </h4>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                      Our training curriculum, student eligibility criteria, and interview coaching frameworks follow recognized IATA international benchmarks and NHDC quality standards.
+                      Our training curriculum, student eligibility criteria, and interview coaching frameworks follow recognized IATA international benchmarks and NSDC quality standards.
                     </p>
                   </div>
                 </div>
@@ -544,7 +544,7 @@ export default function AboutUs() {
                   </div>
                   <div>
                     <h4 className="font-heading font-semibold text-foreground text-sm">
-                      Student-Centric Placement Support
+                      Student-Centric Opportunity Support
                     </h4>
                     <p className="text-xs text-muted-foreground mt-0.5">
                       Continuous assistance until successful onboarding into airport operations.
@@ -595,7 +595,7 @@ export default function AboutUs() {
                   Our Vision
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  To become India's most trusted aviation career consultancy, recognized for ethical practices, honest counselling, and high-impact placement support for airport and airline roles.
+                  To become India's most trusted aviation career consultancy, recognized for ethical practices, honest counselling, and high-impact opportunity support for airport and airline roles.
                 </p>
               </div>
             </div>
@@ -723,7 +723,7 @@ export default function AboutUs() {
             badge="Senior Talent Acquisition"
             title="Senior & Lead"
             highlight="HR Management Team"
-            description="Our senior human resources leadership and experienced talent specialists oversee candidate screening, coaching, and airline placement coordination across India."
+            description="Our senior human resources leadership and experienced talent specialists oversee candidate screening, coaching, and airline opportunity coordination across India."
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -1001,7 +1001,7 @@ export default function AboutUs() {
                 What is Indian Alliance Services?
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Indian Alliance Services is an Indian aviation career guidance, training advisory, and placement portal with nationwide counselling support across India.
+                Indian Alliance Services is an Indian aviation career guidance, training advisory, and opportunity portal with nationwide counselling support across India.
               </p>
             </div>
 
@@ -1010,7 +1010,7 @@ export default function AboutUs() {
                 What does Indian Alliance Services do?
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Indian Alliance Services provides profile eligibility assessment, career counselling, training guidance, mock interview preparation, and placement coordination for airport ground staff, customer service executives, cargo handlers, and airline support roles.
+                Indian Alliance Services provides profile eligibility assessment, career counselling, training guidance, mock interview preparation, and opportunity coordination for airport ground staff, customer service executives, cargo handlers, and airline support roles.
               </p>
             </div>
 

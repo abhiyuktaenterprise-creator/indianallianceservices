@@ -23,8 +23,8 @@ const services = [
   },
   {
     icon: Briefcase,
-    title: "Placement Assistance",
-    desc: "End-to-end support until placement in airport-related roles.",
+    title: "Opportunity Assistance",
+    desc: "End-to-end support for authentic airport-related opportunities.",
   },
 ];
 

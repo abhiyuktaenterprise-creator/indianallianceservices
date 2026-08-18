@@ -105,7 +105,7 @@ const whatWeAreOffering = [
   {
     icon: Briefcase,
     badge: "Offering 05",
-    title: "Direct Placement & Walk-In Drive Coordination",
+    title: "Direct Opportunity & Walk-In Drive Coordination",
     desc: "Active scheduling and alerts for confirmed recruitment drives across 45+ domestic and international airport hubs throughout India.",
     benefits: ["Pan-India Airport Coverage", "Interview Admit Pass Support", "Regular Walk-In Alerts"],
     link: "/notifications",
@@ -233,7 +233,7 @@ const howWeHelpSteps = [
   },
   {
     step: "06",
-    title: "Placement Assistance",
+    title: "Opportunity Assistance",
     desc: "Coordinated interview drives, timely application follow-ups, and complete documentation guidance until selection.",
   },
 ];
@@ -241,8 +241,8 @@ const howWeHelpSteps = [
 // Core Why Choose Us Pillars
 const whyChoosePillars = [
   {
-    title: "IATA & NHDC Certified Quality Standards",
-    desc: "Our career counselling, curriculum guidance, and interview coaching frameworks align with IATA international benchmarks and NHDC quality standards.",
+    title: "IATA & NSDC Certified Quality Standards",
+    desc: "Our career counselling, curriculum guidance, and interview coaching frameworks align with IATA international benchmarks and NSDC quality standards.",
   },
   {
     title: "Student-First Philosophy",
@@ -298,7 +298,7 @@ const testimonials = [
 const homeFaqs = [
   {
     q: "What is Indian Alliance Services?",
-    a: "Indian Alliance Services is India's premier aviation career guidance, training support, and airport placement network. We help freshers, 10+2, and graduates secure high-demand airline and airport roles through structured counselling, grooming, mock interviews, and verified hiring connections.",
+    a: "Indian Alliance Services is India's premier aviation career guidance, training support, and airport opportunity network. We help freshers, 10+2, and graduates secure high-demand airline and airport roles through structured counselling, grooming, mock interviews, and verified hiring connections.",
   },
   {
     q: "What airport jobs are available for 10th and 12th pass freshers?",
@@ -337,7 +337,7 @@ export default function Home() {
         alternateName: "Indian Alliance Services - Aviation Careers & Training",
         url: "https://indianallianceservices.com",
         logo: "https://indianallianceservices.com/logo.png",
-        description: "Aviation Career Guidance, Training Guidance & Placement Assistance Consultancy in India.",
+        description: "Aviation Career Guidance, Training Guidance & Opportunity Assistance Consultancy in India.",
         email: settings.supportEmail,
         address: {
           "@type": "PostalAddress",
@@ -426,7 +426,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             {/* Hero Left Content */}
             <div className="lg:col-span-7 space-y-6">
-              {/* Trust Badge & IATA / NHDC Certificate */}
+              {/* Trust Badge & IATA / NSDC Certificate */}
               <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark/90 border border-gold/40 px-4 py-1.5 backdrop-blur-md shadow-lg">
                 <Sparkles className="h-4 w-4 text-gold animate-pulse" />
                 <span className="text-xs sm:text-sm font-mono font-bold tracking-wide text-gold uppercase">
@@ -469,7 +469,7 @@ export default function Home() {
                 </div>
                 <div className="bg-[#0b1220]/80 border border-gold/30 rounded-2xl p-3.5 text-center backdrop-blur-md shadow-md">
                   <div className="text-2xl sm:text-3xl font-mono font-black text-gold">{homeContent.statPlacementRate}</div>
-                  <div className="text-[11px] text-slate-300 font-semibold uppercase mt-0.5">Placement Rate</div>
+                  <div className="text-[11px] text-slate-300 font-semibold uppercase mt-0.5">Opportunity Rate</div>
                 </div>
               </div>
 
@@ -499,7 +499,7 @@ export default function Home() {
               <div className="pt-2 flex flex-wrap items-center gap-6 text-xs text-slate-300">
                 <div className="flex items-center gap-2 text-gold font-bold">
                   <Award className="h-4 w-4 text-gold" />
-                  <span>IATA & NHDC Standards</span>
+                  <span>IATA & NSDC Standards</span>
                 </div>
                 <div className="flex items-center gap-2 font-medium">
                   <ShieldCheck className="h-4 w-4 text-emerald-400" />
@@ -522,7 +522,7 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-transparent to-transparent rounded-2xl flex flex-col justify-end p-6">
                   <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 px-3.5 py-1 text-xs font-black w-fit mb-2 shadow-md">
-                    <Award className="h-3.5 w-3.5" /> Verified Placement Desk
+                    <Award className="h-3.5 w-3.5" /> Verified Opportunity Desk
                   </div>
                   <h3 className="font-heading font-extrabold text-xl text-white">
                     Direct Connections to 45+ Airport Terminals
@@ -658,10 +658,10 @@ export default function Home() {
               </div>
               <div>
                 <h4 className="font-heading font-bold text-sm text-gold">
-                  Official Profile Assessment & Placement Guidance
+                  Official Profile Assessment & Opportunity Guidance
                 </h4>
                 <p className="text-xs text-primary-foreground/80">
-                  Indian Alliance Services provides complete profile eligibility review and placement preparation support.
+                  Indian Alliance Services provides complete profile eligibility review and opportunity preparation support.
                 </p>
               </div>
             </div>
@@ -799,7 +799,7 @@ export default function Home() {
             badge="Structured Roadmap"
             title="How We Help You Get"
             highlight="Airport-Ready"
-            description="Our proven 6-stage counselling and placement framework takes you from initial enquiry to confident airport placement."
+            description="Our proven 6-stage counselling and career guidance framework takes you from initial enquiry to confident airport opportunity."
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -830,7 +830,7 @@ export default function Home() {
               <span>Ethical Guidance Guarantee</span>
             </div>
             <p className="text-xs sm:text-sm text-primary-foreground/80 max-w-xl mx-auto leading-relaxed">
-              We maintain absolute transparency with students and parents. We provide complete placement assistance based on real merit and performance without false promises.
+              We maintain absolute transparency with students and parents. We provide complete opportunity assistance based on real merit and performance without false promises.
             </p>
           </div>
         </div>
@@ -957,7 +957,7 @@ export default function Home() {
                   Assistant Manager
                 </p>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Coordinates counselling and candidate support to ensure a seamless placement journey.
+                  Coordinates counselling and candidate support to ensure a seamless career opportunity journey.
                 </p>
               </div>
             </div>
@@ -1184,7 +1184,7 @@ export default function Home() {
       <CTASection
         title="Ready to Start Your"
         highlight="Aviation Career?"
-        description="Book your 1-on-1 career counselling session today. Let our experts evaluate your profile and guide you step-by-step to airport placement."
+        description="Book your 1-on-1 career counselling session today. Let our experts evaluate your profile and guide you step-by-step to airport opportunity."
         primaryCtaText="Get Career Counselling"
         primaryCtaLink="/contact"
         secondaryCtaText="Explore Open Opportunities"

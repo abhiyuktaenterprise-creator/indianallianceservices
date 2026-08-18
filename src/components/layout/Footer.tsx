@@ -62,7 +62,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-slate-600 leading-relaxed max-w-sm font-normal">
-              India's premier AI-powered aviation career advisory, training coaching, and airport placement gateway. Guiding 10th, 12th pass, and graduate candidates toward rewarding airline careers.
+              India's premier AI-powered aviation career advisory, training coaching, and airport opportunity gateway. Guiding 10th, 12th pass, and graduate candidates toward rewarding airline careers.
             </p>
 
             <div className="space-y-3 pt-2 text-xs text-slate-700 font-semibold">
@@ -76,7 +76,7 @@ export default function Footer() {
                 <div className="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center shrink-0 border border-gold/40">
                   <CheckCircle2 className="h-3.5 w-3.5 text-amber-700" />
                 </div>
-                <span>Pan-India Airport & Airline Placements</span>
+                <span>Pan-India Airport & Airline Opportunities</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <div className="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center shrink-0 border border-gold/40">
@@ -231,7 +231,7 @@ export default function Footer() {
       <div className="bg-[#f3eee6] border-t border-gold/30 py-5 px-4">
         <div className="container mx-auto text-xs text-slate-600 text-center">
           <p className="font-normal">
-            © 2026 Indian Alliance Services. All rights reserved. Aviation Careers & Training — India's Premier Aviation Career Advisory & Placement Portal.
+            © 2026 Indian Alliance Services. All rights reserved. Aviation Careers & Training — India's Premier Aviation Career Advisory & Opportunity Portal.
           </p>
         </div>
       </div>

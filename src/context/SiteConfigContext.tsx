@@ -290,7 +290,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
 const DEFAULT_HOME_CONTENT: HomeContent = {
   heroBadge: "AI-Powered Aviation Career Gateway",
   heroHeadline: "Launch Your Dream Career in Aviation & Airlines",
-  heroSubtitle: "India's next-generation career advisory and placement portal. We provide verified eligibility matching, IATA-compliant grooming, and direct walk-in interview scheduling for Airport Ground Staff, CSA, Cabin Crew, and Cargo Operations.",
+  heroSubtitle: "India's next-generation career advisory and opportunity portal. We provide verified eligibility matching, IATA-compliant grooming, and direct walk-in interview scheduling for Airport Ground Staff, CSA, Cabin Crew, and Cargo Operations.",
   tickerNotice: "Pan-India Ground Staff & Cabin Crew Walk-in screening is active across Delhi (DEL), Mumbai (BOM), Bangalore (BLR), Hyderabad (HYD) & Jaipur (JAI).",
   statHubs: "45+",
   statStudents: "12,500+",

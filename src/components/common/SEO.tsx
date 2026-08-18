@@ -17,7 +17,7 @@ const DEFAULT_IMAGE = `${BASE_URL}/logo.png`;
 export default function SEO({
   title,
   description,
-  keywords = "Indian Alliance Services, Aviation Careers & Training, aviation careers, airport jobs, career counselling, airport ground staff, cabin crew guidance, interview preparation, placement assistance, aviation training India",
+  keywords = "Indian Alliance Services, Aviation Careers & Training, aviation careers, airport jobs, career counselling, airport ground staff, cabin crew guidance, interview preparation, opportunity assistance, aviation training India",
   canonical,
   ogType = "website",
   schema,

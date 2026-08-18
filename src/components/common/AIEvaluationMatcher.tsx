@@ -168,7 +168,7 @@ export default function AIEvaluationMatcher({ onSelectRole }: AIEvaluationMatche
 
           <div>
             <h4 className="text-lg font-heading font-bold text-white">
-              Scanning 45+ Airline Placement Benchmarks...
+              Scanning 45+ Airline Opportunity Benchmarks...
             </h4>
             <p className="text-xs text-slate-300 mt-1 max-w-md mx-auto">
               Evaluating physical parameters, height requirements, qualification thresholds, and spoken communication indices.

@@ -4,7 +4,7 @@ const focusPoints = [
   { icon: Compass, text: "Clear career guidance" },
   { icon: Heart, text: "Honest counselling" },
   { icon: Route, text: "Structured career path" },
-  { icon: Users, text: "Dedicated placement assistance" },
+  { icon: Users, text: "Dedicated opportunity assistance" },
 ];
 
 const teamMembers = [
@@ -18,7 +18,7 @@ const teamMembers = [
     name: "Aditya Gujral",
     role: "Senior Assistant Manager",
     description:
-      "Aditya Gujral supports students throughout their counselling and placement journey. He ensures smooth coordination, accurate guidance, and timely assistance, helping students move confidently from counselling to final placement.",
+      "Aditya Gujral supports students throughout their counselling and opportunity journey. He ensures smooth coordination, accurate guidance, and timely assistance, helping students move confidently from counselling to final airport opportunity.",
   },
 ];
 
@@ -39,8 +39,8 @@ const AboutUs = () => (
 
         <div className="bg-card rounded-xl border border-border p-8 shadow-sm mb-16">
           <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-            Indian Alliance Services is a dedicated aviation career guidance and training placement portal.
-            We guide students step-by-step — from career selection to training and final airport job placement.
+            Indian Alliance Services is a dedicated aviation career guidance and training opportunity portal.
+            We guide students step-by-step — from career selection to training and final airport job opportunities.
           </p>
 
           <h3 className="text-lg font-heading font-semibold text-foreground mb-4">

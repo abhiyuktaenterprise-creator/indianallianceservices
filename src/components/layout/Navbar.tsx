@@ -65,10 +65,10 @@ export default function Navbar() {
         <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
             <span className="inline-flex items-center gap-1 rounded-full bg-gold/15 text-gold px-2.5 py-0.5 font-bold text-[11px] border border-gold/30">
-              <Award className="h-3 w-3 text-gold" /> IATA & NHDC Standards
+              <Award className="h-3 w-3 text-gold" /> IATA & NSDC Standards
             </span>
             <span className="inline-flex items-center gap-1 rounded-full bg-secondary/20 text-secondary px-2.5 py-0.5 font-semibold text-[11px] border border-secondary/30">
-              <Sparkles className="h-3 w-3" /> 100% Verified Placements
+              <Sparkles className="h-3 w-3" /> 100% Verified Opportunities
             </span>
             <span className="truncate hidden md:inline text-primary-foreground/75 text-[11px]">
               Premier Aviation & Airport Career Portal of India

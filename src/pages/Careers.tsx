@@ -156,7 +156,7 @@ export default function Careers() {
     <>
       <SEO
         title="Aviation Careers & Airport Job Vacancies 2026 | Indian Alliance Services"
-        description="Verified airport job openings for Ground Staff, CSA, Cabin Crew, Air Cargo, and Airport Hospitality across Indian metro airports. Apply online with 100% placement guidance."
+        description="Verified airport job openings for Ground Staff, CSA, Cabin Crew, Air Cargo, and Airport Hospitality across Indian metro airports. Apply online with 100% opportunity guidance."
         keywords="airport ground staff jobs, cabin crew vacancies 2026, aviation career guide, airport customer service associate, airline walk-in drive"
         canonical="https://indianallianceservices.com/careers"
         schema={careersSchema}
@@ -174,14 +174,14 @@ export default function Careers() {
             <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 mb-4 shadow-md">
               <Sparkles className="h-3.5 w-3.5 text-gold" />
               <span className="text-xs font-bold text-gold">
-                Official ACS Career Portal
+                Official Career Portal
               </span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
               Aviation & Airport <span className="gold-gradient-text">Career Openings</span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
-              Explore in-demand job roles across Indian airports, understand real eligibility criteria, and submit your application for verified placements.
+              Explore in-demand job roles across Indian airports, understand real eligibility criteria, and submit your application for verified opportunities.
             </p>
           </div>
         </div>
@@ -373,7 +373,7 @@ export default function Careers() {
                   {/* Card Bottom CTA Strip */}
                   <div className="p-3.5 rounded-2xl bg-secondary/10 border border-secondary/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
                     <div>
-                      <strong className="text-foreground font-semibold">Dedicated Placement Support: </strong>
+                      <strong className="text-foreground font-semibold">Dedicated Opportunity Support: </strong>
                       <span className="text-muted-foreground">
                         Mock interview coaching, GD rounds, phonetic alphabet, and document verification assistance.
                       </span>
@@ -392,11 +392,11 @@ export default function Careers() {
             </div>
           )}
 
-          {/* Certificate & Eligibility Clarification (IATA & NHDC Standards) */}
+          {/* Certificate & Eligibility Clarification (IATA & NSDC Standards) */}
           <div className="max-w-5xl mx-auto mt-12 bg-card rounded-3xl border border-secondary/30 p-6 sm:p-8 shadow-sm space-y-4">
             <div className="flex items-center gap-2.5 text-foreground font-heading font-bold text-lg">
               <Award className="h-5 w-5 text-amber-500" />
-              <h3>Candidate Certification & Experience Advisory (IATA & NHDC Standards)</h3>
+              <h3>Candidate Certification & Experience Advisory (IATA & NSDC Standards)</h3>
             </div>
             <div className="grid sm:grid-cols-2 gap-4 text-xs sm:text-sm text-muted-foreground leading-relaxed">
               <div className="p-4 rounded-2xl bg-muted/40 border border-border/60 space-y-1.5">
@@ -409,10 +409,10 @@ export default function Careers() {
               </div>
               <div className="p-4 rounded-2xl bg-muted/40 border border-border/60 space-y-1.5">
                 <div className="font-semibold text-foreground flex items-center gap-1.5">
-                  <CheckCircle2 className="h-4 w-4 text-secondary" /> Is NHDC / Prior Experience Certificate Required?
+                  <CheckCircle2 className="h-4 w-4 text-secondary" /> Is NSDC / Prior Experience Certificate Required?
                 </div>
                 <p>
-                  <strong>No.</strong> Freshers can directly apply without prior experience. Our NHDC-aligned training modules and mock interview coaching provide complete preparation to help freshers clear airline selection rounds.
+                  <strong>No.</strong> Freshers can directly apply without prior experience. Our NSDC-aligned training modules and mock interview coaching provide complete preparation to help freshers clear airline selection rounds.
                 </p>
               </div>
             </div>

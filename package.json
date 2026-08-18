@@ -1,9 +1,9 @@
 {
-  "name": "airport-career-services",
+  "name": "indian-alliance-services",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://airportcareerservices.com",
+  "homepage": "https://indianallianceservices.com",
   "scripts": {
     "dev": "vite",
     "predeploy": "npm run build",

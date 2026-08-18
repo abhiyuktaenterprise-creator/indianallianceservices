@@ -8,18 +8,20 @@ export interface SEOProps {
   canonical?: string;
   ogType?: "website" | "article";
   schema?: Record<string, unknown> | Array<Record<string, unknown>>;
+  noIndex?: boolean;
 }
 
-const BASE_URL = "https://airportcareerservices.com";
+const BASE_URL = "https://indianallianceservices.com";
 const DEFAULT_IMAGE = `${BASE_URL}/logo.png`;
 
 export default function SEO({
   title,
   description,
-  keywords = "Airport Career Services, ACS, Aviation Careers & Training, aviation careers, airport jobs, career counselling, airport ground staff, cabin crew guidance, interview preparation, placement assistance, aviation training India",
+  keywords = "Indian Alliance Services, IAS, Aviation Careers & Training, aviation careers, airport jobs, career counselling, airport ground staff, cabin crew guidance, interview preparation, placement assistance, aviation training India",
   canonical,
   ogType = "website",
   schema,
+  noIndex = false,
 }: SEOProps) {
   const location = useLocation();
   const canonicalUrl = canonical || `${BASE_URL}${location.pathname === "/" ? "" : location.pathname}`;
@@ -42,15 +44,19 @@ export default function SEO({
     // Standard Meta
     setMetaTag("name", "description", description);
     setMetaTag("name", "keywords", keywords);
-    setMetaTag("name", "author", "Airport Career Services");
-    setMetaTag("name", "robots", "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1");
+    setMetaTag("name", "author", "Indian Alliance Services");
+    setMetaTag(
+      "name",
+      "robots",
+      noIndex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    );
 
     // Open Graph
     setMetaTag("property", "og:title", title);
     setMetaTag("property", "og:description", description);
     setMetaTag("property", "og:url", canonicalUrl);
     setMetaTag("property", "og:type", ogType);
-    setMetaTag("property", "og:site_name", "Airport Career Services (ACS)");
+    setMetaTag("property", "og:site_name", "Indian Alliance Services (IAS)");
     setMetaTag("property", "og:image", DEFAULT_IMAGE);
 
     // Twitter
@@ -86,7 +92,7 @@ export default function SEO({
       const dynamicSchema = document.getElementById("json-ld-page-schema");
       if (dynamicSchema) dynamicSchema.remove();
     };
-  }, [title, description, keywords, canonicalUrl, ogType, schema]);
+  }, [title, description, keywords, canonicalUrl, ogType, schema, noIndex]);
 
   return null;
 }

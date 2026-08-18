@@ -61,7 +61,7 @@ export default function AdminLogin() {
   };
 
   const handleFillDefaults = () => {
-    setEmail("admin@airportcareerservices.com");
+    setEmail("admin@indianallianceservices.com");
     setPassword("admin123");
     setError("");
   };
@@ -69,8 +69,8 @@ export default function AdminLogin() {
   return (
     <>
       <SEO
-        title="Admin Portal Login | Airport Career Services"
-        description="Authorized administrator authentication portal for Airport Career Services (ACS) content & career postings management."
+        title="Admin Portal Login | Indian Alliance Services"
+        description="Authorized administrator authentication portal for Indian Alliance Services (IAS) content & career postings management."
         noIndex={true}
       />
 
@@ -91,7 +91,7 @@ export default function AdminLogin() {
             <div className="flex justify-center mb-4">
               <img
                 src="/logo.png"
-                alt="Airport Career Services (ACS)"
+                alt="Indian Alliance Services (IAS)"
                 className="h-16 sm:h-20 w-auto max-w-[320px] object-contain"
               />
             </div>
@@ -130,7 +130,7 @@ export default function AdminLogin() {
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="admin@airportcareerservices.com"
+                    placeholder="admin@indianallianceservices.com"
                     required
                     className="pl-10 bg-slate-950/60 border-slate-800 text-white placeholder:text-slate-600 focus:border-amber-400 rounded-xl text-xs py-5"
                   />
@@ -178,7 +178,7 @@ export default function AdminLogin() {
               <div className="bg-slate-950/50 rounded-2xl p-3 border border-slate-800 flex items-center justify-between">
                 <div className="text-[11px] text-slate-400 space-y-0.5">
                   <div>
-                    User: <strong className="text-amber-400">admin@airportcareerservices.com</strong>
+                    User: <strong className="text-amber-400">admin@indianallianceservices.com</strong>
                   </div>
                   <div>
                     Pass: <strong className="text-amber-400">admin123</strong>

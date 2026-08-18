@@ -27,7 +27,7 @@ export default function EnquiryModal({
             Get Career Counselling
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">
-            Fill in your basic details and an Airport Career Services (ACS) advisor will connect with you to evaluate your profile.
+            Fill in your basic details and an Indian Alliance Services (IAS) advisor will connect with you to evaluate your profile.
           </DialogDescription>
         </DialogHeader>
 

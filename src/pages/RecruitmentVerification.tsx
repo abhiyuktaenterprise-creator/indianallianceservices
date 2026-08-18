@@ -26,7 +26,7 @@ const verificationSteps = [
   {
     step: "01",
     title: "Check the Sender Channel & Domain",
-    desc: "Verify that all email correspondence arrives strictly from our verified domain or official helpdesk (support@airportcareerservices.com) and that website links point exclusively to airportcareerservices.com.",
+    desc: "Verify that all email correspondence arrives strictly from our verified domain or official helpdesk (support@indianallianceservices.com) and that website links point exclusively to indianallianceservices.com.",
   },
   {
     step: "02",
@@ -36,27 +36,27 @@ const verificationSteps = [
   {
     step: "03",
     title: "Review the Nature of Information Requested",
-    desc: "Legitimate Airport Career Services (ACS) screening only asks for standard career evaluation details (highest qualification, age, height, spoken language, and preferred airport location).",
+    desc: "Legitimate Indian Alliance Services (IAS) screening only asks for standard career evaluation details (highest qualification, age, height, spoken language, and preferred airport location).",
   },
   {
     step: "04",
     title: "Protect Sensitive Financial Data",
-    desc: "Airport Career Services never asks for OTPs, NetBanking passwords, UPI PINs, or direct personal account money transfers over the phone or SMS.",
+    desc: "Indian Alliance Services never asks for OTPs, NetBanking passwords, UPI PINs, or direct personal account money transfers over the phone or SMS.",
   },
 ];
 
 const verificationFaqs = [
   {
-    q: "How do I know if an SMS, WhatsApp message, or email from Airport Career Services (ACS) is genuine?",
-    a: "Check if the communication directs you to our official portal (airportcareerservices.com) or official email (support@airportcareerservices.com). You can also use the interactive verification lookup tool above to verify candidate and reference codes directly.",
+    q: "How do I know if an SMS, WhatsApp message, or email from Indian Alliance Services (IAS) is genuine?",
+    a: "Check if the communication directs you to our official portal (indianallianceservices.com) or official email (support@indianallianceservices.com). You can also use the interactive verification lookup tool above to verify candidate and reference codes directly.",
   },
   {
-    q: "What documents does Airport Career Services legitimately ask candidates to submit?",
+    q: "What documents does Indian Alliance Services legitimately ask candidates to submit?",
     a: "During profile assessment, our team may ask for copies of your educational certificates (10th/12th/degree marksheets), resume/CV, government ID proof (Aadhaar/Passport for age and identity verification), and passport-size photographs.",
   },
   {
-    q: "What should I do if I suspect an unverified caller claiming to be from Airport Career Services?",
-    a: "Do not share any OTPs, financial details, or sensitive personal documents. Note down the caller's phone number and email our verified helpdesk at support@airportcareerservices.com with the details for immediate verification.",
+    q: "What should I do if I suspect an unverified caller claiming to be from Indian Alliance Services?",
+    a: "Do not share any OTPs, financial details, or sensitive personal documents. Note down the caller's phone number and email our verified helpdesk at support@indianallianceservices.com with the details for immediate verification.",
   },
 ];
 
@@ -100,6 +100,7 @@ export default function RecruitmentVerification() {
 
     // Fallback prefix or 10-digit mobile check
     if (
+      trimmed.startsWith("IAS-") ||
       trimmed.startsWith("ACS-") ||
       trimmed.startsWith("AV-") ||
       trimmed.startsWith("AERO-") ||
@@ -108,13 +109,13 @@ export default function RecruitmentVerification() {
       setLookupResult({
         status: "verified",
         ref: trimmed,
-        details: `Official Verification Confirmed: Reference ID ${trimmed} is recognized in the Airport Career Services Candidate Registry (Status: Active / Verified for Screening).`,
+        details: `Official Verification Confirmed: Reference ID ${trimmed} is recognized in the Indian Alliance Services Candidate Registry (Status: Active / Verified for Screening).`,
       });
     } else {
       setLookupResult({
         status: "not_found",
         ref: trimmed,
-        details: `Reference '${trimmed}' was not recognized automatically. Please ensure you entered the complete ID (e.g., ACS-2026-XXXX or 10-digit mobile number) or contact ${settings.supportEmail} directly.`,
+        details: `Reference '${trimmed}' was not recognized automatically. Please ensure you entered the complete ID (e.g., IAS-2026-XXXX or 10-digit mobile number) or contact ${settings.supportEmail} directly.`,
       });
     }
   };
@@ -124,10 +125,10 @@ export default function RecruitmentVerification() {
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://airportcareerservices.com/recruitment-verification/#page",
-        url: "https://airportcareerservices.com/recruitment-verification",
-        name: "Recruitment Verification & Candidate Trust | Airport Career Services (ACS)",
-        description: "Official guide for candidates to verify recruitment messages, interview invitations, telecaller credentials, and official contact channels of Airport Career Services (ACS).",
+        "@id": "https://indianallianceservices.com/recruitment-verification/#page",
+        url: "https://indianallianceservices.com/recruitment-verification",
+        name: "Recruitment Verification & Candidate Trust | Indian Alliance Services (IAS)",
+        description: "Official guide for candidates to verify recruitment messages, interview invitations, telecaller credentials, and official contact channels of Indian Alliance Services (IAS).",
       },
       {
         "@type": "BreadcrumbList",
@@ -136,13 +137,13 @@ export default function RecruitmentVerification() {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://airportcareerservices.com",
+            item: "https://indianallianceservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Recruitment Verification",
-            item: "https://airportcareerservices.com/recruitment-verification",
+            item: "https://indianallianceservices.com/recruitment-verification",
           },
         ],
       },
@@ -163,9 +164,9 @@ export default function RecruitmentVerification() {
   return (
     <>
       <SEO
-        title="Candidate Verification & Anti-Fraud Advisory | Airport Career Services (ACS)"
-        description="Received a recruitment message or interview call from Airport Career Services (ACS)? Use our official verification lookup tool, verified phone numbers, and official emails to verify genuine communications."
-        canonical="https://airportcareerservices.com/recruitment-verification"
+        title="Candidate Verification & Anti-Fraud Advisory | Indian Alliance Services (IAS)"
+        description="Received a recruitment message or interview call from Indian Alliance Services (IAS)? Use our official verification lookup tool, verified phone numbers, and official emails to verify genuine communications."
+        canonical="https://indianallianceservices.com/recruitment-verification"
         schema={verificationSchema}
       />
 
@@ -185,7 +186,7 @@ export default function RecruitmentVerification() {
               Recruitment Verification & <span className="gold-gradient-text">Candidate Trust</span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
-              Received a recruitment message, WhatsApp alert, or interview call from Airport Career Services (ACS)? Verify official communication, check candidate application IDs, and protect your personal credentials.
+              Received a recruitment message, WhatsApp alert, or interview call from Indian Alliance Services (IAS)? Verify official communication, check candidate application IDs, and protect your personal credentials.
             </p>
           </div>
         </div>
@@ -297,7 +298,7 @@ export default function RecruitmentVerification() {
           <SectionHeading
             badge="Verification Process"
             title="Received a Recruitment Message from"
-            highlight="Airport Career Services?"
+            highlight="Indian Alliance Services?"
             description="Follow our four-step authenticity checklist before sharing documents or confirming interview schedules."
           />
 
@@ -328,7 +329,7 @@ export default function RecruitmentVerification() {
           {/* Official Channel Reference Box */}
           <div className="max-w-4xl mx-auto bg-card rounded-3xl border border-secondary/40 p-6 sm:p-8 shadow-md">
             <h3 className="text-xl font-heading font-bold text-foreground border-b border-border pb-3 mb-6">
-              Official & Verified ACS Channels
+              Official & Verified IAS Channels
             </h3>
 
             <div className="grid sm:grid-cols-3 gap-6 text-sm">
@@ -337,7 +338,7 @@ export default function RecruitmentVerification() {
                   Official Website
                 </div>
                 <div className="font-bold text-foreground">
-                  airportcareerservices.com
+                  indianallianceservices.com
                 </div>
                 <p className="text-xs text-muted-foreground">
                   All online enquiries and forms
@@ -349,10 +350,10 @@ export default function RecruitmentVerification() {
                   Official Email
                 </div>
                 <a
-                  href="mailto:support@airportcareerservices.com"
+                  href="mailto:support@indianallianceservices.com"
                   className="font-bold text-secondary hover:underline break-all block"
                 >
-                  support@airportcareerservices.com
+                  support@indianallianceservices.com
                 </a>
                 <p className="text-xs text-muted-foreground">
                   Verification & candidate queries
@@ -376,7 +377,7 @@ export default function RecruitmentVerification() {
       </section>
 
       {/* ==================================================
-          WHAT INFORMATION ACS REQUESTS VS NEVER REQUESTS
+          WHAT INFORMATION IAS REQUESTS VS NEVER REQUESTS
           ================================================== */}
       <section className="py-20 gradient-navy text-primary-foreground">
         <div className="container mx-auto px-4">
@@ -389,11 +390,11 @@ export default function RecruitmentVerification() {
           />
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* What ACS May Request */}
+            {/* What IAS May Request */}
             <div className="bg-primary-foreground/5 border border-primary-foreground/10 rounded-3xl p-7">
               <div className="flex items-center gap-2.5 text-secondary font-bold text-lg mb-4">
                 <FileCheck className="h-6 w-6" />
-                <span>What Airport Career Services May Legitimately Request:</span>
+                <span>What Indian Alliance Services May Legitimately Request:</span>
               </div>
               <ul className="space-y-3 text-xs sm:text-sm text-primary-foreground/85">
                 {[
@@ -471,10 +472,10 @@ export default function RecruitmentVerification() {
             </p>
             <div>
               <a
-                href="mailto:support@airportcareerservices.com?subject=Recruitment%20Verification%20Query"
+                href="mailto:support@indianallianceservices.com?subject=Recruitment%20Verification%20Query"
                 className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow-sm hover:bg-secondary/90 transition-colors"
               >
-                <Mail className="h-4 w-4" /> Email support@airportcareerservices.com
+                <Mail className="h-4 w-4" /> Email support@indianallianceservices.com
               </a>
             </div>
           </div>

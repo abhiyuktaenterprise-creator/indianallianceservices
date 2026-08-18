@@ -127,9 +127,9 @@ export default function Careers() {
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://airportcareerservices.com/careers/#page",
-        url: "https://airportcareerservices.com/careers",
-        name: "Aviation Careers & Airport Jobs | Airport Career Services (ACS)",
+        "@id": "https://indianallianceservices.com/careers/#page",
+        url: "https://indianallianceservices.com/careers",
+        name: "Aviation Careers & Airport Jobs | Indian Alliance Services (IAS)",
         description: "Explore rewarding aviation careers: Ground staff, customer service executive, cabin crew guidance, operations, and apply for open airport job vacancies.",
       },
       {
@@ -139,13 +139,13 @@ export default function Careers() {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://airportcareerservices.com",
+            item: "https://indianallianceservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Careers",
-            item: "https://airportcareerservices.com/careers",
+            item: "https://indianallianceservices.com/careers",
           },
         ],
       },
@@ -155,10 +155,10 @@ export default function Careers() {
   return (
     <>
       <SEO
-        title="Aviation Careers & Airport Job Vacancies 2026 | Airport Career Services (ACS)"
+        title="Aviation Careers & Airport Job Vacancies 2026 | Indian Alliance Services (IAS)"
         description="Verified airport job openings for Ground Staff, CSA, Cabin Crew, Air Cargo, and Airport Hospitality across Indian metro airports. Apply online with 100% placement guidance."
         keywords="airport ground staff jobs, cabin crew vacancies 2026, aviation career guide, airport customer service associate, airline walk-in drive"
-        canonical="https://airportcareerservices.com/careers"
+        canonical="https://indianallianceservices.com/careers"
         schema={careersSchema}
       />
 
@@ -547,7 +547,7 @@ export default function Careers() {
           <div className="max-w-3xl mx-auto bg-card rounded-2xl border border-border p-5 text-xs text-muted-foreground flex items-start gap-3 shadow-sm">
             <Info className="h-5 w-5 text-secondary shrink-0 mt-0.5" />
             <p className="leading-relaxed">
-              <strong>Industry Information Notice:</strong> Airline names, trademarks, and route updates are cited for educational and candidate awareness purposes regarding aviation sector opportunities. Airport Career Services operates as an independent guidance portal.
+              <strong>Industry Information Notice:</strong> Airline names, trademarks, and route updates are cited for educational and candidate awareness purposes regarding aviation sector opportunities. Indian Alliance Services operates as an independent guidance portal.
             </p>
           </div>
         </div>
@@ -557,7 +557,7 @@ export default function Careers() {
       <CTASection
         title="Start Preparing for Your"
         highlight="Aviation Career"
-        description="Book your profile assessment today with Airport Career Services (ACS) and get trained for standard airport recruitment drives."
+        description="Book your profile assessment today with Indian Alliance Services (IAS) and get trained for standard airport recruitment drives."
         primaryCtaText="Get Career Counselling"
         primaryCtaLink="/contact"
         secondaryCtaText="Apply for Open Vacancies"

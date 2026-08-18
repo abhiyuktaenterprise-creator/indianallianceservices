@@ -1,63 +1,63 @@
-# Welcome to your project
+# Indian Alliance Services (IAS)
 
-## Project info
+**Official Portal**: [https://indianallianceservices.com](https://indianallianceservices.com)  
+**Brand**: Indian Alliance Services (IAS) – Aviation Careers & Training  
+**Helpline / WhatsApp**: +91 7851836860  
+**Official Email**: support@indianallianceservices.com  
 
-**URL**: 
+---
 
-## How can I edit this code?
+## 🛫 Overview
 
-There are several ways of editing your application.
+**Indian Alliance Services (IAS)** is a modern, responsive, and SEO-optimized aviation career guidance, training, and placement portal built with React, Vite, TypeScript, and Tailwind CSS.
 
-**Use your preferred IDE**
+### Key Features
+- **Job Vacancies & Career Paths**: Ground Staff, Customer Service Associate (CSA), Cabin Crew, Airport Cargo, Airport Retail, Lounge Operations, and HR Coordinators.
+- **Candidate Recruitment Verification**: Anti-fraud lookup tool verifying candidate registration codes (e.g. `IAS-2026-XXXX`) and recruiter credentials.
+- **Dynamic Notifications & Google Sheet Sync**: Live circulars and notices that can sync automatically or on-demand from a Google Sheet with automatic expiration date pruning.
+- **Admin Management Console**:
+  - Site settings management (Helpline phone numbers, WhatsApp, support email, office hours, notice ticker).
+  - Job postings creation & editing (Job code, salary, openings, requirements, responsibilities).
+  - Office branch manager (Multi-city branches across Mumbai / Navi Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, Gujarat).
+  - Notification circulars manager with Google Sheet sync integration.
+  - Candidate leads CRM with status tracking and CSV export.
+  - Interactive direct assessment & contact lead capture.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. 
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🛠️ Tech Stack
 
-Follow these steps:
+- **Framework**: React 18 + Vite
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS + Radix UI + Lucide Icons
+- **State & Storage**: React Context + LocalStorage persistent database + TanStack Query
+- **SEO & Meta**: React Helmet Async + Schema.org JSON-LD
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🚀 Getting Started Locally
 
-# Step 3: Install the necessary dependencies.
-npm i
+```bash
+# 1. Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 2. Run local development server
 npm run dev
+
+# 3. Build for production
+npm run build
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🔐 Administrative Console
 
-**Use GitHub Codespaces**
+- **Route**: `/admin` (Redirects to `/admin/dashboard` or `/admin/login`)
+- **Default Username**: `admin@indianallianceservices.com`
+- **Default Password**: `admin123`
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 📄 License & Ownership
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-## Can I connect a custom domain to my project?
-
-Yes, you can!
-
-# indianallianceservices
+© 2026 Indian Alliance Services (IAS). All rights reserved.

@@ -28,7 +28,7 @@ export default function BrandLogo({
     <div className={`relative flex items-center ${className}`}>
       <img
         src={logoImg}
-        alt="Airport Career Services (ACS) - Aviation Careers & Training"
+        alt="Indian Alliance Services (IAS) - Aviation Careers & Training"
         className={`${heights[size]} ${maxWidths[size]} w-auto object-contain`}
       />
     </div>

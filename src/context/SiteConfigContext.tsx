@@ -278,12 +278,12 @@ interface SiteConfigContextType {
 const DEFAULT_SETTINGS: SiteSettings = {
   helplinePhone: "+91 7851836860",
   whatsappPhone: "+91 7851836860",
-  supportEmail: "support@airportcareerservices.com",
+  supportEmail: "support@indianallianceservices.com",
   displayAddress: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool District, Andhra Pradesh – 518010",
   officeHours: "Mon – Sat: 9:30 AM – 6:30 PM (IST)",
-  bannerNotice: "ADVISORY: Airport Career Services (ACS) does not solicit unauthorized cash payments or direct WhatsApp bank transfers. Always verify through our official portal.",
+  bannerNotice: "ADVISORY: Indian Alliance Services (IAS) does not solicit unauthorized cash payments or direct WhatsApp bank transfers. Always verify through our official portal.",
   enableNoticeBanner: true,
-  companyName: "Airport Career Services (ACS)",
+  companyName: "Indian Alliance Services (IAS)",
   tagline: "Aviation Careers & Training",
 };
 
@@ -299,10 +299,10 @@ const DEFAULT_HOME_CONTENT: HomeContent = {
 
 export const ALL_DEFAULT_10_JOBS: JobPost[] = [
   {
-    id: "acs-job-001",
+    id: "ias-job-001",
     title: "Airport Ground Staff (AGS)",
     department: "Airport Operations & Passenger Services",
-    jobCode: "ACS-AGS-2026",
+    jobCode: "IAS-AGS-2026",
     type: "Full-Time (Rotational Shifts)",
     location: "Mumbai, Delhi NCR, Bangalore, Hyderabad, Kolkata Airports",
     salaryRange: "₹25,000 – ₹45,000 / month",
@@ -328,10 +328,10 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     ],
   },
   {
-    id: "acs-job-002",
+    id: "ias-job-002",
     title: "Customer Service Assistant (CSA)",
     department: "Ticketing & Passenger Relations",
-    jobCode: "ACS-CSA-2026",
+    jobCode: "IAS-CSA-2026",
     type: "Full-Time (Day & Night Shifts)",
     location: "Major Domestic & International Terminals",
     salaryRange: "₹28,000 – ₹50,000 / month",
@@ -356,10 +356,10 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     ],
   },
   {
-    id: "acs-job-003",
+    id: "ias-job-003",
     title: "Cabin Crew / Flight Attendant",
     department: "In-Flight Hospitality & Cabin Safety",
-    jobCode: "ACS-CREW-2026",
+    jobCode: "IAS-CREW-2026",
     type: "Full-Time Aviation",
     location: "Domestic & International Airline Hubs (Delhi, Mumbai, Bengaluru)",
     salaryRange: "₹45,000 – ₹95,000 / month + Flying Allowances",
@@ -384,10 +384,10 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     ],
   },
   {
-    id: "acs-job-004",
+    id: "ias-job-004",
     title: "Airhostess & In-Flight Hospitality",
     department: "Cabin Services & Executive VIP Hospitality",
-    jobCode: "ACS-AIRHOSTESS-2026",
+    jobCode: "IAS-AIRHOSTESS-2026",
     type: "Full-Time Aviation",
     location: "Metro Airport Bases & International Routes",
     salaryRange: "₹40,000 – ₹85,000 / month",
@@ -398,117 +398,115 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     badge: "Enrolling Now",
     postedDate: "2026-08-14",
     status: "active",
-    overview: "Airhostesses represent airline hospitality standards, delivering executive cabin hospitality, safety demonstrations, meal service, and passenger comfort.",
+    overview: "Specialized in-flight career track for female candidates seeking international airline standard grooming, meal service etiquette, customer delight, and emergency safety protocols.",
     responsibilities: [
-      "Welcoming guests onboard and maintaining elegant cabin atmosphere",
-      "Conducting safety demonstrations and verifying seatbelt compliance",
-      "Serving inflight meals, duty-free merchandise, and beverages",
-      "Executing standard emergency and first-aid protocols when required",
+      "Delivering five-star in-flight hospitality and beverage service",
+      "Conducting pre-boarding aircraft inspections and safety equipment verification",
+      "Assisting premium club passengers, diplomats, and international travelers",
+      "Executing aviation safety, first-aid, and turbulence protocols",
     ],
     requirements: [
-      "Pleasing demeanor, grooming, elegance, and calm hospitality",
-      "Fluent English & Hindi communication",
+      "Praising interpersonal skills, positive body language, and clear English speech",
+      "Uncompromising professional grooming and presentation standards",
     ],
   },
   {
-    id: "acs-job-005",
-    title: "Ground Service Assistant (Ramp & Operations)",
-    department: "Airside Ramp Coordination & Safety",
-    jobCode: "ACS-GSA-2026",
-    type: "Full-Time (Rotational Shifts)",
-    location: "Airside Ramp & Aircraft Aprons Across India",
-    salaryRange: "₹24,000 – ₹42,000 / month",
-    experience: "0 – 2 Years",
-    qualification: "10th / 12th Pass / Diploma Preferred",
-    ageLimit: "18 – 32 Years",
-    openings: 18,
-    badge: "Immediate Requirement",
-    postedDate: "2026-08-15",
-    status: "active",
-    overview: "Ground Service Assistants (GSA) oversee airside aircraft turnaround, ramp coordination, fueling safety, marshaling support, baggage conveyor handling, and airport equipment operations.",
-    responsibilities: [
-      "Monitoring aircraft turnaround schedule to ensure on-time departures",
-      "Coordinating ramp equipment (pushback tractors, baggage tugs, GPU)",
-      "Ensuring airside safety protocols and FOD (Foreign Object Debris) prevention",
-      "Compiling flight load sheets and departure reports",
-    ],
-    requirements: [
-      "Strong situational awareness and attention to detail",
-      "Physical fitness for airside and apron environment",
-      "Time management and basic technical aptitude",
-    ],
-  },
-  {
-    id: "acs-job-006",
-    title: "Passenger Service Assistant (PSA)",
-    department: "Airport Floor Management & Special Assistance",
-    jobCode: "ACS-PSA-2026",
-    type: "Full-Time (Shift Based)",
-    location: "Pan-India Airport Terminals",
-    salaryRange: "₹22,000 – ₹38,000 / month",
-    experience: "Freshers Eligible",
+    id: "ias-job-005",
+    title: "Ground Security Associate & Screener",
+    department: "Aviation Security & Airside Safety",
+    jobCode: "IAS-GSA-2026",
+    type: "Full-Time (Rotational)",
+    location: "Pan-India Domestic & International Airports",
+    salaryRange: "₹24,000 – ₹40,000 / month",
+    experience: "0 – 3 Years",
     qualification: "12th Pass / Any Graduate",
     ageLimit: "18 – 30 Years",
-    openings: 14,
-    badge: "Walk-In Active",
+    openings: 30,
+    badge: "High Openings",
     postedDate: "2026-08-15",
     status: "active",
-    overview: "Passenger Service Assistants (PSA) provide dedicated airport floor assistance, wheelchair passenger escorting, unaccompanied minor care, immigration line facilitation, and VIP reception.",
+    overview: "Ground Security Associates assist terminal security screening, passenger profiling, gate pass validation, baggage scanning surveillance, and tarmac safety compliance.",
     responsibilities: [
-      "Assisting PRM (Passengers with Reduced Mobility) and medical travellers",
-      "Escorting unaccompanied minors safely from check-in to aircraft seat",
-      "Managing immigration and security queue flow during peak flight hours",
-      "Providing airport direction and transit assistance for connecting flights",
+      "Monitoring terminal entry gates and verifying ticket authenticity",
+      "Assisting airline security officers during pre-embarkation security checks",
+      "Conducting baggage reconciliation and tag validations at tarmac points",
+      "Ensuring strict compliance with BCAS civil aviation safety standards",
     ],
     requirements: [
-      "Polite communication and helpful, patient attitude",
-      "Active on feet during shifts and customer-friendly nature",
+      "High alertness, physical agility, and discipline",
+      "Ability to handle shift schedules and crowd management calmly",
     ],
   },
   {
-    id: "acs-job-007",
-    title: "Airport Retail & Duty-Free Associate",
-    department: "Airport Concessions & Luxury Boutiques",
-    jobCode: "ACS-RETAIL-2026",
+    id: "ias-job-006",
+    title: "Passenger Service Associate (PSA)",
+    department: "Terminal Customer Operations",
+    jobCode: "IAS-PSA-2026",
     type: "Full-Time (Shift Based)",
-    location: "Terminal Duty-Free Zones & Luxury Retail Concessions",
-    salaryRange: "₹22,000 – ₹40,000 / month + Sales Incentives",
+    location: "Major Indian Airports",
+    salaryRange: "₹23,000 – ₹38,000 / month",
+    experience: "Freshers Welcome",
+    qualification: "12th Pass / Diploma / Any Graduate",
+    ageLimit: "18 – 28 Years",
+    openings: 18,
+    badge: "Immediate Joining",
+    postedDate: "2026-08-15",
+    status: "active",
+    overview: "Passenger Service Associates are stationed at airport arrival and departure concourses to guide travelers, manage wheelchair services, facilitate immigration queues, and assist with airline transfers.",
+    responsibilities: [
+      "Guiding transit and transfer passengers between terminals",
+      "Assisting differently-abled travelers with wheelchair services",
+      "Providing flight information, gate direction, and lounge assistance",
+      "Coordinating with airline station managers during flight delays",
+    ],
+    requirements: [
+      "Polite communication, courteous attitude, and helpful nature",
+      "Patience and good spoken Hindi, English, or regional languages",
+    ],
+  },
+  {
+    id: "ias-job-007",
+    title: "Airport Retail & Duty-Free Sales Executive",
+    department: "Airport Commercial & Luxury Retail",
+    jobCode: "IAS-RETAIL-2026",
+    type: "Full-Time (Shift Based)",
+    location: "International Airport Duty-Free Terminals",
+    salaryRange: "₹22,000 – ₹42,000 / month + Sales Incentives",
     experience: "0 – 2 Years",
-    qualification: "10+2 / Diploma / Any Graduate",
-    ageLimit: "18 – 30 Years",
+    qualification: "12th Pass / Graduate",
+    ageLimit: "18 – 29 Years",
     openings: 10,
     badge: "Retail Track",
     postedDate: "2026-08-16",
     status: "active",
-    overview: "Airport Retail Associates manage luxury brand boutiques, duty-free shopping zones, food & beverage counters, and retail sales within high-security airport terminals.",
+    overview: "Sales executives represent world-class luxury brands, perfumes, confectioneries, and electronics inside airport security-hold areas and duty-free shopping zones.",
     responsibilities: [
-      "Assisting international and domestic passengers in duty-free shopping",
-      "Processing POS billing, foreign currency conversions, and customs validation",
-      "Maintaining inventory displays and luxury merchandise presentation",
-      "Promoting seasonal airport promotional discounts and loyalty offers",
+      "Engaging high-net-worth international travelers and passengers",
+      "Explaining duty-free product offers and handling currency conversions",
+      "Managing billing counters and computerized POS checkout systems",
+      "Maintaining inventory displays as per visual merchandising standards",
     ],
     requirements: [
-      "Sales acumen and polite retail communication",
-      "Cash register & POS billing handling experience",
-      "Well-groomed presentation and customer-friendly demeanor",
+      "Presentable personality and smart selling skills",
+      "Basic mathematical calculation and POS register handling",
     ],
   },
   {
-    id: "acs-job-008",
-    title: "Air Cargo & Logistics Coordinator",
-    department: "Airfreight & Warehouse Logistics",
-    jobCode: "ACS-CARGO-2026",
-    type: "Full-Time (Rotational Shifts)",
-    location: "Airport Cargo Complexes & Freight Hubs",
-    salaryRange: "₹24,000 – ₹45,000 / month",
+    id: "ias-job-008",
+    title: "Air Cargo Logistics & Ramp Operations",
+    department: "Air Cargo & Freight Logistics",
+    jobCode: "IAS-CARGO-2026",
+    type: "Full-Time (Shift Based)",
+    location: "Dedicated Cargo Terminals (DEL, BOM, BLR, HYD, MAA, CCU)",
+    salaryRange: "₹20,000 – ₹36,000 / month",
     experience: "0 – 2 Years",
-    qualification: "10th / 12th Pass or Graduate",
-    ageLimit: "18 – 35 Years",
-    openings: 12,
-    badge: "Cargo Logistics",
+    qualification: "10th / 12th Pass / ITI",
+    ageLimit: "18 – 32 Years",
+    openings: 35,
+    badge: "Logistics Hub",
     postedDate: "2026-08-16",
     status: "active",
-    overview: "Cargo Coordinators handle airfreight documentation, airway bills (AWB), customs cargo clearing, perishable cargo storage, and warehouse inventory control at airport cargo complexes.",
+    overview: "Air cargo specialists oversee airfreight documentation, barcode scanning, cargo palletizing, perishable item storage, and secure transport between warehouse and aircraft.",
     responsibilities: [
       "Verifying Airway Bills (AWB), customs clearance forms, and dangerous goods manifests",
       "Tracking cargo warehouse scanning, palletization, and temperature-controlled storage",
@@ -522,10 +520,10 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     ],
   },
   {
-    id: "acs-job-009",
+    id: "ias-job-009",
     title: "Airport VIP Lounge & Hospitality Executive",
     department: "Premium Lounges & Concierge Services",
-    jobCode: "ACS-LOUNGE-2026",
+    jobCode: "IAS-LOUNGE-2026",
     type: "Full-Time (Shift Based)",
     location: "Domestic & International Airport VIP Lounges",
     salaryRange: "₹26,000 – ₹48,000 / month",
@@ -549,10 +547,10 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     ],
   },
   {
-    id: "acs-job-010",
+    id: "ias-job-010",
     title: "HR & Telecalling Executive",
     department: "Talent Acquisition & Student Counselling",
-    jobCode: "ACS-HR-TELE-2026",
+    jobCode: "IAS-HR-TELE-2026",
     type: "Full-Time (Day Shift)",
     location: "Pan-India Centers (Mumbai, Delhi NCR, Indore, Kurnool, Sanand)",
     salaryRange: "₹18,000 – ₹32,000 / month + Performance Incentives",
@@ -582,7 +580,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
 
 const DEFAULT_NOTICES: NoticeItem[] = [
   {
-    id: "ACS-NOTIF-2026-081",
+    id: "IAS-NOTIF-2026-081",
     title: "Pan-India Airport Ground Staff & Customer Service Associate Walk-in Drive 2026",
     category: "walkin",
     date: "14 August 2026",
@@ -595,7 +593,7 @@ const DEFAULT_NOTICES: NoticeItem[] = [
     source: "default",
   },
   {
-    id: "ACS-NOTIF-2026-080",
+    id: "IAS-NOTIF-2026-080",
     title: "Admit Card Issued: Cabin Crew & Flight Attendant Assessment Batch #26",
     category: "admitcard",
     date: "11 August 2026",
@@ -608,13 +606,13 @@ const DEFAULT_NOTICES: NoticeItem[] = [
     source: "default",
   },
   {
-    id: "ACS-NOTIF-2026-079",
+    id: "IAS-NOTIF-2026-079",
     title: "Official Anti-Fraud Advisory & Candidate Security Notice",
     category: "advisory",
     date: "05 August 2026",
     expiryDate: "2026-12-31",
     badge: "Important Advisory",
-    description: "Airport Career Services (ACS) does not solicit unauthorized cash payments or direct WhatsApp bank transfers. Always verify your official reference code through our secure portal.",
+    description: "Indian Alliance Services (IAS) does not solicit unauthorized cash payments or direct WhatsApp bank transfers. Always verify your official reference code through our secure portal.",
     location: "National Notice",
     isNew: false,
     linkText: "Read Safety Guidelines",
@@ -625,25 +623,25 @@ const DEFAULT_NOTICES: NoticeItem[] = [
 const DEFAULT_VERIFICATIONS: VerificationCandidate[] = [
   {
     id: "cand-verify-01",
-    refCode: "ACS-2026-8841",
+    refCode: "IAS-2026-8841",
     candidateName: "Pooja Sharma",
     roleApplied: "Cabin Crew / Air Hostess",
     status: "verified",
     issuedDate: "2026-08-12",
     interviewDate: "2026-08-25 (10:00 AM)",
-    interviewVenue: "ACS Executive Center, Andheri East, Mumbai",
+    interviewVenue: "IAS Executive Center, Andheri East, Mumbai",
     issuingOfficer: "Alia Mirza (Senior Recruitment Officer)",
     remarks: "Height criteria cleared (158cm). Preliminary document assessment complete.",
   },
   {
     id: "cand-verify-02",
-    refCode: "ACS-2026-7732",
+    refCode: "IAS-2026-7732",
     candidateName: "Rohan Verma",
     roleApplied: "Airport Ground Staff (AGS)",
     status: "verified",
     issuedDate: "2026-08-14",
     interviewDate: "2026-08-28 (11:30 AM)",
-    interviewVenue: "ACS Regional Center, Greater Noida, Delhi NCR",
+    interviewVenue: "IAS Regional Center, Greater Noida, Delhi NCR",
     issuingOfficer: "Ankita Singh (Talent Acquisition Lead)",
     remarks: "12th marksheet verified. Eligible for CSA & Ground Ops batch.",
   },
@@ -656,7 +654,7 @@ const DEFAULT_BRANCHES: OfficeBranch[] = [
     officeName: "Maharashtra State Office",
     address: "Office No. 402, Sai Arcade Complex, Old Mumbai-Pune Highway, Panvel, Navi Mumbai – 410206",
     phone: "+91 7851836860",
-    email: "support@airportcareerservices.com",
+    email: "support@indianallianceservices.com",
     notice: "Visits strictly by prior appointment only.",
   },
   {
@@ -665,7 +663,7 @@ const DEFAULT_BRANCHES: OfficeBranch[] = [
     officeName: "Northern Regional Office",
     address: "Unit 315, Galaxy Diamond Plaza, Sector 4, Greater Noida West, Uttar Pradesh – 201308",
     phone: "+91 7851836860",
-    email: "support@airportcareerservices.com",
+    email: "support@indianallianceservices.com",
     notice: "Visits strictly by prior appointment only.",
   },
   {
@@ -674,7 +672,7 @@ const DEFAULT_BRANCHES: OfficeBranch[] = [
     officeName: "Central India Office",
     address: "Office No. 208, Silver Estate Business Park, A.B. Road Bypass, Indore, Madhya Pradesh – 452010",
     phone: "+91 7851836860",
-    email: "support@airportcareerservices.com",
+    email: "support@indianallianceservices.com",
     notice: "Visits strictly by prior appointment only.",
   },
   {
@@ -683,7 +681,7 @@ const DEFAULT_BRANCHES: OfficeBranch[] = [
     officeName: "Southern Regional Office",
     address: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool District, Andhra Pradesh – 518010",
     phone: "+91 7851836860",
-    email: "support@airportcareerservices.com",
+    email: "support@indianallianceservices.com",
     notice: "Visits strictly by prior appointment only.",
   },
   {
@@ -692,7 +690,7 @@ const DEFAULT_BRANCHES: OfficeBranch[] = [
     officeName: "Gujarat Office",
     address: "Office No. 204, GIDC Business Hub, Sanand-Viramgam Highway, Sanand, Gujarat – 382110",
     phone: "+91 7851836860",
-    email: "support@airportcareerservices.com",
+    email: "support@indianallianceservices.com",
     notice: "Visits strictly by prior appointment only.",
   },
 ];
@@ -731,7 +729,18 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   // 1. Settings
   const [settings, setSettings] = useState<SiteSettings>(() => {
     const saved = localStorage.getItem("acs_site_settings");
-    return saved ? JSON.parse(saved) : DEFAULT_SETTINGS;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        return {
+          ...DEFAULT_SETTINGS,
+          ...parsed,
+          supportEmail: parsed.supportEmail?.includes("airportcareerservices") ? "support@indianallianceservices.com" : (parsed.supportEmail || DEFAULT_SETTINGS.supportEmail),
+          companyName: "Indian Alliance Services (IAS)",
+        };
+      } catch (e) {}
+    }
+    return DEFAULT_SETTINGS;
   });
 
   // 2. Home Content
@@ -795,7 +804,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     passwordHash: string;
   }>(() => {
     const saved = localStorage.getItem("acs_admin_auth");
-    return saved ? JSON.parse(saved) : { email: "admin@airportcareerservices.com", passwordHash: "admin123" };
+    return saved ? JSON.parse(saved) : { email: "admin@indianallianceservices.com", passwordHash: "admin123" };
   });
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
@@ -843,7 +852,10 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const login = (email: string, pass: string): boolean => {
     const cleanEmail = email.trim().toLowerCase();
     if (
-      (cleanEmail === adminAuth.email.toLowerCase() || cleanEmail === "admin") &&
+      (cleanEmail === adminAuth.email.toLowerCase() ||
+        cleanEmail === "admin" ||
+        cleanEmail === "admin@indianallianceservices.com" ||
+        cleanEmail === "admin@airportcareerservices.com") &&
       pass === adminAuth.passwordHash
     ) {
       setIsAuthenticated(true);

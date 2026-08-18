@@ -15,7 +15,7 @@ const WhyChooseUs = () => (
       <div className="text-center mb-12">
         <span className="text-sm font-semibold text-secondary uppercase tracking-wider">Why Choose Us</span>
         <h2 className="text-3xl sm:text-4xl font-heading font-bold text-foreground mt-2 mb-4">
-          Why Choose Airport Career Services
+          Why Choose Indian Alliance Services
         </h2>
       </div>
 

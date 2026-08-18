@@ -22,4 +22,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://airportcareerservices.com/sitemap.xml
+Sitemap: https://indianallianceservices.com/sitemap.xml

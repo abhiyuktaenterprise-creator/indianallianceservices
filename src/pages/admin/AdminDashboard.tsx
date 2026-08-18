@@ -83,7 +83,7 @@ export default function AdminDashboard() {
   const [formData, setFormData] = useState({
     helplinePhone: settings.helplinePhone || "+91 7851836860",
     whatsappPhone: settings.whatsappPhone || "+91 7851836860",
-    supportEmail: settings.supportEmail || "support@airportcareerservices.com",
+    supportEmail: settings.supportEmail || "support@indianallianceservices.com",
     displayAddress: settings.displayAddress || "",
     officeHours: settings.officeHours || "Mon – Sat: 9:30 AM – 6:30 PM (IST)",
     bannerNotice: settings.bannerNotice || "",
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
   });
 
   // Password change state
-  const [adminEmail, setAdminEmail] = useState("admin@airportcareerservices.com");
+  const [adminEmail, setAdminEmail] = useState("admin@indianallianceservices.com");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
     officeName: "",
     address: "",
     phone: settings.helplinePhone || "+91 7851836860",
-    email: settings.supportEmail || "support@airportcareerservices.com",
+    email: settings.supportEmail || "support@indianallianceservices.com",
     notice: "Visits strictly by prior appointment only.",
   });
 
@@ -191,7 +191,7 @@ export default function AdminDashboard() {
     setJobFormData({
       title: "",
       department: "Airport Operations",
-      jobCode: "ACS-" + Math.floor(1000 + Math.random() * 9000),
+      jobCode: "IAS-" + Math.floor(1000 + Math.random() * 9000),
       type: "Full-Time (Shift Based)",
       location: "Pan-India Airports",
       salaryRange: "₹25,000 – ₹45,000 / month",
@@ -357,7 +357,7 @@ export default function AdminDashboard() {
       officeName: "",
       address: "",
       phone: settings.helplinePhone || "+91 7851836860",
-      email: settings.supportEmail || "support@airportcareerservices.com",
+      email: settings.supportEmail || "support@indianallianceservices.com",
       notice: "Visits strictly by prior appointment only.",
     });
     setIsBranchModalOpen(true);
@@ -420,7 +420,7 @@ export default function AdminDashboard() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `ACS_Candidate_Leads_${new Date().toISOString().split("T")[0]}.csv`);
+    link.setAttribute("download", `IAS_Candidate_Leads_${new Date().toISOString().split("T")[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -456,8 +456,8 @@ export default function AdminDashboard() {
   return (
     <>
       <SEO
-        title="Admin Control Center | Airport Career Services"
-        description="Administrative management console for Airport Career Services (ACS)."
+        title="Admin Control Center | Indian Alliance Services"
+        description="Administrative management console for Indian Alliance Services (IAS)."
         noIndex={true}
       />
 
@@ -468,7 +468,7 @@ export default function AdminDashboard() {
             <div className="flex items-center gap-3.5">
               <img
                 src="/logo.png"
-                alt="Airport Career Services (ACS)"
+                alt="Indian Alliance Services (IAS)"
                 className="h-10 sm:h-12 w-auto max-w-[200px] object-contain"
               />
               <div className="hidden sm:block h-6 w-px bg-slate-800" />
@@ -1189,7 +1189,7 @@ export default function AdminDashboard() {
                         type="email"
                         value={formData.supportEmail}
                         onChange={(e) => setFormData({ ...formData, supportEmail: e.target.value })}
-                        placeholder="support@airportcareerservices.com"
+                        placeholder="support@indianallianceservices.com"
                         required
                         className="w-full h-11 pl-10 pr-4 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 font-medium"
                       />
@@ -1611,7 +1611,7 @@ export default function AdminDashboard() {
                       type="text"
                       value={jobFormData.jobCode}
                       onChange={(e) => setJobFormData({ ...jobFormData, jobCode: e.target.value })}
-                      placeholder="e.g., ACS-AGS-2026"
+                      placeholder="e.g., IAS-AGS-2026"
                       className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-sm font-mono font-bold focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
                     />
                   </div>

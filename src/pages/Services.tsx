@@ -129,11 +129,11 @@ const detailedServices = [
 
 const serviceFaqs = [
   {
-    q: "Does Airport Career Services guarantee 100% placement?",
+    q: "Does Indian Alliance Services guarantee 100% placement?",
     a: "We provide comprehensive 100% placement assistance, meaning we provide interview opportunities, extensive preparation, and complete coordination. However, the final hiring selection always rests on the candidate's interview performance and the hiring airline's criteria. We maintain a strictly ethical, transparent policy without deceptive false guarantees.",
   },
   {
-    q: "How soon can I expect an interview after joining Airport Career Services guidance?",
+    q: "How soon can I expect an interview after joining Indian Alliance Services guidance?",
     a: "Timelines depend on your current preparation level, communication fluency, and active hiring drives across airports. Most prepared candidates undergo screening within 4 to 12 weeks of completing mock drills.",
   },
   {
@@ -156,10 +156,10 @@ export default function Services() {
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://airportcareerservices.com/services/#page",
-        url: "https://airportcareerservices.com/services",
+        "@id": "https://indianallianceservices.com/services/#page",
+        url: "https://indianallianceservices.com/services",
         name: "Aviation Career Services | Career Guidance, Training & Placement Assistance",
-        description: "Explore 6 core aviation career services by Airport Career Services (ACS): Counselling, Guidance, Training Support, Mock Interviews, Placement Assistance, and Ongoing Candidate Support.",
+        description: "Explore 6 core aviation career services by Indian Alliance Services (IAS): Counselling, Guidance, Training Support, Mock Interviews, Placement Assistance, and Ongoing Candidate Support.",
       },
       {
         "@type": "BreadcrumbList",
@@ -168,13 +168,13 @@ export default function Services() {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://airportcareerservices.com",
+            item: "https://indianallianceservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Services",
-            item: "https://airportcareerservices.com/services",
+            item: "https://indianallianceservices.com/services",
           },
         ],
       },
@@ -184,9 +184,9 @@ export default function Services() {
   return (
     <>
       <SEO
-        title="Aviation Career Services | Airport Career Services (ACS) Guidance & Placement"
+        title="Aviation Career Services | Indian Alliance Services (IAS) Guidance & Placement"
         description="Comprehensive aviation career services: Professional career counselling, profile eligibility assessment, interview preparation, grooming guidance, and transparent placement assistance for airport jobs."
-        canonical="https://airportcareerservices.com/services"
+        canonical="https://indianallianceservices.com/services"
         schema={servicesSchema}
       />
 

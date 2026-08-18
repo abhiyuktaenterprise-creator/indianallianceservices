@@ -1,10 +1,10 @@
 import { Star, Quote } from "lucide-react";
 
 const testimonials = [
-  { name: "Priya Sharma", role: "Ground Staff, Delhi Airport", text: "Airport Career Services guided me from zero knowledge to landing my dream job at Delhi Airport. The training and interview prep were outstanding!", rating: 5 },
+  { name: "Priya Sharma", role: "Ground Staff, Delhi Airport", text: "Indian Alliance Services guided me from zero knowledge to landing my dream job at Delhi Airport. The training and interview prep were outstanding!", rating: 5 },
   { name: "Rahul Verma", role: "Cargo Operations, Mumbai Airport", text: "I was confused about career options after 12th. Their counselling helped me discover airport cargo operations — and now I'm working at Mumbai Airport!", rating: 5 },
   { name: "Ananya Patel", role: "Customer Service, Bangalore Airport", text: "The entire process was transparent and supportive. Within 3 months of joining, I was placed as a Customer Service Executive.", rating: 5 },
-  { name: "Mohammed Irfan", role: "Cabin Crew, IndiGo", text: "Professional grooming and mock interviews gave me the confidence I needed. Today I fly with IndiGo — thanks to Airport Career Services!", rating: 5 },
+  { name: "Mohammed Irfan", role: "Cabin Crew, IndiGo", text: "Professional grooming and mock interviews gave me the confidence I needed. Today I fly with IndiGo — thanks to Indian Alliance Services!", rating: 5 },
 ];
 
 const Testimonials = () => (

@@ -191,8 +191,8 @@ const latestAviationJobs = [
   },
   {
     id: "hr-tele",
-    code: "ACS-HR-2026",
-    badge: "Internal ACS Hiring",
+    code: "IAS-HR-2026",
+    badge: "Internal IAS Hiring",
     title: "HR & Telecalling Executive",
     department: "Talent Acquisition & Student Guidance",
     salary: "Best in Industry + Performance Incentives",
@@ -268,7 +268,7 @@ const testimonials = [
     name: "Priya Sharma",
     role: "Ground Staff, Delhi Airport",
     image: candPriyaImg,
-    text: "Airport Career Services guided me from zero knowledge to landing my dream job at Delhi Airport. The training and interview prep were outstanding!",
+    text: "Indian Alliance Services guided me from zero knowledge to landing my dream job at Delhi Airport. The training and interview prep were outstanding!",
     rating: 5,
   },
   {
@@ -289,7 +289,7 @@ const testimonials = [
     name: "Mohammed Irfan",
     role: "Cabin Crew, IndiGo",
     image: candIrfanImg,
-    text: "Professional grooming and mock interviews gave me the confidence I needed. Today I fly with IndiGo — thanks to Airport Career Services!",
+    text: "Professional grooming and mock interviews gave me the confidence I needed. Today I fly with IndiGo — thanks to Indian Alliance Services!",
     rating: 5,
   },
 ];
@@ -297,20 +297,20 @@ const testimonials = [
 // FAQ preview
 const homeFaqs = [
   {
-    q: "What is Airport Career Services (ACS)?",
-    a: "Airport Career Services (ACS) is India's premier aviation career guidance, training support, and airport placement network. We help freshers, 10+2, and graduates secure high-demand airline and airport roles through structured counselling, grooming, mock interviews, and verified hiring connections.",
+    q: "What is Indian Alliance Services (IAS)?",
+    a: "Indian Alliance Services (IAS) is India's premier aviation career guidance, training support, and airport placement network. We help freshers, 10+2, and graduates secure high-demand airline and airport roles through structured counselling, grooming, mock interviews, and verified hiring connections.",
   },
   {
     q: "What airport jobs are available for 10th and 12th pass freshers?",
     a: "Candidates with 12th pass qualification can apply for Airport Ground Staff, Customer Service Executive (CSE), Cabin Crew (subject to age and height criteria), Cargo Handling, and Airline Support roles. Select entry-level cargo and baggage handling roles are also open to 10th pass candidates.",
   },
   {
-    q: "What career guidance and counselling does Airport Career Services provide?",
+    q: "What career guidance and counselling does Indian Alliance Services provide?",
     a: "We offer comprehensive career counselling to evaluate your eligibility, communication skills, and personal interests, guiding you to the most appropriate airport role before you begin preparation.",
   },
   {
-    q: "How can I verify a recruitment message or interview call from Airport Career Services (ACS)?",
-    a: "You can verify any official communication by visiting our official website (airportcareerservices.com), emailing our official helpdesk at support@airportcareerservices.com, or using our dedicated Recruitment Verification portal.",
+    q: "How can I verify a recruitment message or interview call from Indian Alliance Services (IAS)?",
+    a: "You can verify any official communication by visiting our official website (indianallianceservices.com), emailing our official helpdesk at support@indianallianceservices.com, or using our dedicated Recruitment Verification portal.",
   },
 ];
 
@@ -332,11 +332,11 @@ export default function Home() {
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://airportcareerservices.com/#organization",
-        name: "Airport Career Services",
-        alternateName: "ACS - Aviation Careers & Training",
-        url: "https://airportcareerservices.com",
-        logo: "https://airportcareerservices.com/logo.png",
+        "@id": "https://indianallianceservices.com/#organization",
+        name: "Indian Alliance Services",
+        alternateName: "IAS - Aviation Careers & Training",
+        url: "https://indianallianceservices.com",
+        logo: "https://indianallianceservices.com/logo.png",
         description: "Aviation Career Guidance, Training Guidance & Placement Assistance Consultancy in India.",
         email: settings.supportEmail,
         address: {
@@ -350,16 +350,16 @@ export default function Home() {
       },
       {
         "@type": "WebSite",
-        "@id": "https://airportcareerservices.com/#website",
-        url: "https://airportcareerservices.com",
-        name: "Airport Career Services (ACS)",
+        "@id": "https://indianallianceservices.com/#website",
+        url: "https://indianallianceservices.com",
+        name: "Indian Alliance Services (IAS)",
         publisher: {
-          "@id": "https://airportcareerservices.com/#organization",
+          "@id": "https://indianallianceservices.com/#organization",
         },
       },
       {
         "@type": "FAQPage",
-        "@id": "https://airportcareerservices.com/#faq",
+        "@id": "https://indianallianceservices.com/#faq",
         mainEntity: homeFaqs.map((faq) => ({
           "@type": "Question",
           name: faq.q,
@@ -375,9 +375,9 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Airport Career Services (ACS) | Aviation Careers, Training & Airport Jobs"
+        title="Indian Alliance Services (IAS) | Aviation Careers, Training & Airport Jobs"
         description="India's leading aviation career consultancy. Professional eligibility matching, IATA-aligned grooming, and direct walk-in interview drives for Airport Ground Staff, Cabin Crew, and Cargo Operations."
-        canonical="https://airportcareerservices.com/"
+        canonical="https://indianallianceservices.com/"
         schema={homeSchema}
       />
 
@@ -517,7 +517,7 @@ export default function Home() {
               <div className="relative rounded-3xl overflow-hidden border border-gold/40 shadow-2xl bg-[#080d1a] p-3 group">
                 <img
                   src={groundServicesImg}
-                  alt="Airport Career Services Airport Operations"
+                  alt="Indian Alliance Services Airport Operations"
                   className="rounded-2xl object-cover w-full h-[380px] group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-transparent to-transparent rounded-2xl flex flex-col justify-end p-6">
@@ -545,7 +545,7 @@ export default function Home() {
           <div className="flex items-center gap-2.5 text-foreground font-medium">
             <ShieldCheck className="h-5 w-5 text-secondary shrink-0" />
             <span>
-              <strong>Candidate Alert:</strong> Received an SMS, WhatsApp, or interview call from Airport Career Services (ACS)?
+              <strong>Candidate Alert:</strong> Received an SMS, WhatsApp, or interview call from Indian Alliance Services (IAS)?
             </span>
           </div>
           <Link
@@ -584,7 +584,7 @@ export default function Home() {
       <section id="offerings" className="py-20 lg:py-24 bg-muted/20 border-t border-border relative overflow-hidden">
         <div className="container mx-auto px-4">
           <SectionHeading
-            badge="ACS Ecosystem"
+            badge="IAS Ecosystem"
             title="What We're Offering —"
             highlight="Complete Aviation Career Gateway"
             description="Tailored for 10th pass, 12th pass, and graduate candidates aspiring for high-paying airline and airport roles across India."
@@ -661,7 +661,7 @@ export default function Home() {
                   Official Profile Assessment & Placement Guidance
                 </h4>
                 <p className="text-xs text-primary-foreground/80">
-                  Airport Career Services (ACS) provides complete profile eligibility review and placement preparation support.
+                  Indian Alliance Services (IAS) provides complete profile eligibility review and placement preparation support.
                 </p>
               </div>
             </div>
@@ -846,13 +846,13 @@ export default function Home() {
               <div className="inline-flex items-center gap-1.5 rounded-full bg-secondary/15 border border-secondary/30 px-3.5 py-1">
                 <Sparkles className="h-3.5 w-3.5 text-secondary" />
                 <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
-                  The ACS Advantage
+                  The IAS Advantage
                 </span>
               </div>
 
               <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-foreground leading-tight">
                 Why Students & Parents Trust{" "}
-                <span className="text-secondary">Airport Career Services</span>
+                <span className="text-secondary">Indian Alliance Services</span>
               </h2>
 
               <p className="text-muted-foreground leading-relaxed">
@@ -993,12 +993,12 @@ export default function Home() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { name: "Ankita Singh", role: "HR Director", code: "ACS-HR-01", img: ankitaImg },
-                { name: "Anamika Shinde", role: "Assistant HR Manager", code: "ACS-HR-13", img: anamikaImg, phone: "+91 8787253845" },
-                { name: "Divya Sharma", role: "Senior HR Manager", code: "ACS-HR-05", img: divyaImg },
-                { name: "Mrs. Padmavati", role: "Senior HR Manager", code: "ACS-HR-20", img: padmavatiImg },
-                { name: "Teena Roy", role: "HR Manager", code: "ACS-HR-09", img: teenaImg },
-                { name: "Alia Mirza", role: "Senior HR Executive", code: "ACS-HR-00", img: aliaImg },
+                { name: "Ankita Singh", role: "HR Director", code: "IAS-HR-01", img: ankitaImg },
+                { name: "Anamika Shinde", role: "Assistant HR Manager", code: "IAS-HR-13", img: anamikaImg, phone: "+91 8787253845" },
+                { name: "Divya Sharma", role: "Senior HR Manager", code: "IAS-HR-05", img: divyaImg },
+                { name: "Mrs. Padmavati", role: "Senior HR Manager", code: "IAS-HR-20", img: padmavatiImg },
+                { name: "Teena Roy", role: "HR Manager", code: "IAS-HR-09", img: teenaImg },
+                { name: "Alia Mirza", role: "Senior HR Executive", code: "IAS-HR-00", img: aliaImg },
               ].map((m) => (
                 <div
                   key={m.name}
@@ -1061,14 +1061,14 @@ export default function Home() {
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               {[
-                { name: "Diksha Pawar", code: "ACS-HR-02", role: "HR Executive", image: dikshaImg },
-                { name: "Komal Sharma", code: "ACS-HR-03", role: "HR Executive", image: komalImg },
-                { name: "Avni Sharma", code: "ACS-HR-04", role: "HR Executive", image: avniImg },
-                { name: "Priya Sharma", code: "ACS-HR-06", role: "HR Executive", image: priyaImg },
-                { name: "Aditi Thakur", code: "ACS-HR-07", role: "HR Executive", image: aditiImg },
-                { name: "Arpita Shinde", code: "ACS-HR-08", role: "HR Executive", image: arpitaImg },
-                { name: "Preeti Sharma", code: "ACS-HR-10", role: "HR Executive", image: preetiImg },
-                { name: "Prachi Sharma", code: "ACS-HR-11", role: "HR Executive", image: prachiImg },
+                { name: "Diksha Pawar", code: "IAS-HR-02", role: "HR Executive", image: dikshaImg },
+                { name: "Komal Sharma", code: "IAS-HR-03", role: "HR Executive", image: komalImg },
+                { name: "Avni Sharma", code: "IAS-HR-04", role: "HR Executive", image: avniImg },
+                { name: "Priya Sharma", code: "IAS-HR-06", role: "HR Executive", image: priyaImg },
+                { name: "Aditi Thakur", code: "IAS-HR-07", role: "HR Executive", image: aditiImg },
+                { name: "Arpita Shinde", code: "IAS-HR-08", role: "HR Executive", image: arpitaImg },
+                { name: "Preeti Sharma", code: "IAS-HR-10", role: "HR Executive", image: preetiImg },
+                { name: "Prachi Sharma", code: "IAS-HR-11", role: "HR Executive", image: prachiImg },
               ].map((member, idx) => (
                 <div
                   key={`${member.name}-${idx}`}
@@ -1153,7 +1153,7 @@ export default function Home() {
           <SectionHeading
             badge="Frequently Asked Questions"
             title="Common Questions About"
-            highlight="Aviation Careers & ACS"
+            highlight="Aviation Careers & IAS"
             description="Clear, factual answers to help students and parents make informed career decisions."
           />
 

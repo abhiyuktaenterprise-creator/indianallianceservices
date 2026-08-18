@@ -33,7 +33,7 @@ const Navbar = () => {
             <Plane className="h-5 w-5 text-secondary-foreground" />
           </div>
           <span className={`text-lg font-heading font-bold ${scrolled ? "text-primary" : "text-primary-foreground"}`}>
-            Airport Career Services
+            Indian Alliance Services
           </span>
         </a>
 

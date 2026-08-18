@@ -9,7 +9,7 @@ const Footer = () => (
             <div className="rounded-lg bg-secondary p-1.5">
               <Plane className="h-4 w-4 text-secondary-foreground" />
             </div>
-            <span className="font-heading font-bold text-primary-foreground">Airport Career Services</span>
+            <span className="font-heading font-bold text-primary-foreground">Indian Alliance Services</span>
           </div>
           <p className="text-sm text-primary-foreground/50 leading-relaxed">
             Aviation Careers & Training | Airport Placements | Career Support
@@ -44,8 +44,8 @@ const Footer = () => (
             <a href="tel:+917851836860" className="flex items-center gap-2 text-sm text-primary-foreground/50 hover:text-secondary transition-colors">
               <Phone className="h-4 w-4" />+91 7851836860
             </a>
-            <a href="mailto:support@airportcareerservices.com" className="flex items-center gap-2 text-sm text-primary-foreground/50 hover:text-secondary transition-colors">
-              <Mail className="h-4 w-4" /> support@airportcareerservices.com
+            <a href="mailto:support@indianallianceservices.com" className="flex items-center gap-2 text-sm text-primary-foreground/50 hover:text-secondary transition-colors">
+              <Mail className="h-4 w-4" /> support@indianallianceservices.com
             </a>
             <div className="flex items-start gap-2 text-sm text-primary-foreground/50">
               <MapPin className="h-4 w-4 shrink-0 mt-0.5" /> Mumbai • Delhi NCR • Jaipur • BLR • HYD • AP
@@ -55,7 +55,7 @@ const Footer = () => (
       </div>
 
       <div className="border-t border-primary-foreground/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-xs text-primary-foreground/40">© 2026 Airport Career Services (ACS). All rights reserved.</p>
+        <p className="text-xs text-primary-foreground/40">© 2026 Indian Alliance Services (IAS). All rights reserved.</p>
         <div className="flex gap-4">
           <a href="#" className="text-xs text-primary-foreground/40 hover:text-secondary transition-colors">Privacy Policy</a>
           <a href="#" className="text-xs text-primary-foreground/40 hover:text-secondary transition-colors">Terms of Service</a>

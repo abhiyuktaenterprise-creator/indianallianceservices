@@ -25,42 +25,42 @@ const officeLocations = [
     officeName: "Mumbai / Navi Mumbai Office",
     address: "Office No. 402, Sai Arcade Complex, Old Mumbai-Pune Highway, Panvel, Navi Mumbai, Maharashtra – 410206",
     notice: "Visits strictly by prior appointment only.",
-    email: "support@airportcareerservices.com",
+    email: "support@indianallianceservices.com",
   },
   {
     city: "Delhi NCR",
     officeName: "Delhi NCR Office",
     address: "Unit 315, Galaxy Diamond Plaza, Sector 4, Greater Noida West, Uttar Pradesh – 201308",
     notice: "Visits strictly by prior appointment only.",
-    email: "support@airportcareerservices.com",
+    email: "support@indianallianceservices.com",
   },
   {
     city: "Madhya Pradesh",
     officeName: "Madhya Pradesh Office",
     address: "Office No. 208, Silver Estate Business Park, A.B. Road Bypass, Indore, Madhya Pradesh – 452010",
     notice: "Visits strictly by prior appointment only.",
-    email: "support@airportcareerservices.com",
+    email: "support@indianallianceservices.com",
   },
   {
     city: "Andhra Pradesh",
     officeName: "Andhra Pradesh Office",
     address: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool District, Andhra Pradesh – 518010",
     notice: "Visits strictly by prior appointment only.",
-    email: "support@airportcareerservices.com",
+    email: "support@indianallianceservices.com",
   },
   {
     city: "Gujarat",
     officeName: "Gujarat Office",
     address: "Office No. 204, GIDC Business Hub, Sanand-Viramgam Highway, Sanand, Gujarat – 382110",
     notice: "Visits strictly by prior appointment only.",
-    email: "support@airportcareerservices.com",
+    email: "support@indianallianceservices.com",
   },
 ];
 
 const contactFaqs = [
   {
-    q: "How can I contact Airport Career Services for counselling?",
-    a: "You can submit an online enquiry form on our website, call our official helpdesk at +91 7851836860, or email our support desk at support@airportcareerservices.com. Our student advisors connect back within 24 business hours.",
+    q: "How can I contact Indian Alliance Services for counselling?",
+    a: "You can submit an online enquiry form on our website, call our official helpdesk at +91 7851836860, or email our support desk at support@indianallianceservices.com. Our student advisors connect back within 24 business hours.",
   },
   {
     q: "Do I need an appointment for in-person or telephonic counselling?",
@@ -81,15 +81,15 @@ export default function ContactUs() {
     "@graph": [
       {
         "@type": "ContactPage",
-        "@id": "https://airportcareerservices.com/contact/#contact",
-        url: "https://airportcareerservices.com/contact",
-        name: "Contact Airport Career Services | Career Counselling & Enquiries",
+        "@id": "https://indianallianceservices.com/contact/#contact",
+        url: "https://indianallianceservices.com/contact",
+        name: "Contact Indian Alliance Services | Career Counselling & Enquiries",
         description:
-          "Official contact details for Airport Career Services: Offices in Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat, phone, email, and online enquiry form.",
+          "Official contact details for Indian Alliance Services: Offices in Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat, phone, email, and online enquiry form.",
         publisher: {
           "@type": "Organization",
-          name: "Airport Career Services",
-          url: "https://airportcareerservices.com",
+          name: "Indian Alliance Services",
+          url: "https://indianallianceservices.com",
         },
       },
       {
@@ -99,13 +99,13 @@ export default function ContactUs() {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://airportcareerservices.com",
+            item: "https://indianallianceservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Contact Us",
-            item: "https://airportcareerservices.com/contact",
+            item: "https://indianallianceservices.com/contact",
           },
         ],
       },
@@ -115,9 +115,9 @@ export default function ContactUs() {
   return (
     <>
       <SEO
-        title="Contact Airport Career Services (ACS) | Official Helpdesk & Offices"
-        description={`Contact Airport Career Services (ACS) for expert aviation career guidance. Call ${settings.helplinePhone}, email ${settings.supportEmail}, or connect with our offices in Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat.`}
-        canonical="https://airportcareerservices.com/contact"
+        title="Contact Indian Alliance Services (IAS) | Official Helpdesk & Offices"
+        description={`Contact Indian Alliance Services (IAS) for expert aviation career guidance. Call ${settings.helplinePhone}, email ${settings.supportEmail}, or connect with our offices in Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat.`}
+        canonical="https://indianallianceservices.com/contact"
         schema={contactSchema}
       />
 
@@ -134,7 +134,7 @@ export default function ContactUs() {
               </span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
-              Contact Airport Career <span className="gold-gradient-text">Services (ACS)</span>
+              Contact Indian Alliance <span className="gold-gradient-text">Services (IAS)</span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
               Have questions about aviation eligibility, airport ground staff roles, or interview preparation? Our senior counsellors are here to guide you.
@@ -159,7 +159,7 @@ export default function ContactUs() {
                   Request Career Counselling
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Fill out this form and a dedicated career advisor from Airport Career Services (ACS) will call you within 24 hours.
+                  Fill out this form and a dedicated career advisor from Indian Alliance Services (IAS) will call you within 24 hours.
                 </p>
               </div>
 
@@ -334,7 +334,7 @@ export default function ContactUs() {
           <SectionHeading
             badge="Contact FAQ"
             title="Frequently Asked Questions About"
-            highlight="Connecting with ACS"
+            highlight="Connecting with IAS"
           />
 
           <div className="space-y-4 text-sm">

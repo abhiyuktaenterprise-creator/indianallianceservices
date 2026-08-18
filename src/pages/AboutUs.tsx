@@ -58,7 +58,7 @@ const leadershipMembers = [
     image: anthonyImg,
     badge: "Executive Leadership",
     description:
-      "Anthony Ghospade is the Founder and CEO of Airport Career Services (ACS). With strong industry understanding and a student-first approach, he guides aspiring aviation professionals toward the right career path with clarity, honesty, and long-term vision.",
+      "Anthony Ghospade is the Founder and CEO of Indian Alliance Services (IAS). With strong industry understanding and a student-first approach, he guides aspiring aviation professionals toward the right career path with clarity, honesty, and long-term vision.",
   },
   {
     name: "Aditya Gujral",
@@ -83,7 +83,7 @@ const seniorHRMembers = [
   {
     name: "Ankita Singh",
     role: "HR Director",
-    code: "ACS-HR-01",
+    code: "IAS-HR-01",
     image: ankitaImg,
     description:
       "Directs nationwide talent acquisition operations, candidate documentation standards, and overall human resources recruitment strategy.",
@@ -91,7 +91,7 @@ const seniorHRMembers = [
   {
     name: "Anamika Shinde",
     role: "Assistant HR Manager",
-    code: "ACS-HR-13",
+    code: "IAS-HR-13",
     image: anamikaImg,
     phone: "+91 8787253845",
     description:
@@ -100,7 +100,7 @@ const seniorHRMembers = [
   {
     name: "Divya Sharma",
     role: "Senior HR Manager",
-    code: "ACS-HR-05",
+    code: "IAS-HR-05",
     image: divyaImg,
     description:
       "Manages senior profile evaluations, airline interview preparation workshops, and candidate grooming pipelines with industry passion.",
@@ -108,7 +108,7 @@ const seniorHRMembers = [
   {
     name: "Mrs. Padmavati",
     role: "Senior HR Manager",
-    code: "ACS-HR-20",
+    code: "IAS-HR-20",
     image: padmavatiImg,
     description:
       "Provides senior advisory on career transitions, eligibility validation, and long-term placement roadmaps for prospective airport personnel.",
@@ -116,7 +116,7 @@ const seniorHRMembers = [
   {
     name: "Teena Roy",
     role: "HR Manager",
-    code: "ACS-HR-09",
+    code: "IAS-HR-09",
     image: teenaImg,
     description:
       "Oversees candidate screening workflows, telephonic eligibility assessments, and structured mock interview schedules.",
@@ -124,7 +124,7 @@ const seniorHRMembers = [
   {
     name: "Alia Mirza",
     role: "Senior HR Executive",
-    code: "ACS-HR-00",
+    code: "IAS-HR-00",
     image: aliaImg,
     description:
       "Leads passenger service and ground staff candidate evaluations, telephonic coaching, and interview scheduling.",
@@ -135,7 +135,7 @@ const seniorHRMembers = [
 const hrExecutiveMembers = [
   {
     name: "Diksha Pawar",
-    code: "ACS-HR-02",
+    code: "IAS-HR-02",
     designation: "HR Executive",
     initials: "DP",
     image: dikshaImg,
@@ -144,7 +144,7 @@ const hrExecutiveMembers = [
   },
   {
     name: "Komal Sharma",
-    code: "ACS-HR-03",
+    code: "IAS-HR-03",
     designation: "HR Executive",
     initials: "KS",
     image: komalImg,
@@ -153,7 +153,7 @@ const hrExecutiveMembers = [
   },
   {
     name: "Avni Sharma",
-    code: "ACS-HR-04",
+    code: "IAS-HR-04",
     designation: "HR Executive",
     initials: "AS",
     image: avniImg,
@@ -162,7 +162,7 @@ const hrExecutiveMembers = [
   },
   {
     name: "Priya Sharma",
-    code: "ACS-HR-06",
+    code: "IAS-HR-06",
     designation: "HR Executive",
     initials: "PS",
     image: priyaImg,
@@ -171,7 +171,7 @@ const hrExecutiveMembers = [
   },
   {
     name: "Aditi Thakur",
-    code: "ACS-HR-07",
+    code: "IAS-HR-07",
     designation: "HR Executive",
     initials: "AT",
     image: aditiImg,
@@ -180,7 +180,7 @@ const hrExecutiveMembers = [
   },
   {
     name: "Arpita Shinde",
-    code: "ACS-HR-08",
+    code: "IAS-HR-08",
     designation: "HR Executive",
     initials: "AS",
     image: arpitaImg,
@@ -189,7 +189,7 @@ const hrExecutiveMembers = [
   },
   {
     name: "Preeti Sharma",
-    code: "ACS-HR-10",
+    code: "IAS-HR-10",
     designation: "HR Executive",
     initials: "PS",
     image: preetiImg,
@@ -198,7 +198,7 @@ const hrExecutiveMembers = [
   },
   {
     name: "Prachi Sharma",
-    code: "ACS-HR-11",
+    code: "IAS-HR-11",
     designation: "HR Executive",
     initials: "PS",
     image: prachiImg,
@@ -207,7 +207,7 @@ const hrExecutiveMembers = [
   },
   {
     name: "Akanksha Sharma",
-    code: "ACS-HR-12",
+    code: "IAS-HR-12",
     designation: "HR Executive",
     initials: "AS",
     image: akankshaImg,
@@ -216,7 +216,7 @@ const hrExecutiveMembers = [
   },
   {
     name: "Monika Sharma",
-    code: "ACS-HR-14",
+    code: "IAS-HR-14",
     designation: "HR Executive",
     initials: "MS",
     image: monikaImg,
@@ -225,7 +225,7 @@ const hrExecutiveMembers = [
   },
   {
     name: "Vanshika Tiwari",
-    code: "ACS-HR-15",
+    code: "IAS-HR-15",
     designation: "HR Executive",
     initials: "VT",
     image: vanshikaImg,
@@ -234,7 +234,7 @@ const hrExecutiveMembers = [
   },
   {
     name: "Kavya Mittal",
-    code: "ACS-HR-16",
+    code: "IAS-HR-16",
     designation: "HR Executive",
     initials: "KM",
     image: kavyaImg,
@@ -247,7 +247,7 @@ const hrExecutiveMembers = [
 const hrAssociateMembers = [
   {
     name: "Anika Dhanraj",
-    code: "ACS-HR-17",
+    code: "IAS-HR-17",
     designation: "HR Associate",
     initials: "AD",
     image: anikaImg,
@@ -256,7 +256,7 @@ const hrAssociateMembers = [
   },
   {
     name: "H.S. Shinghaniya",
-    code: "ACS-HR-19",
+    code: "IAS-HR-19",
     designation: "HR Associate",
     initials: "HS",
     image: hsShinghaniyaImg,
@@ -265,7 +265,7 @@ const hrAssociateMembers = [
   },
   {
     name: "Mrs. Any Dussoja",
-    code: "ACS-HR-21",
+    code: "IAS-HR-21",
     designation: "HR Associate",
     initials: "AD",
     image: anyDussojaImg,
@@ -324,14 +324,14 @@ export default function AboutUs() {
     "@graph": [
       {
         "@type": "AboutPage",
-        "@id": "https://airportcareerservices.com/about/#about",
-        url: "https://airportcareerservices.com/about",
-        name: "About Airport Career Services",
-        description: "Learn about Airport Career Services (ACS), our leadership, our mission, vision, values, and our dedicated HR team.",
+        "@id": "https://indianallianceservices.com/about/#about",
+        url: "https://indianallianceservices.com/about",
+        name: "About Indian Alliance Services",
+        description: "Learn about Indian Alliance Services (IAS), our leadership, our mission, vision, values, and our dedicated HR team.",
         publisher: {
           "@type": "Organization",
-          name: "Airport Career Services",
-          url: "https://airportcareerservices.com",
+          name: "Indian Alliance Services",
+          url: "https://indianallianceservices.com",
         },
       },
       {
@@ -341,13 +341,13 @@ export default function AboutUs() {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://airportcareerservices.com",
+            item: "https://indianallianceservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "About Us",
-            item: "https://airportcareerservices.com/about",
+            item: "https://indianallianceservices.com/about",
           },
         ],
       },
@@ -355,50 +355,50 @@ export default function AboutUs() {
         "@type": "Person",
         name: "Anthony Ghospade",
         jobTitle: "Founder & CEO",
-        image: "https://airportcareerservices.com/assets/team/anthony_ghospade.jpg",
+        image: "https://indianallianceservices.com/assets/team/anthony_ghospade.jpg",
         worksFor: {
           "@type": "Organization",
-          name: "Airport Career Services",
+          name: "Indian Alliance Services",
         },
       },
       {
         "@type": "Person",
         name: "Aditya Gujral",
         jobTitle: "Assistant Manager",
-        image: "https://airportcareerservices.com/assets/team/aditya_gujral.jpg",
+        image: "https://indianallianceservices.com/assets/team/aditya_gujral.jpg",
         worksFor: {
           "@type": "Organization",
-          name: "Airport Career Services",
+          name: "Indian Alliance Services",
         },
       },
       {
         "@type": "Person",
         name: "P.K. Chadda",
         jobTitle: "Senior Assistant Manager",
-        image: "https://airportcareerservices.com/assets/team/prashant_chadda.jpg",
+        image: "https://indianallianceservices.com/assets/team/prashant_chadda.jpg",
         worksFor: {
           "@type": "Organization",
-          name: "Airport Career Services",
+          name: "Indian Alliance Services",
         },
       },
       {
         "@type": "Person",
         name: "Ankita Singh",
         jobTitle: "HR Director / Head of HR",
-        image: "https://airportcareerservices.com/assets/team/ankita_singh.jpg",
+        image: "https://indianallianceservices.com/assets/team/ankita_singh.jpg",
         worksFor: {
           "@type": "Organization",
-          name: "Airport Career Services",
+          name: "Indian Alliance Services",
         },
       },
       {
         "@type": "Person",
         name: "Mrs. Padmavati",
         jobTitle: "Senior HR Manager",
-        image: "https://airportcareerservices.com/assets/team/padmavati.jpg",
+        image: "https://indianallianceservices.com/assets/team/padmavati.jpg",
         worksFor: {
           "@type": "Organization",
-          name: "Airport Career Services",
+          name: "Indian Alliance Services",
         },
       },
       {
@@ -406,20 +406,20 @@ export default function AboutUs() {
         name: "Anamika Shinde",
         jobTitle: "Assistant HR Manager",
         telephone: "+91 8787253845",
-        image: "https://airportcareerservices.com/assets/team/anamika_shinde.jpg",
+        image: "https://indianallianceservices.com/assets/team/anamika_shinde.jpg",
         worksFor: {
           "@type": "Organization",
-          name: "Airport Career Services",
+          name: "Indian Alliance Services",
         },
       },
       {
         "@type": "Person",
         name: "Alia Mirza",
         jobTitle: "Senior HR Executive",
-        image: "https://airportcareerservices.com/assets/team/alia_mirza.jpg",
+        image: "https://indianallianceservices.com/assets/team/alia_mirza.jpg",
         worksFor: {
           "@type": "Organization",
-          name: "Airport Career Services",
+          name: "Indian Alliance Services",
         },
       },
     ],
@@ -428,9 +428,9 @@ export default function AboutUs() {
   return (
     <>
       <SEO
-        title="About Airport Career Services (ACS) | Aviation Career Guidance & Leadership"
-        description="Discover Airport Career Services (ACS): Our mission, vision, values, leadership team (Founder & CEO Anthony Ghospade, Aditya Gujral, P.K. Chadda), Senior HR leaders (HR Director Ankita Singh, Senior HR Manager Divya Sharma, Senior HR Manager Mrs. Padmavati, HR Manager Teena Roy, Assistant HR Manager Anamika Shinde, Alia Mirza) and verified recruitment team."
-        canonical="https://airportcareerservices.com/about"
+        title="About Indian Alliance Services (IAS) | Aviation Career Guidance & Leadership"
+        description="Discover Indian Alliance Services (IAS): Our mission, vision, values, leadership team (Founder & CEO Anthony Ghospade, Aditya Gujral, P.K. Chadda), Senior HR leaders (HR Director Ankita Singh, Senior HR Manager Divya Sharma, Senior HR Manager Mrs. Padmavati, HR Manager Teena Roy, Assistant HR Manager Anamika Shinde, Alia Mirza) and verified recruitment team."
+        canonical="https://indianallianceservices.com/about"
         schema={aboutSchema}
       />
 
@@ -447,7 +447,7 @@ export default function AboutUs() {
               </span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
-              About Airport Career <span className="gold-gradient-text">Services (ACS)</span>
+              About Indian Alliance <span className="gold-gradient-text">Services (IAS)</span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
               A dedicated aviation career guidance and placement portal helping aspiring candidates bridge the gap between education and airport employment.
@@ -473,7 +473,7 @@ export default function AboutUs() {
                 Your Trusted Compass in the Aviation Ecosystem
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Airport Career Services (ACS) is a dedicated aviation career guidance and placement consultancy. We guide students step-by-step — from career selection to training, grooming, interview coaching, and final airport job placement.
+                Indian Alliance Services (IAS) is a dedicated aviation career guidance and placement consultancy. We guide students step-by-step — from career selection to training, grooming, interview coaching, and final airport job placement.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 The aviation sector in India is expanding rapidly with new greenfield airports and domestic fleet expansions. However, many students from across India lack access to authentic information about job roles, eligibility criteria, and hiring procedures. We exist to provide transparent, student-first guidance to help freshers build sustainable careers.
@@ -992,34 +992,34 @@ export default function AboutUs() {
           <SectionHeading
             badge="Fast Facts & Knowledge Base"
             title="Frequently Answered Questions About"
-            highlight="Airport Career Services"
+            highlight="Indian Alliance Services"
           />
 
           <div className="space-y-4 text-sm">
             <div className="bg-card rounded-xl border border-border p-6">
               <h3 className="font-heading font-bold text-foreground text-base mb-2">
-                What is Airport Career Services (ACS)?
+                What is Indian Alliance Services (IAS)?
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Airport Career Services (ACS) is an Indian aviation career guidance, training advisory, and placement portal based in Andhra Pradesh with regional counselling support across India.
+                Indian Alliance Services (IAS) is an Indian aviation career guidance, training advisory, and placement portal based in Andhra Pradesh with regional counselling support across India.
               </p>
             </div>
 
             <div className="bg-card rounded-xl border border-border p-6">
               <h3 className="font-heading font-bold text-foreground text-base mb-2">
-                What does Airport Career Services do?
+                What does Indian Alliance Services do?
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Airport Career Services provides profile eligibility assessment, career counselling, training guidance, mock interview preparation, and placement coordination for airport ground staff, customer service executives, cargo handlers, and airline support roles.
+                Indian Alliance Services provides profile eligibility assessment, career counselling, training guidance, mock interview preparation, and placement coordination for airport ground staff, customer service executives, cargo handlers, and airline support roles.
               </p>
             </div>
 
             <div className="bg-card rounded-xl border border-border p-6">
               <h3 className="font-heading font-bold text-foreground text-base mb-2">
-                Who leads Airport Career Services?
+                Who leads Indian Alliance Services?
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Airport Career Services was founded by Anthony Ghospade (Founder & CEO), supported by Assistant Manager Aditya Gujral, Senior Assistant Manager P.K. Chadda, and Senior HR Leaders including Alia Mirza, Ankita Singh, Divya Sharma, Teena Roy, and Anamika Shinde.
+                Indian Alliance Services was founded by Anthony Ghospade (Founder & CEO), supported by Assistant Manager Aditya Gujral, Senior Assistant Manager P.K. Chadda, and Senior HR Leaders including Alia Mirza, Ankita Singh, Divya Sharma, Teena Roy, and Anamika Shinde.
               </p>
             </div>
           </div>

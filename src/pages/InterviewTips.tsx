@@ -120,9 +120,10 @@ export default function InterviewTips() {
   return (
     <>
       <SEO
-        title="Aviation Interview Tips & Grooming Guide | Airport Career Services (ACS)"
-        description="Comprehensive airline interview preparation masterclass by Airport Career Services (ACS). Cabin crew grooming rules, top ground staff interview Q&As, and mock screening guidelines."
-        keywords="aviation interview questions, ground staff interview tips, cabin crew grooming, airport job interview, mock interview guidance, Airport Career Services interview prep"
+        title="Aviation Interview Tips & Grooming Guide | Indian Alliance Services (IAS)"
+        description="Comprehensive airline interview preparation masterclass by Indian Alliance Services (IAS). Cabin crew grooming rules, top ground staff interview Q&As, and mock screening guidelines."
+        keywords="aviation interview questions, ground staff interview tips, cabin crew grooming, airport job interview, mock interview guidance, Indian Alliance Services interview prep"
+        canonical="https://indianallianceservices.com/interview-tips"
       />
 
       {/* Hero Banner */}
@@ -132,7 +133,7 @@ export default function InterviewTips() {
           <Breadcrumbs items={[{ label: "Interview Preparation" }]} className="text-primary-foreground/70 mb-4" />
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 text-xs font-extrabold text-gold mb-4 shadow-md">
-              <Sparkles className="h-3.5 w-3.5 text-gold" /> ACS Career Academy
+              <Sparkles className="h-3.5 w-3.5 text-gold" /> IAS Career Academy
             </div>
             <h1 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-white mb-4">
               Master Your Airline & Airport <span className="gold-gradient-text">Job Interviews</span>

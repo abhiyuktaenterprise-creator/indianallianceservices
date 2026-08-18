@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 
 const quickPrompts = [
-  "Hi ACS! I want details on Airport Ground Staff roles & eligibility.",
+  "Hi IAS! I want details on Airport Ground Staff roles & eligibility.",
   "Hello! I am interested in Cabin Crew / Air Hostess career guidance.",
   "Hi, I want to verify my interview status / application ID.",
   "Hello! Please share details on airport customer service & ticketing courses.",
@@ -19,7 +19,7 @@ export default function WhatsAppWidget() {
   const cleanPhone = (settings.whatsappPhone || "917851836860").replace(/\D/g, "");
 
   const handleSend = (textToSend?: string) => {
-    const finalMsg = textToSend || message || "Hello Airport Career Services Team! I want information on aviation & airport career guidance.";
+    const finalMsg = textToSend || message || "Hello Indian Alliance Services Team! I want information on aviation & airport career guidance.";
     const encoded = encodeURIComponent(finalMsg);
     const url = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encoded}`;
     window.open(url, "_blank", "noopener,noreferrer");
@@ -41,13 +41,13 @@ export default function WhatsAppWidget() {
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <div className="h-10 w-10 rounded-2xl bg-gold/20 flex items-center justify-center font-bold text-sm text-gold backdrop-blur-sm border border-gold/40">
-                    ACS
+                    IAS
                   </div>
                   <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-400 border-2 border-slate-950" />
                 </div>
                 <div>
                   <h4 className="font-heading font-extrabold text-sm leading-snug flex items-center gap-1.5 text-white">
-                    ACS Concierge
+                    IAS Concierge
                     <ShieldCheck className="h-3.5 w-3.5 text-gold" />
                   </h4>
                   <p className="text-[11px] text-primary-foreground/80 flex items-center gap-1">
@@ -70,7 +70,7 @@ export default function WhatsAppWidget() {
           <div className="p-4 bg-muted/30 space-y-3 max-h-[360px] overflow-y-auto">
             <div className="bg-card rounded-2xl rounded-tl-sm p-3.5 text-xs text-foreground shadow-sm border border-border/60">
               <p className="font-bold text-gold flex items-center gap-1 mb-1">
-                <Sparkles className="h-3.5 w-3.5 text-gold" /> Welcome to Airport Career Services!
+                <Sparkles className="h-3.5 w-3.5 text-gold" /> Welcome to Indian Alliance Services!
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 Connect directly with our senior aviation counsellors. Ask questions about eligibility, ground staff jobs, cabin crew training, or verify your application.

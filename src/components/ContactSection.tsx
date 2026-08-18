@@ -8,7 +8,12 @@ import { useToast } from "@/hooks/use-toast";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 
 const locations = [
-  { city: "Lakshadweep", address: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553" },
+  { city: "Lakshadweep (Backup Office)", address: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553" },
+  { city: "Mumbai / Navi Mumbai", address: "Office No. 402, Sai Arcade Complex, Panvel, Navi Mumbai – 410206" },
+  { city: "Delhi NCR", address: "Unit 315, Galaxy Diamond Plaza, Greater Noida West – 201308" },
+  { city: "Madhya Pradesh", address: "Office No. 208, Silver Estate Business Park, Indore – 452010" },
+  { city: "Andhra Pradesh", address: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool – 518010" },
+  { city: "Gujarat", address: "Office No. 204, GIDC Business Hub, Sanand – 382110" },
 ];
 
 const ContactSection = () => {
@@ -151,13 +156,18 @@ const ContactSection = () => {
             </div>
 
             {/* Locations */}
-            <div className="bg-card rounded-xl border border-border p-6">
-              <h3 className="font-heading font-bold text-lg text-foreground mb-4">Our Locations</h3>
-              <div className="grid grid-cols-1 gap-3">
-                <div className="flex items-center gap-2 text-foreground">
-                  <MapPin className="h-4 w-4 text-secondary shrink-0" />
-                  <span className="font-medium">{settings.displayAddress}</span>
-                </div>
+            <div className="bg-card rounded-xl border border-border p-6 space-y-3">
+              <h3 className="font-heading font-bold text-lg text-foreground mb-3">Our Office Network</h3>
+              <div className="space-y-2 text-xs">
+                {locations.map((loc) => (
+                  <div key={loc.city} className="flex items-start gap-2 text-foreground/90">
+                    <MapPin className="h-4 w-4 text-secondary shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-foreground">{loc.city}: </strong>
+                      <span className="text-muted-foreground">{loc.address}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

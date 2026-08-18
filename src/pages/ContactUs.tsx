@@ -18,13 +18,48 @@ import Breadcrumbs from "@/components/common/Breadcrumbs";
 import SectionHeading from "@/components/common/SectionHeading";
 import ContactForm from "@/components/common/ContactForm";
 
-// Official Office Location
+// Primary Office Locations (Lakshadweep Backup Office & 5 Regional State Offices)
 const officeLocations = [
   {
-    city: "Lakshadweep",
+    city: "Lakshadweep (Backup Office)",
     officeName: "Indian Alliance Services Backup Office",
     address: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553",
     notice: "Official Administrative & Backup Office. Visits strictly by prior appointment only.",
+    email: "support@indianallianceservices.com",
+  },
+  {
+    city: "Mumbai / Navi Mumbai",
+    officeName: "Maharashtra State Office",
+    address: "Office No. 402, Sai Arcade Complex, Old Mumbai-Pune Highway, Panvel, Navi Mumbai, Maharashtra – 410206",
+    notice: "Visits strictly by prior appointment only.",
+    email: "support@indianallianceservices.com",
+  },
+  {
+    city: "Delhi NCR",
+    officeName: "Northern Regional Office",
+    address: "Unit 315, Galaxy Diamond Plaza, Sector 4, Greater Noida West, Uttar Pradesh – 201308",
+    notice: "Visits strictly by prior appointment only.",
+    email: "support@indianallianceservices.com",
+  },
+  {
+    city: "Madhya Pradesh",
+    officeName: "Central India Office",
+    address: "Office No. 208, Silver Estate Business Park, A.B. Road Bypass, Indore, Madhya Pradesh – 452010",
+    notice: "Visits strictly by prior appointment only.",
+    email: "support@indianallianceservices.com",
+  },
+  {
+    city: "Andhra Pradesh",
+    officeName: "Southern Regional Office",
+    address: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool District, Andhra Pradesh – 518010",
+    notice: "Visits strictly by prior appointment only.",
+    email: "support@indianallianceservices.com",
+  },
+  {
+    city: "Gujarat",
+    officeName: "Gujarat Office",
+    address: "Office No. 204, GIDC Business Hub, Sanand-Viramgam Highway, Sanand, Gujarat – 382110",
+    notice: "Visits strictly by prior appointment only.",
     email: "support@indianallianceservices.com",
   },
 ];
@@ -197,9 +232,13 @@ export default function ContactUs() {
                     </div>
                     <div>
                       <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                        Office Location
+                        Office Locations
                       </div>
                       <div className="text-sm font-semibold text-foreground mt-0.5 leading-snug">
+                        Mumbai / Navi Mumbai • Delhi NCR • Madhya Pradesh • Andhra Pradesh • Gujarat
+                      </div>
+                      <div className="text-xs font-bold text-amber-800 dark:text-amber-300 mt-2 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/25">
+                        <span className="font-extrabold uppercase text-[10px] tracking-wider block text-amber-700 dark:text-amber-400 mb-0.5">Official Backup Office:</span>
                         Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553
                       </div>
                     </div>
@@ -246,15 +285,15 @@ export default function ContactUs() {
       </section>
 
       {/* ==================================================
-          OFFICE LOCATION
+          OFFICE LOCATIONS (6 OFFICES ACROSS INDIA)
           ================================================== */}
       <section className="py-20 gradient-sky border-t border-border">
         <div className="container mx-auto px-4">
           <SectionHeading
-            badge="Our Office Location"
-            title="Official Administrative &"
-            highlight="Backup Office"
-            description="Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553."
+            badge="Our Office Locations"
+            title="Visit or Connect with Our"
+            highlight="Offices Across India"
+            description="Connect with our dedicated career counselling and candidate guidance teams across Lakshadweep (Backup Office), Mumbai / Navi Mumbai, Delhi NCR, Madhya Pradesh, Andhra Pradesh, and Gujarat."
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">

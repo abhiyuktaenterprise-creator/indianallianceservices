@@ -649,13 +649,58 @@ const DEFAULT_VERIFICATIONS: VerificationCandidate[] = [
 
 const DEFAULT_BRANCHES: OfficeBranch[] = [
   {
-    id: "branch-01",
-    city: "Lakshadweep",
+    id: "branch-00",
+    city: "Lakshadweep (Backup Office)",
     officeName: "Indian Alliance Services Backup Office",
     address: "Indian Alliance Services Backup Office, 152, Agatti, Lakshadweep 682553",
     phone: "+91 7851836860",
     email: "support@indianallianceservices.com",
     notice: "Official Administrative & Backup Office. Visits strictly by prior appointment only.",
+  },
+  {
+    id: "branch-01",
+    city: "Mumbai / Navi Mumbai",
+    officeName: "Maharashtra State Office",
+    address: "Office No. 402, Sai Arcade Complex, Old Mumbai-Pune Highway, Panvel, Navi Mumbai, Maharashtra – 410206",
+    phone: "+91 7851836860",
+    email: "support@indianallianceservices.com",
+    notice: "Visits strictly by prior appointment only.",
+  },
+  {
+    id: "branch-02",
+    city: "Delhi NCR",
+    officeName: "Northern Regional Office",
+    address: "Unit 315, Galaxy Diamond Plaza, Sector 4, Greater Noida West, Uttar Pradesh – 201308",
+    phone: "+91 7851836860",
+    email: "support@indianallianceservices.com",
+    notice: "Visits strictly by prior appointment only.",
+  },
+  {
+    id: "branch-03",
+    city: "Madhya Pradesh",
+    officeName: "Central India Office",
+    address: "Office No. 208, Silver Estate Business Park, A.B. Road Bypass, Indore, Madhya Pradesh – 452010",
+    phone: "+91 7851836860",
+    email: "support@indianallianceservices.com",
+    notice: "Visits strictly by prior appointment only.",
+  },
+  {
+    id: "branch-04",
+    city: "Andhra Pradesh",
+    officeName: "Southern Regional Office",
+    address: "Survey No. 42/3, Ranipet-Kurnool Highway, Orvakal, Kurnool District, Andhra Pradesh – 518010",
+    phone: "+91 7851836860",
+    email: "support@indianallianceservices.com",
+    notice: "Visits strictly by prior appointment only.",
+  },
+  {
+    id: "branch-05",
+    city: "Gujarat",
+    officeName: "Gujarat Office",
+    address: "Office No. 204, GIDC Business Hub, Sanand-Viramgam Highway, Sanand, Gujarat – 382110",
+    phone: "+91 7851836860",
+    email: "support@indianallianceservices.com",
+    notice: "Visits strictly by prior appointment only.",
   },
 ];
 
@@ -764,14 +809,8 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) {
-          const filtered = parsed.filter(
-            (b: any) =>
-              b.address?.includes("Lakshadweep") ||
-              b.city?.includes("Lakshadweep") ||
-              b.address?.includes("Agatti")
-          );
-          if (filtered.length > 0) return filtered;
+        if (Array.isArray(parsed) && parsed.length >= 4) {
+          return parsed;
         }
       } catch (e) {}
     }

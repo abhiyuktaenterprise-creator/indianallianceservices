@@ -162,7 +162,7 @@ export default function HeroBannerSlider({
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const autoPlayTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const autoPlayTimerRef = useRef<any>(null);
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -198,7 +198,7 @@ export default function HeroBannerSlider({
   };
 
   const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
+    if (touchStart === null || touchEnd === null) return;
     const distance = touchStart - touchEnd;
     const minSwipeDistance = 50;
     if (distance > minSwipeDistance) {
@@ -210,7 +210,7 @@ export default function HeroBannerSlider({
     setTouchEnd(null);
   };
 
-  const current = slides[currentSlide];
+  const current = slides[currentSlide] || slides[0];
 
   return (
     <section

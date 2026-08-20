@@ -787,15 +787,21 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   // 2. Home Content
   const [homeContent, setHomeContent] = useState<HomeContent>(() => {
-    const saved = localStorage.getItem("acs_home_content");
-    return saved ? JSON.parse(saved) : DEFAULT_HOME_CONTENT;
+    try {
+      const saved = localStorage.getItem("acs_home_content");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return { ...DEFAULT_HOME_CONTENT, ...parsed };
+      }
+    } catch (e) {}
+    return DEFAULT_HOME_CONTENT;
   });
 
   // 3. Job Posts (Loads all 10 jobs)
   const [jobPosts, setJobPosts] = useState<JobPost[]>(() => {
-    const saved = localStorage.getItem("acs_job_posts");
-    if (saved) {
-      try {
+    try {
+      const saved = localStorage.getItem("acs_job_posts");
+      if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length >= 8) {
           return parsed.map((j: JobPost) => {
@@ -806,53 +812,80 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             return j;
           });
         }
-      } catch (e) {}
-    }
+      }
+    } catch (e) {}
     return ALL_DEFAULT_10_JOBS;
   });
 
   // 4. Notifications
   const [notices, setNotices] = useState<NoticeItem[]>(() => {
-    const saved = localStorage.getItem("acs_notices");
-    return saved ? JSON.parse(saved) : DEFAULT_NOTICES;
+    try {
+      const saved = localStorage.getItem("acs_notices");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch (e) {}
+    return DEFAULT_NOTICES;
   });
 
   // 5. Verification Registry
   const [verificationRegistry, setVerificationRegistry] = useState<VerificationCandidate[]>(() => {
-    const saved = localStorage.getItem("acs_verifications");
-    return saved ? JSON.parse(saved) : DEFAULT_VERIFICATIONS;
+    try {
+      const saved = localStorage.getItem("acs_verifications");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch (e) {}
+    return DEFAULT_VERIFICATIONS;
   });
 
   // 6. Branches
   const [branches, setBranches] = useState<OfficeBranch[]>(() => {
-    const saved = localStorage.getItem("acs_branches");
-    if (saved) {
-      try {
+    try {
+      const saved = localStorage.getItem("acs_branches");
+      if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length >= 4) {
           return parsed;
         }
-      } catch (e) {}
-    }
+      }
+    } catch (e) {}
     return DEFAULT_BRANCHES;
   });
 
   // 7. Leads
   const [leads, setLeads] = useState<CandidateLead[]>(() => {
-    const saved = localStorage.getItem("acs_candidate_leads");
-    return saved ? JSON.parse(saved) : DEFAULT_LEADS;
+    try {
+      const saved = localStorage.getItem("acs_candidate_leads");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch (e) {}
+    return DEFAULT_LEADS;
   });
 
   // 8. Cloud Config
   const [cloudConfig, setCloudConfig] = useState<CloudConfig>(() => {
-    const saved = localStorage.getItem("acs_cloud_config");
-    return saved
-      ? JSON.parse(saved)
-      : {
+    try {
+      const saved = localStorage.getItem("acs_cloud_config");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
           supabaseUrl: "",
           supabaseAnonKey: "",
           isCloudConnected: false,
+          ...parsed,
         };
+      }
+    } catch (e) {}
+    return {
+      supabaseUrl: "",
+      supabaseAnonKey: "",
+      isCloudConnected: false,
+    };
   });
 
   // 9. Admin Auth

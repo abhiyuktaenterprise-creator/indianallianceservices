@@ -265,6 +265,7 @@ interface SiteConfigContextType {
   updateLeadStatus: (id: string, status: CandidateLead["status"]) => Promise<void>;
   deleteLead: (id: string) => Promise<void>;
   clearAllLeads: () => Promise<void>;
+  reloadLeads: () => void;
   cloudConfig: CloudConfig;
   updateCloudConfig: (config: Partial<CloudConfig>) => Promise<void>;
   syncWithCloud: () => Promise<boolean>;
@@ -894,6 +895,20 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     localStorage.setItem("acs_admin_auth", JSON.stringify(adminAuth));
   }, [adminAuth]);
 
+  // Real-time cross-tab sync listener
+  useEffect(() => {
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === "acs_candidate_leads" && e.newValue) {
+        try {
+          setLeads(JSON.parse(e.newValue));
+        } catch (err) {}
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
+
   // Auth Methods
   const login = (email: string, pass: string): boolean => {
     const cleanEmail = email.trim().toLowerCase();
@@ -1119,22 +1134,58 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       }),
       status: "new",
     };
-    setLeads((prev) => [newLead, ...prev]);
+
+    let currentLeads = leads;
+    try {
+      const saved = localStorage.getItem("acs_candidate_leads");
+      if (saved) {
+        currentLeads = JSON.parse(saved);
+      }
+    } catch (e) {}
+
+    const updated = [newLead, ...currentLeads.filter((l) => l.id !== newLead.id)];
+    setLeads(updated);
+    try {
+      localStorage.setItem("acs_candidate_leads", JSON.stringify(updated));
+    } catch (e) {}
+
     return newLead;
   };
 
   const updateLeadStatus = async (id: string, status: CandidateLead["status"]) => {
-    setLeads((prev) =>
-      prev.map((lead) => (lead.id === id ? { ...lead, status } : lead))
-    );
+    setLeads((prev) => {
+      const updated = prev.map((lead) => (lead.id === id ? { ...lead, status } : lead));
+      try {
+        localStorage.setItem("acs_candidate_leads", JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
   };
 
   const deleteLead = async (id: string) => {
-    setLeads((prev) => prev.filter((lead) => lead.id !== id));
+    setLeads((prev) => {
+      const updated = prev.filter((lead) => lead.id !== id);
+      try {
+        localStorage.setItem("acs_candidate_leads", JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
   };
 
   const clearAllLeads = async () => {
     setLeads([]);
+    try {
+      localStorage.setItem("acs_candidate_leads", JSON.stringify([]));
+    } catch (e) {}
+  };
+
+  const reloadLeads = () => {
+    try {
+      const saved = localStorage.getItem("acs_candidate_leads");
+      if (saved) {
+        setLeads(JSON.parse(saved));
+      }
+    } catch (e) {}
   };
 
   // Cloud Config
@@ -1185,6 +1236,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         updateLeadStatus,
         deleteLead,
         clearAllLeads,
+        reloadLeads,
         cloudConfig,
         updateCloudConfig,
         syncWithCloud,

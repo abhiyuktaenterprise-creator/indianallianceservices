@@ -67,6 +67,7 @@ export default function AdminDashboard() {
     updateLeadStatus,
     deleteLead,
     clearAllLeads,
+    reloadLeads,
     cloudConfig,
     updateCloudConfig,
     syncWithCloud,
@@ -78,6 +79,12 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<
     "overview" | "careers" | "notifications" | "branches" | "settings" | "leads" | "database"
   >("overview");
+
+  React.useEffect(() => {
+    if (activeTab === "leads") {
+      reloadLeads();
+    }
+  }, [activeTab]);
 
   // 1. Settings State Form
   const [formData, setFormData] = useState({
@@ -1347,6 +1354,16 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="flex items-center gap-2.5">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      reloadLeads();
+                      toast.success("Leads refreshed successfully");
+                    }}
+                    className="border-slate-700 text-slate-300 hover:bg-slate-800 font-bold gap-2 px-3.5 py-5 rounded-2xl text-xs"
+                  >
+                    <RefreshCw className="h-4 w-4" /> Refresh
+                  </Button>
                   <Button
                     onClick={handleExportLeads}
                     className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold gap-2 px-4 py-5 rounded-2xl text-xs shadow-md"

@@ -343,33 +343,41 @@ export default function Home() {
   const [jobCategoryFilter, setJobCategoryFilter] = useState<string>("all");
   const [jobSearchTerm, setJobSearchTerm] = useState<string>("");
 
-  const activeJobsList = jobPosts && jobPosts.length > 0 ? jobPosts.filter((j) => j.status === "active") : [];
+  const activeJobsList = Array.isArray(jobPosts) ? jobPosts.filter((j) => j?.status === "active") : [];
 
   const filteredJobs = activeJobsList.filter((job) => {
-    const term = jobSearchTerm.toLowerCase().trim();
+    if (!job) return false;
+    const term = (jobSearchTerm || "").toLowerCase().trim();
+    const title = (job.title || "").toLowerCase();
+    const dept = (job.department || "").toLowerCase();
+    const loc = (job.location || "").toLowerCase();
+    const qual = (job.qualification || "").toLowerCase();
+    const code = (job.jobCode || "").toLowerCase();
+    const air = (job.airline || "").toLowerCase();
+
     const matchesSearch =
       !term ||
-      job.title.toLowerCase().includes(term) ||
-      job.department.toLowerCase().includes(term) ||
-      job.location.toLowerCase().includes(term) ||
-      job.qualification.toLowerCase().includes(term) ||
-      (job.jobCode && job.jobCode.toLowerCase().includes(term));
+      title.includes(term) ||
+      dept.includes(term) ||
+      loc.includes(term) ||
+      qual.includes(term) ||
+      code.includes(term) ||
+      air.includes(term);
 
     if (!matchesSearch) return false;
 
     if (jobCategoryFilter === "all") return true;
-    const t = job.title.toLowerCase();
     if (jobCategoryFilter === "ground-staff") {
-      return t.includes("ground") || t.includes("customer") || t.includes("passenger");
+      return title.includes("ground") || title.includes("customer") || title.includes("passenger") || dept.includes("operations");
     }
     if (jobCategoryFilter === "cabin-crew") {
-      return t.includes("cabin") || t.includes("airhostess") || t.includes("flight");
+      return title.includes("cabin") || title.includes("airhostess") || title.includes("flight") || dept.includes("cabin");
     }
     if (jobCategoryFilter === "cargo-security") {
-      return t.includes("cargo") || t.includes("security") || t.includes("baggage");
+      return title.includes("cargo") || title.includes("security") || title.includes("baggage") || dept.includes("cargo");
     }
     if (jobCategoryFilter === "retail-hr") {
-      return t.includes("retail") || t.includes("lounge") || t.includes("hr") || t.includes("telecalling");
+      return title.includes("retail") || title.includes("lounge") || title.includes("hr") || title.includes("telecalling") || dept.includes("retail");
     }
     return true;
   });

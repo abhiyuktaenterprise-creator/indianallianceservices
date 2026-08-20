@@ -6,6 +6,8 @@ export interface JobPost {
   title: string;
   department: string;
   jobCode: string;
+  airline?: string;
+  imageUrl?: string;
   type: string;
   location: string;
   salaryRange: string;
@@ -304,6 +306,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     title: "Airport Ground Staff (AGS)",
     department: "Airport Operations & Passenger Services",
     jobCode: "IAS-AGS-2026",
+    airline: "IndiGo, Air India & SpiceJet Ground Ops",
     type: "Full-Time (Rotational Shifts)",
     location: "Mumbai, Delhi NCR, Bangalore, Hyderabad, Kolkata Airports",
     salaryRange: "₹25,000 – ₹45,000 / month",
@@ -333,6 +336,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     title: "Customer Service Assistant (CSA)",
     department: "Ticketing & Passenger Relations",
     jobCode: "IAS-CSA-2026",
+    airline: "IndiGo, Akasa Air & Alliance Air Terminals",
     type: "Full-Time (Day & Night Shifts)",
     location: "Major Domestic & International Terminals",
     salaryRange: "₹28,000 – ₹50,000 / month",
@@ -361,6 +365,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     title: "Cabin Crew / Flight Attendant",
     department: "In-Flight Hospitality & Cabin Safety",
     jobCode: "IAS-CREW-2026",
+    airline: "Air India, IndiGo & Vistara Fleets",
     type: "Full-Time Aviation",
     location: "Domestic & International Airline Hubs (Delhi, Mumbai, Bengaluru)",
     salaryRange: "₹45,000 – ₹95,000 / month + Flying Allowances",
@@ -389,6 +394,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     title: "Airhostess & In-Flight Hospitality",
     department: "Cabin Services & Executive VIP Hospitality",
     jobCode: "IAS-AIRHOSTESS-2026",
+    airline: "Domestic & International Carriers (Gulf & Indian Routes)",
     type: "Full-Time Aviation",
     location: "Metro Airport Bases & International Routes",
     salaryRange: "₹40,000 – ₹85,000 / month",
@@ -416,6 +422,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     title: "Ground Security Associate & Screener",
     department: "Aviation Security & Airside Safety",
     jobCode: "IAS-GSA-2026",
+    airline: "AISATS, Celebi & BCAS Airport Security",
     type: "Full-Time (Rotational)",
     location: "Pan-India Domestic & International Airports",
     salaryRange: "₹24,000 – ₹40,000 / month",
@@ -443,6 +450,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     title: "Passenger Service Associate (PSA)",
     department: "Terminal Customer Operations",
     jobCode: "IAS-PSA-2026",
+    airline: "GMR & Adani Metro Airport Terminals",
     type: "Full-Time (Shift Based)",
     location: "Major Indian Airports",
     salaryRange: "₹23,000 – ₹38,000 / month",
@@ -470,6 +478,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     title: "Airport Retail & Duty-Free Sales Executive",
     department: "Airport Commercial & Luxury Retail",
     jobCode: "IAS-RETAIL-2026",
+    airline: "Delhi Duty Free, Mumbai Duty Free & Dufry",
     type: "Full-Time (Shift Based)",
     location: "International Airport Duty-Free Terminals",
     salaryRange: "₹22,000 – ₹42,000 / month + Sales Incentives",
@@ -497,6 +506,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     title: "Air Cargo Logistics & Ramp Operations",
     department: "Air Cargo & Freight Logistics",
     jobCode: "IAS-CARGO-2026",
+    airline: "Blue Dart Aviation, SpiceXpress & AISATS Cargo",
     type: "Full-Time (Shift Based)",
     location: "Dedicated Cargo Terminals (DEL, BOM, BLR, HYD, MAA, CCU)",
     salaryRange: "₹20,000 – ₹36,000 / month",
@@ -525,6 +535,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     title: "Airport VIP Lounge & Hospitality Executive",
     department: "Premium Lounges & Concierge Services",
     jobCode: "IAS-LOUNGE-2026",
+    airline: "Plaza Premium, Encalm & 080 Airport Lounges",
     type: "Full-Time (Shift Based)",
     location: "Domestic & International Airport VIP Lounges",
     salaryRange: "₹26,000 – ₹48,000 / month",
@@ -552,6 +563,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     title: "HR & Telecalling Executive",
     department: "Talent Acquisition & Student Counselling",
     jobCode: "IAS-HR-TELE-2026",
+    airline: "Indian Alliance Services Corporate Desk",
     type: "Full-Time (Day Shift)",
     location: "Pan-India Centers (Mumbai, Delhi NCR, Indore, Kurnool, Sanand)",
     salaryRange: "₹18,000 – ₹32,000 / month + Performance Incentives",
@@ -783,11 +795,18 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [jobPosts, setJobPosts] = useState<JobPost[]>(() => {
     const saved = localStorage.getItem("acs_job_posts");
     if (saved) {
-      const parsed = JSON.parse(saved);
-      // Auto-migrate if less than 8 jobs are found
-      if (Array.isArray(parsed) && parsed.length >= 8) {
-        return parsed;
-      }
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length >= 8) {
+          return parsed.map((j: JobPost) => {
+            if (!j.airline) {
+              const def = ALL_DEFAULT_10_JOBS.find((d) => d.id === j.id);
+              if (def) return { ...j, airline: def.airline };
+            }
+            return j;
+          });
+        }
+      } catch (e) {}
     }
     return ALL_DEFAULT_10_JOBS;
   });

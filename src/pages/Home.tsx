@@ -36,7 +36,25 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import heroImage from "@/assets/hero-aviation.jpg";
+import heroAirportImg from "@/assets/hero-airport.jpg";
+import cabinCrewImg from "@/assets/cabin-crew-training.jpg";
 import groundServicesImg from "@/assets/ground-services.jpg";
+
+const getRoleImage = (job: any) => {
+  if (job.imageUrl) return job.imageUrl;
+  const t = (job.title || "").toLowerCase();
+  const d = (job.department || "").toLowerCase();
+  if (t.includes("cabin") || t.includes("airhostess") || t.includes("flight") || d.includes("cabin")) {
+    return cabinCrewImg;
+  }
+  if (t.includes("cargo") || t.includes("baggage") || t.includes("ramp") || d.includes("cargo")) {
+    return groundServicesImg;
+  }
+  if (t.includes("ground") || t.includes("customer") || t.includes("passenger") || t.includes("security") || d.includes("operations")) {
+    return heroAirportImg;
+  }
+  return heroImage;
+};
 import anthonyImg from "@/assets/team/anthony_ghospade.jpg";
 import adityaImg from "@/assets/team/aditya_gujral.jpg";
 import prashantImg from "@/assets/team/prashant_chadda.jpg";
@@ -693,104 +711,135 @@ export default function Home() {
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {filteredJobs.map((job) => (
-                <div
-                  key={job.id}
-                  className="bg-card rounded-3xl border border-border hover:border-gold/50 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1"
-                >
-                  {/* Card Header (Boarding Pass Style) */}
-                  <div className="p-6 pb-4 border-b border-border/70 bg-gradient-to-b from-muted/40 to-transparent">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="font-mono text-xs font-extrabold text-gold bg-navy-midnight px-2.5 py-1 rounded-md border border-gold/30">
-                        {job.jobCode || `IAS-${job.id.toUpperCase().slice(-6)}`}
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        {job.badge || "Actively Hiring"}
-                      </span>
-                    </div>
+              {filteredJobs.map((job) => {
+                const roleImg = getRoleImage(job);
+                return (
+                  <div
+                    key={job.id}
+                    className="bg-card rounded-3xl border border-border hover:border-gold/50 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1"
+                  >
+                    {/* Role Photo Header with Airline Badge */}
+                    <div className="relative h-48 overflow-hidden bg-slate-950">
+                      <img
+                        src={roleImg}
+                        alt={job.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#080d1a] via-black/30 to-black/60" />
 
-                    <h3 className="text-xl font-heading font-extrabold text-foreground mb-1 group-hover:text-gold transition-colors">
-                      {job.title}
-                    </h3>
-                    <p className="text-xs text-secondary font-semibold">
-                      {job.department}
-                    </p>
-                  </div>
+                      {/* Top Overlay Badges */}
+                      <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
+                        <span className="font-mono text-[11px] font-extrabold text-gold bg-navy-midnight/90 backdrop-blur-md px-2.5 py-1 rounded-lg border border-gold/40 shadow-md">
+                          {job.jobCode || `IAS-${job.id.toUpperCase().slice(-6)}`}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 backdrop-blur-md">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          {job.badge || "Actively Hiring"}
+                        </span>
+                      </div>
 
-                  {/* Card Body */}
-                  <div className="p-6 space-y-4 flex-1">
-                    {/* Salary & Openings */}
-                    <div className="flex items-center justify-between p-3 rounded-2xl bg-muted/50 border border-border/60">
-                      <div>
-                        <div className="text-[10px] uppercase font-bold text-muted-foreground">Salary Scale</div>
-                        <div className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
-                          {job.salaryRange || "₹25,000 – ₹45,000 / month"}
+                      {/* Bottom Overlay Airline Badge */}
+                      <div className="absolute bottom-3 left-3 right-3 z-10">
+                        <div className="inline-flex items-center gap-1.5 bg-black/80 backdrop-blur-md border border-amber-500/50 text-amber-300 px-3 py-1 rounded-full text-[11px] font-bold shadow-md max-w-full truncate">
+                          <Plane className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+                          <span className="truncate">{job.airline || "IndiGo, Air India & SpiceJet Operations"}</span>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="text-[10px] uppercase font-bold text-muted-foreground">Vacancies</div>
-                        <div className="text-xs font-bold text-foreground font-mono">{job.openings || 10} Openings</div>
-                      </div>
                     </div>
 
-                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
-                      {job.overview || "Join India's expanding aviation sector with comprehensive on-job guidance and interview scheduling."}
-                    </p>
+                    {/* Card Body */}
+                    <div className="p-6 space-y-4 flex-1">
+                      <div>
+                        <h3 className="text-xl font-heading font-extrabold text-foreground mb-1 group-hover:text-gold transition-colors">
+                          {job.title}
+                        </h3>
+                        <p className="text-xs text-secondary font-semibold">
+                          {job.department}
+                        </p>
+                      </div>
 
-                    {/* Key Duties / Responsibilities */}
-                    {Array.isArray(job.responsibilities) && job.responsibilities.length > 0 && (
-                      <div className="space-y-1.5 pt-1">
-                        {job.responsibilities.slice(0, 2).map((resp, rIdx) => (
-                          <div key={rIdx} className="flex items-start gap-2 text-[11px] text-muted-foreground">
-                            <CheckCircle2 className="h-3.5 w-3.5 text-gold shrink-0 mt-0.5" />
-                            <span className="line-clamp-1">{resp}</span>
+                      {/* Prominent Airline Tag */}
+                      <div className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs font-bold text-amber-500">
+                        <Plane className="h-4 w-4 text-amber-500 shrink-0" />
+                        <span className="truncate">
+                          <span className="text-muted-foreground font-medium">Hiring Airline: </span>
+                          <span className="text-foreground font-bold">{job.airline || "IndiGo, Air India & SpiceJet"}</span>
+                        </span>
+                      </div>
+
+                      {/* Salary & Openings */}
+                      <div className="flex items-center justify-between p-3 rounded-2xl bg-muted/50 border border-border/60">
+                        <div>
+                          <div className="text-[10px] uppercase font-bold text-muted-foreground">Salary Scale</div>
+                          <div className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
+                            {job.salaryRange || "₹25,000 – ₹45,000 / month"}
                           </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Eligibility & Locations */}
-                    <div className="space-y-2 pt-2 border-t border-border/50 text-xs">
-                      <div className="flex items-start gap-2">
-                        <GraduationCap className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                        <span className="text-muted-foreground">
-                          <strong className="text-foreground">Eligibility:</strong> {job.qualification}
-                          {job.ageLimit ? ` • ${job.ageLimit}` : ""}
-                        </span>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-[10px] uppercase font-bold text-muted-foreground">Vacancies</div>
+                          <div className="text-xs font-bold text-foreground font-mono">{job.openings || 10} Openings</div>
+                        </div>
                       </div>
 
-                      <div className="flex items-start gap-2">
-                        <MapPin className="h-4 w-4 text-secondary shrink-0 mt-0.5" />
-                        <span className="text-muted-foreground">
-                          <strong className="text-foreground">Airports:</strong> {job.location}
-                        </span>
+                      <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                        {job.overview || "Join India's expanding aviation sector with comprehensive on-job guidance and interview scheduling."}
+                      </p>
+
+                      {/* Key Duties / Responsibilities */}
+                      {Array.isArray(job.responsibilities) && job.responsibilities.length > 0 && (
+                        <div className="space-y-1.5 pt-1">
+                          {job.responsibilities.slice(0, 2).map((resp, rIdx) => (
+                            <div key={rIdx} className="flex items-start gap-2 text-[11px] text-muted-foreground">
+                              <CheckCircle2 className="h-3.5 w-3.5 text-gold shrink-0 mt-0.5" />
+                              <span className="line-clamp-1">{resp}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Eligibility & Locations */}
+                      <div className="space-y-2 pt-2 border-t border-border/50 text-xs">
+                        <div className="flex items-start gap-2">
+                          <GraduationCap className="h-4 w-4 text-gold shrink-0 mt-0.5" />
+                          <span className="text-muted-foreground">
+                            <strong className="text-foreground">Eligibility:</strong> {job.qualification}
+                            {job.ageLimit ? ` • ${job.ageLimit}` : ""}
+                          </span>
+                        </div>
+
+                        <div className="flex items-start gap-2">
+                          <MapPin className="h-4 w-4 text-secondary shrink-0 mt-0.5" />
+                          <span className="text-muted-foreground">
+                            <strong className="text-foreground">Airports:</strong> {job.location}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Card Action Footer */}
-                  <div className="p-6 pt-0 flex items-center gap-3">
-                    <Link to="/careers" className="flex-1">
+                    {/* Card Action Footer */}
+                    <div className="p-6 pt-0 flex items-center gap-3">
+                      <Link to="/careers" className="flex-1">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full text-xs font-bold rounded-xl border-border hover:bg-muted"
+                        >
+                          View Role Guide
+                        </Button>
+                      </Link>
                       <Button
-                        variant="outline"
+                        variant="hero"
                         size="sm"
-                        className="w-full text-xs font-bold rounded-xl border-border hover:bg-muted"
+                        onClick={() => handleOpenRoleModal(job.title)}
+                        className="flex-1 text-xs font-bold rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 shadow-md gap-1.5 cursor-pointer"
                       >
-                        View Role Guide
+                        <Sparkles className="h-3.5 w-3.5" /> Apply Now
                       </Button>
-                    </Link>
-                    <Button
-                      variant="hero"
-                      size="sm"
-                      onClick={() => handleOpenRoleModal(job.title)}
-                      className="flex-1 text-xs font-bold rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 shadow-md gap-1.5 cursor-pointer"
-                    >
-                      <Sparkles className="h-3.5 w-3.5" /> Apply Now
-                    </Button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 

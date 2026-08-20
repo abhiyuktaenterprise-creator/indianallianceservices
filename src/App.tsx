@@ -25,6 +25,7 @@ import CareerGuides from "./pages/CareerGuides";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Disclaimer from "./pages/Disclaimer";
+import ThankYou from "./pages/ThankYou";
 import NotFound from "./pages/NotFound";
 
 // Admin Components
@@ -72,6 +73,9 @@ function AppLayout() {
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/thank-you" element={<ThankYou />} />
+          <Route path="/thankyou" element={<ThankYou />} />
+          <Route path="/thanks" element={<ThankYou />} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />

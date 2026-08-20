@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,7 @@ const locations = [
 ];
 
 const ContactSection = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const { settings, addLead } = useSiteConfig();
   const [formData, setFormData] = useState({
@@ -35,12 +37,13 @@ const ContactSection = () => {
       return;
     }
 
-    await addLead({
+    const targetRoleName = formData.role || "Airport Opportunity Enquiry";
+    const leadResult = await addLead({
       name: formData.name.trim(),
       phone: formData.phone.trim(),
       email: formData.email.trim() || undefined,
       qualification: formData.qualification || undefined,
-      targetRole: formData.role || "Airport Opportunity Enquiry",
+      targetRole: targetRoleName,
       city: formData.location || undefined,
       source: "Homepage Contact Section",
     });
@@ -49,6 +52,20 @@ const ContactSection = () => {
       title: "Enquiry Submitted Successfully!",
       description: "Our aviation counsellor will call you within 24 hours.",
     });
+    
+    navigate("/thank-you", {
+      state: {
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim() || undefined,
+        qualification: formData.qualification || undefined,
+        targetRole: targetRoleName,
+        city: formData.location || undefined,
+        source: "Homepage Contact Section",
+        refId: leadResult?.id ? `IAS-${new Date().getFullYear()}-${leadResult.id.replace("lead-", "").slice(-6)}` : undefined,
+      },
+    });
+
     setFormData({ name: "", phone: "", email: "", qualification: "", role: "", location: "" });
   };
 

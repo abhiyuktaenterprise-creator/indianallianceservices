@@ -36,7 +36,7 @@ export default function EnquiryModal({
           showTitle={false}
           className="border-none shadow-none p-0"
           onSuccess={() => {
-            setTimeout(() => onOpenChange(false), 2000);
+            onOpenChange(false);
           }}
         />
       </DialogContent>

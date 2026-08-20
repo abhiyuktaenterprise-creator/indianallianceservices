@@ -7,7 +7,6 @@ import {
   Eye,
   EyeOff,
   ArrowLeft,
-  KeyRound,
   Sparkles,
   CheckCircle2,
   AlertCircle,
@@ -58,12 +57,6 @@ export default function AdminLogin() {
         setError("Invalid email address or password. Please check your credentials.");
       }
     }, 400);
-  };
-
-  const handleFillDefaults = () => {
-    setEmail("admin@indianallianceservices.com");
-    setPassword("admin123");
-    setError("");
   };
 
   return (
@@ -174,29 +167,6 @@ export default function AdminLogin() {
                 {isLoading ? "Verifying Credentials..." : "Unlock Dashboard"}
               </Button>
             </form>
-
-            {/* Quick Demo Credentials Box */}
-            <div className="pt-4 border-t border-slate-800/80">
-              <div className="bg-slate-950/50 rounded-2xl p-3 border border-slate-800 flex items-center justify-between">
-                <div className="text-[11px] text-slate-400 space-y-0.5">
-                  <div>
-                    User: <strong className="text-amber-400">admin@indianallianceservices.com</strong>
-                  </div>
-                  <div>
-                    Pass: <strong className="text-amber-400">admin123</strong>
-                  </div>
-                </div>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  onClick={handleFillDefaults}
-                  className="text-[11px] h-7 px-2.5 rounded-lg border-amber-500/30 text-amber-400 hover:bg-amber-500/10"
-                >
-                  <KeyRound className="h-3 w-3 mr-1" /> Auto-Fill
-                </Button>
-              </div>
-            </div>
           </div>
 
           {/* Footer Note */}

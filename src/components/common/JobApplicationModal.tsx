@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Send, CheckCircle2, Briefcase, Sparkles } from "lucide-react";
 import {
   Dialog,
@@ -33,6 +34,7 @@ export default function JobApplicationModal({
   onOpenChange,
   jobTitle = "HR & Telecalling Executive",
 }: JobApplicationModalProps) {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const { addLead } = useSiteConfig();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,7 +64,7 @@ export default function JobApplicationModal({
 
     setIsSubmitting(true);
 
-    await addLead({
+    const leadResult = await addLead({
       name: formData.name.trim(),
       phone: formData.phone.trim(),
       email: formData.email.trim() || undefined,
@@ -78,6 +80,21 @@ export default function JobApplicationModal({
     toast({
       title: "Application Submitted Successfully!",
       description: `Your application for ${jobTitle} has been received by our Talent Acquisition team.`,
+    });
+
+    // Close modal and navigate to thank you page
+    onOpenChange(false);
+    navigate("/thank-you", {
+      state: {
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim() || undefined,
+        qualification: formData.experience ? `Exp: ${formData.experience}` : undefined,
+        targetRole: jobTitle,
+        city: formData.city || undefined,
+        source: "Careers Job Application",
+        refId: leadResult?.id ? `IAS-${new Date().getFullYear()}-${leadResult.id.replace("lead-", "").slice(-6)}` : undefined,
+      },
     });
   };
 

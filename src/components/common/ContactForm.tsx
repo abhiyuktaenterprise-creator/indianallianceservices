@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Send, CheckCircle2, Phone, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +30,7 @@ export default function ContactForm({
   className = "",
   onSuccess,
 }: ContactFormProps) {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const { addLead } = useSiteConfig();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -67,12 +69,13 @@ export default function ContactForm({
 
     setIsSubmitting(true);
 
-    await addLead({
+    const targetRoleName = formData.role || defaultRole || "General Aviation Career";
+    const leadResult = await addLead({
       name: formData.name.trim(),
       phone: formData.phone.trim(),
       email: formData.email.trim() || undefined,
       qualification: formData.qualification || undefined,
-      targetRole: formData.role || defaultRole || "General Aviation Career",
+      targetRole: targetRoleName,
       city: formData.city || undefined,
       source: "Contact Form",
       notes: formData.message.trim() || undefined,
@@ -88,6 +91,20 @@ export default function ContactForm({
     if (onSuccess) {
       onSuccess();
     }
+
+    // Navigate to dedicated Thank You page with submission details
+    navigate("/thank-you", {
+      state: {
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim() || undefined,
+        qualification: formData.qualification || undefined,
+        targetRole: targetRoleName,
+        city: formData.city || undefined,
+        source: "Contact Form",
+        refId: leadResult?.id ? `IAS-${new Date().getFullYear()}-${leadResult.id.replace("lead-", "").slice(-6)}` : undefined,
+      },
+    });
   };
 
   if (isSubmitted) {

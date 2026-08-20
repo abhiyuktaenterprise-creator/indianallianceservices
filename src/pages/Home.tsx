@@ -39,22 +39,6 @@ import heroImage from "@/assets/hero-aviation.jpg";
 import heroAirportImg from "@/assets/hero-airport.jpg";
 import cabinCrewImg from "@/assets/cabin-crew-training.jpg";
 import groundServicesImg from "@/assets/ground-services.jpg";
-
-const getRoleImage = (job: any) => {
-  if (job.imageUrl) return job.imageUrl;
-  const t = (job.title || "").toLowerCase();
-  const d = (job.department || "").toLowerCase();
-  if (t.includes("cabin") || t.includes("airhostess") || t.includes("flight") || d.includes("cabin")) {
-    return cabinCrewImg;
-  }
-  if (t.includes("cargo") || t.includes("baggage") || t.includes("ramp") || d.includes("cargo")) {
-    return groundServicesImg;
-  }
-  if (t.includes("ground") || t.includes("customer") || t.includes("passenger") || t.includes("security") || d.includes("operations")) {
-    return heroAirportImg;
-  }
-  return heroImage;
-};
 import anthonyImg from "@/assets/team/anthony_ghospade.jpg";
 import adityaImg from "@/assets/team/aditya_gujral.jpg";
 import prashantImg from "@/assets/team/prashant_chadda.jpg";
@@ -86,6 +70,23 @@ import EnquiryModal from "@/components/common/EnquiryModal";
 import AIEvaluationMatcher from "@/components/common/AIEvaluationMatcher";
 import AIResumeScanner from "@/components/common/AIResumeScanner";
 import HeroBannerSlider from "@/components/home/HeroBannerSlider";
+import { useSiteConfig } from "@/context/SiteConfigContext";
+
+const getRoleImage = (job: any) => {
+  if (job?.imageUrl) return job.imageUrl;
+  const t = (job?.title || "").toLowerCase();
+  const d = (job?.department || "").toLowerCase();
+  if (t.includes("cabin") || t.includes("airhostess") || t.includes("flight") || d.includes("cabin")) {
+    return cabinCrewImg;
+  }
+  if (t.includes("cargo") || t.includes("baggage") || t.includes("ramp") || d.includes("cargo")) {
+    return groundServicesImg;
+  }
+  if (t.includes("ground") || t.includes("customer") || t.includes("passenger") || t.includes("security") || d.includes("operations")) {
+    return heroAirportImg;
+  }
+  return heroImage;
+};
 
 // ==========================================
 // 1. WHAT WE ARE OFFERING (6 Core Offerings)
@@ -334,8 +335,6 @@ const homeFaqs = [
     a: "You can verify any official communication by visiting our official website (indianallianceservices.com), emailing our official helpdesk at support@indianallianceservices.com, or using our dedicated Recruitment Verification portal.",
   },
 ];
-
-import { useSiteConfig } from "@/context/SiteConfigContext";
 
 export default function Home() {
   const { homeContent, settings, jobPosts } = useSiteConfig();

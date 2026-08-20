@@ -110,7 +110,6 @@ export default function AdminDashboard() {
     title: "",
     department: "",
     jobCode: "",
-    airline: "",
     type: "Full-Time",
     location: "Pan-India Airports",
     salaryRange: "₹25,000 – ₹45,000 / month",
@@ -200,7 +199,6 @@ export default function AdminDashboard() {
       title: "",
       department: "Airport Operations",
       jobCode: "IAS-" + Math.floor(1000 + Math.random() * 9000),
-      airline: "IndiGo, Air India & SpiceJet Ground Ops",
       type: "Full-Time (Shift Based)",
       location: "Pan-India Airports",
       salaryRange: "₹25,000 – ₹45,000 / month",
@@ -223,7 +221,6 @@ export default function AdminDashboard() {
       title: job.title || "",
       department: job.department || "",
       jobCode: job.jobCode || "",
-      airline: job.airline || "",
       type: job.type || "Full-Time",
       location: job.location || "",
       salaryRange: job.salaryRange || "",
@@ -1635,17 +1632,6 @@ export default function AdminDashboard() {
                       onChange={(e) => setJobFormData({ ...jobFormData, jobCode: e.target.value })}
                       placeholder="e.g., IAS-AGS-2026"
                       className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-sm font-mono font-bold focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5 sm:col-span-2">
-                    <label className="text-xs font-bold text-slate-200 block">Hiring Airline / Airport Operator</label>
-                    <input
-                      type="text"
-                      value={jobFormData.airline}
-                      onChange={(e) => setJobFormData({ ...jobFormData, airline: e.target.value })}
-                      placeholder="e.g., IndiGo, Air India & SpiceJet Ground Ops"
-                      className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
                     />
                   </div>
 

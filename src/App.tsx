@@ -99,66 +99,18 @@ function AppLayout() {
   );
 }
 
-class ErrorBoundary extends React.Component<
-  { children: React.ReactNode },
-  { hasError: boolean; error: Error | null }
-> {
-  constructor(props: { children: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("Indian Alliance Services UI Error:", error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className="min-h-screen bg-[#080d1a] text-white flex flex-col items-center justify-center p-6 text-center">
-          <div className="max-w-md w-full bg-slate-900 border border-amber-500/40 rounded-3xl p-8 shadow-2xl space-y-4">
-            <div className="h-12 w-12 rounded-full bg-amber-500/20 border border-amber-500 text-amber-400 flex items-center justify-center mx-auto text-xl font-black">
-              ✈️
-            </div>
-            <h2 className="text-xl font-heading font-black text-white">Indian Alliance Services</h2>
-            <p className="text-xs text-slate-300">
-              We detected a display refresh issue. Click below to reload the latest version of the portal.
-            </p>
-            <button
-              onClick={() => {
-                localStorage.removeItem("acs_job_posts");
-                window.location.reload();
-              }}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold text-sm shadow-md hover:brightness-110 cursor-pointer"
-            >
-              Reload Portal
-            </button>
-          </div>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
-
 const App = () => (
-  <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <SiteConfigProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <AppLayout />
-          </BrowserRouter>
-        </SiteConfigProvider>
-      </TooltipProvider>
-    </QueryClientProvider>
-  </ErrorBoundary>
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <SiteConfigProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AppLayout />
+        </BrowserRouter>
+      </SiteConfigProvider>
+    </TooltipProvider>
+  </QueryClientProvider>
 );
 
 export default App;

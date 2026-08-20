@@ -65,6 +65,7 @@ import ContactForm from "@/components/common/ContactForm";
 import EnquiryModal from "@/components/common/EnquiryModal";
 import AIEvaluationMatcher from "@/components/common/AIEvaluationMatcher";
 import AIResumeScanner from "@/components/common/AIResumeScanner";
+import HeroBannerSlider from "@/components/home/HeroBannerSlider";
 
 // ==========================================
 // 1. WHAT WE ARE OFFERING (6 Core Offerings)
@@ -406,139 +407,14 @@ export default function Home() {
       </div>
 
       {/* ==================================================
-          1. ROYAL AVIATION LUXURY HERO SECTION
+          1. ROYAL AVIATION LUXURY HERO BANNER SLIDER (4 SLIDES)
           ================================================== */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-navy-midnight text-primary-foreground">
-        {/* Background Image & Luxury Radial Overlay */}
-        <div className="absolute inset-0">
-          <img
-            src={heroImage}
-            alt="Airport professionals and ground staff walking in modern terminal"
-            className="w-full h-full object-cover object-center scale-105 animate-fade-in opacity-35"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy-midnight via-navy-midnight/90 to-navy-dark/95" />
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl pointer-events-none" />
-        </div>
-
-        <div className="container relative mx-auto px-4 py-20 lg:py-24">
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
-            {/* Hero Left Content */}
-            <div className="lg:col-span-7 space-y-6">
-              {/* Trust Badge & IATA / NSDC Certificate */}
-              <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark/90 border border-gold/40 px-4 py-1.5 backdrop-blur-md shadow-lg">
-                <Sparkles className="h-4 w-4 text-gold animate-pulse" />
-                <span className="text-xs sm:text-sm font-mono font-bold tracking-wide text-gold uppercase">
-                  {homeContent.heroBadge}
-                </span>
-              </div>
-
-              {/* Main Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-black text-white leading-tight tracking-tight">
-                {homeContent.heroHeadline}
-              </h1>
-
-              {/* 3 Core Value Pillars */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold text-gold">
-                <span className="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full border border-amber-500/40">
-                  <Sparkles className="h-4 w-4 text-amber-300" /> Est. 2015 (10+ Years Excellence)
-                </span>
-                <span className="inline-flex items-center gap-1.5 bg-gold/10 px-3 py-1 rounded-full border border-gold/30">
-                  <CheckCircle2 className="h-4 w-4 text-gold" /> Direct Eligibility Match
-                </span>
-                <span className="inline-flex items-center gap-1.5 bg-gold/10 px-3 py-1 rounded-full border border-gold/30">
-                  <CheckCircle2 className="h-4 w-4 text-gold" /> Airline GD & Grooming
-                </span>
-                <span className="inline-flex items-center gap-1.5 bg-emerald-500/15 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/30">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-400" /> Direct Walk-in Drives
-                </span>
-              </div>
-
-              {/* Supporting Description */}
-              <p className="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl font-normal">
-                {homeContent.heroSubtitle}
-              </p>
-
-              {/* Live Airport Telemetry Stats */}
-              <div className="grid grid-cols-3 gap-3 max-w-lg pt-1 pb-1">
-                <div className="bg-[#0b1220]/80 border border-gold/30 rounded-2xl p-3.5 text-center backdrop-blur-md shadow-md">
-                  <div className="text-2xl sm:text-3xl font-mono font-black text-gold">{homeContent.statHubs}</div>
-                  <div className="text-[11px] text-slate-300 font-semibold uppercase mt-0.5">Airport Hubs</div>
-                </div>
-                <div className="bg-[#0b1220]/80 border border-gold/30 rounded-2xl p-3.5 text-center backdrop-blur-md shadow-md">
-                  <div className="text-2xl sm:text-3xl font-mono font-black text-emerald-400">{homeContent.statStudents}</div>
-                  <div className="text-[11px] text-slate-300 font-semibold uppercase mt-0.5">Students Guided</div>
-                </div>
-                <div className="bg-[#0b1220]/80 border border-gold/30 rounded-2xl p-3.5 text-center backdrop-blur-md shadow-md">
-                  <div className="text-2xl sm:text-3xl font-mono font-black text-gold">{homeContent.statPlacementRate}</div>
-                  <div className="text-[11px] text-slate-300 font-semibold uppercase mt-0.5">Opportunity Rate</div>
-                </div>
-              </div>
-
-              {/* Hero Action CTAs */}
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <Button
-                  variant="hero"
-                  size="lg"
-                  onClick={() => setIsModalOpen(true)}
-                  className="text-base font-extrabold gap-2 px-8 py-6 rounded-2xl shadow-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 hover:brightness-110 transition-all hover:scale-105"
-                >
-                  <Sparkles className="h-5 w-5" /> Get Career Counselling
-                </Button>
-
-                <a href="#ai-matcher">
-                  <Button
-                    variant="hero-outline"
-                    size="lg"
-                    className="w-full sm:w-auto text-base font-bold gap-2 px-8 py-6 rounded-2xl border-gold/40 text-gold hover:bg-gold/10 hover:border-gold"
-                  >
-                    <Plane className="h-5 w-5 text-gold" /> Run AI Eligibility Matcher
-                  </Button>
-                </a>
-              </div>
-
-              {/* Quick Trust Bar */}
-              <div className="pt-2 flex flex-wrap items-center gap-6 text-xs text-slate-300">
-                <div className="flex items-center gap-2 text-gold font-bold">
-                  <Award className="h-4 w-4 text-gold" />
-                  <span>IATA & NSDC Standards</span>
-                </div>
-                <div className="flex items-center gap-2 font-medium">
-                  <ShieldCheck className="h-4 w-4 text-emerald-400" />
-                  <span>100% Anti-Fraud Guarantee</span>
-                </div>
-                <div className="flex items-center gap-2 font-medium">
-                  <CheckCircle2 className="h-4 w-4 text-gold" />
-                  <span>Direct Application Desk</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Hero Right Visual Card with Airport Hub Visuals & Telemetry */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-3xl overflow-hidden border border-gold/40 shadow-2xl bg-[#080d1a] p-3 group">
-                <img
-                  src={groundServicesImg}
-                  alt="Indian Alliance Services Airport Operations"
-                  className="rounded-2xl object-cover w-full h-[380px] group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-transparent to-transparent rounded-2xl flex flex-col justify-end p-6">
-                  <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 px-3.5 py-1 text-xs font-black w-fit mb-2 shadow-md">
-                    <Award className="h-3.5 w-3.5" /> Verified Opportunity Desk
-                  </div>
-                  <h3 className="font-heading font-extrabold text-xl text-white">
-                    Direct Connections to 45+ Airport Terminals
-                  </h3>
-                  <p className="text-xs text-slate-300 mt-1">
-                    Delhi • Mumbai • Bangalore • Hyderabad • Kolkata • Jaipur • Ahmedabad
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroBannerSlider
+        onOpenEnquiry={handleOpenRoleModal}
+        statHubs={homeContent.statHubs}
+        statStudents={homeContent.statStudents}
+        statPlacementRate={homeContent.statPlacementRate}
+      />
 
       {/* ==================================================
           RECRUITMENT VERIFICATION ALERT BANNER

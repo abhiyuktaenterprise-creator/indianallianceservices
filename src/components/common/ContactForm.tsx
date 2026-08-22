@@ -15,6 +15,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { checkDuplicatePhone, normalizePhoneNumber, SubmittedLeadRecord } from "@/utils/leadValidator";
+import { trackMetaLead } from "@/utils/metaPixel";
 
 interface ContactFormProps {
   defaultRole?: string;
@@ -102,6 +103,13 @@ export default function ContactForm({
       city: formData.city || undefined,
       source: "Contact Form",
       notes: formData.message.trim() || undefined,
+    });
+
+    // Fire Meta Pixel Lead Conversion Event
+    trackMetaLead({
+      content_name: targetRoleName,
+      content_category: "Homepage / General Contact Form",
+      city: formData.city || undefined,
     });
 
     setIsSubmitting(false);

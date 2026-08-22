@@ -45,6 +45,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import SEO from "@/components/common/SEO";
 import { checkDuplicatePhone, normalizePhoneNumber, SubmittedLeadRecord } from "@/utils/leadValidator";
+import { trackMetaLead } from "@/utils/metaPixel";
 
 import logoImg from "@/assets/logo.png";
 import heroBgImg from "@/assets/hero-airport.jpg";
@@ -178,6 +179,14 @@ export default function PPCLanding() {
       targetRole: formData.role || "Airport Ground Staff (AGS)",
       source: "PPC Landing Page (Google/Meta Ads)",
       notes: formData.message.trim() || undefined,
+    });
+
+    // Fire Meta Pixel Lead Conversion Event
+    trackMetaLead({
+      content_name: formData.role || "Airport Ground Staff",
+      content_category: "PPC Lead Form",
+      city: formData.city || undefined,
+      state: formData.state || undefined,
     });
 
     setIsSubmitting(false);

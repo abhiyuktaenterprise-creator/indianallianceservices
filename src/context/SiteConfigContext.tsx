@@ -33,11 +33,13 @@ export interface CandidateLead {
   id: string;
   submittedAt: string;
   name: string;
+  fatherName?: string;
   phone: string;
   email?: string;
+  city?: string;
+  state?: string;
   qualification?: string;
   targetRole?: string;
-  city?: string;
   source?: string;
   status: "new" | "contacted" | "in_review" | "enrolled" | "archived";
   notes?: string;

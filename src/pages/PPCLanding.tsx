@@ -56,6 +56,45 @@ import candRahulImg from "@/assets/candidates/rahul_verma.jpg";
 import candAnanyaImg from "@/assets/candidates/ananya_patel.jpg";
 import candIrfanImg from "@/assets/candidates/mohammed_irfan.jpg";
 
+const INDIAN_STATES = [
+  "Delhi (NCT)",
+  "Maharashtra",
+  "Uttar Pradesh",
+  "Rajasthan",
+  "Gujarat",
+  "Karnataka",
+  "Tamil Nadu",
+  "Telangana",
+  "West Bengal",
+  "Haryana",
+  "Punjab",
+  "Bihar",
+  "Madhya Pradesh",
+  "Andhra Pradesh",
+  "Assam",
+  "Chhattisgarh",
+  "Goa",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Kerala",
+  "Odisha",
+  "Uttarakhand",
+  "Jammu & Kashmir",
+  "Chandigarh",
+  "Arunachal Pradesh",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Sikkim",
+  "Tripura",
+  "Ladakh",
+  "Puducherry",
+  "Andaman & Nicobar Islands",
+  "Dadra & Nagar Haveli and Daman & Diu",
+  "Lakshadweep",
+];
+
 export default function PPCLanding() {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -70,11 +109,13 @@ export default function PPCLanding() {
 
   const [formData, setFormData] = useState({
     name: "",
+    fatherName: "",
     phone: "",
     email: "",
+    state: "Delhi (NCT)",
+    city: "",
     qualification: "12th Pass",
     role: "Airport Ground Staff (AGS)",
-    city: "Delhi NCR",
     message: "",
   });
 
@@ -97,7 +138,7 @@ export default function PPCLanding() {
     if (!formData.name.trim() || !formData.phone.trim()) {
       toast({
         title: "Missing Required Fields",
-        description: "Please provide your Full Name and Mobile Number.",
+        description: "Please provide your Full Name and Contact Mobile Number.",
         variant: "destructive",
       });
       return;
@@ -112,7 +153,7 @@ export default function PPCLanding() {
       return;
     }
 
-    // Approach 1: Check duplicate phone in cache / localStorage
+    // Check duplicate phone in cache / localStorage
     const duplicateCheck = checkDuplicatePhone(formData.phone);
     if (duplicateCheck.isDuplicate) {
       setDuplicateInfo(duplicateCheck);
@@ -128,11 +169,13 @@ export default function PPCLanding() {
 
     const leadResult = await addLead({
       name: formData.name.trim(),
+      fatherName: formData.fatherName.trim() || undefined,
       phone: formData.phone.trim(),
       email: formData.email.trim() || undefined,
+      city: formData.city.trim() || undefined,
+      state: formData.state || undefined,
       qualification: formData.qualification || undefined,
       targetRole: formData.role || "Airport Ground Staff (AGS)",
-      city: formData.city || undefined,
       source: "PPC Landing Page (Google/Meta Ads)",
       notes: formData.message.trim() || undefined,
     });
@@ -464,49 +507,84 @@ export default function PPCLanding() {
                   </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4 text-left">
-                  {/* Name */}
-                  <div className="space-y-1.5">
-                    <Label htmlFor="ppc-name" className="text-xs font-semibold text-slate-200">
-                      Candidate Full Name <span className="text-amber-400">*</span>
-                    </Label>
-                    <Input
-                      id="ppc-name"
-                      placeholder="Enter your full name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      maxLength={100}
-                      required
-                      className="h-11 bg-[#101a2e] border-slate-700 text-white placeholder:text-slate-500 focus:border-gold"
-                    />
+                <form onSubmit={handleSubmit} className="space-y-3.5 text-left">
+                  {/* Row 1: Candidate Name & Father's Name */}
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="ppc-name" className="text-xs font-semibold text-slate-200">
+                        Candidate Full Name <span className="text-amber-400">*</span>
+                      </Label>
+                      <Input
+                        id="ppc-name"
+                        placeholder="Enter candidate full name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        maxLength={100}
+                        required
+                        className="h-11 bg-[#101a2e] border-slate-700 text-white placeholder:text-slate-500 focus:border-gold"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="ppc-father" className="text-xs font-semibold text-slate-200">
+                        Father's Name <span className="text-amber-400">*</span>
+                      </Label>
+                      <Input
+                        id="ppc-father"
+                        placeholder="Enter father's full name"
+                        value={formData.fatherName}
+                        onChange={(e) => setFormData({ ...formData, fatherName: e.target.value })}
+                        maxLength={100}
+                        required
+                        className="h-11 bg-[#101a2e] border-slate-700 text-white placeholder:text-slate-500 focus:border-gold"
+                      />
+                    </div>
                   </div>
 
-                  {/* Phone with duplicate detection */}
-                  <div className="space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="ppc-phone" className="text-xs font-semibold text-slate-200">
-                        10-Digit Mobile Number <span className="text-amber-400">*</span>
-                      </Label>
-                      {duplicateInfo.isDuplicate && (
-                        <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1">
-                          <AlertTriangle className="h-3 w-3" /> Already Registered
-                        </span>
-                      )}
+                  {/* Row 2: Contact Number & Email */}
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="ppc-phone" className="text-xs font-semibold text-slate-200">
+                          Contact Number <span className="text-amber-400">*</span>
+                        </Label>
+                        {duplicateInfo.isDuplicate && (
+                          <span className="text-[10px] font-bold text-amber-400 flex items-center gap-1">
+                            <AlertTriangle className="h-3 w-3" /> Registered
+                          </span>
+                        )}
+                      </div>
+                      <Input
+                        id="ppc-phone"
+                        type="tel"
+                        placeholder="10-digit mobile number"
+                        value={formData.phone}
+                        onChange={(e) => handlePhoneChange(e.target.value)}
+                        maxLength={15}
+                        required
+                        className={`h-11 bg-[#101a2e] text-white placeholder:text-slate-500 ${
+                          duplicateInfo.isDuplicate
+                            ? "border-amber-500 focus-visible:ring-amber-500 bg-amber-500/10"
+                            : "border-slate-700 focus:border-gold"
+                        }`}
+                      />
                     </div>
-                    <Input
-                      id="ppc-phone"
-                      type="tel"
-                      placeholder="Enter 10-digit number"
-                      value={formData.phone}
-                      onChange={(e) => handlePhoneChange(e.target.value)}
-                      maxLength={15}
-                      required
-                      className={`h-11 bg-[#101a2e] text-white placeholder:text-slate-500 ${
-                        duplicateInfo.isDuplicate
-                          ? "border-amber-500 focus-visible:ring-amber-500 bg-amber-500/10"
-                          : "border-slate-700 focus:border-gold"
-                      }`}
-                    />
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="ppc-email" className="text-xs font-semibold text-slate-200">
+                        Email Address <span className="text-amber-400">*</span>
+                      </Label>
+                      <Input
+                        id="ppc-email"
+                        type="email"
+                        placeholder="candidate@example.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        maxLength={100}
+                        required
+                        className="h-11 bg-[#101a2e] border-slate-700 text-white placeholder:text-slate-500 focus:border-gold"
+                      />
+                    </div>
                   </div>
 
                   {/* Duplicate Phone Warning Box */}
@@ -553,7 +631,46 @@ export default function PPCLanding() {
                     </div>
                   )}
 
-                  {/* Qualification & Role Grid */}
+                  {/* Row 3: State & City */}
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="ppc-state" className="text-xs font-semibold text-slate-200">
+                        State / UT <span className="text-amber-400">*</span>
+                      </Label>
+                      <Select
+                        value={formData.state}
+                        onValueChange={(val) => setFormData({ ...formData, state: val })}
+                      >
+                        <SelectTrigger id="ppc-state" className="h-11 bg-[#101a2e] border-slate-700 text-white focus:border-gold">
+                          <SelectValue placeholder="Select State / UT" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#0b1222] border-gold/40 text-white max-h-60">
+                          {INDIAN_STATES.map((st) => (
+                            <SelectItem key={st} value={st}>
+                              {st}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="ppc-city" className="text-xs font-semibold text-slate-200">
+                        City / Town <span className="text-amber-400">*</span>
+                      </Label>
+                      <Input
+                        id="ppc-city"
+                        placeholder="Enter your current city"
+                        value={formData.city}
+                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                        maxLength={100}
+                        required
+                        className="h-11 bg-[#101a2e] border-slate-700 text-white placeholder:text-slate-500 focus:border-gold"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 4: Qualification & Interested Role */}
                   <div className="grid sm:grid-cols-2 gap-3">
                     <div className="space-y-1.5">
                       <Label htmlFor="ppc-qual" className="text-xs font-semibold text-slate-200">
@@ -579,7 +696,7 @@ export default function PPCLanding() {
 
                     <div className="space-y-1.5">
                       <Label htmlFor="ppc-role" className="text-xs font-semibold text-slate-200">
-                        Interested Role
+                        Interested Role / Track
                       </Label>
                       <Select
                         value={formData.role}
@@ -598,33 +715,6 @@ export default function PPCLanding() {
                         </SelectContent>
                       </Select>
                     </div>
-                  </div>
-
-                  {/* Preferred City */}
-                  <div className="space-y-1.5">
-                    <Label htmlFor="ppc-city" className="text-xs font-semibold text-slate-200">
-                      Preferred Airport / City
-                    </Label>
-                    <Select
-                      value={formData.city}
-                      onValueChange={(val) => setFormData({ ...formData, city: val })}
-                    >
-                      <SelectTrigger id="ppc-city" className="h-11 bg-[#101a2e] border-slate-700 text-white focus:border-gold">
-                        <SelectValue placeholder="Select preferred city" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-[#0b1222] border-gold/40 text-white">
-                        <SelectItem value="Delhi NCR">Delhi NCR (IGI Airport)</SelectItem>
-                        <SelectItem value="Mumbai">Mumbai (CSMIA Airport)</SelectItem>
-                        <SelectItem value="Bangalore">Bangalore (KIA Airport)</SelectItem>
-                        <SelectItem value="Hyderabad">Hyderabad (RGIA Airport)</SelectItem>
-                        <SelectItem value="Kolkata">Kolkata (NSCB Airport)</SelectItem>
-                        <SelectItem value="Chennai">Chennai International</SelectItem>
-                        <SelectItem value="Jaipur">Jaipur International</SelectItem>
-                        <SelectItem value="Pune">Pune Airport</SelectItem>
-                        <SelectItem value="Ahmedabad">Ahmedabad (SVPI Airport)</SelectItem>
-                        <SelectItem value="Pan-India Open">Pan-India (Any Airport)</SelectItem>
-                      </SelectContent>
-                    </Select>
                   </div>
 
                   <div className="pt-2">

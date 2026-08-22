@@ -451,16 +451,18 @@ export default function AdminDashboard() {
       return;
     }
 
-    const headers = ["ID", "Submitted Date", "Name", "Phone", "Email", "Qualification", "Target Role", "City", "Status", "Notes"];
+    const headers = ["ID", "Submitted Date", "Name", "Father Name", "Phone", "Email", "State", "City", "Qualification", "Target Role", "Status", "Notes"];
     const rows = leads.map((l) => [
       `"${l.id}"`,
       `"${l.submittedAt}"`,
       `"${l.name}"`,
+      `"${l.fatherName || ""}"`,
       `"${l.phone}"`,
       `"${l.email || ""}"`,
+      `"${l.state || ""}"`,
+      `"${l.city || ""}"`,
       `"${l.qualification || ""}"`,
       `"${l.targetRole || ""}"`,
-      `"${l.city || ""}"`,
       `"${l.status}"`,
       `"${l.notes || ""}"`,
     ]);
@@ -1471,9 +1473,9 @@ export default function AdminDashboard() {
                       <thead>
                         <tr className="bg-slate-950/80 border-b border-slate-800 text-slate-400">
                           <th className="py-3.5 px-5 font-semibold">Date</th>
-                          <th className="py-3.5 px-5 font-semibold">Candidate Name</th>
+                          <th className="py-3.5 px-5 font-semibold">Candidate & Father</th>
                           <th className="py-3.5 px-5 font-semibold">Phone Number</th>
-                          <th className="py-3.5 px-5 font-semibold">Email</th>
+                          <th className="py-3.5 px-5 font-semibold">Location</th>
                           <th className="py-3.5 px-5 font-semibold">Role Applied</th>
                           <th className="py-3.5 px-5 font-semibold">Qualification</th>
                           <th className="py-3.5 px-5 font-semibold">Status</th>
@@ -1487,15 +1489,34 @@ export default function AdminDashboard() {
                               {lead.submittedAt}
                             </td>
                             <td className="py-4 px-5 font-bold text-white">
-                              {lead.name}
+                              <div>{lead.name}</div>
+                              {lead.fatherName && (
+                                <div className="text-[11px] text-slate-400 font-normal">
+                                  S/D/W of: <span className="text-slate-300 font-medium">{lead.fatherName}</span>
+                                </div>
+                              )}
                             </td>
                             <td className="py-4 px-5 text-amber-400 font-mono font-semibold">
                               <a href={`tel:${lead.phone}`} className="hover:underline">
                                 {lead.phone}
                               </a>
+                              {lead.email && (
+                                <div className="text-[10px] text-slate-500 font-normal font-sans truncate max-w-[140px]">
+                                  {lead.email}
+                                </div>
+                              )}
                             </td>
-                            <td className="py-4 px-5 text-slate-400">
-                              {lead.email || "—"}
+                            <td className="py-4 px-5 text-slate-300">
+                              {lead.city || lead.state ? (
+                                <div>
+                                  <span className="font-medium text-white">{lead.city || "—"}</span>
+                                  {lead.state && (
+                                    <div className="text-[10px] text-slate-400">{lead.state}</div>
+                                  )}
+                                </div>
+                              ) : (
+                                "—"
+                              )}
                             </td>
                             <td className="py-4 px-5 text-slate-300 font-medium">
                               {lead.targetRole || "General Aviation"}

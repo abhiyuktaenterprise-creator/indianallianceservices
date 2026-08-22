@@ -645,7 +645,7 @@ export const ALL_DEFAULT_10_JOBS: JobPost[] = [
     postName: "FLIGHT DISPATCH & RAMP TURNAROUND COORDINATOR",
     jobCategory: "12TH PASS / GRADUATE FRESHERS",
     jobLocation: "PUNE",
-    imageUrl: "/jobs/job-12.png",
+    imageUrl: "/jobs/job-12.jpg",
     department: "Airside Flight Operations & Ramp",
     jobCode: "IAS-MENZIES-PNQ-12",
     type: "Full-Time (Airside Operations)",
@@ -869,15 +869,16 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     return saved ? JSON.parse(saved) : DEFAULT_HOME_CONTENT;
   });
 
-  // 3. Job Posts (Loads all 10 jobs)
+  // 3. Job Posts (Loads all 12 default jobs with exact airline matching photos)
   const [jobPosts, setJobPosts] = useState<JobPost[]>(() => {
-    const saved = localStorage.getItem("acs_job_posts");
+    const saved = localStorage.getItem("acs_job_posts_v3");
     if (saved) {
-      const parsed = JSON.parse(saved);
-      // Auto-migrate if less than 12 jobs are found
-      if (Array.isArray(parsed) && parsed.length >= 12) {
-        return parsed;
-      }
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length >= 12) {
+          return parsed;
+        }
+      } catch (e) {}
     }
     return ALL_DEFAULT_10_JOBS;
   });
@@ -958,7 +959,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   }, [homeContent]);
 
   useEffect(() => {
-    localStorage.setItem("acs_job_posts", JSON.stringify(jobPosts));
+    localStorage.setItem("acs_job_posts_v3", JSON.stringify(jobPosts));
   }, [jobPosts]);
 
   useEffect(() => {

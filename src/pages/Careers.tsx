@@ -426,7 +426,7 @@ export default function Careers() {
       <section className="py-20 bg-muted/30 border-t border-border">
         <div className="container mx-auto px-4">
           <SectionHeading
-            badge="Hiring Ecosystem"
+            badge="Hiring Drives & Opportunities"
             title="Current & Upcoming"
             highlight="Airport Opportunities"
             description="Our counselling aligns with upcoming recruitment drives, regional airport inaugurations, and airline terminal expansion across India."

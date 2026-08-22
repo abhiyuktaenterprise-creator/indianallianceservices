@@ -62,7 +62,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-slate-600 leading-relaxed max-w-sm font-normal">
-              India's premier AI-powered aviation career advisory, training coaching, and airport opportunity gateway. Serving aviation aspirants across India since 2015.
+              India's premier aviation career advisory, training guidance, and airport opportunity gateway. Serving aviation aspirants across India since 2015.
             </p>
 
             <div className="inline-flex items-center gap-2 rounded-xl bg-amber-500/15 border border-gold/40 px-3 py-1.5 text-xs font-bold text-amber-900">
@@ -120,12 +120,6 @@ export default function Footer() {
                 <Link to="/careers" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
                   <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
                   <span>Latest Aviation Jobs</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/guides" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
-                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
-                  <span>Career Guides & Blog</span>
                 </Link>
               </li>
               <li>

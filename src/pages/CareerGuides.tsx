@@ -581,8 +581,8 @@ export default function CareerGuides() {
           <SectionHeading
             badge="Explore Connected Resources"
             title="Aviation Career"
-            highlight="Ecosystem Links"
-            description="Access related portals, verification tools, and preparation resources."
+            highlight="Career Portals & Tools"
+            description="Access related career openings, recruiter verification, and interview preparation guides."
           />
 
           <div className="grid sm:grid-cols-3 gap-6">

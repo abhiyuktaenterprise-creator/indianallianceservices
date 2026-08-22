@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Send, CheckCircle2, Phone, Sparkles } from "lucide-react";
+import { Send, CheckCircle2, Phone, Sparkles, AlertTriangle, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { checkDuplicatePhone, normalizePhoneNumber, SubmittedLeadRecord } from "@/utils/leadValidator";
 
 interface ContactFormProps {
   defaultRole?: string;
@@ -32,9 +33,13 @@ export default function ContactForm({
 }: ContactFormProps) {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { addLead } = useSiteConfig();
+  const { addLead, settings } = useSiteConfig();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [duplicateInfo, setDuplicateInfo] = useState<{
+    isDuplicate: boolean;
+    leadRecord?: SubmittedLeadRecord;
+  }>({ isDuplicate: false });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -45,6 +50,12 @@ export default function ContactForm({
     city: "",
     message: "",
   });
+
+  const handlePhoneChange = (val: string) => {
+    setFormData((prev) => ({ ...prev, phone: val }));
+    const check = checkDuplicatePhone(val);
+    setDuplicateInfo(check);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,6 +73,18 @@ export default function ContactForm({
       toast({
         title: "Invalid Mobile Number",
         description: "Please enter a valid 10-digit mobile number.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Check duplicate phone
+    const duplicateCheck = checkDuplicatePhone(formData.phone);
+    if (duplicateCheck.isDuplicate) {
+      setDuplicateInfo(duplicateCheck);
+      toast({
+        title: "Application Already Submitted!",
+        description: `We already have an active application registered for +91 ${normalizePhoneNumber(formData.phone)}. Our senior counsellor will call you shortly.`,
         variant: "destructive",
       });
       return;
@@ -182,21 +205,78 @@ export default function ContactForm({
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="contact-phone" className="text-xs font-semibold text-foreground">
-            Mobile Number <span className="text-destructive">*</span>
+          <Label htmlFor="contact-phone" className="text-xs font-semibold text-foreground flex items-center justify-between">
+            <span>Mobile Number <span className="text-destructive">*</span></span>
+            {duplicateInfo.isDuplicate && (
+              <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                <AlertTriangle className="h-3 w-3" /> Already Registered
+              </span>
+            )}
           </Label>
           <Input
             id="contact-phone"
             type="tel"
             placeholder="10-digit mobile number"
             value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            onChange={(e) => handlePhoneChange(e.target.value)}
             maxLength={15}
             required
-            className="h-10 bg-background"
+            className={`h-10 bg-background ${
+              duplicateInfo.isDuplicate
+                ? "border-amber-500/80 focus-visible:ring-amber-500/50 bg-amber-500/5"
+                : ""
+            }`}
           />
         </div>
       </div>
+
+      {/* Duplicate Phone Notice Banner */}
+      {duplicateInfo.isDuplicate && (
+        <div className="rounded-2xl bg-amber-500/10 border-2 border-amber-500/40 p-4 sm:p-5 text-left space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-300 shadow-sm">
+          <div className="flex items-start gap-2.5">
+            <div className="p-1.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5">
+              <AlertTriangle className="h-4 w-4" />
+            </div>
+            <div>
+              <h4 className="font-heading font-bold text-foreground text-sm">
+                You have already submitted an enquiry!
+              </h4>
+              <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
+                An enquiry for mobile number <strong className="text-foreground font-semibold">+91 {normalizePhoneNumber(formData.phone)}</strong> was already registered on <span className="text-foreground font-medium">{duplicateInfo.leadRecord?.submittedAt || "recently"}</span>{duplicateInfo.leadRecord?.targetRole ? ` for "${duplicateInfo.leadRecord.targetRole}"` : ""}.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-background/80 rounded-xl p-3 text-xs text-foreground/90 border border-amber-500/20 space-y-1">
+            <p className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+              <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
+              <span>Your profile is already in our Senior Counselling Queue</span>
+            </p>
+            <p className="text-[11px] text-muted-foreground pl-5">
+              Our student advisor will call you within 24 business hours. You do not need to fill this form again.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <a
+              href={`tel:${settings.helplinePhone.replace(/\s+/g, "")}`}
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline bg-secondary/15 px-3 py-1.5 rounded-lg border border-secondary/30 transition-colors"
+            >
+              <Phone className="h-3.5 w-3.5 text-secondary" />
+              <span>Call Helpline: {settings.helplinePhone}</span>
+            </a>
+            <a
+              href={`https://wa.me/${settings.whatsappPhone.replace(/[^0-9]/g, "")}?text=Hi%20Indian%20Alliance%20Services,%20I%20have%20already%20submitted%20an%20enquiry%20from%20%2B91${normalizePhoneNumber(formData.phone)}%20and%20need%20an%20update.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/30 transition-colors"
+            >
+              <MessageCircle className="h-3.5 w-3.5 text-emerald-500" />
+              <span>WhatsApp Helpdesk</span>
+            </a>
+          </div>
+        </div>
+      )}
 
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
@@ -307,11 +387,19 @@ export default function ContactForm({
       <div className="pt-2">
         <Button
           type="submit"
-          disabled={isSubmitting}
-          className="w-full gap-2 text-base font-semibold shadow-md bg-secondary hover:bg-secondary/90 text-secondary-foreground h-11"
+          disabled={isSubmitting || duplicateInfo.isDuplicate}
+          className={`w-full gap-2 text-base font-semibold shadow-md h-11 transition-all ${
+            duplicateInfo.isDuplicate
+              ? "bg-amber-600/90 hover:bg-amber-600 text-white cursor-not-allowed opacity-90"
+              : "bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+          }`}
         >
           {isSubmitting ? (
             <span>Submitting Request...</span>
+          ) : duplicateInfo.isDuplicate ? (
+            <>
+              <CheckCircle2 className="h-4 w-4" /> Already Submitted — In Review Queue
+            </>
           ) : (
             <>
               <Send className="h-4 w-4" /> {submitButtonText}

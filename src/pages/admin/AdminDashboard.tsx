@@ -86,18 +86,6 @@ export default function AdminDashboard() {
     }
   }, [activeTab]);
 
-  // 1. Settings State Form
-  const [formData, setFormData] = useState({
-    helplinePhone: settings.helplinePhone || "+91 7851836860",
-    whatsappPhone: settings.whatsappPhone || "+91 7851836860",
-    supportEmail: settings.supportEmail || "support@indianallianceservices.com",
-    displayAddress: settings.displayAddress || "",
-    officeHours: settings.officeHours || "Mon – Sat: 9:30 AM – 6:30 PM (IST)",
-    bannerNotice: settings.bannerNotice || "",
-    enableNoticeBanner: settings.enableNoticeBanner ?? false,
-    googleSheetsNoticeUrl: settings.googleSheetsNoticeUrl || "",
-  });
-
   // Password change state
   const [adminEmail, setAdminEmail] = useState("admin@indianallianceservices.com");
   const [newPassword, setNewPassword] = useState("");
@@ -110,14 +98,19 @@ export default function AdminDashboard() {
     title: "",
     department: "",
     jobCode: "",
+    companyName: "INDIGO",
+    postName: "OFFICER / EXECUTIVE - RAMP SECURITY , CATERING AND CABIN APPEARANCE",
+    jobCategory: "FRESHER AND EXPERIANCE CANDIDATES BOTH",
+    jobLocation: "AHMEDABAD",
+    imageUrl: "/hero-aviation.jpg",
     type: "Full-Time",
-    location: "Pan-India Airports",
+    location: "Ahmedabad, Mumbai, Delhi NCR",
     salaryRange: "₹25,000 – ₹45,000 / month",
-    experience: "0 – 2 Years",
+    experience: "Freshers & Experienced Both",
     qualification: "12th Pass / Graduate",
     ageLimit: "18 – 30 Years",
-    openings: 5,
-    badge: "Active Hiring",
+    openings: 15,
+    badge: "Actively Hiring",
     status: "active" as "active" | "inactive",
     overview: "",
     responsibilities: "",
@@ -138,6 +131,21 @@ export default function AdminDashboard() {
     linkText: "Apply Online",
   });
 
+  // Verification Registry Modal State
+  const [isVerifModalOpen, setIsVerifModalOpen] = useState(false);
+  const [editingVerifId, setEditingVerifId] = useState<string | null>(null);
+  const [verifFormData, setVerifFormData] = useState({
+    refCode: "IAS-2026-" + Math.floor(100000 + Math.random() * 900000),
+    candidateName: "",
+    roleApplied: "Airport Ground Staff (AGS)",
+    status: "verified" as "verified" | "under_screening" | "admit_issued" | "interview_passed" | "not_verified",
+    issuedDate: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
+    interviewDate: "",
+    interviewVenue: "",
+    issuingOfficer: "Aviation Desk Officer #04",
+    remarks: "Profile verified & eligible for upcoming screening drive.",
+  });
+
   // Google Sheet Sync State
   const [googleSheetInputUrl, setGoogleSheetInputUrl] = useState(settings.googleSheetsNoticeUrl || "");
   const [isGoogleSyncing, setIsGoogleSyncing] = useState(false);
@@ -149,10 +157,34 @@ export default function AdminDashboard() {
     city: "",
     officeName: "",
     address: "",
-    phone: settings.helplinePhone || "+91 7851836860",
-    email: settings.supportEmail || "support@indianallianceservices.com",
-    notice: "Visits strictly by prior appointment only.",
+    phone: "+91 99042 16568",
+    email: "support@indianallianceservices.com",
+    notice: "",
   });
+
+  // Site Settings Form Data
+  const [formData, setFormData] = useState<SiteSettings>({
+    helplinePhone: "",
+    whatsappPhone: "",
+    supportEmail: "",
+    displayAddress: "",
+    officeHours: "",
+    bannerNotice: "",
+    enableNoticeBanner: true,
+    companyName: "Indian Alliance Services",
+    tagline: "India's Leading Aviation Career Guidance & Training Gateway",
+    googleSheetsNoticeUrl: "",
+  });
+
+  // Sync settings into local form state
+  useEffect(() => {
+    if (settings) {
+      setFormData(settings);
+      if (settings.googleSheetsNoticeUrl) {
+        setGoogleSheetInputUrl(settings.googleSheetsNoticeUrl);
+      }
+    }
+  }, [settings]);
 
   // Search & Filters
   const [jobSearch, setJobSearch] = useState("");
@@ -196,19 +228,24 @@ export default function AdminDashboard() {
   const handleOpenCreateJob = () => {
     setEditingJobId(null);
     setJobFormData({
-      title: "",
-      department: "Airport Operations",
-      jobCode: "IAS-" + Math.floor(1000 + Math.random() * 9000),
+      title: "Airport Ground Staff (AGS)",
+      department: "Airport Operations & Passenger Services",
+      jobCode: "IAS-INDIGO-" + Math.floor(1000 + Math.random() * 9000),
+      companyName: "INDIGO",
+      postName: "OFFICER / EXECUTIVE - RAMP SECURITY , CATERING AND CABIN APPEARANCE",
+      jobCategory: "FRESHER AND EXPERIANCE CANDIDATES BOTH",
+      jobLocation: "AHMEDABAD",
+      imageUrl: "/hero-aviation.jpg",
       type: "Full-Time (Shift Based)",
-      location: "Pan-India Airports",
+      location: "Ahmedabad (AMD), Mumbai, Delhi NCR, Jaipur",
       salaryRange: "₹25,000 – ₹45,000 / month",
-      experience: "Freshers / 0 – 2 Years",
-      qualification: "12th Pass or Graduate",
-      ageLimit: "18 – 30 Years",
-      openings: 5,
-      badge: "Immediate Opening",
+      experience: "Freshers & Experienced Both",
+      qualification: "12th Pass or Any Graduate",
+      ageLimit: "18 – 28 Years",
+      openings: 15,
+      badge: "Actively Hiring",
       status: "active",
-      overview: "",
+      overview: "Airport Ground Staff and executive operations managing passenger check-in, ramp safety, and flight turnaround.",
       responsibilities: "Handle boarding passes and passenger verification\nAssist special-needs travellers\nCoordinate with airline ramp staff",
       requirements: "12th Pass minimum\nPleasing personality and clear communication\nBasic computer knowledge",
     });
@@ -221,6 +258,11 @@ export default function AdminDashboard() {
       title: job.title || "",
       department: job.department || "",
       jobCode: job.jobCode || "",
+      companyName: job.companyName || "INDIGO",
+      postName: job.postName || job.title || "",
+      jobCategory: job.jobCategory || job.experience || "FRESHER AND EXPERIANCE CANDIDATES BOTH",
+      jobLocation: job.jobLocation || job.location || "AHMEDABAD",
+      imageUrl: job.imageUrl || "/hero-aviation.jpg",
       type: job.type || "Full-Time",
       location: job.location || "",
       salaryRange: job.salaryRange || "",
@@ -1610,6 +1652,61 @@ export default function AdminDashboard() {
                       placeholder="e.g., Airport Ground Staff Executive"
                       required
                       className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-amber-400 block">Company Name (e.g. INDIGO) *</label>
+                    <input
+                      type="text"
+                      value={jobFormData.companyName}
+                      onChange={(e) => setJobFormData({ ...jobFormData, companyName: e.target.value })}
+                      placeholder="e.g., INDIGO, AIR INDIA, SPICEJET"
+                      className="w-full h-11 px-3.5 bg-slate-950 border border-amber-500/40 text-white placeholder:text-slate-500 rounded-xl text-sm font-bold uppercase focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-amber-400 block">Job Location (e.g. AHMEDABAD) *</label>
+                    <input
+                      type="text"
+                      value={jobFormData.jobLocation}
+                      onChange={(e) => setJobFormData({ ...jobFormData, jobLocation: e.target.value })}
+                      placeholder="e.g., AHMEDABAD, JAIPUR, DELHI NCR"
+                      className="w-full h-11 px-3.5 bg-slate-950 border border-amber-500/40 text-white placeholder:text-slate-500 rounded-xl text-sm font-bold uppercase focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5 sm:col-span-2">
+                    <label className="text-xs font-bold text-amber-400 block">Post Name (Full Heading on Card) *</label>
+                    <input
+                      type="text"
+                      value={jobFormData.postName}
+                      onChange={(e) => setJobFormData({ ...jobFormData, postName: e.target.value })}
+                      placeholder="e.g., OFFICER / EXECUTIVE - RAMP SECURITY , CATERING AND CABIN APPEARANCE"
+                      className="w-full h-11 px-3.5 bg-slate-950 border border-amber-500/40 text-white placeholder:text-slate-500 rounded-xl text-sm font-bold uppercase focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5 sm:col-span-2">
+                    <label className="text-xs font-bold text-amber-400 block">Job Category (Card Tag) *</label>
+                    <input
+                      type="text"
+                      value={jobFormData.jobCategory}
+                      onChange={(e) => setJobFormData({ ...jobFormData, jobCategory: e.target.value })}
+                      placeholder="e.g., FRESHER AND EXPERIANCE CANDIDATES BOTH"
+                      className="w-full h-11 px-3.5 bg-slate-950 border border-amber-500/40 text-white placeholder:text-slate-500 rounded-xl text-sm font-bold uppercase focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5 sm:col-span-2">
+                    <label className="text-xs font-bold text-slate-200 block">Card Image URL</label>
+                    <input
+                      type="text"
+                      value={jobFormData.imageUrl}
+                      onChange={(e) => setJobFormData({ ...jobFormData, imageUrl: e.target.value })}
+                      placeholder="e.g., /hero-aviation.jpg, /cabin-crew-training.jpg, /ground-services.jpg"
+                      className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs font-mono focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
                     />
                   </div>
 

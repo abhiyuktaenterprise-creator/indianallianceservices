@@ -26,6 +26,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Disclaimer from "./pages/Disclaimer";
 import ThankYou from "./pages/ThankYou";
+import PPCLanding from "./pages/PPCLanding";
 import NotFound from "./pages/NotFound";
 
 // Admin Components
@@ -45,13 +46,43 @@ const queryClient = new QueryClient({
 function AppLayout() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
+  const isPpcRoute = [
+    "/apply",
+    "/apply-online",
+    "/aviation-careers",
+    "/airport-jobs",
+    "/candidate-registration",
+    "/airport-ground-staff",
+    "/cabin-crew-recruitment",
+    "/aviation-jobs",
+    "/walk-in-2026",
+    "/walkin-drive",
+    "/recruitment-2026",
+    "/landing",
+    "/ppc",
+  ].includes(location.pathname);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <ScrollToTop />
-      {!isAdminRoute && <Navbar />}
+      {!isAdminRoute && !isPpcRoute && <Navbar />}
       <main className="flex-1">
         <Routes>
+          {/* Dedicated High-Converting PPC Landing Page Routes */}
+          <Route path="/apply" element={<PPCLanding />} />
+          <Route path="/apply-online" element={<PPCLanding />} />
+          <Route path="/aviation-careers" element={<PPCLanding />} />
+          <Route path="/airport-jobs" element={<PPCLanding />} />
+          <Route path="/candidate-registration" element={<PPCLanding />} />
+          <Route path="/airport-ground-staff" element={<PPCLanding />} />
+          <Route path="/cabin-crew-recruitment" element={<PPCLanding />} />
+          <Route path="/aviation-jobs" element={<PPCLanding />} />
+          <Route path="/walk-in-2026" element={<PPCLanding />} />
+          <Route path="/walkin-drive" element={<PPCLanding />} />
+          <Route path="/recruitment-2026" element={<PPCLanding />} />
+          <Route path="/landing" element={<PPCLanding />} />
+          <Route path="/ppc" element={<PPCLanding />} />
+
           {/* Public Pages */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
@@ -59,9 +90,9 @@ function AppLayout() {
           <Route path="/services" element={<Services />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/opportunities" element={<Careers />} />
-          <Route path="/guides" element={<CareerGuides />} />
-          <Route path="/blog" element={<CareerGuides />} />
-          <Route path="/career-guides" element={<CareerGuides />} />
+          <Route path="/guides" element={<Navigate to="/careers" replace />} />
+          <Route path="/blog" element={<Navigate to="/careers" replace />} />
+          <Route path="/career-guides" element={<Navigate to="/careers" replace />} />
           <Route path="/interview-tips" element={<InterviewTips />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/contact" element={<ContactUs />} />
@@ -93,8 +124,8 @@ function AppLayout() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      {!isAdminRoute && <Footer />}
-      {!isAdminRoute && <WhatsAppWidget />}
+      {!isAdminRoute && !isPpcRoute && <Footer />}
+      {!isAdminRoute && !isPpcRoute && <WhatsAppWidget />}
     </div>
   );
 }

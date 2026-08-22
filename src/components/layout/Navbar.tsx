@@ -21,7 +21,6 @@ const navLinks = [
   { label: "About Us", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Job Openings", href: "/careers" },
-  { label: "Career Guides", href: "/guides" },
   { label: "Interview Tips", href: "/interview-tips" },
   { label: "Notifications", href: "/notifications" },
   { label: "Contact Us", href: "/contact" },
@@ -89,14 +88,6 @@ export default function Navbar() {
               <Phone className="h-3.5 w-3.5 text-gold" />
               <span>{settings.helplinePhone}</span>
             </a>
-            <span className="hidden sm:inline text-primary-foreground/30">|</span>
-            <Link
-              to="/recruitment-verification"
-              className="hidden sm:inline-flex items-center gap-1 text-gold hover:text-amber-300 font-semibold transition-colors"
-            >
-              <ShieldCheck className="h-3.5 w-3.5 text-gold" />
-              <span>Candidate ID Lookup</span>
-            </Link>
           </div>
         </div>
       </div>
@@ -142,16 +133,6 @@ export default function Navbar() {
 
           {/* Action Buttons */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/recruitment-verification">
-              <Button
-                variant="outline"
-                size="sm"
-                className="text-xs font-bold border-gold/40 text-foreground hover:bg-gold/10 hover:border-gold rounded-xl"
-              >
-                <ShieldCheck className="h-3.5 w-3.5 text-gold mr-1.5" />
-                Verify ID
-              </Button>
-            </Link>
             <Button
               variant="hero"
               size="sm"
@@ -159,7 +140,7 @@ export default function Navbar() {
               className="gap-2 font-bold shadow-lg rounded-xl text-xs px-4 py-2.5 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 hover:from-amber-600 hover:to-yellow-600 transition-all scale-100 hover:scale-[1.02]"
             >
               <Sparkles className="h-3.5 w-3.5" />
-              Career Counselling
+              Apply Online
             </Button>
           </div>
 
@@ -203,29 +184,17 @@ export default function Navbar() {
                 </Link>
               ))}
 
-              <Link
-                to="/recruitment-verification"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center justify-between p-3 rounded-xl bg-navy-dark text-white border border-gold/40 shadow-sm mt-2"
-              >
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-gold" />
-                  <span className="text-xs font-bold text-gold">Verify Candidate Reference ID</span>
-                </div>
-                <ArrowRight className="h-4 w-4 text-gold" />
-              </Link>
-
               <div className="pt-3 flex flex-col gap-2">
                 <Button
                   variant="hero"
-                  className="w-full gap-2 py-4 font-bold text-sm shadow-md bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 rounded-xl"
+                  size="lg"
                   onClick={() => {
                     setIsOpen(false);
                     setIsModalOpen(true);
                   }}
+                  className="w-full gap-2 font-bold shadow-lg rounded-xl text-sm py-4 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950"
                 >
-                  <Sparkles className="h-4 w-4" />
-                  Get Career Counselling
+                  <Sparkles className="h-4 w-4" /> Apply Online
                 </Button>
               </div>
             </div>
@@ -233,10 +202,11 @@ export default function Navbar() {
         )}
       </header>
 
-      {/* Global Quick Enquiry Modal */}
+      {/* Career Counselling Modal */}
       <EnquiryModal
         isOpen={isModalOpen}
-        onOpenChange={setIsModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        defaultRole="General Aviation Guidance"
       />
     </>
   );

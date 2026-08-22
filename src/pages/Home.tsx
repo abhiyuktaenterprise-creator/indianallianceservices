@@ -63,8 +63,6 @@ import SectionHeading from "@/components/common/SectionHeading";
 import CTASection from "@/components/common/CTASection";
 import ContactForm from "@/components/common/ContactForm";
 import EnquiryModal from "@/components/common/EnquiryModal";
-import AIEvaluationMatcher from "@/components/common/AIEvaluationMatcher";
-import AIResumeScanner from "@/components/common/AIResumeScanner";
 import HeroBannerSlider from "@/components/home/HeroBannerSlider";
 
 // ==========================================
@@ -98,9 +96,9 @@ const whatWeAreOffering = [
   {
     icon: GraduationCap,
     badge: "Offering 04",
-    title: "ATS-Optimized Aviation Resume Crafting",
-    desc: "Transform your CV into an IATA-aligned aviation resume with industry-specific keywords that pass automated airline recruitment screening.",
-    benefits: ["Aviation Keyword Optimization", "Gate Pass Compliance", "Professional Formatting"],
+    title: "Professional Aviation Resume & Profile Building",
+    desc: "We format and structure your resume according to airline HR standards, highlighting key airport operational competencies, spoken languages, and communication strengths.",
+    benefits: ["Airline Standard Formatting", "HR Screening Ready", "Clean Professional Layout"],
     link: "/careers",
   },
   {
@@ -298,29 +296,42 @@ const testimonials = [
 // FAQ preview
 const homeFaqs = [
   {
-    q: "What is Indian Alliance Services?",
-    a: "Indian Alliance Services is India's premier aviation career guidance, training support, and airport opportunity network. We help freshers, 10+2, and graduates secure high-demand airline and airport roles through structured counselling, grooming, mock interviews, and verified hiring connections.",
+    q: "What complete services does Indian Alliance Services provide?",
+    a: "Indian Alliance Services provides end-to-end aviation guidance: (1) Free 1-on-1 Profile Eligibility Assessment (evaluating education, height, age, and communication), (2) IATA-aligned Professional Grooming & Personality Mastery, (3) Aviation GD & Airline Mock Interview Coaching with real feedback, (4) Airport Operational Terminology & Ticketing/DCS software concepts, (5) Direct Walk-in Drive Scheduling across 45+ airport hubs, (6) AEP pass & Document Verification support, and (7) Recruiter ID Anti-Fraud Verification.",
   },
   {
     q: "What airport jobs are available for 10th and 12th pass freshers?",
-    a: "Candidates with 12th pass qualification can apply for Airport Ground Staff, Customer Service Executive (CSE), Cabin Crew (subject to age and height criteria), Cargo Handling, and Airline Support roles. Select entry-level cargo and baggage handling roles are also open to 10th pass candidates.",
+    a: "Candidates with 12th pass qualification (Arts, Commerce, or Science) can apply for Airport Ground Staff (AGS), Customer Service Assistant (CSA), Cabin Crew / Airhostess (subject to age and height standards), and VIP Lounge Host roles. Entry-level Air Cargo & Ramp Logistics handling roles are open to 10th pass candidates.",
   },
   {
-    q: "What career guidance and counselling does Indian Alliance Services provide?",
-    a: "We offer comprehensive career counselling to evaluate your eligibility, communication skills, and personal interests, guiding you to the most appropriate airport role before you begin preparation.",
+    q: "What is the difference between Ground Staff (AGS), Customer Service (CSA), and Cabin Crew?",
+    a: "Airport Ground Staff (AGS) manage passenger boarding gates, queue facilitation, document checks, and gate coordination (₹25k–₹45k/mo). Customer Service Assistants (CSA) operate check-in desks, baggage weighing/tagging, and passenger inquiries (₹28k–₹50k/mo). Cabin Crew members handle in-flight safety, hospitality meal service, and aircraft emergency protocols (₹45k–₹95k/mo + flying allowances).",
   },
   {
-    q: "How can I verify a recruitment message or interview call from Indian Alliance Services?",
-    a: "You can verify any official communication by visiting our official website (indianallianceservices.com), emailing our official helpdesk at support@indianallianceservices.com, or using our dedicated Recruitment Verification portal.",
+    q: "Are there any registration or preliminary counselling fees?",
+    a: "Initial candidate registration, profile evaluation, and telephonic counselling guidance on our official website are 100% transparent. Indian Alliance Services strictly maintains anti-fraud protocols and never solicits cash deposits or personal WhatsApp UPI transfers.",
+  },
+  {
+    q: "Can candidates from Hindi / non-English medium backgrounds apply?",
+    a: "Yes! Over 70% of placed candidates started with basic conversational English. Our preparation guidance includes spoken English voice modulation, airport terminology drills, and self-introduction practice tailored specifically to clear airline walk-in HR screenings.",
+  },
+  {
+    q: "How can I verify an official recruitment message or interview call?",
+    a: "Every registered applicant receives a unique reference identifier (e.g. IAS-2026-XXXXXX). You can verify official calls, interview batches, and issuing recruitment officers anytime using our official Recruitment Verification portal (indianallianceservices.com/recruitment-verification).",
+  },
+  {
+    q: "Which airports across India are covered for interview scheduling?",
+    a: "We schedule and guide candidates for 45+ domestic and international airport hubs including Delhi (IGI - DEL), Mumbai (CSMIA - BOM), Bengaluru (KIA - BLR), Hyderabad (RGIA - HYD), Kolkata (NSCB - CCU), Chennai (MAA), Ahmedabad (AMD), Pune (PNQ), Jaipur (JAI), Goa (GOI), Lucknow (LKO), and Tier-2 regional airport bases.",
   },
 ];
 
-import { useSiteConfig } from "@/context/SiteConfigContext";
+import { useSiteConfig, ALL_DEFAULT_10_JOBS } from "@/context/SiteConfigContext";
 
 export default function Home() {
-  const { homeContent, settings } = useSiteConfig();
+  const { homeContent, settings, jobPosts } = useSiteConfig();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
+  const [jobCategory, setJobCategory] = useState<string>("all");
 
   const handleOpenRoleModal = (roleTitle: string) => {
     setSelectedRole(roleTitle);
@@ -382,32 +393,8 @@ export default function Home() {
         schema={homeSchema}
       />
 
-      {/* Real-Time Flight Radar Walk-in Drive Ticker */}
-      <div className="bg-[#0b1220] border-b border-gold/30 py-2 px-4 text-primary-foreground text-xs overflow-hidden">
-        <div className="container mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-extrabold text-[10px] uppercase px-2.5 py-0.5 rounded-full flex items-center gap-1.5 shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-slate-950 animate-ping" /> LIVE FLIGHT RADAR
-            </span>
-            <span className="font-bold text-gold hidden sm:inline text-xs">
-              Recruitment Drive:
-            </span>
-          </div>
-          <div className="truncate text-xs text-primary-foreground/90 font-medium">
-            {homeContent.tickerNotice}
-          </div>
-          <Link
-            to="/notifications"
-            className="shrink-0 text-gold hover:text-amber-300 hover:underline font-bold text-xs flex items-center gap-1"
-          >
-            <span>View All Notices</span>
-            <ArrowRight className="h-3 w-3" />
-          </Link>
-        </div>
-      </div>
-
       {/* ==================================================
-          1. ROYAL AVIATION LUXURY HERO BANNER SLIDER (4 SLIDES)
+          1. ROYAL AVIATION LUXURY HERO BANNER SLIDER (1ST FOLD)
           ================================================== */}
       <HeroBannerSlider
         onOpenEnquiry={handleOpenRoleModal}
@@ -437,25 +424,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ==================================================
-          AI GAN ELIGIBILITY MATCHER MODULE
-          ================================================== */}
-      <section id="ai-matcher" className="py-20 lg:py-24 bg-[#040711] text-white border-b border-gold/25 relative overflow-hidden">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <SectionHeading
-            theme="dark"
-            badge="AI Aviation Engine"
-            title="Instant AI Candidate Matcher &"
-            highlight="ATS Eligibility Evaluation"
-            description="Discover your highest-compatibility airport role based on age, height reach, qualification marksheets, and English communication level."
-          />
-
-          <AIEvaluationMatcher onSelectRole={(role) => {
-            setSelectedRole(role);
-            setIsModalOpen(true);
-          }} />
-        </div>
-      </section>
 
       {/* ==================================================
           2. WHAT WE'RE OFFERING (Specialized Aviation Guidance)
@@ -463,10 +431,10 @@ export default function Home() {
       <section id="offerings" className="py-20 lg:py-24 bg-muted/20 border-t border-border relative overflow-hidden">
         <div className="container mx-auto px-4">
           <SectionHeading
-            badge="Indian Alliance Services Ecosystem"
-            title="What We're Offering —"
-            highlight="Complete Aviation Career Gateway"
-            description="Tailored for 10th pass, 12th pass, and graduate candidates aspiring for high-paying airline and airport roles across India."
+            badge="Career Guidance & Training"
+            title="What We Offer —"
+            highlight="Aviation Career Preparation & Guidance"
+            description="Structured preparation and walk-in interview guidance for 10th pass, 12th pass, and graduate aspirants across India."
           />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -557,7 +525,7 @@ export default function Home() {
       </section>
 
       {/* ==================================================
-          3. LATEST JOBS OF AVIATION (Active Hiring Drives)
+          3. LATEST JOBS OF AVIATION (Active Hiring Drives - Dynamic Dashboard Feed)
           ================================================== */}
       <section id="latest-jobs" className="py-20 lg:py-24 gradient-sky border-y border-border relative">
         <div className="container mx-auto px-4">
@@ -568,90 +536,148 @@ export default function Home() {
             description="Active vacancies across Indian airports with verified pay scales, eligibility criteria, and immediate interview scheduling."
           />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {latestAviationJobs.map((job) => (
-              <div
-                key={job.id}
-                className="bg-card rounded-3xl border border-border hover:border-gold/50 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
-              >
-                {/* Card Header (Boarding Pass Style) */}
-                <div className="p-6 pb-4 border-b border-border/70 bg-gradient-to-b from-muted/40 to-transparent">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="font-mono text-xs font-extrabold text-gold bg-navy-midnight px-2.5 py-1 rounded-md border border-gold/30">
-                      {job.code}
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      {job.badge}
-                    </span>
+          {/* Category Filter Navigation Bar - Styled in Royal Aviation Theme */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10 max-w-3xl mx-auto">
+            <button
+              onClick={() => setJobCategory("all")}
+              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
+                jobCategory === "all"
+                  ? "bg-navy-midnight text-gold shadow-md border border-gold/40 scale-105"
+                  : "bg-card text-foreground/80 hover:text-foreground border border-border hover:bg-muted"
+              }`}
+            >
+              All Aviation Roles ({((jobPosts && jobPosts.length > 0 ? jobPosts : ALL_DEFAULT_10_JOBS).filter((j) => j.status === "active")).length})
+            </button>
+            <button
+              onClick={() => setJobCategory("ground")}
+              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
+                jobCategory === "ground"
+                  ? "bg-navy-midnight text-gold shadow-md border border-gold/40 scale-105"
+                  : "bg-card text-foreground/80 hover:text-foreground border border-border hover:bg-muted"
+              }`}
+            >
+              ✈️ Ground Staff & Ticketing
+            </button>
+            <button
+              onClick={() => setJobCategory("crew")}
+              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
+                jobCategory === "crew"
+                  ? "bg-navy-midnight text-gold shadow-md border border-gold/40 scale-105"
+                  : "bg-card text-foreground/80 hover:text-foreground border border-border hover:bg-muted"
+              }`}
+            >
+              🛫 Cabin Crew & Lounge
+            </button>
+            <button
+              onClick={() => setJobCategory("cargo")}
+              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
+                jobCategory === "cargo"
+                  ? "bg-navy-midnight text-gold shadow-md border border-gold/40 scale-105"
+                  : "bg-card text-foreground/80 hover:text-foreground border border-border hover:bg-muted"
+              }`}
+            >
+              📦 Cargo, Ramp & Security
+            </button>
+          </div>
+
+          {/* Dynamic 8-12 Jobs Grid - Exact Screenshot Card Style */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+            {(jobPosts && jobPosts.length > 0 ? jobPosts : ALL_DEFAULT_10_JOBS)
+              .filter((j) => j.status === "active")
+              .filter((job) => {
+                if (jobCategory === "ground") {
+                  return (
+                    job.department.toLowerCase().includes("ground") ||
+                    job.department.toLowerCase().includes("terminal") ||
+                    job.department.toLowerCase().includes("ticketing") ||
+                    job.department.toLowerCase().includes("passenger") ||
+                    job.title.toLowerCase().includes("ground") ||
+                    job.title.toLowerCase().includes("customer")
+                  );
+                }
+                if (jobCategory === "crew") {
+                  return (
+                    job.department.toLowerCase().includes("cabin") ||
+                    job.department.toLowerCase().includes("in-flight") ||
+                    job.department.toLowerCase().includes("hospitality") ||
+                    job.department.toLowerCase().includes("lounge") ||
+                    job.title.toLowerCase().includes("crew") ||
+                    job.title.toLowerCase().includes("airhostess") ||
+                    job.title.toLowerCase().includes("lounge")
+                  );
+                }
+                if (jobCategory === "cargo") {
+                  return (
+                    job.department.toLowerCase().includes("cargo") ||
+                    job.department.toLowerCase().includes("ramp") ||
+                    job.department.toLowerCase().includes("security") ||
+                    job.department.toLowerCase().includes("retail") ||
+                    job.title.toLowerCase().includes("cargo") ||
+                    job.title.toLowerCase().includes("security") ||
+                    job.title.toLowerCase().includes("ramp") ||
+                    job.title.toLowerCase().includes("retail")
+                  );
+                }
+                return true;
+              })
+              .slice(0, 12)
+              .map((job) => (
+                <div
+                  key={job.id}
+                  onClick={() => handleOpenRoleModal(job.postName || job.title)}
+                  className="group bg-card rounded-xl border border-border/80 hover:border-gold/60 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer transform hover:-translate-y-1"
+                >
+                  {/* Top Image Container */}
+                  <div className="h-52 w-full overflow-hidden relative bg-slate-900">
+                    <img
+                      src={job.imageUrl || "/hero-aviation.jpg"}
+                      alt={job.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/hero-aviation.jpg";
+                      }}
+                    />
+
+                    {/* Floating Gold/Brown Action Arrow Button from Screenshot */}
+                    <div className="absolute -bottom-3.5 right-4 w-9 h-9 rounded-md bg-[#9f7833] hover:bg-gold text-white hover:text-slate-950 flex items-center justify-center shadow-lg transition-all duration-300 transform group-hover:scale-110 z-10">
+                      <ChevronRight className="h-5 w-5 stroke-[2.5]" />
+                    </div>
                   </div>
 
-                  <h3 className="text-xl font-heading font-extrabold text-foreground mb-1 group-hover:text-gold transition-colors">
-                    {job.title}
-                  </h3>
-                  <p className="text-xs text-secondary font-semibold">
-                    {job.department}
-                  </p>
-                </div>
+                  {/* Card Content Matching Screenshot Key-Value Structure */}
+                  <div className="p-5 pt-6 bg-card flex flex-col justify-between flex-1 text-left space-y-2">
+                    <div className="space-y-1.5 text-left text-[12.5px] leading-snug">
+                      <p>
+                        <span className="font-extrabold text-foreground tracking-wide">COMPANY NAME:</span>{" "}
+                        <span className="font-bold text-[#b38e44] dark:text-amber-400 uppercase">
+                          {job.companyName || "INDIGO"}
+                        </span>
+                      </p>
 
-                {/* Card Body */}
-                <div className="p-6 space-y-4 flex-1">
-                  {/* Salary & Openings */}
-                  <div className="flex items-center justify-between p-3 rounded-2xl bg-muted/50 border border-border/60">
-                    <div>
-                      <div className="text-[10px] uppercase font-bold text-muted-foreground">Salary Scale</div>
-                      <div className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">{job.salary}</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-[10px] uppercase font-bold text-muted-foreground">Vacancies</div>
-                      <div className="text-xs font-bold text-foreground font-mono">{job.openings}</div>
-                    </div>
-                  </div>
+                      <p>
+                        <span className="font-extrabold text-foreground tracking-wide">POST NAME:</span>{" "}
+                        <span className="font-bold text-[#b38e44] dark:text-amber-400 uppercase">
+                          {job.postName || job.title}
+                        </span>
+                      </p>
 
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    {job.desc}
-                  </p>
+                      <p>
+                        <span className="font-extrabold text-foreground tracking-wide">JOB CATEGORY:</span>{" "}
+                        <span className="font-bold text-[#b38e44] dark:text-amber-400 uppercase">
+                          {job.jobCategory || "FRESHER AND EXPERIANCE CANDIDATES BOTH"}
+                        </span>
+                      </p>
 
-                  {/* Eligibility & Locations */}
-                  <div className="space-y-2 pt-2 border-t border-border/50 text-xs">
-                    <div className="flex items-start gap-2">
-                      <GraduationCap className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">
-                        <strong className="text-foreground">Eligibility:</strong> {job.eligibility}
-                      </span>
-                    </div>
-
-                    <div className="flex items-start gap-2">
-                      <MapPin className="h-4 w-4 text-secondary shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">
-                        <strong className="text-foreground">Airports:</strong> {job.locations.join(" • ")}
-                      </span>
+                      <p>
+                        <span className="font-extrabold text-foreground tracking-wide">JOB LOCATION:</span>{" "}
+                        <span className="font-bold text-[#b38e44] dark:text-amber-400 uppercase">
+                          {job.jobLocation || job.location}
+                        </span>
+                      </p>
                     </div>
                   </div>
                 </div>
-
-                {/* Card Action Footer */}
-                <div className="p-6 pt-0 flex items-center gap-3">
-                  <Link to="/careers" className="flex-1">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full text-xs font-bold rounded-xl border-border hover:bg-muted"
-                    >
-                      View Role Guide
-                    </Button>
-                  </Link>
-                  <Button
-                    variant="hero"
-                    size="sm"
-                    onClick={() => handleOpenRoleModal(job.roleName)}
-                    className="flex-1 text-xs font-bold rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 shadow-md gap-1.5"
-                  >
-                    <Sparkles className="h-3.5 w-3.5" /> Apply Now
-                  </Button>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
 
           <div className="text-center mt-12">
@@ -661,7 +687,7 @@ export default function Home() {
                 size="lg"
                 className="gap-2 font-bold px-8 py-5 rounded-2xl border-gold/40 text-foreground hover:bg-gold/10 hover:border-gold shadow-sm"
               >
-                View All 9+ Aviation & Airport Job Openings <ArrowRight className="h-4 w-4 text-gold" />
+                View All {((jobPosts && jobPosts.length > 0 ? jobPosts : ALL_DEFAULT_10_JOBS).filter((j) => j.status === "active")).length}+ Aviation Openings <ArrowRight className="h-4 w-4 text-gold" />
               </Button>
             </Link>
           </div>

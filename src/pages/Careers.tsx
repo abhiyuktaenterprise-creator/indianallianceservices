@@ -24,6 +24,7 @@ import {
   HelpCircle,
   Search,
   Check,
+  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/common/SEO";
@@ -32,7 +33,7 @@ import SectionHeading from "@/components/common/SectionHeading";
 import CTASection from "@/components/common/CTASection";
 import EnquiryModal from "@/components/common/EnquiryModal";
 import JobApplicationModal from "@/components/common/JobApplicationModal";
-import { useSiteConfig, JobPost } from "@/context/SiteConfigContext";
+import { useSiteConfig, JobPost, ALL_DEFAULT_10_JOBS } from "@/context/SiteConfigContext";
 
 // Industry Updates & New Airline Routes (Neutral Information)
 const industryUpdates = [
@@ -83,33 +84,63 @@ export default function Careers() {
   const [isEnquiryModalOpen, setIsEnquiryModalOpen] = useState(false);
   const [isJobModalOpen, setIsJobModalOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<"all" | "aviation" | "non-aviation">("all");
+  const [jobCategory, setJobCategory] = useState<"all" | "ground" | "crew" | "cargo">("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const activeJobs = jobPosts.filter((j) => j.status === "active");
+  const activeJobs = (jobPosts && jobPosts.length > 0 ? jobPosts : ALL_DEFAULT_10_JOBS).filter(
+    (j) => j.status === "active"
+  );
 
-  const filteredJobs = activeJobs.filter((job) => {
-    // Filter by Category
-    const isNonAviation =
-      job.department.toLowerCase().includes("retail") ||
-      job.department.toLowerCase().includes("cargo") ||
-      job.department.toLowerCase().includes("lounge") ||
-      job.department.toLowerCase().includes("talent") ||
-      job.department.toLowerCase().includes("hr");
-
-    let matchesCategory = true;
-    if (selectedCategory === "aviation") matchesCategory = !isNonAviation;
-    if (selectedCategory === "non-aviation") matchesCategory = isNonAviation;
-
-    // Filter by Search Query
-    const matchesSearch =
-      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.department.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.jobCode.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.location.toLowerCase().includes(searchQuery.toLowerCase());
-
-    return matchesCategory && matchesSearch;
-  });
+  const filteredJobs = activeJobs
+    .filter((job) => {
+      if (jobCategory === "ground") {
+        return (
+          (job.department || "").toLowerCase().includes("ground") ||
+          (job.department || "").toLowerCase().includes("terminal") ||
+          (job.department || "").toLowerCase().includes("ticketing") ||
+          (job.department || "").toLowerCase().includes("passenger") ||
+          (job.title || "").toLowerCase().includes("ground") ||
+          (job.title || "").toLowerCase().includes("customer")
+        );
+      }
+      if (jobCategory === "crew") {
+        return (
+          (job.department || "").toLowerCase().includes("cabin") ||
+          (job.department || "").toLowerCase().includes("in-flight") ||
+          (job.department || "").toLowerCase().includes("hospitality") ||
+          (job.department || "").toLowerCase().includes("lounge") ||
+          (job.title || "").toLowerCase().includes("crew") ||
+          (job.title || "").toLowerCase().includes("airhostess") ||
+          (job.title || "").toLowerCase().includes("lounge")
+        );
+      }
+      if (jobCategory === "cargo") {
+        return (
+          (job.department || "").toLowerCase().includes("cargo") ||
+          (job.department || "").toLowerCase().includes("ramp") ||
+          (job.department || "").toLowerCase().includes("security") ||
+          (job.department || "").toLowerCase().includes("retail") ||
+          (job.title || "").toLowerCase().includes("cargo") ||
+          (job.title || "").toLowerCase().includes("security") ||
+          (job.title || "").toLowerCase().includes("ramp") ||
+          (job.title || "").toLowerCase().includes("retail")
+        );
+      }
+      return true;
+    })
+    .filter((job) => {
+      if (!searchQuery.trim()) return true;
+      const q = searchQuery.toLowerCase();
+      return (
+        (job.title || "").toLowerCase().includes(q) ||
+        (job.companyName || "").toLowerCase().includes(q) ||
+        (job.postName || "").toLowerCase().includes(q) ||
+        (job.jobLocation || "").toLowerCase().includes(q) ||
+        (job.location || "").toLowerCase().includes(q) ||
+        (job.department || "").toLowerCase().includes(q) ||
+        (job.jobCode || "").toLowerCase().includes(q)
+      );
+    });
 
   const handleOpenCounselling = (roleName: string) => {
     setSelectedRole(roleName);
@@ -188,38 +219,61 @@ export default function Careers() {
       </section>
 
       {/* ==================================================
-          UNIFIED VERIFIED JOB VACANCIES SECTION
+          3. LATEST JOBS OF AVIATION & AIRPORT HIRING OPENINGS (Exact Same UI as Homepage)
           ================================================== */}
-      <section id="openings" className="py-16 lg:py-20 bg-background">
+      <section id="openings" className="py-20 lg:py-24 gradient-sky border-y border-border relative">
         <div className="container mx-auto px-4">
           <SectionHeading
-            badge="Verified Hiring"
-            title="Explore Active"
-            highlight="Airport & Airline Vacancies"
-            description="Detailed breakdowns of salary scales, responsibilities, qualifications, and direct application channels for verified airport positions."
+            badge="Active Openings 2026"
+            title="Latest Jobs of Aviation &"
+            highlight="Airport Hiring Openings"
+            description="Active vacancies across Indian airports with verified pay scales, eligibility criteria, and immediate interview scheduling."
           />
 
-          {/* Filter & Search Bar */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 max-w-5xl mx-auto mb-10">
-            {/* Category Pills */}
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              {[
-                { id: "all", label: `All Vacancies (${activeJobs.length})` },
-                { id: "aviation", label: "✈️ Aviation & Airline Track" },
-                { id: "non-aviation", label: "🏢 Non-Aviation & Airport Ops" },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setSelectedCategory(tab.id as any)}
-                  className={`px-4 py-2 rounded-2xl font-bold text-xs sm:text-sm transition-all shadow-sm ${
-                    selectedCategory === tab.id
-                      ? "bg-primary text-primary-foreground border border-gold/40 shadow-md scale-105"
-                      : "bg-card hover:bg-muted text-foreground border border-border"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+          {/* Category Filter Navigation Bar & Search - Styled in Royal Aviation Theme */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 max-w-7xl mx-auto mb-10">
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+              <button
+                onClick={() => setJobCategory("all")}
+                className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
+                  jobCategory === "all"
+                    ? "bg-navy-midnight text-gold shadow-md border border-gold/40 scale-105"
+                    : "bg-card text-foreground/80 hover:text-foreground border border-border hover:bg-muted"
+                }`}
+              >
+                All Aviation Roles ({activeJobs.length})
+              </button>
+              <button
+                onClick={() => setJobCategory("ground")}
+                className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
+                  jobCategory === "ground"
+                    ? "bg-navy-midnight text-gold shadow-md border border-gold/40 scale-105"
+                    : "bg-card text-foreground/80 hover:text-foreground border border-border hover:bg-muted"
+                }`}
+              >
+                ✈️ Ground Staff & Ticketing
+              </button>
+              <button
+                onClick={() => setJobCategory("crew")}
+                className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
+                  jobCategory === "crew"
+                    ? "bg-navy-midnight text-gold shadow-md border border-gold/40 scale-105"
+                    : "bg-card text-foreground/80 hover:text-foreground border border-border hover:bg-muted"
+                }`}
+              >
+                🛫 Cabin Crew & Lounge
+              </button>
+              <button
+                onClick={() => setJobCategory("cargo")}
+                className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
+                  jobCategory === "cargo"
+                    ? "bg-navy-midnight text-gold shadow-md border border-gold/40 scale-105"
+                    : "bg-card text-foreground/80 hover:text-foreground border border-border hover:bg-muted"
+                }`}
+              >
+                📦 Cargo, Ramp & Security
+              </button>
             </div>
 
             {/* Quick Search Box */}
@@ -227,15 +281,15 @@ export default function Careers() {
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search vacancies or code..."
+                placeholder="Search vacancies, airline, city..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-card border border-border rounded-2xl pl-10 pr-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary/50 shadow-sm"
+                className="w-full bg-card border border-border rounded-2xl pl-10 pr-4 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary/50 shadow-sm"
               />
             </div>
           </div>
 
-          {/* Single Deduplicated Job List */}
+          {/* Dynamic Jobs Grid - Exact Same UI as Homepage */}
           {filteredJobs.length === 0 ? (
             <div className="text-center py-16 max-w-2xl mx-auto bg-card rounded-3xl border border-border p-8 text-muted-foreground text-sm space-y-3">
               <p>No job vacancies match your current filter.</p>
@@ -243,7 +297,7 @@ export default function Careers() {
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  setSelectedCategory("all");
+                  setJobCategory("all");
                   setSearchQuery("");
                 }}
               >
@@ -251,158 +305,61 @@ export default function Careers() {
               </Button>
             </div>
           ) : (
-            <div className="space-y-8 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
               {filteredJobs.map((job) => (
                 <div
                   key={job.id}
-                  id={job.id}
-                  className="bg-card rounded-3xl border border-border p-6 sm:p-8 shadow-sm hover:shadow-lg hover:border-gold/40 transition-all space-y-6"
+                  onClick={() => handleOpenApplyJob(job.postName || job.title)}
+                  className="group bg-card rounded-xl border border-border/80 hover:border-gold/60 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer transform hover:-translate-y-1"
                 >
-                  {/* Job Header */}
-                  <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 border-b border-border pb-5">
-                    <div className="flex items-start gap-4">
-                      {/* Job Thumbnail */}
-                      <div className="h-20 w-20 rounded-2xl overflow-hidden bg-slate-900 shrink-0 border border-border shadow-sm hidden sm:block">
-                        <img
-                          src={job.imageUrl || "/hero-aviation.jpg"}
-                          alt={job.title}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = "/hero-aviation.jpg";
-                          }}
-                        />
-                      </div>
+                  {/* Top Image Container */}
+                  <div className="h-52 w-full overflow-hidden relative bg-slate-900">
+                    <img
+                      src={job.imageUrl || "/hero-aviation.jpg"}
+                      alt={job.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/hero-aviation.jpg";
+                      }}
+                    />
 
-                      <div>
-                        <div className="flex flex-wrap items-center gap-2 mb-2">
-                          <span className="font-mono text-xs font-extrabold text-[#b38e44] dark:text-amber-400 bg-amber-500/15 px-3 py-1 rounded-full border border-gold/40 uppercase tracking-wider">
-                            {job.companyName || "AIRLINE"}
-                          </span>
-                          <span className="font-mono text-xs font-bold text-secondary bg-secondary/15 px-3 py-1 rounded-full border border-secondary/30">
-                            {job.jobCode}
-                          </span>
-                          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-                            {job.salaryRange}
-                          </span>
-                          <span className="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20">
-                            {job.openings} Seats Available
-                          </span>
-                          {job.badge && (
-                            <span className="text-xs font-bold text-amber-700 dark:text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
-                              {job.badge}
-                            </span>
-                          )}
-                        </div>
+                    {/* Floating Gold/Brown Action Arrow Button */}
+                    <div className="absolute -bottom-3.5 right-4 w-9 h-9 rounded-md bg-[#9f7833] hover:bg-gold text-white hover:text-slate-950 flex items-center justify-center shadow-lg transition-all duration-300 transform group-hover:scale-110 z-10">
+                      <ChevronRight className="h-5 w-5 stroke-[2.5]" />
+                    </div>
+                  </div>
 
-                        <h3 className="text-xl sm:text-2xl font-heading font-black text-foreground">
+                  {/* Card Content Matching Exact Key-Value Structure */}
+                  <div className="p-5 pt-6 bg-card flex flex-col justify-between flex-1 text-left space-y-2">
+                    <div className="space-y-1.5 text-left text-[12.5px] leading-snug">
+                      <p>
+                        <span className="font-extrabold text-foreground tracking-wide">COMPANY NAME:</span>{" "}
+                        <span className="font-bold text-[#b38e44] dark:text-amber-400 uppercase">
+                          {job.companyName || "INDIGO"}
+                        </span>
+                      </p>
+
+                      <p>
+                        <span className="font-extrabold text-foreground tracking-wide">POST NAME:</span>{" "}
+                        <span className="font-bold text-[#b38e44] dark:text-amber-400 uppercase">
                           {job.postName || job.title}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-muted-foreground font-medium mt-1">
-                          {job.department} • <span className="text-secondary font-semibold">{job.type}</span> • <span className="font-semibold text-foreground uppercase">{job.jobLocation || job.location}</span>
-                        </p>
-                      </div>
-                    </div>
+                        </span>
+                      </p>
 
-                    <div className="flex items-center gap-3 shrink-0 w-full lg:w-auto">
-                      <Button
-                        variant="hero"
-                        size="lg"
-                        onClick={() => handleOpenApplyJob(job.postName || job.title)}
-                        className="flex-1 lg:flex-none font-bold gap-2 px-7 py-5 rounded-2xl shadow-md text-xs sm:text-sm bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 hover:brightness-105"
-                      >
-                        <Send className="h-4 w-4" /> Apply for This Role
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="lg"
-                        onClick={() => handleOpenCounselling(job.postName || job.title)}
-                        className="font-semibold text-xs border-border hover:bg-muted rounded-2xl py-5"
-                      >
-                        Counselling
-                      </Button>
-                    </div>
-                  </div>
+                      <p>
+                        <span className="font-extrabold text-foreground tracking-wide">JOB CATEGORY:</span>{" "}
+                        <span className="font-bold text-[#b38e44] dark:text-amber-400 uppercase">
+                          {job.jobCategory || "FRESHER AND EXPERIANCE CANDIDATES BOTH"}
+                        </span>
+                      </p>
 
-                  {/* Summary & Metadata Grid */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-muted/30 p-4 rounded-2xl border border-border/60 text-xs">
-                    <div>
-                      <span className="text-muted-foreground block text-[10px] uppercase font-semibold">Eligibility</span>
-                      <strong className="text-foreground font-bold">{job.qualification}</strong>
+                      <p>
+                        <span className="font-extrabold text-foreground tracking-wide">JOB LOCATION:</span>{" "}
+                        <span className="font-bold text-[#b38e44] dark:text-amber-400 uppercase">
+                          {job.jobLocation || job.location}
+                        </span>
+                      </p>
                     </div>
-                    <div>
-                      <span className="text-muted-foreground block text-[10px] uppercase font-semibold">Experience</span>
-                      <strong className="text-foreground font-bold">{job.experience}</strong>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground block text-[10px] uppercase font-semibold">Age Criteria</span>
-                      <strong className="text-foreground font-bold">{job.ageLimit}</strong>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground block text-[10px] uppercase font-semibold">Base Location</span>
-                      <strong className="text-foreground font-bold truncate block">{job.location}</strong>
-                    </div>
-                  </div>
-
-                  {/* Overview */}
-                  {job.overview && (
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {job.overview}
-                    </p>
-                  )}
-
-                  {/* Responsibilities & Requirements Grid */}
-                  <div className="grid md:grid-cols-2 gap-5">
-                    {/* Responsibilities */}
-                    {job.responsibilities && job.responsibilities.length > 0 && (
-                      <div className="bg-muted/40 rounded-2xl p-5 border border-border/50">
-                        <h4 className="font-heading font-bold text-xs uppercase tracking-wider mb-3 text-secondary flex items-center gap-1.5">
-                          <CheckCircle2 className="h-4 w-4" /> Key Job Responsibilities:
-                        </h4>
-                        <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
-                          {job.responsibilities.map((resp, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                              <span className="h-1.5 w-1.5 rounded-full bg-secondary shrink-0 mt-2" />
-                              <span className="leading-snug">{resp}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Requirements */}
-                    {job.requirements && job.requirements.length > 0 && (
-                      <div className="bg-muted/40 rounded-2xl p-5 border border-border/50">
-                        <h4 className="font-heading font-bold text-xs uppercase tracking-wider mb-3 text-secondary flex items-center gap-1.5">
-                          <ShieldCheck className="h-4 w-4" /> Candidate Requirements:
-                        </h4>
-                        <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
-                          {job.requirements.map((req, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0 mt-2" />
-                              <span className="leading-snug">{req}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Card Bottom CTA Strip */}
-                  <div className="p-3.5 rounded-2xl bg-secondary/10 border border-secondary/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-                    <div>
-                      <strong className="text-foreground font-semibold">Dedicated Opportunity Support: </strong>
-                      <span className="text-muted-foreground">
-                        Mock interview coaching, GD rounds, phonetic alphabet, and document verification assistance.
-                      </span>
-                    </div>
-                    <Button
-                      variant="link"
-                      size="sm"
-                      onClick={() => handleOpenApplyJob(job.title)}
-                      className="text-secondary p-0 h-auto font-bold shrink-0 hover:underline"
-                    >
-                      Apply Now →
-                    </Button>
                   </div>
                 </div>
               ))}
@@ -431,94 +388,6 @@ export default function Careers() {
                 <p>
                   <strong>No.</strong> Freshers can directly apply without prior experience. Our NSDC-aligned training modules and mock interview coaching provide complete preparation to help freshers clear airline selection rounds.
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ==================================================
-          UPCOMING OPPORTUNITIES & HIRING ECOSYSTEM
-          ================================================== */}
-      <section className="py-20 bg-muted/30 border-t border-border">
-        <div className="container mx-auto px-4">
-          <SectionHeading
-            badge="Hiring Drives & Opportunities"
-            title="Current & Upcoming"
-            highlight="Airport Opportunities"
-            description="Our counselling aligns with upcoming recruitment drives, regional airport inaugurations, and airline terminal expansion across India."
-          />
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <div className="bg-card rounded-3xl border border-border p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-bold uppercase tracking-wider bg-secondary/10 text-secondary px-2.5 py-1 rounded-full">
-                    Metro & Regional Airports
-                  </span>
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                </div>
-                <h3 className="font-heading font-bold text-lg text-foreground mb-1.5">
-                  Ground Staff & Passenger Handling Drives
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Regular interview scheduling for customer service and ground operations across Mumbai, Delhi NCR, Chennai, Kolkata, and Bangalore.
-                </p>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-border flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">Status: <strong className="text-foreground">Active Screening</strong></span>
-                <Button variant="link" size="sm" onClick={() => handleOpenCounselling("Ground Staff")} className="text-secondary p-0 font-bold">
-                  Enquire →
-                </Button>
-              </div>
-            </div>
-
-            <div className="bg-card rounded-3xl border border-border p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-bold uppercase tracking-wider bg-secondary/10 text-secondary px-2.5 py-1 rounded-full">
-                    Logistics & Cargo Hubs
-                  </span>
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                </div>
-                <h3 className="font-heading font-bold text-lg text-foreground mb-1.5">
-                  Air Cargo & Freight Handling
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Cargo handling positions open for 10th/12th pass freshers interested in air cargo logistics, documentation, and warehouse operations.
-                </p>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-border flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">Status: <strong className="text-foreground">Ongoing Guidance</strong></span>
-                <Button variant="link" size="sm" onClick={() => handleOpenCounselling("Cargo & Baggage")} className="text-secondary p-0 font-bold">
-                  Enquire →
-                </Button>
-              </div>
-            </div>
-
-            <div className="bg-card rounded-3xl border border-border p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-bold uppercase tracking-wider bg-secondary/10 text-secondary px-2.5 py-1 rounded-full">
-                    Domestic Fleet Expansion
-                  </span>
-                  <Calendar className="h-4 w-4 text-muted-foreground" />
-                </div>
-                <h3 className="font-heading font-bold text-lg text-foreground mb-1.5">
-                  Cabin Crew Preparation Batches
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Mock interview drills and grooming guidance batches tailored for aspiring cabin crew preparing for domestic airline walk-in drives.
-                </p>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-border flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">Status: <strong className="text-foreground">Open for Enrollment</strong></span>
-                <Button variant="link" size="sm" onClick={() => handleOpenCounselling("Cabin Crew")} className="text-secondary p-0 font-bold">
-                  Enquire →
-                </Button>
               </div>
             </div>
           </div>
@@ -572,7 +441,7 @@ export default function Careers() {
 
       {/* Final CTA */}
       <CTASection
-        title="Start Preparing for Your"
+        title="Start Your"
         highlight="Aviation Career"
         description="Book your profile assessment today with Indian Alliance Services and get trained for standard airport recruitment drives."
         primaryCtaText="Get Career Counselling"

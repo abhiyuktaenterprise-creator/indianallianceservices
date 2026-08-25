@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -31,6 +31,8 @@ import {
   RefreshCw,
   Calendar,
   Sparkles,
+  Upload,
+  Image as ImageIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -174,6 +176,7 @@ export default function AdminDashboard() {
     companyName: "Indian Alliance Services",
     tagline: "India's Leading Aviation Career Guidance & Training Gateway",
     googleSheetsNoticeUrl: "",
+    studentAccessPassword: "IAS#Student@2026",
   });
 
   // Sync settings into local form state
@@ -277,6 +280,26 @@ export default function AdminDashboard() {
       requirements: Array.isArray(job.requirements) ? job.requirements.join("\n") : (job.requirements || ""),
     });
     setIsJobModalOpen(true);
+  };
+
+  const handleImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select a valid image file (PNG, JPG, WebP)");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (uploadEvent) => {
+      const result = uploadEvent.target?.result as string;
+      if (result) {
+        setJobFormData((prev) => ({ ...prev, imageUrl: result }));
+        toast.success("Image loaded and ready for vacancy card!");
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSaveJob = async (e: React.FormEvent) => {
@@ -478,28 +501,35 @@ export default function AdminDashboard() {
     toast.success("Leads exported to CSV successfully!");
   };
 
-  // Filtered queries
-  const filteredJobs = jobPosts.filter(
+  // Safe collections
+  const safeJobPosts = Array.isArray(jobPosts) ? jobPosts : [];
+  const safeNotices = Array.isArray(notices) ? notices : [];
+  const safeBranches = Array.isArray(branches) ? branches : [];
+  const safeLeads = Array.isArray(leads) ? leads : [];
+
+  // Filtered queries with null-safe string handling
+  const filteredJobs = safeJobPosts.filter(
     (j) =>
-      j.title.toLowerCase().includes(jobSearch.toLowerCase()) ||
-      j.department.toLowerCase().includes(jobSearch.toLowerCase()) ||
-      j.location.toLowerCase().includes(jobSearch.toLowerCase()) ||
-      j.jobCode.toLowerCase().includes(jobSearch.toLowerCase())
+      (j?.title || "").toLowerCase().includes(jobSearch.toLowerCase()) ||
+      (j?.department || "").toLowerCase().includes(jobSearch.toLowerCase()) ||
+      (j?.location || "").toLowerCase().includes(jobSearch.toLowerCase()) ||
+      (j?.jobCode || "").toLowerCase().includes(jobSearch.toLowerCase())
   );
 
-  const filteredNotices = notices.filter(
+  const filteredNotices = safeNotices.filter(
     (n) =>
-      n.title.toLowerCase().includes(noticeSearch.toLowerCase()) ||
-      n.description.toLowerCase().includes(noticeSearch.toLowerCase()) ||
-      n.badge.toLowerCase().includes(noticeSearch.toLowerCase())
+      (n?.title || "").toLowerCase().includes(noticeSearch.toLowerCase()) ||
+      (n?.description || "").toLowerCase().includes(noticeSearch.toLowerCase()) ||
+      (n?.badge || "").toLowerCase().includes(noticeSearch.toLowerCase())
   );
 
-  const filteredLeads = leads.filter((l) => {
+  const filteredLeads = safeLeads.filter((l) => {
+    if (!l) return false;
     const matchesSearch =
-      l.name.toLowerCase().includes(leadSearch.toLowerCase()) ||
-      l.phone.toLowerCase().includes(leadSearch.toLowerCase()) ||
-      (l.email && l.email.toLowerCase().includes(leadSearch.toLowerCase())) ||
-      (l.targetRole && l.targetRole.toLowerCase().includes(leadSearch.toLowerCase()));
+      (l.name || "").toLowerCase().includes(leadSearch.toLowerCase()) ||
+      (l.phone || "").toLowerCase().includes(leadSearch.toLowerCase()) ||
+      ((l.email || "").toLowerCase().includes(leadSearch.toLowerCase())) ||
+      ((l.targetRole || "").toLowerCase().includes(leadSearch.toLowerCase()));
     const matchesStatus = leadStatusFilter === "all" || l.status === leadStatusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -555,11 +585,11 @@ export default function AdminDashboard() {
             <div className="container mx-auto px-4 flex overflow-x-auto no-scrollbar gap-1.5 py-2">
               {[
                 { id: "overview", label: "Dashboard", icon: LayoutDashboard },
-                { id: "careers", label: `Job Posts (${jobPosts.length})`, icon: Briefcase },
-                { id: "notifications", label: `Notices (${notices.length})`, icon: Bell },
-                { id: "branches", label: `Offices (${branches.length})`, icon: Building2 },
+                { id: "careers", label: `Job Posts (${safeJobPosts.length})`, icon: Briefcase },
+                { id: "notifications", label: `Notices (${safeNotices.length})`, icon: Bell },
+                { id: "branches", label: `Offices (${safeBranches.length})`, icon: Building2 },
                 { id: "settings", label: "Phone & Site Settings", icon: Settings },
-                { id: "leads", label: `Leads CRM (${leads.length})`, icon: Users },
+                { id: "leads", label: `Leads CRM (${safeLeads.length})`, icon: Users },
                 { id: "database", label: "Cloud Sync", icon: Database },
               ].map((tab) => {
                 const Icon = tab.icon;
@@ -602,10 +632,10 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div className="text-3xl font-heading font-black text-white">
-                    {jobPosts.filter((j) => j.status === "active").length}
+                    {safeJobPosts.filter((j) => j?.status === "active").length}
                   </div>
                   <p className="text-xs text-slate-400 mt-1">
-                    Out of {jobPosts.length} total vacancies configured
+                    Out of {safeJobPosts.length} total vacancies configured
                   </p>
                 </div>
 
@@ -619,10 +649,10 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div className="text-3xl font-heading font-black text-white">
-                    {leads.length}
+                    {safeLeads.length}
                   </div>
                   <p className="text-xs text-slate-400 mt-1">
-                    {leads.filter((l) => l.status === "new").length} new awaiting contact
+                    {safeLeads.filter((l) => l?.status === "new").length} new awaiting contact
                   </p>
                 </div>
 
@@ -636,10 +666,10 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div className="text-3xl font-heading font-black text-white">
-                    {notices.filter(isNoticeActive).length}
+                    {safeNotices.filter(isNoticeActive).length}
                   </div>
                   <p className="text-xs text-slate-400 mt-1">
-                    {notices.length} total ({notices.filter((n) => !isNoticeActive(n)).length} auto-expired)
+                    {safeNotices.length} total ({safeNotices.filter((n) => !isNoticeActive(n)).length} auto-expired)
                   </p>
                 </div>
 
@@ -821,34 +851,51 @@ export default function AdminDashboard() {
                     }`}
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-slate-800 text-amber-400 border border-slate-700 font-mono">
-                            {job.jobCode}
-                          </span>
-                          <span
-                            className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                              job.status === "active"
-                                ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
-                                : "bg-red-500/15 text-red-400 border border-red-500/30"
-                            }`}
-                          >
-                            {job.status === "active" ? "ACTIVE / OPEN" : "INACTIVE / CLOSED"}
-                          </span>
+                      <div className="flex items-start gap-3.5">
+                        {/* Job Thumbnail */}
+                        <div className="h-16 w-16 rounded-2xl overflow-hidden bg-slate-950 shrink-0 border border-slate-800">
+                          <img
+                            src={job.imageUrl || "/hero-aviation.jpg"}
+                            alt={job.title}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = "/hero-aviation.jpg";
+                            }}
+                          />
                         </div>
-                        <h3 className="text-lg font-heading font-bold text-white leading-snug">
-                          {job.title}
-                        </h3>
-                        <p className="text-xs text-slate-400 font-medium">
-                          {job.department}
-                        </p>
+
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                            <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30 uppercase tracking-wider font-mono">
+                              {job.companyName || "AIRLINE"}
+                            </span>
+                            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-mono">
+                              {job.jobCode}
+                            </span>
+                            <span
+                              className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                                job.status === "active"
+                                  ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
+                                  : "bg-red-500/15 text-red-400 border border-red-500/30"
+                              }`}
+                            >
+                              {job.status === "active" ? "ACTIVE / OPEN" : "INACTIVE / CLOSED"}
+                            </span>
+                          </div>
+                          <h3 className="text-base font-heading font-extrabold text-white leading-snug">
+                            {job.title}
+                          </h3>
+                          <p className="text-xs text-slate-400 font-medium">
+                            {job.department}
+                          </p>
+                        </div>
                       </div>
 
                       {/* Toggle Active Button */}
                       <button
                         onClick={() => toggleJobStatus(job.id)}
                         title={job.status === "active" ? "Click to Deactivate" : "Click to Activate"}
-                        className="text-slate-400 hover:text-amber-400"
+                        className="text-slate-400 hover:text-amber-400 shrink-0"
                       >
                         {job.status === "active" ? (
                           <ToggleRight className="h-8 w-8 text-emerald-400" />
@@ -856,6 +903,26 @@ export default function AdminDashboard() {
                           <ToggleLeft className="h-8 w-8 text-slate-600" />
                         )}
                       </button>
+                    </div>
+
+                    {/* Homepage Card Key-Values Preview Box */}
+                    <div className="bg-slate-950/80 p-3.5 rounded-2xl border border-amber-500/20 space-y-1 text-xs">
+                      <div className="text-[11px] font-mono">
+                        <span className="text-slate-400 font-semibold">COMPANY:</span>{" "}
+                        <strong className="text-amber-400 uppercase">{job.companyName || "INDIGO"}</strong>
+                      </div>
+                      <div className="text-[11px] font-mono">
+                        <span className="text-slate-400 font-semibold">POST NAME:</span>{" "}
+                        <strong className="text-slate-200 uppercase">{job.postName || job.title}</strong>
+                      </div>
+                      <div className="text-[11px] font-mono">
+                        <span className="text-slate-400 font-semibold">CATEGORY:</span>{" "}
+                        <strong className="text-slate-300 uppercase">{job.jobCategory || "FRESHER AND EXPERIANCE CANDIDATES BOTH"}</strong>
+                      </div>
+                      <div className="text-[11px] font-mono">
+                        <span className="text-slate-400 font-semibold">LOCATION:</span>{" "}
+                        <strong className="text-amber-400 uppercase">{job.jobLocation || job.location}</strong>
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3 text-xs bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/80">
@@ -872,7 +939,7 @@ export default function AdminDashboard() {
                         <strong className="text-slate-200">{job.qualification}</strong>
                       </div>
                       <div>
-                        <span className="text-slate-500 block text-[10px]">Location</span>
+                        <span className="text-slate-500 block text-[10px]">Base Location</span>
                         <strong className="text-slate-200 truncate block">{job.location}</strong>
                       </div>
                     </div>
@@ -883,7 +950,7 @@ export default function AdminDashboard() {
 
                     {/* Card Actions */}
                     <div className="flex items-center justify-between pt-2 border-t border-slate-800">
-                      <span className="text-[11px] text-slate-500">
+                      <span className="text-[11px] text-slate-500 font-mono">
                         Posted: {job.postedDate}
                       </span>
                       <div className="flex items-center gap-2">
@@ -891,7 +958,7 @@ export default function AdminDashboard() {
                           size="sm"
                           variant="outline"
                           onClick={() => handleOpenEditJob(job)}
-                          className="h-8 px-3 text-xs border-slate-700 bg-slate-800/60 text-slate-200 hover:text-amber-400 hover:bg-slate-800 rounded-xl"
+                          className="h-8 px-3 text-xs border-slate-700 bg-slate-800/60 text-slate-200 hover:text-amber-400 hover:bg-slate-800 rounded-xl font-bold"
                         >
                           <Edit className="h-3.5 w-3.5 mr-1" /> Edit
                         </Button>
@@ -904,7 +971,7 @@ export default function AdminDashboard() {
                               toast.success("Job deleted successfully");
                             }
                           }}
-                          className="h-8 px-3 text-xs border-red-500/30 text-red-400 hover:bg-red-500/10 rounded-xl"
+                          className="h-8 px-3 text-xs border-red-500/30 text-red-400 hover:bg-red-500/10 rounded-xl font-bold"
                         >
                           <Trash2 className="h-3.5 w-3.5 mr-1" /> Delete
                         </Button>
@@ -1324,6 +1391,25 @@ export default function AdminDashboard() {
                   />
                 </div>
 
+                <div className="space-y-1.5 border-t border-slate-800 pt-5">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="text-xs font-semibold text-slate-300 block flex items-center gap-1.5">
+                      <KeyRound className="h-3.5 w-3.5 text-amber-400" />
+                      <span>Student Interview Tips Portal Access Password</span>
+                    </label>
+                  </div>
+                  <input
+                    type="text"
+                    value={formData.studentAccessPassword || ""}
+                    onChange={(e) => setFormData({ ...formData, studentAccessPassword: e.target.value })}
+                    placeholder="IAS#Student@2026"
+                    className="w-full h-11 px-3.5 bg-slate-950 border border-amber-500/40 text-amber-300 placeholder:text-slate-500 rounded-xl text-xs font-mono font-bold focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                  />
+                  <p className="text-[11px] text-slate-400">
+                    Students visiting <code className="text-amber-400 font-mono">/interview-tips</code> must enter this password to unlock interview question banks, GD tips, and mock interview answers.
+                  </p>
+                </div>
+
                 <Button
                   type="submit"
                   className="w-full sm:w-auto font-bold py-5 px-8 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 gap-2 text-xs shadow-lg"
@@ -1720,15 +1806,90 @@ export default function AdminDashboard() {
                     />
                   </div>
 
-                  <div className="space-y-1.5 sm:col-span-2">
-                    <label className="text-xs font-bold text-slate-200 block">Card Image URL</label>
-                    <input
-                      type="text"
-                      value={jobFormData.imageUrl}
-                      onChange={(e) => setJobFormData({ ...jobFormData, imageUrl: e.target.value })}
-                      placeholder="e.g., /hero-aviation.jpg, /cabin-crew-training.jpg, /ground-services.jpg"
-                      className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs font-mono focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
-                    />
+                  {/* Card Image Selector & File Upload Manager */}
+                  <div className="space-y-3 sm:col-span-2 bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                        <ImageIcon className="h-4 w-4 text-amber-400" />
+                        <span>Card Image (Upload from Computer or Choose Preset)</span>
+                      </label>
+                      {jobFormData.imageUrl && (
+                        <span className="text-[10px] text-emerald-400 font-mono">Image Selected</span>
+                      )}
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                      {/* Live Image Preview */}
+                      <div className="h-20 w-24 rounded-xl overflow-hidden bg-slate-900 border border-slate-700 shrink-0 relative group">
+                        <img
+                          src={jobFormData.imageUrl || "/hero-aviation.jpg"}
+                          alt="Job Preview"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = "/hero-aviation.jpg";
+                          }}
+                        />
+                      </div>
+
+                      <div className="space-y-2 flex-1 w-full">
+                        {/* Direct File Upload Button */}
+                        <div className="flex items-center gap-2">
+                          <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold transition-all">
+                            <Upload className="h-3.5 w-3.5" />
+                            <span>Upload Image from Device</span>
+                            <input
+                              type="file"
+                              accept="image/png, image/jpeg, image/webp"
+                              onChange={handleImageFileUpload}
+                              className="hidden"
+                            />
+                          </label>
+                          <span className="text-[11px] text-slate-500">Supports PNG, JPG, WebP</span>
+                        </div>
+
+                        {/* Or Manual URL input */}
+                        <input
+                          type="text"
+                          value={jobFormData.imageUrl}
+                          onChange={(e) => setJobFormData({ ...jobFormData, imageUrl: e.target.value })}
+                          placeholder="or enter image path (e.g. /jobs/job-1.jpg or https://...)"
+                          className="w-full h-9 px-3 bg-slate-900 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs font-mono focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Quick 1-Click Stock Presets */}
+                    <div className="pt-2 border-t border-slate-800/80 space-y-1.5">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                        Quick 1-Click Aviation Photos:
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {[
+                          { name: "IndiGo Ground", path: "/jobs/job-1.jpg" },
+                          { name: "Ramp Security", path: "/jobs/job-2.jpg" },
+                          { name: "Cabin Crew", path: "/jobs/job-3.jpg" },
+                          { name: "Air India CSA", path: "/jobs/job-5.jpg" },
+                          { name: "Air India Crew", path: "/jobs/job-6.jpg" },
+                          { name: "Akasa Air", path: "/jobs/job-7.jpg" },
+                          { name: "SpiceJet Cargo", path: "/jobs/job-8.jpg" },
+                          { name: "VIP Lounge", path: "/jobs/job-11.jpg" },
+                          { name: "Airport Hero", path: "/hero-aviation.jpg" },
+                        ].map((preset) => (
+                          <button
+                            key={preset.path}
+                            type="button"
+                            onClick={() => setJobFormData({ ...jobFormData, imageUrl: preset.path })}
+                            className={`px-2.5 py-1 rounded-lg text-[10px] font-semibold border transition-all ${
+                              jobFormData.imageUrl === preset.path
+                                ? "bg-amber-500 text-slate-950 border-amber-400 font-bold"
+                                : "bg-slate-900 text-slate-300 border-slate-700 hover:border-slate-500"
+                            }`}
+                          >
+                            {preset.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
                   <div className="space-y-1.5">

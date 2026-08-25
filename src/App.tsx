@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { SiteConfigProvider } from "./context/SiteConfigContext";
+import ErrorBoundary from "./components/common/ErrorBoundary";
 
 // Layout Components
 import Navbar from "./components/layout/Navbar";
@@ -108,8 +109,14 @@ function AppLayout() {
           <Route path="/thankyou" element={<ThankYou />} />
           <Route path="/thanks" element={<ThankYou />} />
 
-          {/* Admin Routes */}
+          {/* Admin Routes & Dashboard Aliases */}
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/admin/" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/dashboard" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/backend" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/admin-dashboard" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/admin-panel" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/login" element={<Navigate to="/admin/login" replace />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route
             path="/admin/dashboard"
@@ -131,17 +138,19 @@ function AppLayout() {
 }
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <SiteConfigProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AppLayout />
-        </BrowserRouter>
-      </SiteConfigProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <SiteConfigProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AppLayout />
+          </BrowserRouter>
+        </SiteConfigProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

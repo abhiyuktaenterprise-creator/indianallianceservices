@@ -256,41 +256,58 @@ export default function Careers() {
                 <div
                   key={job.id}
                   id={job.id}
-                  className="bg-card rounded-3xl border border-border p-6 sm:p-8 shadow-sm hover:shadow-lg hover:border-secondary/50 transition-all space-y-6"
+                  className="bg-card rounded-3xl border border-border p-6 sm:p-8 shadow-sm hover:shadow-lg hover:border-gold/40 transition-all space-y-6"
                 >
                   {/* Job Header */}
-                  <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border-b border-border pb-5">
-                    <div>
-                      <div className="flex flex-wrap items-center gap-2 mb-2">
-                        <span className="font-mono text-xs font-bold text-secondary bg-secondary/15 px-3 py-1 rounded-full border border-secondary/30">
-                          {job.jobCode}
-                        </span>
-                        <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-                          {job.salaryRange}
-                        </span>
-                        <span className="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20">
-                          {job.openings} Seats Available
-                        </span>
-                        {job.badge && (
-                          <span className="text-xs font-bold text-amber-700 dark:text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
-                            {job.badge}
-                          </span>
-                        )}
+                  <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 border-b border-border pb-5">
+                    <div className="flex items-start gap-4">
+                      {/* Job Thumbnail */}
+                      <div className="h-20 w-20 rounded-2xl overflow-hidden bg-slate-900 shrink-0 border border-border shadow-sm hidden sm:block">
+                        <img
+                          src={job.imageUrl || "/hero-aviation.jpg"}
+                          alt={job.title}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = "/hero-aviation.jpg";
+                          }}
+                        />
                       </div>
 
-                      <h3 className="text-2xl sm:text-3xl font-heading font-black text-foreground">
-                        {job.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-muted-foreground font-medium mt-1">
-                        {job.department} • <span className="text-secondary font-semibold">{job.type}</span>
-                      </p>
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                          <span className="font-mono text-xs font-extrabold text-[#b38e44] dark:text-amber-400 bg-amber-500/15 px-3 py-1 rounded-full border border-gold/40 uppercase tracking-wider">
+                            {job.companyName || "AIRLINE"}
+                          </span>
+                          <span className="font-mono text-xs font-bold text-secondary bg-secondary/15 px-3 py-1 rounded-full border border-secondary/30">
+                            {job.jobCode}
+                          </span>
+                          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                            {job.salaryRange}
+                          </span>
+                          <span className="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20">
+                            {job.openings} Seats Available
+                          </span>
+                          {job.badge && (
+                            <span className="text-xs font-bold text-amber-700 dark:text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
+                              {job.badge}
+                            </span>
+                          )}
+                        </div>
+
+                        <h3 className="text-xl sm:text-2xl font-heading font-black text-foreground">
+                          {job.postName || job.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-muted-foreground font-medium mt-1">
+                          {job.department} • <span className="text-secondary font-semibold">{job.type}</span> • <span className="font-semibold text-foreground uppercase">{job.jobLocation || job.location}</span>
+                        </p>
+                      </div>
                     </div>
 
                     <div className="flex items-center gap-3 shrink-0 w-full lg:w-auto">
                       <Button
                         variant="hero"
                         size="lg"
-                        onClick={() => handleOpenApplyJob(job.title)}
+                        onClick={() => handleOpenApplyJob(job.postName || job.title)}
                         className="flex-1 lg:flex-none font-bold gap-2 px-7 py-5 rounded-2xl shadow-md text-xs sm:text-sm bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 hover:brightness-105"
                       >
                         <Send className="h-4 w-4" /> Apply for This Role
@@ -298,7 +315,7 @@ export default function Careers() {
                       <Button
                         variant="outline"
                         size="lg"
-                        onClick={() => handleOpenCounselling(job.title)}
+                        onClick={() => handleOpenCounselling(job.postName || job.title)}
                         className="font-semibold text-xs border-border hover:bg-muted rounded-2xl py-5"
                       >
                         Counselling

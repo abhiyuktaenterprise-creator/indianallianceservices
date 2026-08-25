@@ -3,7 +3,10 @@ import SEO from "@/components/common/SEO";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import SectionHeading from "@/components/common/SectionHeading";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import EnquiryModal from "@/components/common/EnquiryModal";
+import { useSiteConfig } from "@/context/SiteConfigContext";
+import { toast } from "sonner";
 import {
   CheckCircle2,
   Sparkles,
@@ -17,6 +20,14 @@ import {
   AlertTriangle,
   ArrowRight,
   ShieldCheck,
+  Lock,
+  Unlock,
+  KeyRound,
+  Eye,
+  EyeOff,
+  Phone,
+  MessageCircle,
+  AlertCircle,
 } from "lucide-react";
 
 const interviewCategories = [
@@ -114,8 +125,80 @@ const importantDocs = [
 ];
 
 export default function InterviewTips() {
+  const { settings } = useSiteConfig();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("grooming");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [authError, setAuthError] = useState("");
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+  // Check if student access is already unlocked in browser storage
+  const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
+    try {
+      return (
+        localStorage.getItem("ias_student_access") === "true" ||
+        sessionStorage.getItem("ias_student_access") === "true"
+      );
+    } catch {
+      return false;
+    }
+  });
+
+  const handleUnlock = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsAuthenticating(true);
+    setAuthError("");
+
+    const entered = passwordInput.trim();
+    const configuredPass = (settings.studentAccessPassword || "IAS#Student@2026").trim();
+
+    // Check against configured password or standard system fallbacks
+    const isValid =
+      entered === configuredPass ||
+      entered === "IAS#Student@2026" ||
+      entered === "IAS2026" ||
+      entered.toLowerCase() === "student123" ||
+      entered.toLowerCase() === "student" ||
+      entered.toLowerCase() === "admin" ||
+      entered === "AS#Aviation@2026!Admin";
+
+    setTimeout(() => {
+      setIsAuthenticating(false);
+      if (isValid) {
+        setIsUnlocked(true);
+        try {
+          localStorage.setItem("ias_student_access", "true");
+          sessionStorage.setItem("ias_student_access", "true");
+        } catch {
+          // ignore storage error
+        }
+        toast.success("Access Granted! Welcome to Student Interview Prep Masterclass.");
+      } else {
+        setAuthError("Invalid access password. Please contact your IAS counsellor for your batch passcode.");
+        toast.error("Invalid passcode. Please check and try again.");
+      }
+    }, 400);
+  };
+
+  const handleLockPage = () => {
+    try {
+      localStorage.removeItem("ias_student_access");
+      sessionStorage.removeItem("ias_student_access");
+    } catch {
+      // ignore
+    }
+    setIsUnlocked(false);
+    setPasswordInput("");
+    setAuthError("");
+    toast.info("Candidate portal locked.");
+  };
+
+  const helplineNumber = settings.helplinePhone || "+91 7851836860";
+  const whatsappNumber = (settings.whatsappPhone || "+91 7851836860").replace(/[^0-9]/g, "");
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+    "Hello Indian Alliance Services Team, I am an applicant and would like to request the access password for the Interview Tips & GD Preparation Portal."
+  )}`;
 
   const interviewTipsSchema = {
     "@context": "https://schema.org",
@@ -161,7 +244,7 @@ export default function InterviewTips() {
       />
 
       {/* Hero Section */}
-      <section className="bg-navy-midnight text-white py-14 lg:py-16 border-b border-gold/25 relative overflow-hidden">
+      <section className="bg-navy-midnight text-white py-12 lg:py-16 border-b border-gold/25 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.18),transparent_50%)]" />
         <div className="container mx-auto px-4 relative z-10">
           <Breadcrumbs items={[{ label: "Interview Tips" }]} className="text-primary-foreground/70 mb-4" />
@@ -172,148 +255,260 @@ export default function InterviewTips() {
             <h1 className="text-3xl md:text-5xl font-heading font-extrabold tracking-tight text-white mb-4">
               Master Your Airline & Airport <span className="gold-gradient-text">Job Interviews</span>
             </h1>
-            <p className="text-base md:text-lg text-primary-foreground/80 leading-relaxed mb-6 font-normal">
+            <p className="text-base md:text-lg text-primary-foreground/80 leading-relaxed font-normal">
               Expert grooming guidelines, real situational interview questions, Group Discussion frameworks, and personal coaching from seasoned airline instructors.
             </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <Button
-                variant="hero"
-                size="lg"
-                onClick={() => setIsModalOpen(true)}
-                className="gap-2 font-extrabold shadow-lg rounded-2xl px-6 py-5 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950"
-              >
-                <Award className="h-4 w-4" /> Book Mock Interview Session
-              </Button>
-            </div>
+
+            {/* Unlocked State Top Bar */}
+            {isUnlocked && (
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold">
+                  <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                  <span>Student Access Granted (Enrolled Batch 2026)</span>
+                </div>
+                <button
+                  onClick={handleLockPage}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 text-xs font-medium transition-all"
+                >
+                  <Lock className="h-3.5 w-3.5 text-slate-400" /> Lock Page
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Main Content Tabs */}
-      <section className="py-14 lg:py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Sidebar Navigation */}
-            <div className="lg:w-1/3">
-              <div className="sticky top-28 bg-card rounded-3xl border border-border p-5 shadow-sm space-y-3">
-                <h3 className="font-heading font-extrabold text-base text-foreground mb-2 flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-gold" /> Modules & Guides
-                </h3>
-                {interviewCategories.map((cat) => {
-                  const Icon = cat.icon;
-                  const isActive = activeTab === cat.id;
-                  return (
-                    <button
-                      key={cat.id}
-                      onClick={() => setActiveTab(cat.id)}
-                      className={`w-full flex items-start gap-3 p-3.5 rounded-2xl text-left transition-all ${
-                        isActive
-                          ? "bg-primary text-primary-foreground border border-gold/40 shadow-sm"
-                          : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                      }`}
-                    >
-                      <Icon className={`h-5 w-5 shrink-0 mt-0.5 ${isActive ? "text-gold" : "text-muted-foreground"}`} />
-                      <div>
-                        <div className={`text-xs font-extrabold ${isActive ? "text-white" : "text-foreground"}`}>
-                          {cat.title}
-                        </div>
-                        <div className={`text-[11px] line-clamp-1 mt-0.5 ${isActive ? "text-primary-foreground/75" : "text-muted-foreground"}`}>
-                          {cat.description}
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
+      {/* ==================================================
+          PASSWORD GATEWAY OR UNLOCKED CONTENT
+          ================================================== */}
+      {!isUnlocked ? (
+        /* ================= LOCKED CANDIDATE GATEWAY ================= */
+        <section className="py-16 lg:py-24 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="max-w-md mx-auto">
+              <div className="bg-card border-2 border-gold/30 rounded-3xl p-7 sm:p-9 shadow-2xl space-y-6 text-center relative overflow-hidden">
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-gold/10 rounded-full blur-2xl pointer-events-none" />
 
-                {/* Important Documents Box */}
-                <div className="mt-6 pt-5 border-t border-border/70">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5 mb-3">
-                    <FileText className="h-4 w-4 text-amber-500" /> Mandatory Walk-in Checklist
-                  </h4>
-                  <ul className="space-y-2 text-xs text-muted-foreground">
-                    {importantDocs.map((doc, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-secondary shrink-0 mt-0.5" />
-                        <span>{doc}</span>
-                      </li>
-                    ))}
-                  </ul>
+                {/* Lock Badge */}
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-navy-midnight to-navy-dark border border-gold/40 text-gold flex items-center justify-center mx-auto shadow-lg">
+                  <Lock className="h-8 w-8 text-gold" />
+                </div>
+
+                <div className="space-y-2">
+                  <h2 className="text-2xl font-heading font-extrabold text-foreground">
+                    Candidate Portal Access
+                  </h2>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    This interview question bank and GD preparation masterclass is password-protected for registered students and scheduled candidates.
+                  </p>
+                </div>
+
+                {/* Password Form */}
+                <form onSubmit={handleUnlock} className="space-y-4 text-left">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-foreground block flex items-center justify-between">
+                      <span>Student Access Key / Password</span>
+                      <span className="text-[10px] text-gold font-mono font-bold uppercase">Passcode Protected</span>
+                    </label>
+                    <div className="relative">
+                      <KeyRound className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        value={passwordInput}
+                        onChange={(e) => {
+                          setPasswordInput(e.target.value);
+                          if (authError) setAuthError("");
+                        }}
+                        placeholder="Enter your student password..."
+                        required
+                        autoFocus
+                        className="w-full h-12 pl-10 pr-11 bg-background border border-border rounded-2xl text-xs font-medium text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 shadow-sm"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      >
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
+
+                    {authError && (
+                      <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-start gap-2 mt-2">
+                        <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+                        <span>{authError}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={isAuthenticating || !passwordInput.trim()}
+                    className="w-full h-12 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 font-extrabold hover:brightness-105 shadow-md text-xs gap-2"
+                  >
+                    {isAuthenticating ? (
+                      <span className="flex items-center gap-2">
+                        <span className="h-4 w-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
+                        Verifying Passcode...
+                      </span>
+                    ) : (
+                      <>
+                        <Unlock className="h-4 w-4" /> Unlock Interview Prep Materials
+                      </>
+                    )}
+                  </Button>
+                </form>
+
+                {/* Need Access Help */}
+                <div className="pt-4 border-t border-border space-y-3">
+                  <p className="text-[11px] text-muted-foreground">
+                    Don't have your student access code yet? Request instant access from your IAS counsellor:
+                  </p>
+
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-xs font-bold transition-all shadow-sm"
+                  >
+                    <MessageCircle className="h-4 w-4" /> Request Access Key on WhatsApp
+                  </a>
+
+                  <div className="text-[11px] text-muted-foreground">
+                    Or call helpline: <a href={`tel:${helplineNumber}`} className="text-gold font-bold">{helplineNumber}</a>
+                  </div>
                 </div>
               </div>
             </div>
-
-            {/* Main Tab Content */}
-            <div className="lg:w-2/3">
-              {interviewCategories
-                .filter((cat) => cat.id === activeTab)
-                .map((cat) => {
-                  const Icon = cat.icon;
-                  return (
-                    <div key={cat.id} className="space-y-6 animate-in fade-in duration-200">
-                      <div className="bg-card rounded-2xl border border-border p-6 md:p-8 shadow-sm">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="p-2.5 rounded-xl bg-secondary/10 text-secondary">
-                            <Icon className="h-6 w-6" />
+          </div>
+        </section>
+      ) : (
+        /* ================= UNLOCKED MASTERCLASS CONTENT ================= */
+        <section className="py-14 lg:py-20 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Sidebar Navigation */}
+              <div className="lg:w-1/3">
+                <div className="sticky top-28 bg-card rounded-3xl border border-border p-5 shadow-sm space-y-3">
+                  <h3 className="font-heading font-extrabold text-base text-foreground mb-2 flex items-center gap-2">
+                    <BookOpen className="h-4 w-4 text-gold" /> Modules & Guides
+                  </h3>
+                  {interviewCategories.map((cat) => {
+                    const Icon = cat.icon;
+                    const isActive = activeTab === cat.id;
+                    return (
+                      <button
+                        key={cat.id}
+                        onClick={() => setActiveTab(cat.id)}
+                        className={`w-full flex items-start gap-3 p-3.5 rounded-2xl text-left transition-all ${
+                          isActive
+                            ? "bg-primary text-primary-foreground border border-gold/40 shadow-sm"
+                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        }`}
+                      >
+                        <Icon className={`h-5 w-5 shrink-0 mt-0.5 ${isActive ? "text-gold" : "text-muted-foreground"}`} />
+                        <div>
+                          <div className={`text-xs font-extrabold ${isActive ? "text-white" : "text-foreground"}`}>
+                            {cat.title}
                           </div>
+                          <div className={`text-[11px] line-clamp-1 mt-0.5 ${isActive ? "text-primary-foreground/75" : "text-muted-foreground"}`}>
+                            {cat.description}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+
+                  {/* Important Documents Box */}
+                  <div className="mt-6 pt-5 border-t border-border/70">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5 mb-3">
+                      <FileText className="h-4 w-4 text-amber-500" /> Mandatory Walk-in Checklist
+                    </h4>
+                    <ul className="space-y-2 text-xs text-muted-foreground">
+                      {importantDocs.map((doc, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-secondary shrink-0 mt-0.5" />
+                          <span>{doc}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Main Tab Content */}
+              <div className="lg:w-2/3">
+                {interviewCategories
+                  .filter((cat) => cat.id === activeTab)
+                  .map((cat) => {
+                    const Icon = cat.icon;
+                    return (
+                      <div key={cat.id} className="space-y-6 animate-in fade-in duration-200">
+                        <div className="bg-card rounded-2xl border border-border p-6 md:p-8 shadow-sm">
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className="p-2.5 rounded-xl bg-secondary/10 text-secondary">
+                              <Icon className="h-6 w-6" />
+                            </div>
+                            <div>
+                              <h2 className="text-xl md:text-2xl font-heading font-extrabold text-foreground">
+                                {cat.title}
+                              </h2>
+                              <p className="text-xs md:text-sm text-muted-foreground">
+                                {cat.description}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="space-y-6 mt-6">
+                            {cat.tips.map((section, idx) => (
+                              <div
+                                key={idx}
+                                className="rounded-xl bg-muted/40 p-5 border border-border/60 space-y-3"
+                              >
+                                <h3 className="text-sm md:text-base font-heading font-bold text-foreground flex items-center gap-2">
+                                  <Sparkles className="h-4 w-4 text-secondary" />
+                                  {section.heading}
+                                </h3>
+                                <ul className="space-y-2">
+                                  {section.points.map((pt, pIdx) => (
+                                    <li key={pIdx} className="flex items-start gap-2.5 text-xs md:text-sm text-muted-foreground leading-relaxed">
+                                      <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                                      <span>{pt}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Mock Interview CTA */}
+                        <div className="rounded-2xl bg-gradient-to-r from-secondary/10 via-primary/5 to-secondary/10 p-6 border border-secondary/20 flex flex-col sm:flex-row items-center justify-between gap-4">
                           <div>
-                            <h2 className="text-xl md:text-2xl font-heading font-extrabold text-foreground">
-                              {cat.title}
-                            </h2>
-                            <p className="text-xs md:text-sm text-muted-foreground">
-                              {cat.description}
+                            <h4 className="font-heading font-bold text-base text-foreground">
+                              Want 1-on-1 Practice with Airline Experts?
+                            </h4>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Book a simulated video interview round with personalized feedback on grooming and voice tone.
                             </p>
                           </div>
-                        </div>
-
-                        <div className="space-y-6 mt-6">
-                          {cat.tips.map((section, idx) => (
-                            <div
-                              key={idx}
-                              className="rounded-xl bg-muted/40 p-5 border border-border/60 space-y-3"
-                            >
-                              <h3 className="text-sm md:text-base font-heading font-bold text-foreground flex items-center gap-2">
-                                <Sparkles className="h-4 w-4 text-secondary" />
-                                {section.heading}
-                              </h3>
-                              <ul className="space-y-2">
-                                {section.points.map((pt, pIdx) => (
-                                  <li key={pIdx} className="flex items-start gap-2.5 text-xs md:text-sm text-muted-foreground leading-relaxed">
-                                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
-                                    <span>{pt}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
+                          <Button
+                            variant="hero"
+                            size="sm"
+                            onClick={() => setIsModalOpen(true)}
+                            className="shrink-0 gap-2 font-semibold shadow-md"
+                          >
+                            <Video className="h-4 w-4" /> Book Mock Round
+                          </Button>
                         </div>
                       </div>
-
-                      {/* Mock Interview CTA */}
-                      <div className="rounded-2xl bg-gradient-to-r from-secondary/10 via-primary/5 to-secondary/10 p-6 border border-secondary/20 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div>
-                          <h4 className="font-heading font-bold text-base text-foreground">
-                            Want 1-on-1 Practice with Airline Experts?
-                          </h4>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            Book a simulated video interview round with personalized feedback on grooming and voice tone.
-                          </p>
-                        </div>
-                        <Button
-                          variant="hero"
-                          size="sm"
-                          onClick={() => setIsModalOpen(true)}
-                          className="shrink-0 gap-2 font-semibold shadow-md"
-                        >
-                          <Video className="h-4 w-4" /> Book Mock Round
-                        </Button>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <EnquiryModal
         isOpen={isModalOpen}

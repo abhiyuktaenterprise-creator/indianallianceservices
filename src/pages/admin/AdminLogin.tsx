@@ -166,13 +166,33 @@ export default function AdminLogin() {
               >
                 {isLoading ? "Verifying Credentials..." : "Unlock Dashboard"}
               </Button>
+
+              {/* Quick Fill One-Click Demo Credentials */}
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail("admin@indianallianceservices.com");
+                    setPassword("AS#Aviation@2026!Admin");
+                  }}
+                  className="w-full py-2 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 text-[11px] text-amber-400 font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+                  <span>Auto-Fill Admin Credentials (1-Click)</span>
+                </button>
+              </div>
             </form>
           </div>
 
           {/* Footer Note */}
-          <div className="text-center mt-6 text-xs text-slate-500 flex items-center justify-center gap-1.5">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-            <span>Secure 256-bit Encrypted Session</span>
+          <div className="text-center mt-6 space-y-2">
+            <div className="text-xs text-slate-500 flex items-center justify-center gap-1.5">
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+              <span>Secure 256-bit Encrypted Session</span>
+            </div>
+            <p className="text-[11px] text-slate-600">
+              Default Login: <code className="text-slate-400 font-mono">admin</code> | Password: <code className="text-slate-400 font-mono">AS#Aviation@2026!Admin</code> (or <code className="text-slate-400 font-mono">admin123</code>)
+            </p>
           </div>
         </div>
       </div>

@@ -252,6 +252,10 @@ export default function Footer() {
             <Link to="/disclaimer" className="hover:text-amber-700 transition-colors">Disclaimer</Link>
             <span>•</span>
             <Link to="/recruitment-verification" className="text-amber-800 hover:text-amber-900 transition-colors">Anti-Fraud Verification</Link>
+            <span>•</span>
+            <Link to="/admin/dashboard" className="text-slate-500 hover:text-amber-800 transition-colors flex items-center gap-1">
+              <span>Admin Portal</span>
+            </Link>
           </div>
         </div>
       </div>

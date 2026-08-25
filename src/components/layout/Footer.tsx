@@ -69,27 +69,6 @@ export default function Footer() {
               <Sparkles className="h-3.5 w-3.5 text-amber-600" />
               <span>Est. 2015 — 10+ Years of Aviation Guidance Excellence</span>
             </div>
-
-            <div className="space-y-3 pt-2 text-xs text-slate-700 font-semibold">
-              <div className="flex items-center gap-2.5">
-                <div className="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center shrink-0 border border-gold/40">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-amber-700" />
-                </div>
-                <span>Ethical & Transparent Career Advisory</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <div className="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center shrink-0 border border-gold/40">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-amber-700" />
-                </div>
-                <span>Pan-India Airport & Airline Opportunities</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <div className="h-5 w-5 rounded-full bg-amber-100 flex items-center justify-center shrink-0 border border-gold/40">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-amber-700" />
-                </div>
-                <span>Personalized Interview Preparation & Mock GD Screening</span>
-              </div>
-            </div>
           </div>
 
           {/* Quick Links */}

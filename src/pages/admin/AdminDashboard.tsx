@@ -164,6 +164,7 @@ export default function AdminDashboard() {
   // Google Sheet / Cloud Leads Sync State
   const [leadWebhookInput, setLeadWebhookInput] = useState(settings.leadWebhookUrl || "");
   const [leadCsvInput, setLeadCsvInput] = useState(settings.leadSheetCsvUrl || "");
+  const [leadAlertEmailInput, setLeadAlertEmailInput] = useState(settings.leadAlertEmail || "hemantsingh199272@gmail.com");
   const [isLeadSyncing, setIsLeadSyncing] = useState(false);
   const [isTestingWebhook, setIsTestingWebhook] = useState(false);
   const [isScriptCopied, setIsScriptCopied] = useState(false);
@@ -209,6 +210,9 @@ export default function AdminDashboard() {
       }
       if (settings.leadSheetCsvUrl) {
         setLeadCsvInput(settings.leadSheetCsvUrl);
+      }
+      if (settings.leadAlertEmail) {
+        setLeadAlertEmailInput(settings.leadAlertEmail);
       }
     }
   }, [settings]);
@@ -2021,18 +2025,38 @@ function doGet(e) {
                     </p>
                   </div>
 
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-200 block">
+                      3. Instant Lead Alert Email Address (Instant Email Dispatch)
+                    </label>
+                    <div className="relative">
+                      <Mail className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan-400" />
+                      <input
+                        type="email"
+                        value={leadAlertEmailInput}
+                        onChange={(e) => setLeadAlertEmailInput(e.target.value)}
+                        placeholder="hemantsingh199272@gmail.com"
+                        className="w-full h-11 pl-10 pr-4 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs focus:outline-none focus:border-amber-500 font-mono font-medium"
+                      />
+                    </div>
+                    <p className="text-[11px] text-slate-400">
+                      Every candidate enquiry is instantly emailed to this address as a reliable backup.
+                    </p>
+                  </div>
+
                   <div className="flex flex-wrap items-center gap-3 pt-2">
                     <Button
                       onClick={async () => {
                         await updateSettings({
                           leadWebhookUrl: leadWebhookInput.trim(),
                           leadSheetCsvUrl: leadCsvInput.trim(),
+                          leadAlertEmail: leadAlertEmailInput.trim(),
                         });
-                        toast.success("Google Sheet Webhook settings saved successfully!");
+                        toast.success("Lead sync & email alert settings saved successfully!");
                       }}
                       className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-5 px-6 rounded-2xl text-xs shadow-md"
                     >
-                      <Save className="h-4 w-4" /> Save Webhook Settings
+                      <Save className="h-4 w-4" /> Save Webhook & Alert Settings
                     </Button>
 
                     <Button

@@ -111,6 +111,7 @@ export interface SiteSettings {
   studentAccessPassword?: string; // Password to unlock /interview-tips page for enrolled students
   leadWebhookUrl?: string; // Google Apps Script Web App / Webhook URL for real-time lead submission
   leadSheetCsvUrl?: string; // Google Sheet Published CSV URL to sync leads into admin dashboard
+  leadAlertEmail?: string; // Email address to receive immediate lead alerts
 }
 
 // 8. Cloud Config Interface
@@ -362,6 +363,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   studentAccessPassword: "IAS#Student@2026",
   leadWebhookUrl: "https://script.google.com/macros/s/AKfycbxCEshgi71fYbR9KWaTN4ExGEZnciio1R6vwJsKRjMx3rK4RVd1_JSS0XkDgrppVXeyxg/exec",
   leadSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSS3Ip6lUaAy-3fzvaSleTTyoILKrip1eFn4h8Dnl7LeTwGqKPIgtU2ppaaP_KSC19LPHGAUJ6ypFHE/pub?output=csv",
+  leadAlertEmail: "hemantsingh199272@gmail.com",
 };
 
 const DEFAULT_HOME_CONTENT: HomeContent = {
@@ -924,6 +926,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             ...parsed,
             leadWebhookUrl: parsed.leadWebhookUrl || DEFAULT_SETTINGS.leadWebhookUrl,
             leadSheetCsvUrl: parsed.leadSheetCsvUrl || DEFAULT_SETTINGS.leadSheetCsvUrl,
+            leadAlertEmail: parsed.leadAlertEmail || DEFAULT_SETTINGS.leadAlertEmail,
             displayAddress,
             bannerNotice,
             enableNoticeBanner,
@@ -1465,6 +1468,40 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         });
       } catch (err) {
         console.warn("Supabase lead invocation error:", err);
+      }
+    }
+
+    // 3. Dispatch real-time Email Alert to hemantsingh199272@gmail.com
+    const alertEmail = (settings.leadAlertEmail || "hemantsingh199272@gmail.com").trim();
+    if (alertEmail) {
+      try {
+        fetch(`https://formsubmit.co/ajax/${alertEmail}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            _subject: `✈️ [IAS Lead Alert] ${newLead.name} - +91 ${newLead.phone} (${newLead.targetRole || "Ground Staff"})`,
+            "Candidate Full Name": newLead.name,
+            "Father Name": newLead.fatherName || "N/A",
+            "Contact Phone": `+91 ${newLead.phone}`,
+            "Target Aviation Role": newLead.targetRole || "Airport Ground Staff (AGS)",
+            "Email Address": newLead.email || "N/A",
+            "City": newLead.city || "N/A",
+            "State": newLead.state || "N/A",
+            "Qualification": newLead.qualification || "N/A",
+            "Lead Source": newLead.source || "Website Form",
+            "Submitted At": newLead.submittedAt,
+            "Lead Ref ID": newLead.id,
+            _template: "table",
+            _captcha: "false",
+          }),
+        }).catch((err) => {
+          console.warn("Email alert background dispatch notice:", err);
+        });
+      } catch (err) {
+        console.warn("Email alert execution error:", err);
       }
     }
 

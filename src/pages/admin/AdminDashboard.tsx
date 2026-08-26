@@ -91,8 +91,11 @@ export default function AdminDashboard() {
   React.useEffect(() => {
     if (activeTab === "leads") {
       reloadLeads();
+      if (settings.leadSheetCsvUrl || settings.leadWebhookUrl) {
+        syncLeadsFromCloud().catch(() => {});
+      }
     }
-  }, [activeTab]);
+  }, [activeTab, settings.leadSheetCsvUrl, settings.leadWebhookUrl]);
 
   // Password change state
   const [adminEmail, setAdminEmail] = useState("admin@indianallianceservices.com");

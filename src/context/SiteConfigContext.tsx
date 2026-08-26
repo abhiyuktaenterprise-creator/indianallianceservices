@@ -1508,19 +1508,58 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const syncLeadsFromCloud = async (
     customCsvUrl?: string
   ): Promise<{ success: boolean; count: number; message: string }> => {
-    const targetUrl = (customCsvUrl || settings.leadSheetCsvUrl || "").trim();
+    const targetUrl = (customCsvUrl || settings.leadSheetCsvUrl || settings.leadWebhookUrl || "").trim();
 
-    // 1. Check Google Sheet Published CSV URL
+    // 1. Try Google Sheet (Published CSV link or Webhook URL)
     if (targetUrl) {
       try {
         const res = await fetch(targetUrl, { cache: "no-store" });
         if (!res.ok) {
-          return { success: false, count: 0, message: `Failed to fetch Google Sheet CSV (HTTP ${res.status})` };
+          return {
+            success: false,
+            count: 0,
+            message: `Failed to fetch from Google Sheet (HTTP ${res.status}). Please check permissions.`,
+          };
         }
+
         const text = await res.text();
-        const parsed = parseGoogleSheetsLeads(text);
+        let parsed: CandidateLead[] = [];
+
+        // Check if response is JSON (from Google Apps Script doGet)
+        try {
+          const jsonData = JSON.parse(text);
+          if (jsonData && Array.isArray(jsonData.leads)) {
+            parsed = jsonData.leads.map((d: any, idx: number) => ({
+              id: d.id || `lead-sheet-${idx + 1}`,
+              submittedAt: d.submittedAt || d.timestamp || new Date().toLocaleDateString("en-IN"),
+              name: d.name || "Candidate",
+              fatherName: d.fatherName || undefined,
+              phone: (d.phone || "").replace(/^'+/, ""),
+              email: d.email || undefined,
+              state: d.state || undefined,
+              city: d.city || undefined,
+              qualification: d.qualification || undefined,
+              targetRole: d.targetRole || "Airport Ground Staff (AGS)",
+              source: d.source || "Google Sheet Sync",
+              status: (d.status || "new") as CandidateLead["status"],
+              notes: d.notes || undefined,
+            }));
+          }
+        } catch (jsonErr) {
+          // Not JSON, parse as CSV
+        }
+
+        // If not parsed via JSON, parse as standard CSV
         if (parsed.length === 0) {
-          return { success: false, count: 0, message: "No candidate leads found in the Google Sheet." };
+          parsed = parseGoogleSheetsLeads(text);
+        }
+
+        if (parsed.length === 0) {
+          return {
+            success: false,
+            count: 0,
+            message: "No candidate leads found in the Google Sheet yet.",
+          };
         }
 
         setLeads((prev) => {
@@ -1540,7 +1579,12 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
           message: `Successfully synchronized ${parsed.length} candidate leads from Google Sheet!`,
         };
       } catch (e: any) {
-        return { success: false, count: 0, message: e.message || "Network error fetching Google Sheet CSV." };
+        return {
+          success: false,
+          count: 0,
+          message:
+            "Failed to fetch from Google Sheet. Please ensure: 1) In Google Sheet Apps Script, deployment permission is set to 'Anyone' (Deploy > Manage deployments > Edit > Anyone), OR 2) Publish your Google Sheet as CSV (File > Share > Publish to web > CSV).",
+        };
       }
     }
 
@@ -1599,7 +1643,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     return {
       success: false,
       count: 0,
-      message: "Please configure a Google Sheet Published CSV URL or Supabase credentials in Admin Settings.",
+      message: "Please configure a Google Sheet Webhook / CSV URL in Admin Settings.",
     };
   };
 

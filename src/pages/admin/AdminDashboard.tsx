@@ -564,8 +564,8 @@ export default function AdminDashboard() {
 // How to use:
 // 1. Open your Google Sheet -> Click "Extensions" -> "Apps Script"
 // 2. Delete existing code and paste this entire script
-// 3. Click "Deploy" -> "New deployment" -> Select "Web app"
-// 4. Set "Execute as": "Me", Set "Who has access": "Anyone"
+// 3. Click "Deploy" -> "New deployment" (or "Manage deployments" -> Edit ✏️)
+// 4. Set "Execute as": "Me", Set "Who has access": "Anyone"  (⚠️ MUST BE "Anyone")
 // 5. Click "Deploy", Authorize permissions, and Copy the "Web app URL"
 // 6. Paste that URL into Indian Alliance Services Admin Control Center!
 
@@ -630,8 +630,59 @@ function doPost(e) {
 }
 
 function doGet(e) {
-  return ContentService.createTextOutput(JSON.stringify({ status: "ready", message: "Indian Alliance Services Lead Webhook is Active" }))
-    .setMimeType(ContentService.MimeType.JSON);
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var rows = sheet.getDataRange().getValues();
+    if (rows.length < 2) {
+      return ContentService.createTextOutput(JSON.stringify({ status: "success", count: 0, leads: [] }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    var headers = rows[0].map(function(h) { return h.toString().toLowerCase().replace(/[^a-z0-9]/g, ""); });
+    var idIdx = headers.findIndex(function(h) { return h === "id" || h.indexOf("leadid") !== -1 || h.indexOf("ref") !== -1; });
+    var dateIdx = headers.findIndex(function(h) { return h.indexOf("time") !== -1 || h.indexOf("date") !== -1 || h.indexOf("timestamp") !== -1; });
+    var nameIdx = headers.findIndex(function(h) { return h.indexOf("name") !== -1 && h.indexOf("father") === -1; });
+    var fatherIdx = headers.findIndex(function(h) { return h.indexOf("father") !== -1 || h.indexOf("parent") !== -1; });
+    var phoneIdx = headers.findIndex(function(h) { return h.indexOf("phone") !== -1 || h.indexOf("mobile") !== -1 || h.indexOf("contact") !== -1; });
+    var emailIdx = headers.findIndex(function(h) { return h.indexOf("email") !== -1 || h.indexOf("mail") !== -1; });
+    var stateIdx = headers.findIndex(function(h) { return h.indexOf("state") !== -1; });
+    var cityIdx = headers.findIndex(function(h) { return h.indexOf("city") !== -1; });
+    var qualIdx = headers.findIndex(function(h) { return h.indexOf("qual") !== -1 || h.indexOf("edu") !== -1; });
+    var roleIdx = headers.findIndex(function(h) { return h.indexOf("role") !== -1 || h.indexOf("job") !== -1 || h.indexOf("post") !== -1; });
+    var sourceIdx = headers.findIndex(function(h) { return h.indexOf("source") !== -1; });
+    var statusIdx = headers.findIndex(function(h) { return h.indexOf("status") !== -1; });
+    var notesIdx = headers.findIndex(function(h) { return h.indexOf("note") !== -1; });
+    
+    var leads = [];
+    for (var r = 1; r < rows.length; r++) {
+      var row = rows[r];
+      var name = nameIdx !== -1 ? row[nameIdx] : row[2] || "";
+      var phone = phoneIdx !== -1 ? row[phoneIdx] : row[4] || "";
+      if (!name && !phone) continue;
+      
+      leads.push({
+        id: (idIdx !== -1 && row[idIdx]) ? row[idIdx].toString() : "lead-sheet-" + r,
+        submittedAt: (dateIdx !== -1 && row[dateIdx]) ? row[dateIdx].toString() : "",
+        name: name.toString(),
+        fatherName: (fatherIdx !== -1 && row[fatherIdx]) ? row[fatherIdx].toString() : "",
+        phone: phone.toString().replace(/^'+/, ""),
+        email: (emailIdx !== -1 && row[emailIdx]) ? row[emailIdx].toString() : "",
+        state: (stateIdx !== -1 && row[stateIdx]) ? row[stateIdx].toString() : "",
+        city: (cityIdx !== -1 && row[cityIdx]) ? row[cityIdx].toString() : "",
+        qualification: (qualIdx !== -1 && row[qualIdx]) ? row[qualIdx].toString() : "",
+        targetRole: (roleIdx !== -1 && row[roleIdx]) ? row[roleIdx].toString() : "Airport Ground Staff (AGS)",
+        source: (sourceIdx !== -1 && row[sourceIdx]) ? row[sourceIdx].toString() : "Google Sheet Sync",
+        status: (statusIdx !== -1 && row[statusIdx]) ? row[statusIdx].toString().toLowerCase() : "new",
+        notes: (notesIdx !== -1 && row[notesIdx]) ? row[notesIdx].toString() : ""
+      });
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({ status: "success", count: leads.length, leads: leads }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 }`;
 
     navigator.clipboard.writeText(script);

@@ -136,10 +136,10 @@ export default function PPCLanding() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.name.trim() || !formData.phone.trim()) {
+    if (!formData.name.trim() || !formData.fatherName.trim() || !formData.phone.trim()) {
       toast({
         title: "Missing Required Fields",
-        description: "Please provide your Full Name and Contact Mobile Number.",
+        description: "Please provide Candidate Full Name, Father's Name, and Mobile Number.",
         variant: "destructive",
       });
       return;
@@ -581,7 +581,7 @@ export default function PPCLanding() {
 
                     <div className="space-y-1.5">
                       <Label htmlFor="ppc-email" className="text-xs font-semibold text-slate-200">
-                        Email Address <span className="text-amber-400">*</span>
+                        Email Address <span className="text-slate-400 font-normal">(Optional)</span>
                       </Label>
                       <Input
                         id="ppc-email"
@@ -590,7 +590,6 @@ export default function PPCLanding() {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         maxLength={100}
-                        required
                         className="h-11 bg-[#101a2e] border-slate-700 text-white placeholder:text-slate-500 focus:border-gold"
                       />
                     </div>
@@ -644,7 +643,7 @@ export default function PPCLanding() {
                   <div className="grid sm:grid-cols-2 gap-3">
                     <div className="space-y-1.5">
                       <Label htmlFor="ppc-state" className="text-xs font-semibold text-slate-200">
-                        State / UT <span className="text-amber-400">*</span>
+                        State / UT <span className="text-slate-400 font-normal">(Optional)</span>
                       </Label>
                       <Select
                         value={formData.state}
@@ -665,7 +664,7 @@ export default function PPCLanding() {
 
                     <div className="space-y-1.5">
                       <Label htmlFor="ppc-city" className="text-xs font-semibold text-slate-200">
-                        City / Town <span className="text-amber-400">*</span>
+                        City / Town <span className="text-slate-400 font-normal">(Optional)</span>
                       </Label>
                       <Input
                         id="ppc-city"
@@ -673,7 +672,6 @@ export default function PPCLanding() {
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                         maxLength={100}
-                        required
                         className="h-11 bg-[#101a2e] border-slate-700 text-white placeholder:text-slate-500 focus:border-gold"
                       />
                     </div>

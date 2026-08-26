@@ -359,7 +359,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   companyName: "Indian Alliance Services",
   tagline: "Aviation Careers & Training",
   studentAccessPassword: "IAS#Student@2026",
-  leadWebhookUrl: "https://script.google.com/macros/s/AKfycbxgKA0s1YDVZIWvVkbGWAnIXhGrZyC2pD3v5zniAxuWdF4LnVM4tN4Sqf4rrlWbtOYB/exec",
+  leadWebhookUrl: "https://script.google.com/macros/s/AKfycbxCEshgi71fYbR9KWaTN4ExGEZnciio1R6vwJsKRjMx3rK4RVd1_JSS0XkDgrppVXeyxg/exec",
   leadSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSS3Ip6lUaAy-3fzvaSleTTyoILKrip1eFn4h8Dnl7LeTwGqKPIgtU2ppaaP_KSC19LPHGAUJ6ypFHE/pub?output=csv",
 };
 

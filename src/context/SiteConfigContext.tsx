@@ -360,7 +360,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   tagline: "Aviation Careers & Training",
   studentAccessPassword: "IAS#Student@2026",
   leadWebhookUrl: "https://script.google.com/macros/s/AKfycbxgKA0s1YDVZIWvVkbGWAnIXhGrZyC2pD3v5zniAxuWdF4LnVM4tN4Sqf4rrlWbtOYB/exec",
-  leadSheetCsvUrl: "",
+  leadSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSS3Ip6lUaAy-3fzvaSleTTyoILKrip1eFn4h8Dnl7LeTwGqKPIgtU2ppaaP_KSC19LPHGAUJ6ypFHE/pub?output=csv",
 };
 
 const DEFAULT_HOME_CONTENT: HomeContent = {
@@ -922,6 +922,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             ...DEFAULT_SETTINGS,
             ...parsed,
             leadWebhookUrl: parsed.leadWebhookUrl || DEFAULT_SETTINGS.leadWebhookUrl,
+            leadSheetCsvUrl: parsed.leadSheetCsvUrl || DEFAULT_SETTINGS.leadSheetCsvUrl,
             displayAddress,
             bannerNotice,
             enableNoticeBanner,

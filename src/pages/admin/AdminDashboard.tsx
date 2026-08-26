@@ -33,6 +33,10 @@ import {
   Sparkles,
   Upload,
   Image as ImageIcon,
+  Copy,
+  Check,
+  Send,
+  Table,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -70,6 +74,8 @@ export default function AdminDashboard() {
     deleteLead,
     clearAllLeads,
     reloadLeads,
+    syncLeadsFromCloud,
+    testLeadWebhook,
     cloudConfig,
     updateCloudConfig,
     syncWithCloud,
@@ -148,9 +154,16 @@ export default function AdminDashboard() {
     remarks: "Profile verified & eligible for upcoming screening drive.",
   });
 
-  // Google Sheet Sync State
+  // Google Sheet Notice Sync State
   const [googleSheetInputUrl, setGoogleSheetInputUrl] = useState(settings.googleSheetsNoticeUrl || "");
   const [isGoogleSyncing, setIsGoogleSyncing] = useState(false);
+
+  // Google Sheet / Cloud Leads Sync State
+  const [leadWebhookInput, setLeadWebhookInput] = useState(settings.leadWebhookUrl || "");
+  const [leadCsvInput, setLeadCsvInput] = useState(settings.leadSheetCsvUrl || "");
+  const [isLeadSyncing, setIsLeadSyncing] = useState(false);
+  const [isTestingWebhook, setIsTestingWebhook] = useState(false);
+  const [isScriptCopied, setIsScriptCopied] = useState(false);
 
   // Branch Modal State
   const [isBranchModalOpen, setIsBranchModalOpen] = useState(false);
@@ -177,6 +190,8 @@ export default function AdminDashboard() {
     tagline: "India's Leading Aviation Career Guidance & Training Gateway",
     googleSheetsNoticeUrl: "",
     studentAccessPassword: "IAS#Student@2026",
+    leadWebhookUrl: "",
+    leadSheetCsvUrl: "",
   });
 
   // Sync settings into local form state
@@ -185,6 +200,12 @@ export default function AdminDashboard() {
       setFormData(settings);
       if (settings.googleSheetsNoticeUrl) {
         setGoogleSheetInputUrl(settings.googleSheetsNoticeUrl);
+      }
+      if (settings.leadWebhookUrl) {
+        setLeadWebhookInput(settings.leadWebhookUrl);
+      }
+      if (settings.leadSheetCsvUrl) {
+        setLeadCsvInput(settings.leadSheetCsvUrl);
       }
     }
   }, [settings]);
@@ -499,6 +520,124 @@ export default function AdminDashboard() {
     link.click();
     document.body.removeChild(link);
     toast.success("Leads exported to CSV successfully!");
+  };
+
+  // Sync Leads from Google Sheet / Cloud
+  const handleSyncLeads = async () => {
+    setIsLeadSyncing(true);
+    if (leadCsvInput.trim() && leadCsvInput.trim() !== settings.leadSheetCsvUrl) {
+      await updateSettings({ leadSheetCsvUrl: leadCsvInput.trim() });
+    }
+    const result = await syncLeadsFromCloud(leadCsvInput.trim() || undefined);
+    setIsLeadSyncing(false);
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
+  };
+
+  // Test Webhook Dispatch
+  const handleTestLeadWebhook = async () => {
+    if (!leadWebhookInput.trim()) {
+      toast.error("Please enter a Google Apps Script Webhook URL first.");
+      return;
+    }
+    setIsTestingWebhook(true);
+    if (leadWebhookInput.trim() !== settings.leadWebhookUrl) {
+      await updateSettings({ leadWebhookUrl: leadWebhookInput.trim() });
+    }
+    const result = await testLeadWebhook(leadWebhookInput.trim());
+    setIsTestingWebhook(false);
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
+  };
+
+  // Copy Google Apps Script Template
+  const handleCopyAppsScript = () => {
+    const script = `// ================================================================
+// INDIAN ALLIANCE SERVICES — GOOGLE APPS SCRIPT LEAD WEBHOOK
+// ================================================================
+// How to use:
+// 1. Open your Google Sheet -> Click "Extensions" -> "Apps Script"
+// 2. Delete existing code and paste this entire script
+// 3. Click "Deploy" -> "New deployment" -> Select "Web app"
+// 4. Set "Execute as": "Me", Set "Who has access": "Anyone"
+// 5. Click "Deploy", Authorize permissions, and Copy the "Web app URL"
+// 6. Paste that URL into Indian Alliance Services Admin Control Center!
+
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    
+    // Auto-create standard column headers if sheet is empty
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        "Timestamp",
+        "Lead ID",
+        "Candidate Name",
+        "Father Name",
+        "Phone Number",
+        "Email Address",
+        "State",
+        "City",
+        "Qualification",
+        "Target Role",
+        "Source",
+        "Status",
+        "Notes"
+      ]);
+      sheet.getRange("1:1").setFontWeight("bold").setBackground("#f3f4f6");
+      sheet.setFrozenRows(1);
+    }
+    
+    var data = {};
+    if (e.postData && e.postData.contents) {
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch (err) {
+        data = e.parameter || {};
+      }
+    } else if (e.parameter) {
+      data = e.parameter;
+    }
+    
+    sheet.appendRow([
+      data.submittedAt || new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+      data.id || "IAS-" + Date.now(),
+      data.name || "",
+      data.fatherName || "",
+      "'" + (data.phone || ""),
+      data.email || "",
+      data.state || "",
+      data.city || "",
+      data.qualification || "",
+      data.targetRole || "",
+      data.source || "Website Form",
+      data.status || "new",
+      data.notes || ""
+    ]);
+    
+    return ContentService.createTextOutput(JSON.stringify({ status: "success", message: "Lead saved successfully" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  return ContentService.createTextOutput(JSON.stringify({ status: "ready", message: "Indian Alliance Services Lead Webhook is Active" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}`;
+
+    navigator.clipboard.writeText(script);
+    setIsScriptCopied(true);
+    toast.success("Google Apps Script code copied to clipboard!");
+    setTimeout(() => setIsScriptCopied(false), 3000);
   };
 
   // Safe collections
@@ -1333,6 +1472,46 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-300 block">
+                      Google Sheet Lead Webhook URL (POST)
+                    </label>
+                    <div className="relative">
+                      <Send className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-400" />
+                      <input
+                        type="url"
+                        value={formData.leadWebhookUrl || ""}
+                        onChange={(e) => setFormData({ ...formData, leadWebhookUrl: e.target.value })}
+                        placeholder="https://script.google.com/macros/s/.../exec"
+                        className="w-full h-11 pl-10 pr-4 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 font-mono font-medium"
+                      />
+                    </div>
+                    <p className="text-[11px] text-slate-500">
+                      Dispatches visitor candidate leads instantly to your Google Sheet
+                    </p>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-300 block">
+                      Google Sheet Published CSV for Leads (GET)
+                    </label>
+                    <div className="relative">
+                      <Table className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-400" />
+                      <input
+                        type="url"
+                        value={formData.leadSheetCsvUrl || ""}
+                        onChange={(e) => setFormData({ ...formData, leadSheetCsvUrl: e.target.value })}
+                        placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?output=csv"
+                        className="w-full h-11 pl-10 pr-4 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 font-mono font-medium"
+                      />
+                    </div>
+                    <p className="text-[11px] text-slate-500">
+                      Syncs leads back into Admin Dashboard table from Google Sheet
+                    </p>
+                  </div>
+                </div>
+
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-slate-300 block">
                     Google Sheets Published CSV URL for Notifications
@@ -1483,7 +1662,16 @@ export default function AdminDashboard() {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2.5">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <Button
+                    variant="outline"
+                    onClick={handleSyncLeads}
+                    disabled={isLeadSyncing}
+                    className="border-emerald-600/50 text-emerald-400 hover:bg-emerald-950/40 font-bold gap-2 px-3.5 py-5 rounded-2xl text-xs shadow-sm"
+                  >
+                    <RefreshCw className={`h-4 w-4 ${isLeadSyncing ? "animate-spin" : ""}`} />
+                    {isLeadSyncing ? "Syncing..." : "Sync Google Sheet"}
+                  </Button>
                   <Button
                     variant="outline"
                     onClick={() => {
@@ -1492,7 +1680,7 @@ export default function AdminDashboard() {
                     }}
                     className="border-slate-700 text-slate-300 hover:bg-slate-800 font-bold gap-2 px-3.5 py-5 rounded-2xl text-xs"
                   >
-                    <RefreshCw className="h-4 w-4" /> Refresh
+                    <RefreshCw className="h-4 w-4" /> Local Reload
                   </Button>
                   <Button
                     onClick={handleExportLeads}
@@ -1516,6 +1704,39 @@ export default function AdminDashboard() {
                   )}
                 </div>
               </div>
+
+              {/* Webhook Connection Alert Banner */}
+              {settings.leadWebhookUrl ? (
+                <div className="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2.5 text-emerald-300">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+                    <span>
+                      <strong className="text-emerald-300">Live Google Sheet Webhook Active:</strong> Leads submitted by website visitors & Meta Ad campaigns are being automatically sent to your Google Sheet.
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setActiveTab("database")}
+                    className="text-emerald-400 hover:underline font-bold text-[11px] shrink-0"
+                  >
+                    Database Settings →
+                  </button>
+                </div>
+              ) : (
+                <div className="bg-amber-950/40 border border-amber-500/40 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                  <div className="flex items-start sm:items-center gap-2.5 text-amber-200">
+                    <AlertCircle className="h-4 w-4 shrink-0 text-amber-400 mt-0.5 sm:mt-0" />
+                    <div>
+                      <strong className="text-amber-400">Google Sheet Webhook Not Connected:</strong> Leads submitted by visitors on their mobile devices are not automatically arriving on this dashboard. Connect your Google Sheet now to collect all website leads in real-time.
+                    </div>
+                  </div>
+                  <Button
+                    onClick={() => setActiveTab("database")}
+                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs px-3.5 py-2 shrink-0 shadow whitespace-nowrap"
+                  >
+                    Connect Google Sheet (2 min) →
+                  </Button>
+                </div>
+              )}
 
               {/* Filters */}
               <div className="flex flex-col sm:flex-row items-center gap-3">
@@ -1656,26 +1877,151 @@ export default function AdminDashboard() {
 
           {/* ==================================================
               7. CLOUD DATABASE & SUPABASE TAB
+          {/* ==================================================
+              7. CLOUD DATABASE & GOOGLE SHEETS WEBHOOK TAB
               ================================================== */}
           {activeTab === "database" && (
             <div className="max-w-4xl space-y-6 animate-in fade-in duration-200">
               <div>
                 <h2 className="text-xl sm:text-2xl font-heading font-extrabold text-white">
-                  Cloud Database & Supabase Integration
+                  Cloud Database & Google Sheets Lead Automation
                 </h2>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Connect a free Supabase cloud database to synchronize all website changes across multiple devices.
+                  Capture all website & Meta Ad candidate leads instantly into your Google Sheet and synchronize across devices.
                 </p>
               </div>
 
+              {/* Card 1: Google Sheets Real-Time Lead Webhook */}
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-2xl bg-emerald-500/15 p-3 text-emerald-400">
+                      <FileSpreadsheet className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-heading font-bold text-base text-white">
+                        Google Sheets Real-Time Lead Webhook
+                      </h3>
+                      <p className="text-xs text-slate-400">
+                        Status: {settings.leadWebhookUrl ? "🟢 Active & Receiving Visitor Leads" : "⚠️ Not Connected (Leads stored locally only)"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-200 block">
+                      1. Google Apps Script Webhook URL (POST - For Saving Incoming Leads)
+                    </label>
+                    <div className="relative">
+                      <Send className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-400" />
+                      <input
+                        type="url"
+                        value={leadWebhookInput}
+                        onChange={(e) => setLeadWebhookInput(e.target.value)}
+                        placeholder="https://script.google.com/macros/s/AKfycb.../exec"
+                        className="w-full h-11 pl-10 pr-4 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs focus:outline-none focus:border-amber-500 font-mono font-medium"
+                      />
+                    </div>
+                    <p className="text-[11px] text-slate-400">
+                      Every time a candidate clicks "Submit" on mobile or PC, their full application is dispatched to this URL.
+                    </p>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-200 block">
+                      2. Google Sheet Published CSV URL (GET - For Syncing Leads Back to Dashboard)
+                    </label>
+                    <div className="relative">
+                      <Table className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-400" />
+                      <input
+                        type="url"
+                        value={leadCsvInput}
+                        onChange={(e) => setLeadCsvInput(e.target.value)}
+                        placeholder="https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?output=csv"
+                        className="w-full h-11 pl-10 pr-4 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs focus:outline-none focus:border-amber-500 font-mono font-medium"
+                      />
+                    </div>
+                    <p className="text-[11px] text-slate-400">
+                      Publish your Google Sheet to web as CSV (<code className="text-amber-300">File → Share → Publish to web → CSV</code>) and paste the link here.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3 pt-2">
+                    <Button
+                      onClick={async () => {
+                        await updateSettings({
+                          leadWebhookUrl: leadWebhookInput.trim(),
+                          leadSheetCsvUrl: leadCsvInput.trim(),
+                        });
+                        toast.success("Google Sheet Webhook settings saved successfully!");
+                      }}
+                      className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-5 px-6 rounded-2xl text-xs shadow-md"
+                    >
+                      <Save className="h-4 w-4" /> Save Webhook Settings
+                    </Button>
+
+                    <Button
+                      variant="outline"
+                      onClick={handleTestLeadWebhook}
+                      disabled={isTestingWebhook}
+                      className="border-amber-500/40 text-amber-300 hover:bg-amber-500/10 font-bold py-5 px-5 rounded-2xl text-xs"
+                    >
+                      <Send className={`h-4 w-4 ${isTestingWebhook ? "animate-spin" : ""}`} />
+                      {isTestingWebhook ? "Sending Test..." : "Send Test Lead Payload"}
+                    </Button>
+
+                    <Button
+                      variant="outline"
+                      onClick={handleSyncLeads}
+                      disabled={isLeadSyncing}
+                      className="border-slate-700 text-slate-300 hover:bg-slate-800 font-bold py-5 px-5 rounded-2xl text-xs"
+                    >
+                      <RefreshCw className={`h-4 w-4 ${isLeadSyncing ? "animate-spin" : ""}`} />
+                      {isLeadSyncing ? "Syncing Leads..." : "Sync Leads from Google Sheet"}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Setup Guide & 1-Click Code Copy */}
+                <div className="border-t border-slate-800 pt-5 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-heading font-bold text-sm text-white flex items-center gap-2">
+                      <Sparkles className="h-4 w-4 text-amber-400" />
+                      <span>How to create your Google Apps Script in 2 minutes:</span>
+                    </h4>
+                    <Button
+                      onClick={handleCopyAppsScript}
+                      variant="outline"
+                      className="border-amber-500/40 text-amber-400 hover:bg-amber-500/15 text-xs font-bold gap-1.5 h-9 rounded-xl"
+                    >
+                      {isScriptCopied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                      {isScriptCopied ? "Copied Code!" : "Copy Apps Script Code"}
+                    </Button>
+                  </div>
+
+                  <ol className="list-decimal list-inside space-y-2 text-xs text-slate-300 leading-relaxed bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <li>Create a new blank spreadsheet at <a href="https://sheets.new" target="_blank" rel="noreferrer" className="text-amber-400 underline font-semibold">sheets.new</a>.</li>
+                    <li>In the top menu, click <strong>Extensions</strong> → <strong>Apps Script</strong>.</li>
+                    <li>Delete any existing code in the editor, click <strong>Copy Apps Script Code</strong> above, and paste it.</li>
+                    <li>Click <strong>Deploy</strong> (blue button at top right) → <strong>New deployment</strong>.</li>
+                    <li>Click the gear icon ⚙️ → Select <strong>Web app</strong>.</li>
+                    <li>Set <em>Execute as:</em> <strong>Me</strong> and set <em>Who has access:</em> <strong>Anyone</strong>.</li>
+                    <li>Click <strong>Deploy</strong>, authorize Google permissions, copy the <strong>Web app URL</strong>, and paste it into field #1 above!</li>
+                  </ol>
+                </div>
+              </div>
+
+              {/* Card 2: Supabase Cloud Database */}
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
                 <div className="flex items-center gap-3">
-                  <div className="rounded-2xl bg-emerald-500/15 p-3 text-emerald-400">
+                  <div className="rounded-2xl bg-blue-500/15 p-3 text-blue-400">
                     <Database className="h-6 w-6" />
                   </div>
                   <div>
                     <h3 className="font-heading font-bold text-base text-white">
-                      Supabase Cloud Storage (Free Tier)
+                      Supabase PostgreSQL Cloud Storage (Alternative)
                     </h3>
                     <p className="text-xs text-slate-400">
                       Status: {cloudConfig.isCloudConnected ? "✅ Connected & Synchronized" : "⚡ Local Storage Mode (Ready for Cloud Sync)"}
@@ -1719,9 +2065,9 @@ export default function AdminDashboard() {
                         toast.error("Please provide both Supabase URL and Anon Key");
                       }
                     }}
-                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-5 px-6 rounded-2xl text-xs shadow-md"
+                    className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-5 px-6 rounded-2xl text-xs shadow-md"
                   >
-                    Test Connection & Sync
+                    Test Connection & Sync Supabase
                   </Button>
                 </div>
               </div>

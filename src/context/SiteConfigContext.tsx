@@ -107,8 +107,10 @@ export interface SiteSettings {
   enableNoticeBanner: boolean;
   companyName: string;
   tagline: string;
-  googleSheetsNoticeUrl?: string; // Optional Google Sheet published CSV URL
+  googleSheetsNoticeUrl?: string; // Optional Google Sheet published CSV URL for notices
   studentAccessPassword?: string; // Password to unlock /interview-tips page for enrolled students
+  leadWebhookUrl?: string; // Google Apps Script Web App / Webhook URL for real-time lead submission
+  leadSheetCsvUrl?: string; // Google Sheet Published CSV URL to sync leads into admin dashboard
 }
 
 // 8. Cloud Config Interface
@@ -246,6 +248,64 @@ export function parseGoogleSheetsNotices(csvText: string): NoticeItem[] {
   return parsedNotices;
 }
 
+// Helper to convert CSV rows into CandidateLead array from Google Sheet sync
+export function parseGoogleSheetsLeads(csvText: string): CandidateLead[] {
+  const rows = parseCSV(csvText);
+  if (rows.length < 2) return [];
+
+  const headers = rows[0].map((h) => h.toLowerCase().replace(/[^a-z0-9]/g, ""));
+
+  const idIdx = headers.findIndex((h) => h === "id" || h.includes("refid") || h.includes("leadid"));
+  const dateIdx = headers.findIndex((h) => h.includes("date") || h.includes("time") || h.includes("timestamp") || h.includes("submitted"));
+  const nameIdx = headers.findIndex((h) => h.includes("name") && !h.includes("father"));
+  const fatherIdx = headers.findIndex((h) => h.includes("father") || h.includes("parent"));
+  const phoneIdx = headers.findIndex((h) => h.includes("phone") || h.includes("mobile") || h.includes("contact") || h.includes("whatsapp"));
+  const emailIdx = headers.findIndex((h) => h.includes("email") || h.includes("mail"));
+  const stateIdx = headers.findIndex((h) => h.includes("state") || h.includes("region"));
+  const cityIdx = headers.findIndex((h) => h.includes("city") || h.includes("district") || h.includes("location"));
+  const qualIdx = headers.findIndex((h) => h.includes("qual") || h.includes("edu") || h.includes("degree"));
+  const roleIdx = headers.findIndex((h) => h.includes("role") || h.includes("job") || h.includes("post") || h.includes("position"));
+  const sourceIdx = headers.findIndex((h) => h.includes("source") || h.includes("campaign") || h.includes("page"));
+  const statusIdx = headers.findIndex((h) => h.includes("status"));
+  const notesIdx = headers.findIndex((h) => h.includes("note") || h.includes("message") || h.includes("remark"));
+
+  const parsedLeads: CandidateLead[] = [];
+
+  for (let r = 1; r < rows.length; r++) {
+    const row = rows[r];
+    const name = nameIdx !== -1 ? (row[nameIdx] || "") : (row[1] || "");
+    const phone = phoneIdx !== -1 ? (row[phoneIdx] || "") : (row[3] || "");
+    if (!name.trim() && !phone.trim()) continue;
+
+    const id = idIdx !== -1 && row[idIdx] ? row[idIdx].trim() : `lead-sheet-${r}-${Date.now().toString().slice(-4)}`;
+    const submittedAt = dateIdx !== -1 && row[dateIdx] ? row[dateIdx].trim() : new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+    const rawStatus = (statusIdx !== -1 && row[statusIdx] ? row[statusIdx] : "new").toLowerCase();
+    let status: CandidateLead["status"] = "new";
+    if (rawStatus.includes("contact")) status = "contacted";
+    else if (rawStatus.includes("review")) status = "in_review";
+    else if (rawStatus.includes("enroll")) status = "enrolled";
+    else if (rawStatus.includes("archive")) status = "archived";
+
+    parsedLeads.push({
+      id,
+      submittedAt,
+      name: name.trim(),
+      fatherName: fatherIdx !== -1 && row[fatherIdx] ? row[fatherIdx].trim() : undefined,
+      phone: phone.trim().replace(/^'+/, ""),
+      email: emailIdx !== -1 && row[emailIdx] ? row[emailIdx].trim() : undefined,
+      state: stateIdx !== -1 && row[stateIdx] ? row[stateIdx].trim() : undefined,
+      city: cityIdx !== -1 && row[cityIdx] ? row[cityIdx].trim() : undefined,
+      qualification: qualIdx !== -1 && row[qualIdx] ? row[qualIdx].trim() : undefined,
+      targetRole: roleIdx !== -1 && row[roleIdx] ? row[roleIdx].trim() : "Airport Ground Staff (AGS)",
+      source: sourceIdx !== -1 && row[sourceIdx] ? row[sourceIdx].trim() : "Google Sheet Sync",
+      status,
+      notes: notesIdx !== -1 && row[notesIdx] ? row[notesIdx].trim() : undefined,
+    });
+  }
+
+  return parsedLeads;
+}
+
 interface SiteConfigContextType {
   settings: SiteSettings;
   updateSettings: (newSettings: Partial<SiteSettings>) => Promise<void>;
@@ -276,6 +336,8 @@ interface SiteConfigContextType {
   deleteLead: (id: string) => Promise<void>;
   clearAllLeads: () => Promise<void>;
   reloadLeads: () => void;
+  syncLeadsFromCloud: (url?: string) => Promise<{ success: boolean; count: number; message: string }>;
+  testLeadWebhook: (webhookUrl?: string) => Promise<{ success: boolean; message: string }>;
   cloudConfig: CloudConfig;
   updateCloudConfig: (config: Partial<CloudConfig>) => Promise<void>;
   syncWithCloud: () => Promise<boolean>;
@@ -297,6 +359,8 @@ const DEFAULT_SETTINGS: SiteSettings = {
   companyName: "Indian Alliance Services",
   tagline: "Aviation Careers & Training",
   studentAccessPassword: "IAS#Student@2026",
+  leadWebhookUrl: "https://script.google.com/macros/s/AKfycbxgKA0s1YDVZIWvVkbGWAnIXhGrZyC2pD3v5zniAxuWdF4LnVM4tN4Sqf4rrlWbtOYB/exec",
+  leadSheetCsvUrl: "",
 };
 
 const DEFAULT_HOME_CONTENT: HomeContent = {
@@ -857,6 +921,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
           return {
             ...DEFAULT_SETTINGS,
             ...parsed,
+            leadWebhookUrl: parsed.leadWebhookUrl || DEFAULT_SETTINGS.leadWebhookUrl,
             displayAddress,
             bannerNotice,
             enableNoticeBanner,
@@ -1332,6 +1397,75 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       });
     } catch (e) {}
 
+    // 1. Dispatch real-time to Google Sheet / Webhook URL if configured
+    if (settings.leadWebhookUrl && settings.leadWebhookUrl.trim()) {
+      try {
+        const webhookPayload = {
+          id: newLead.id,
+          submittedAt: newLead.submittedAt,
+          name: newLead.name,
+          fatherName: newLead.fatherName || "",
+          phone: newLead.phone,
+          email: newLead.email || "",
+          state: newLead.state || "",
+          city: newLead.city || "",
+          qualification: newLead.qualification || "",
+          targetRole: newLead.targetRole || "Airport Ground Staff (AGS)",
+          source: newLead.source || "Website Form",
+          status: newLead.status,
+          notes: newLead.notes || "",
+        };
+
+        fetch(settings.leadWebhookUrl.trim(), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(webhookPayload),
+          mode: "no-cors",
+        }).catch((err) => {
+          console.warn("Lead Webhook background delivery notice:", err);
+        });
+      } catch (err) {
+        console.warn("Lead Webhook execution error:", err);
+      }
+    }
+
+    // 2. Dispatch real-time to Supabase Cloud if configured
+    if (cloudConfig.supabaseUrl && cloudConfig.supabaseAnonKey) {
+      try {
+        const cleanUrl = cloudConfig.supabaseUrl.replace(/\/$/, "");
+        fetch(`${cleanUrl}/rest/v1/candidate_leads`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: cloudConfig.supabaseAnonKey,
+            Authorization: `Bearer ${cloudConfig.supabaseAnonKey}`,
+            Prefer: "return=minimal",
+          },
+          body: JSON.stringify({
+            id: newLead.id,
+            name: newLead.name,
+            father_name: newLead.fatherName,
+            phone: newLead.phone,
+            email: newLead.email,
+            city: newLead.city,
+            state: newLead.state,
+            qualification: newLead.qualification,
+            target_role: newLead.targetRole,
+            source: newLead.source,
+            status: newLead.status,
+            notes: newLead.notes,
+            submitted_at: newLead.submittedAt,
+          }),
+        }).catch((err) => {
+          console.warn("Supabase lead sync notice:", err);
+        });
+      } catch (err) {
+        console.warn("Supabase lead invocation error:", err);
+      }
+    }
+
     return newLead;
   };
 
@@ -1369,6 +1503,149 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setLeads(JSON.parse(saved));
       }
     } catch (e) {}
+  };
+
+  const syncLeadsFromCloud = async (
+    customCsvUrl?: string
+  ): Promise<{ success: boolean; count: number; message: string }> => {
+    const targetUrl = (customCsvUrl || settings.leadSheetCsvUrl || "").trim();
+
+    // 1. Check Google Sheet Published CSV URL
+    if (targetUrl) {
+      try {
+        const res = await fetch(targetUrl, { cache: "no-store" });
+        if (!res.ok) {
+          return { success: false, count: 0, message: `Failed to fetch Google Sheet CSV (HTTP ${res.status})` };
+        }
+        const text = await res.text();
+        const parsed = parseGoogleSheetsLeads(text);
+        if (parsed.length === 0) {
+          return { success: false, count: 0, message: "No candidate leads found in the Google Sheet." };
+        }
+
+        setLeads((prev) => {
+          const map = new Map<string, CandidateLead>();
+          prev.forEach((l) => map.set(l.id, l));
+          parsed.forEach((l) => map.set(l.id, l));
+          const merged = Array.from(map.values());
+          try {
+            localStorage.setItem("acs_candidate_leads", JSON.stringify(merged));
+          } catch (e) {}
+          return merged;
+        });
+
+        return {
+          success: true,
+          count: parsed.length,
+          message: `Successfully synchronized ${parsed.length} candidate leads from Google Sheet!`,
+        };
+      } catch (e: any) {
+        return { success: false, count: 0, message: e.message || "Network error fetching Google Sheet CSV." };
+      }
+    }
+
+    // 2. Check Supabase
+    if (cloudConfig.supabaseUrl && cloudConfig.supabaseAnonKey) {
+      try {
+        const cleanUrl = cloudConfig.supabaseUrl.replace(/\/$/, "");
+        const res = await fetch(`${cleanUrl}/rest/v1/candidate_leads?select=*&order=created_at.desc`, {
+          headers: {
+            apikey: cloudConfig.supabaseAnonKey,
+            Authorization: `Bearer ${cloudConfig.supabaseAnonKey}`,
+          },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            const mapped: CandidateLead[] = data.map((d: any) => ({
+              id: d.id || `lead-${Date.now()}`,
+              name: d.name || "Candidate",
+              fatherName: d.father_name || d.fatherName,
+              phone: d.phone || "",
+              email: d.email,
+              city: d.city,
+              state: d.state,
+              qualification: d.qualification,
+              targetRole: d.target_role || d.targetRole || "Airport Ground Staff (AGS)",
+              source: d.source || "Supabase Cloud",
+              status: d.status || "new",
+              notes: d.notes,
+              submittedAt: d.submitted_at || d.created_at || new Date().toLocaleDateString("en-IN"),
+            }));
+
+            setLeads((prev) => {
+              const map = new Map<string, CandidateLead>();
+              prev.forEach((l) => map.set(l.id, l));
+              mapped.forEach((l) => map.set(l.id, l));
+              const merged = Array.from(map.values());
+              try {
+                localStorage.setItem("acs_candidate_leads", JSON.stringify(merged));
+              } catch (e) {}
+              return merged;
+            });
+
+            return {
+              success: true,
+              count: mapped.length,
+              message: `Successfully fetched ${mapped.length} leads from Supabase Cloud!`,
+            };
+          }
+        }
+      } catch (err: any) {
+        return { success: false, count: 0, message: err.message || "Error querying Supabase." };
+      }
+    }
+
+    return {
+      success: false,
+      count: 0,
+      message: "Please configure a Google Sheet Published CSV URL or Supabase credentials in Admin Settings.",
+    };
+  };
+
+  const testLeadWebhook = async (webhookUrl?: string): Promise<{ success: boolean; message: string }> => {
+    const targetUrl = (webhookUrl || settings.leadWebhookUrl || "").trim();
+    if (!targetUrl) {
+      return { success: false, message: "Please provide a valid Webhook URL first." };
+    }
+
+    try {
+      const sampleLead = {
+        id: `test-lead-${Date.now().toString().slice(-6)}`,
+        name: "Test Verification Lead",
+        fatherName: "IAS Test Account",
+        phone: "+91 99999 88888",
+        email: "test.lead@indianallianceservices.com",
+        state: "Maharashtra",
+        city: "Mumbai",
+        qualification: "Graduate",
+        targetRole: "Airport Ground Staff (AGS)",
+        source: "Admin Webhook Verification Test",
+        status: "new",
+        notes: "This is a real-time test event dispatched from the Admin Control Center.",
+        submittedAt: new Date().toLocaleString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      };
+
+      await fetch(targetUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sampleLead),
+        mode: "no-cors",
+      });
+
+      return {
+        success: true,
+        message: "Test lead successfully dispatched to Webhook! Check your Google Sheet to confirm receipt.",
+      };
+    } catch (e: any) {
+      return { success: false, message: e.message || "Failed to dispatch test lead." };
+    }
   };
 
   // Cloud Config
@@ -1420,6 +1697,8 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         deleteLead,
         clearAllLeads,
         reloadLeads,
+        syncLeadsFromCloud,
+        testLeadWebhook,
         cloudConfig,
         updateCloudConfig,
         syncWithCloud,

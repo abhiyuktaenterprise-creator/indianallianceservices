@@ -695,7 +695,26 @@ function doGet(e) {
   const safeJobPosts = Array.isArray(jobPosts) ? jobPosts : [];
   const safeNotices = Array.isArray(notices) ? notices : [];
   const safeBranches = Array.isArray(branches) ? branches : [];
-  const safeLeads = Array.isArray(leads) ? leads : [];
+  const safeLeads = (Array.isArray(leads) ? [...leads] : []).sort((a, b) => {
+    // 1. Try comparing numeric timestamp from ID if present (e.g. lead-1724... or lead-sheet-...)
+    const aTimeMatch = (a?.id || "").match(/\d{10,14}/);
+    const bTimeMatch = (b?.id || "").match(/\d{10,14}/);
+    const aTimeFromId = aTimeMatch ? parseInt(aTimeMatch[0], 10) : 0;
+    const bTimeFromId = bTimeMatch ? parseInt(bTimeMatch[0], 10) : 0;
+
+    // 2. Try parsing submittedAt date string
+    const aDateParsed = a?.submittedAt ? Date.parse(a.submittedAt) : 0;
+    const bDateParsed = b?.submittedAt ? Date.parse(b.submittedAt) : 0;
+
+    const aScore = Math.max(aTimeFromId, isNaN(aDateParsed) ? 0 : aDateParsed);
+    const bScore = Math.max(bTimeFromId, isNaN(bDateParsed) ? 0 : bDateParsed);
+
+    if (bScore !== aScore) {
+      return bScore - aScore; // Descending (newest on top)
+    }
+
+    return 0;
+  });
 
   // Filtered queries with null-safe string handling
   const filteredJobs = safeJobPosts.filter(

@@ -303,7 +303,8 @@ export function parseGoogleSheetsLeads(csvText: string): CandidateLead[] {
     });
   }
 
-  return parsedLeads;
+  // Reverse so newest rows appended at bottom of sheet appear first (on top)
+  return parsedLeads.reverse();
 }
 
 interface SiteConfigContextType {

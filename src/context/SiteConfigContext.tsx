@@ -43,6 +43,13 @@ export interface CandidateLead {
   source?: string;
   status: "new" | "contacted" | "in_review" | "enrolled" | "archived";
   notes?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
+  fbclid?: string;
+  landingUrl?: string;
 }
 
 // 3. Official Notification Interface
@@ -1419,6 +1426,13 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
           source: newLead.source || "Website Form",
           status: newLead.status,
           notes: newLead.notes || "",
+          utm_source: newLead.utmSource || "",
+          utm_medium: newLead.utmMedium || "",
+          utm_campaign: newLead.utmCampaign || "",
+          utm_content: newLead.utmContent || "",
+          utm_term: newLead.utmTerm || "",
+          fbclid: newLead.fbclid || "",
+          landing_url: newLead.landingUrl || "",
         };
 
         fetch(settings.leadWebhookUrl.trim(), {
@@ -1492,6 +1506,11 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             "State": newLead.state || "N/A",
             "Qualification": newLead.qualification || "N/A",
             "Lead Source": newLead.source || "Website Form",
+            "Campaign Source (UTM)": newLead.utmSource || "Direct / Organic",
+            "Campaign Name": newLead.utmCampaign || "N/A",
+            "Ad Content / Creative": newLead.utmContent || "N/A",
+            "Meta Click ID (fbclid)": newLead.fbclid || "N/A",
+            "Landing Page URL": newLead.landingUrl || "https://indianallianceservices.com/apply",
             "Submitted At": newLead.submittedAt,
             "Lead Ref ID": newLead.id,
             _template: "table",

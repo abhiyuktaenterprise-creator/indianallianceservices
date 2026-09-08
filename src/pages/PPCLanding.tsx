@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Send,
@@ -45,7 +45,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import SEO from "@/components/common/SEO";
 import { checkDuplicatePhone, normalizePhoneNumber, SubmittedLeadRecord } from "@/utils/leadValidator";
-import { trackMetaLead } from "@/utils/metaPixel";
+import { trackMetaLead, trackMetaPageView } from "@/utils/metaPixel";
+import { captureAttribution, getStoredAttribution, formatLeadSourceString } from "@/utils/attribution";
 
 import logoImg from "@/assets/logo.png";
 import heroBgImg from "@/assets/hero-airport.jpg";
@@ -108,6 +109,12 @@ export default function PPCLanding() {
     leadRecord?: SubmittedLeadRecord;
   }>({ isDuplicate: false });
 
+  // Capture UTM & Meta click attribution on page load
+  useEffect(() => {
+    captureAttribution();
+    trackMetaPageView();
+  }, []);
+
   const [formData, setFormData] = useState({
     name: "",
     fatherName: "",
@@ -168,6 +175,10 @@ export default function PPCLanding() {
 
     setIsSubmitting(true);
 
+    const attr = getStoredAttribution();
+    const sourceString = formatLeadSourceString(attr, "PPC Landing Page (Meta/Google Ads)");
+    const fallbackRefId = `IAS-${new Date().getFullYear()}-${Date.now().toString().slice(-6)}`;
+
     const leadResult = await addLead({
       name: formData.name.trim(),
       fatherName: formData.fatherName.trim() || undefined,
@@ -177,17 +188,56 @@ export default function PPCLanding() {
       state: formData.state || undefined,
       qualification: formData.qualification || undefined,
       targetRole: formData.role || "Airport Ground Staff (AGS)",
-      source: "PPC Landing Page (Google/Meta Ads)",
+      source: sourceString,
       notes: formData.message.trim() || undefined,
+      utmSource: attr.utm_source,
+      utmMedium: attr.utm_medium,
+      utmCampaign: attr.utm_campaign,
+      utmContent: attr.utm_content,
+      utmTerm: attr.utm_term,
+      fbclid: attr.fbclid,
+      landingUrl: attr.landing_url || (typeof window !== "undefined" ? window.location.href : undefined),
     });
 
-    // Fire Meta Pixel Lead Conversion Event
+    const finalRefId = leadResult?.id
+      ? `IAS-${new Date().getFullYear()}-${leadResult.id.replace("lead-", "").slice(-6)}`
+      : fallbackRefId;
+
+    // Fire Meta Pixel Lead Conversion Event with Advanced Matching & Event ID
     trackMetaLead({
       content_name: formData.role || "Airport Ground Staff",
       content_category: "PPC Lead Form",
       city: formData.city || undefined,
       state: formData.state || undefined,
+      phone: formData.phone.trim(),
+      email: formData.email.trim() || undefined,
+      name: formData.name.trim(),
+      eventId: finalRefId,
     });
+
+    // Cache submission into sessionStorage so refreshing /thank-you retains candidate details
+    try {
+      sessionStorage.setItem(
+        "ias_last_submitted_lead",
+        JSON.stringify({
+          name: formData.name.trim(),
+          phone: formData.phone.trim(),
+          email: formData.email.trim() || undefined,
+          qualification: formData.qualification || undefined,
+          targetRole: formData.role || "Airport Ground Staff (AGS)",
+          city: formData.city || undefined,
+          source: sourceString,
+          refId: finalRefId,
+          submittedAt: new Date().toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        })
+      );
+    } catch (e) {}
 
     setIsSubmitting(false);
 
@@ -204,8 +254,8 @@ export default function PPCLanding() {
         qualification: formData.qualification || undefined,
         targetRole: formData.role || "Airport Ground Staff (AGS)",
         city: formData.city || undefined,
-        source: "PPC Landing Page",
-        refId: leadResult?.id ? `IAS-${new Date().getFullYear()}-${leadResult.id.replace("lead-", "").slice(-6)}` : undefined,
+        source: sourceString,
+        refId: finalRefId,
       },
     });
   };

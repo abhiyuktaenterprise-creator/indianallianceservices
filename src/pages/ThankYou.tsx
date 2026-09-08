@@ -26,6 +26,7 @@ import { Button } from "@/components/ui/button";
 import SEO from "@/components/common/SEO";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { trackMetaPageView } from "@/utils/metaPixel";
 
 interface ThankYouState {
   name?: string;
@@ -36,31 +37,51 @@ interface ThankYouState {
   city?: string;
   source?: string;
   refId?: string;
+  submittedAt?: string;
 }
 
 export default function ThankYou() {
   const location = useLocation();
   const navigate = useNavigate();
   const { settings } = useSiteConfig();
-  const state = (location.state as ThankYouState) || {};
+
+  // Retrieve cached submission if page was refreshed
+  const [cachedLead] = useState<ThankYouState>(() => {
+    try {
+      const stored = sessionStorage.getItem("ias_last_submitted_lead");
+      return stored ? JSON.parse(stored) : {};
+    } catch (e) {
+      return {};
+    }
+  });
+
+  const state = ((location.state as ThankYouState) || cachedLead || {}) as ThankYouState;
+
+  useEffect(() => {
+    trackMetaPageView();
+  }, []);
 
   const [copied, setCopied] = useState(false);
 
   // Generate a consistent reference code if not provided
   const [refCode] = useState(() => {
     if (state.refId) return state.refId;
+    if (cachedLead.refId) return cachedLead.refId;
     const randomNum = Math.floor(100000 + Math.random() * 900000);
     return `IAS-${new Date().getFullYear()}-${randomNum}`;
   });
 
   const [submissionTime] = useState(() => {
-    return new Date().toLocaleDateString("en-IN", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    return (
+      state.submittedAt ||
+      new Date().toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    );
   });
 
   const candidateName = state.name?.trim() || "Candidate";

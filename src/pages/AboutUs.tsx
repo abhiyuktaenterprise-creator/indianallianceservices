@@ -790,7 +790,7 @@ export default function AboutUs() {
                     </span>
                   )}
                   <Link
-                    to="/recruitment-verification"
+                    to={`/recruitment-verification?code=${member.code}`}
                     className="font-semibold text-secondary hover:underline inline-flex items-center gap-1"
                   >
                     <BadgeCheck className="h-3.5 w-3.5 text-secondary" />
@@ -893,7 +893,7 @@ export default function AboutUs() {
                         Official Team
                       </span>
                       <Link
-                        to="/recruitment-verification"
+                        to={`/recruitment-verification?code=${member.code}`}
                         className="font-semibold text-secondary hover:underline inline-flex items-center gap-1"
                       >
                         <BadgeCheck className="h-3.5 w-3.5 text-secondary" />
@@ -962,7 +962,7 @@ export default function AboutUs() {
                         Official Team
                       </span>
                       <Link
-                        to="/recruitment-verification"
+                        to={`/recruitment-verification?code=${member.code}`}
                         className="font-semibold text-secondary hover:underline inline-flex items-center gap-1"
                       >
                         <BadgeCheck className="h-3.5 w-3.5 text-secondary" />

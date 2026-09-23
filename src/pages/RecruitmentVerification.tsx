@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   ShieldCheck,
   CheckCircle2,
@@ -66,29 +66,69 @@ const verificationFaqs = [
 
 import { useSiteConfig, VerificationCandidate } from "@/context/SiteConfigContext";
 
+const OFFICIAL_STAFF_DIRECTORY = [
+  { name: "Anthony Ghospade", role: "Founder & CEO", code: "IAS-EXEC-01", department: "Executive Leadership & Board", phone: "+91 7851836860" },
+  { name: "Aditya Gujral", role: "Assistant Manager", code: "IAS-MGR-02", department: "Operations & Career Guidance", phone: "+91 7851836860" },
+  { name: "P.K. Chadda", role: "Senior Assistant Manager", code: "IAS-MGR-03", department: "Recruitment & Screening", phone: "+91 7851836860" },
+  { name: "Ankita Singh", role: "HR Director", code: "IAS-HR-01", department: "Talent Acquisition & HR Strategy", phone: "+91 7851836860" },
+  { name: "Anamika Shinde", role: "Assistant HR Manager", code: "IAS-HR-13", department: "Telecalling & Applicant Guidance", phone: "+91 8787253845" },
+  { name: "Divya Sharma", role: "Senior HR Manager", code: "IAS-HR-05", department: "Profile Evaluations & Grooming", phone: "+91 7851836860" },
+  { name: "Mrs. Padmavati", role: "Senior HR Manager", code: "IAS-HR-20", department: "Career Transition & Advisory", phone: "+91 7851836860" },
+  { name: "Teena Roy", role: "HR Manager", code: "IAS-HR-09", department: "Candidate Screening & Mock Drills", phone: "+91 7851836860" },
+  { name: "Alia Mirza", role: "Senior HR Executive", code: "IAS-HR-00", department: "Passenger Service & Ground Staff", phone: "+91 7851836860" },
+  { name: "Diksha Pawar", role: "HR Executive", code: "IAS-HR-02", department: "Ground Staff Screening & Telephonic Rounds", phone: "+91 7851836860" },
+  { name: "Komal Sharma", role: "HR Executive", code: "IAS-HR-03", department: "Customer Service Evaluations", phone: "+91 7851836860" },
+  { name: "Avni Sharma", role: "HR Executive", code: "IAS-HR-04", department: "Fresher Eligibility & Verification", phone: "+91 7851836860" },
+  { name: "Priya Sharma", role: "HR Executive", code: "IAS-HR-06", department: "Airport Operations Screening", phone: "+91 7851836860" },
+  { name: "Aditi Thakur", role: "HR Executive", code: "IAS-HR-07", department: "Customer Service & Retail Screening", phone: "+91 7851836860" },
+  { name: "Arpita Shinde", role: "HR Executive", code: "IAS-HR-08", department: "Regional Outreach & Onboarding", phone: "+91 7851836860" },
+  { name: "Preeti Sharma", role: "HR Executive", code: "IAS-HR-10", department: "Telephonic Screening Sessions", phone: "+91 7851836860" },
+  { name: "Prachi Sharma", role: "HR Executive", code: "IAS-HR-11", department: "Initial Registration & Screening", phone: "+91 7851836860" },
+  { name: "Akanksha Sharma", role: "HR Executive", code: "IAS-HR-12", department: "Qualification Evaluations", phone: "+91 7851836860" },
+  { name: "Monika Sharma", role: "HR Executive", code: "IAS-HR-14", department: "Preliminary Profile Screening", phone: "+91 7851836860" },
+  { name: "Vanshika Tiwari", role: "HR Executive", code: "IAS-HR-15", department: "Telephonic Career Advisory", phone: "+91 7851836860" },
+  { name: "Kavya Mittal", role: "HR Executive", code: "IAS-HR-16", department: "Candidate Screening Pipelines", phone: "+91 7851836860" },
+  { name: "Anika Dhanraj", role: "HR Associate", code: "IAS-HR-17", department: "Candidate Outreach & Verification Logs", phone: "+91 7851836860" },
+  { name: "H.S. Shinghaniya", role: "HR Associate", code: "IAS-HR-19", department: "Initial Telephonic Query & Records", phone: "+91 7851836860" },
+  { name: "Mrs. Any Dussoja", role: "HR Associate", code: "IAS-HR-21", department: "Documentation & Applicant Support", phone: "+91 7851836860" },
+];
+
 export default function RecruitmentVerification() {
   const { verifications, settings } = useSiteConfig();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [result, setResult] = useState<{
-    found: boolean;
-    candidate?: VerificationCandidate;
-    message: string;
+  const [searchParams] = useSearchParams();
+  const [lookupInput, setLookupInput] = useState("");
+  const [lookupResult, setLookupResult] = useState<{
+    status: "verified" | "not_found";
+    isStaff?: boolean;
     details?: string;
   } | null>(null);
+  const [matchedCandidate, setMatchedCandidate] = useState<VerificationCandidate | null>(null);
+  const [matchedStaff, setMatchedStaff] = useState<(typeof OFFICIAL_STAFF_DIRECTORY)[0] | null>(null);
 
-  const handleVerify = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
+  const executeVerification = (query: string) => {
+    if (!query.trim()) return;
+    const trimmed = query.trim().toUpperCase();
 
-    const trimmed = searchQuery.trim().toUpperCase();
-    const isMock =
-      trimmed.startsWith("IAS-") ||
-      trimmed.startsWith("ACS-") ||
-      trimmed.startsWith("APP-") ||
-      trimmed.startsWith("REF-") ||
-      /^\d{10}$/.test(trimmed);
+    // 1. Check if it matches an official staff member by Code or Name
+    const foundStaff = OFFICIAL_STAFF_DIRECTORY.find(
+      (s) =>
+        s.code.toUpperCase() === trimmed ||
+        s.name.toUpperCase().includes(trimmed) ||
+        trimmed.includes(s.name.toUpperCase())
+    );
 
-    // 1. Search in live admin verifications database first
+    if (foundStaff) {
+      setMatchedStaff(foundStaff);
+      setMatchedCandidate(null);
+      setLookupResult({
+        status: "verified",
+        isStaff: true,
+        details: `Official staff identity confirmed: ${foundStaff.name} is an active, authorized member of Indian Alliance Services.`,
+      });
+      return;
+    }
+
+    // 2. Check candidate verifications in SiteConfig
     const foundCandidate = verifications.find(
       (v) =>
         v.refCode.toUpperCase() === trimmed ||
@@ -96,35 +136,64 @@ export default function RecruitmentVerification() {
     );
 
     if (foundCandidate) {
-      setResult({
-        found: true,
-        candidate: foundCandidate,
-        message: "Candidate & Reference ID Verified Active",
+      setMatchedCandidate(foundCandidate);
+      setMatchedStaff(null);
+      setLookupResult({
+        status: "verified",
+        isStaff: false,
+        details: "Candidate & Reference ID Verified Active in National Portal Database.",
       });
-    } else if (isMock) {
-      setResult({
-        found: true,
-        candidate: {
-          id: "custom-" + Date.now(),
-          refCode: trimmed,
-          candidateName: "Verified Registered Candidate",
-          roleApplied: "Airport Ground Staff / Aviation Trainee",
-          status: "verified",
-          issuedDate: new Date().toISOString().split("T")[0],
-          interviewVenue: "Corporate Headquarters, Pudicherla / Direct Airport Terminal",
-          interviewDate: "Official Scheduling Confirmed",
-          verifierName: "Alia Mirza / Ankita Singh (Senior HR)",
-          notes: "Official verification confirmed through Indian Alliance Services National Portal Database.",
-        },
-        message: "Official Reference Verified in System",
+      return;
+    }
+
+    const isMock =
+      trimmed.startsWith("IAS-") ||
+      trimmed.startsWith("ACS-") ||
+      trimmed.startsWith("APP-") ||
+      trimmed.startsWith("REF-") ||
+      /^\d{10}$/.test(trimmed);
+
+    if (isMock) {
+      setMatchedCandidate({
+        id: "custom-" + Date.now(),
+        refCode: trimmed,
+        candidateName: "Verified Registered Candidate",
+        roleApplied: "Airport Ground Staff / Aviation Trainee",
+        status: "verified",
+        issuedDate: new Date().toISOString().split("T")[0],
+        interviewVenue: "Corporate Headquarters / Direct Airport Terminal",
+        interviewDate: "Official Scheduling Confirmed",
+        issuingOfficer: "Alia Mirza / Ankita Singh (Senior HR)",
+        remarks: "Official verification confirmed through Indian Alliance Services National Portal Database.",
+      });
+      setMatchedStaff(null);
+      setLookupResult({
+        status: "verified",
+        isStaff: false,
+        details: "Official Reference Verified Active in System.",
       });
     } else {
-      setResult({
-        found: false,
-        message: "Reference Record Not Found in Active Directory",
-        details: `Reference '${trimmed}' was not recognized automatically. Please ensure you entered the complete ID (e.g., IAS-2026-XXXX or 10-digit mobile number) or contact ${settings.supportEmail} directly.`,
+      setMatchedCandidate(null);
+      setMatchedStaff(null);
+      setLookupResult({
+        status: "not_found",
+        details: `Reference '${trimmed}' was not recognized automatically. Please ensure you entered the complete ID (e.g., IAS-HR-01, IAS-2026-XXXX, or 10-digit mobile number) or contact ${settings.supportEmail} directly.`,
       });
     }
+  };
+
+  useEffect(() => {
+    const codeParam = searchParams.get("code") || searchParams.get("ref") || searchParams.get("id");
+    if (codeParam && codeParam.trim()) {
+      const trimmed = codeParam.trim();
+      setLookupInput(trimmed);
+      executeVerification(trimmed);
+    }
+  }, [searchParams]);
+
+  const handleVerify = (e: React.FormEvent) => {
+    e.preventDefault();
+    executeVerification(lookupInput);
   };
 
   const verificationSchema = {
@@ -237,13 +306,15 @@ export default function RecruitmentVerification() {
             </form>
 
             {/* Verification Result Card */}
-            {lookupResult.status === "verified" && (
+            {lookupResult?.status === "verified" && (
               <div className="mt-5 p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-900 dark:text-emerald-200 space-y-3 animate-in fade-in duration-200">
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <div className="text-xs sm:text-sm flex-1">
                     <div className="font-bold mb-1 flex items-center justify-between">
-                      <span className="text-base font-heading">Verified Candidate Pass</span>
+                      <span className="text-base font-heading">
+                        {lookupResult.isStaff ? "Verified Official Staff & Recruiter" : "Verified Candidate Pass"}
+                      </span>
                       <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-mono text-xs font-bold">
                         100% Genuine & Authentic
                       </span>
@@ -251,6 +322,33 @@ export default function RecruitmentVerification() {
                     <p className="leading-relaxed text-xs text-slate-700 dark:text-slate-300">{lookupResult.details}</p>
                   </div>
                 </div>
+
+                {matchedStaff && (
+                  <div className="mt-3 pt-3 border-t border-emerald-500/20 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-slate-950/40 p-3.5 rounded-xl">
+                    <div>
+                      <span className="text-slate-400 block text-[10px]">Staff Full Name</span>
+                      <strong className="text-white text-sm">{matchedStaff.name}</strong>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[10px]">Official Designation</span>
+                      <strong className="text-amber-400 font-semibold">{matchedStaff.role}</strong>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[10px]">Employee ID</span>
+                      <strong className="text-emerald-400 font-mono">{matchedStaff.code}</strong>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[10px]">Department</span>
+                      <strong className="text-slate-200">{matchedStaff.department}</strong>
+                    </div>
+                    {matchedStaff.phone && (
+                      <div className="sm:col-span-2 text-[11px] text-slate-300 flex items-center gap-1.5 pt-1 border-t border-slate-800">
+                        <Phone className="h-3.5 w-3.5 text-emerald-400" />
+                        <span>Official Contact: <strong className="text-emerald-300">{matchedStaff.phone}</strong></span>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {matchedCandidate && (
                   <div className="mt-3 pt-3 border-t border-emerald-500/20 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-slate-950/40 p-3.5 rounded-xl">
@@ -284,7 +382,7 @@ export default function RecruitmentVerification() {
               </div>
             )}
 
-            {lookupResult.status === "not_found" && (
+            {lookupResult?.status === "not_found" && (
               <div className="mt-5 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 flex items-start gap-3 animate-in fade-in duration-200">
                 <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                 <div className="text-xs sm:text-sm">

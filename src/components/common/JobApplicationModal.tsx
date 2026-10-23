@@ -26,13 +26,15 @@ import { checkDuplicatePhone, normalizePhoneNumber, SubmittedLeadRecord } from "
 
 interface JobApplicationModalProps {
   isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
+  onOpenChange?: (open: boolean) => void;
+  onClose?: () => void;
   jobTitle?: string;
 }
 
 export default function JobApplicationModal({
   isOpen,
   onOpenChange,
+  onClose,
   jobTitle = "HR & Telecalling Executive",
 }: JobApplicationModalProps) {
   const navigate = useNavigate();
@@ -44,6 +46,15 @@ export default function JobApplicationModal({
     isDuplicate: boolean;
     leadRecord?: SubmittedLeadRecord;
   }>({ isDuplicate: false });
+
+  const handleOpenChange = (open: boolean) => {
+    if (onOpenChange) {
+      onOpenChange(open);
+    }
+    if (!open && onClose) {
+      onClose();
+    }
+  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -114,7 +125,7 @@ export default function JobApplicationModal({
     });
 
     // Close modal and navigate to thank you page
-    onOpenChange(false);
+    handleOpenChange(false);
     navigate("/thank-you", {
       state: {
         name: formData.name.trim(),
@@ -130,9 +141,9 @@ export default function JobApplicationModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto p-6 sm:p-8">
-        <DialogHeader className="mb-2">
+        <DialogHeader className="mb-2 pr-6">
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-secondary uppercase tracking-wider mb-1">
             <Briefcase className="h-3.5 w-3.5" /> Direct HR Application
           </div>
@@ -160,7 +171,7 @@ export default function JobApplicationModal({
               variant="outline"
               onClick={() => {
                 setIsSubmitted(false);
-                onOpenChange(false);
+                handleOpenChange(false);
               }}
             >
               Close Window

@@ -10,19 +10,30 @@ import ContactForm from "./ContactForm";
 
 interface EnquiryModalProps {
   isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
+  onOpenChange?: (open: boolean) => void;
+  onClose?: () => void;
   defaultRole?: string;
 }
 
 export default function EnquiryModal({
   isOpen,
   onOpenChange,
+  onClose,
   defaultRole = "",
 }: EnquiryModalProps) {
+  const handleOpenChange = (open: boolean) => {
+    if (onOpenChange) {
+      onOpenChange(open);
+    }
+    if (!open && onClose) {
+      onClose();
+    }
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto p-6 sm:p-8">
-        <DialogHeader className="mb-2">
+        <DialogHeader className="mb-2 pr-6">
           <DialogTitle className="text-2xl font-heading font-bold text-foreground">
             Get Career Counselling
           </DialogTitle>
@@ -36,7 +47,7 @@ export default function EnquiryModal({
           showTitle={false}
           className="border-none shadow-none p-0"
           onSuccess={() => {
-            onOpenChange(false);
+            handleOpenChange(false);
           }}
         />
       </DialogContent>

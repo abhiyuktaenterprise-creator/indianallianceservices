@@ -205,6 +205,7 @@ export default function Navbar() {
       {/* Career Counselling Modal */}
       <EnquiryModal
         isOpen={isModalOpen}
+        onOpenChange={setIsModalOpen}
         onClose={() => setIsModalOpen(false)}
         defaultRole="General Aviation Guidance"
       />

@@ -648,6 +648,7 @@ export default function CareerGuides() {
       {/* Enquiry Modal */}
       <EnquiryModal
         isOpen={isModalOpen}
+        onOpenChange={setIsModalOpen}
         onClose={() => setIsModalOpen(false)}
         defaultRole="Career Guide Consultation"
       />

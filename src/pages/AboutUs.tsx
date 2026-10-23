@@ -48,6 +48,7 @@ import monikaImg from "@/assets/team/monika_sharma.jpg";
 import vanshikaImg from "@/assets/team/vanshika_tiwari.jpg";
 import kavyaImg from "@/assets/team/kavya_mittal.jpg";
 import anikaImg from "@/assets/team/anika_dhanraj.jpg";
+import priyaSinganiyaImg from "@/assets/team/priya_singaniya.jpg";
 import hsShinghaniyaImg from "@/assets/team/hs_shinghaniya.jpg";
 
 // 1. Executive Leadership & Management (Strictly 3 members in 3 columns)
@@ -85,6 +86,7 @@ const seniorHRMembers = [
     role: "HR Director",
     code: "IAS-HR-01",
     image: ankitaImg,
+    phone: "+91 8935073116",
     description:
       "Directs nationwide talent acquisition operations, candidate documentation standards, and overall human resources recruitment strategy.",
   },
@@ -102,6 +104,7 @@ const seniorHRMembers = [
     role: "Senior HR Manager",
     code: "IAS-HR-05",
     image: divyaImg,
+    phone: "+91 7851836860",
     description:
       "Manages senior profile evaluations, airline interview preparation workshops, and candidate grooming pipelines with industry passion.",
   },
@@ -110,6 +113,7 @@ const seniorHRMembers = [
     role: "Senior HR Manager",
     code: "IAS-HR-20",
     image: padmavatiImg,
+    phone: "+91 7851836860",
     description:
       "Provides senior advisory on career transitions, eligibility validation, and long-term opportunity roadmaps for prospective airport personnel.",
   },
@@ -118,6 +122,7 @@ const seniorHRMembers = [
     role: "HR Manager",
     code: "IAS-HR-09",
     image: teenaImg,
+    phone: "+91 9129517229",
     description:
       "Oversees candidate screening workflows, telephonic eligibility assessments, and structured mock interview schedules.",
   },
@@ -126,6 +131,7 @@ const seniorHRMembers = [
     role: "Senior HR Executive",
     code: "IAS-HR-00",
     image: aliaImg,
+    phone: "+91 9506188627",
     description:
       "Leads passenger service and ground staff candidate evaluations, telephonic coaching, and interview scheduling.",
   },
@@ -137,6 +143,7 @@ const hrExecutiveMembers = [
     name: "Diksha Pawar",
     code: "IAS-HR-02",
     designation: "HR Executive",
+    phone: "+91 7704988013",
     initials: "DP",
     image: dikshaImg,
     color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400",
@@ -146,6 +153,7 @@ const hrExecutiveMembers = [
     name: "Komal Sharma",
     code: "IAS-HR-03",
     designation: "HR Executive",
+    phone: "+91 8948138805",
     initials: "KS",
     image: komalImg,
     color: "bg-emerald-600/15 text-emerald-700 dark:text-emerald-400",
@@ -155,15 +163,17 @@ const hrExecutiveMembers = [
     name: "Avni Sharma",
     code: "IAS-HR-04",
     designation: "HR Executive",
+    phone: "+91 9839880187",
     initials: "AS",
     image: avniImg,
     color: "bg-sky-600/15 text-sky-700 dark:text-sky-400",
     description: "Assists freshers with basic eligibility criteria, document verification, and initial interview rounds.",
   },
   {
-    name: "Priya Sharma",
+    name: "Pooja Sharma",
     code: "IAS-HR-06",
     designation: "HR Executive",
+    phone: "+91 8756804319",
     initials: "PS",
     image: priyaImg,
     color: "bg-violet-600/15 text-violet-700 dark:text-violet-400",
@@ -173,6 +183,7 @@ const hrExecutiveMembers = [
     name: "Aditi Thakur",
     code: "IAS-HR-07",
     designation: "HR Executive",
+    phone: "+91 7704910341",
     initials: "AT",
     image: aditiImg,
     color: "bg-teal-600/15 text-teal-700 dark:text-teal-400",
@@ -182,6 +193,7 @@ const hrExecutiveMembers = [
     name: "Arpita Shinde",
     code: "IAS-HR-08",
     designation: "HR Executive",
+    phone: "+91 9555633597",
     initials: "AS",
     image: arpitaImg,
     color: "bg-rose-600/15 text-rose-700 dark:text-rose-400",
@@ -191,6 +203,7 @@ const hrExecutiveMembers = [
     name: "Preeti Sharma",
     code: "IAS-HR-10",
     designation: "HR Executive",
+    phone: "+91 8601552848",
     initials: "PS",
     image: preetiImg,
     color: "bg-blue-600/15 text-blue-700 dark:text-blue-400",
@@ -200,6 +213,7 @@ const hrExecutiveMembers = [
     name: "Prachi Sharma",
     code: "IAS-HR-11",
     designation: "HR Executive",
+    phone: "+91 9120143676",
     initials: "PS",
     image: prachiImg,
     color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400",
@@ -209,6 +223,7 @@ const hrExecutiveMembers = [
     name: "Akanksha Sharma",
     code: "IAS-HR-12",
     designation: "HR Executive",
+    phone: "+91 9569993942",
     initials: "AS",
     image: akankshaImg,
     color: "bg-emerald-600/15 text-emerald-700 dark:text-emerald-400",
@@ -218,6 +233,7 @@ const hrExecutiveMembers = [
     name: "Monika Sharma",
     code: "IAS-HR-14",
     designation: "HR Executive",
+    phone: "+91 7497994720",
     initials: "MS",
     image: monikaImg,
     color: "bg-cyan-600/15 text-cyan-700 dark:text-cyan-400",
@@ -227,6 +243,7 @@ const hrExecutiveMembers = [
     name: "Vanshika Tiwari",
     code: "IAS-HR-15",
     designation: "HR Executive",
+    phone: "+91 9628803867",
     initials: "VT",
     image: vanshikaImg,
     color: "bg-violet-600/15 text-violet-700 dark:text-violet-400",
@@ -236,6 +253,7 @@ const hrExecutiveMembers = [
     name: "Kavya Mittal",
     code: "IAS-HR-16",
     designation: "HR Executive",
+    phone: "+91 9838581839",
     initials: "KM",
     image: kavyaImg,
     color: "bg-teal-600/15 text-teal-700 dark:text-teal-400",
@@ -243,21 +261,33 @@ const hrExecutiveMembers = [
   },
 ];
 
-// 4. Junior / Associate Level (3 HR Associates)
+// 4. Junior / Associate Level (4 HR Associates)
 const hrAssociateMembers = [
   {
     name: "Anika Dhanraj",
     code: "IAS-HR-17",
     designation: "HR Associate",
+    phone: "+91 9555631840",
     initials: "AD",
     image: anikaImg,
     color: "bg-rose-600/15 text-rose-700 dark:text-rose-400",
     description: "Supports candidate outreach, telephonic verification calls, and application status logs.",
   },
   {
+    name: "Priya Singaniya",
+    code: "IAS-HR-18",
+    designation: "HR Associate",
+    phone: "+91 9628804788",
+    initials: "PS",
+    image: priyaSinganiyaImg,
+    color: "bg-teal-600/15 text-teal-700 dark:text-teal-400",
+    description: "Assists candidates with career evaluation, document verification, and official airport onboarding guidance.",
+  },
+  {
     name: "H.S. Shinghaniya",
     code: "IAS-HR-19",
     designation: "HR Associate",
+    phone: "+91 7851836860",
     initials: "HS",
     image: hsShinghaniyaImg,
     color: "bg-indigo-600/15 text-indigo-700 dark:text-indigo-400",
@@ -267,6 +297,7 @@ const hrAssociateMembers = [
     name: "Mrs. Any Dussoja",
     code: "IAS-HR-21",
     designation: "HR Associate",
+    phone: "+91 7851836860",
     initials: "AD",
     image: anyDussojaImg,
     color: "bg-purple-600/15 text-purple-700 dark:text-purple-400",
@@ -887,11 +918,22 @@ export default function AboutUs() {
                       </p>
                     </div>
 
-                    {/* Card Footer: Verification */}
+                    {/* Card Footer: Helpline & Verification */}
                     <div className="mt-5 pt-3 border-t border-border/60 flex items-center justify-between text-[11px]">
-                      <span className="text-muted-foreground text-[10px] font-medium">
-                        Official Team
-                      </span>
+                      {member.phone ? (
+                        <a
+                          href={`tel:${member.phone.replace(/\s+/g, "")}`}
+                          className="inline-flex items-center gap-1 font-bold text-secondary hover:underline"
+                          title="Direct Calling Line"
+                        >
+                          <Phone className="h-3 w-3 text-secondary" />
+                          <span>{member.phone}</span>
+                        </a>
+                      ) : (
+                        <span className="text-muted-foreground text-[10px] font-medium">
+                          Official Team
+                        </span>
+                      )}
                       <Link
                         to={`/recruitment-verification?code=${member.code}`}
                         className="font-semibold text-secondary hover:underline inline-flex items-center gap-1"
@@ -905,14 +947,14 @@ export default function AboutUs() {
               </div>
             </div>
 
-            {/* Junior / Associate Level (3 Members) */}
+            {/* Junior / Associate Level (4 Members) */}
             <div className="pt-6 border-t border-border/60">
               <div className="flex items-center gap-2 mb-6">
                 <span className="text-xs font-bold uppercase tracking-wider text-primary bg-primary/10 px-3.5 py-1 rounded-full border border-primary/20">
-                  Junior / Associate Level (3 HR Associates)
+                  Junior / Associate Level (4 HR Associates)
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {hrAssociateMembers.map((member) => (
                   <div
                     key={member.code}
@@ -956,11 +998,22 @@ export default function AboutUs() {
                       </p>
                     </div>
 
-                    {/* Card Footer: Verification */}
+                    {/* Card Footer: Helpline & Verification */}
                     <div className="mt-5 pt-3 border-t border-border/60 flex items-center justify-between text-[11px]">
-                      <span className="text-muted-foreground text-[10px] font-medium">
-                        Official Team
-                      </span>
+                      {member.phone ? (
+                        <a
+                          href={`tel:${member.phone.replace(/\s+/g, "")}`}
+                          className="inline-flex items-center gap-1 font-bold text-secondary hover:underline"
+                          title="Direct Calling Line"
+                        >
+                          <Phone className="h-3 w-3 text-secondary" />
+                          <span>{member.phone}</span>
+                        </a>
+                      ) : (
+                        <span className="text-muted-foreground text-[10px] font-medium">
+                          Official Team
+                        </span>
+                      )}
                       <Link
                         to={`/recruitment-verification?code=${member.code}`}
                         className="font-semibold text-secondary hover:underline inline-flex items-center gap-1"

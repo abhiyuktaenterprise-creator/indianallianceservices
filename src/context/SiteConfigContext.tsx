@@ -1157,18 +1157,9 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const isEmailMatch =
       cleanEmail === adminAuth.email.toLowerCase() ||
       cleanEmail === "admin" ||
-      cleanEmail === "admin@indianallianceservices.com" ||
-      cleanEmail === "admin@ias.com" ||
-      cleanEmail === "admin@airportcareerservices.com";
+      cleanEmail === "admin@indianallianceservices.com";
 
-    const isPasswordMatch =
-      pass === adminAuth.passwordHash ||
-      pass === "AS#Aviation@2026!Admin" ||
-      pass === "IAS#Aviation@2026!Admin" ||
-      pass === "admin123" ||
-      pass === "Admin@123" ||
-      pass === "admin" ||
-      pass === "IAS@2026";
+    const isPasswordMatch = pass === adminAuth.passwordHash;
 
     if (isEmailMatch && isPasswordMatch) {
       setIsAuthenticated(true);

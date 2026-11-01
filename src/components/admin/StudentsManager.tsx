@@ -22,6 +22,7 @@ import {
   Camera,
   X,
   Sparkles,
+  FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,6 +31,7 @@ import {
   NewStudentInput,
 } from "@/services/studentService";
 import { toast } from "sonner";
+import StudentLetterModal from "./StudentLetterModal";
 
 export const POPULAR_COURSES = [
   "Airport Ground Staff & Passenger Services",
@@ -96,6 +98,9 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isLetterModalOpen, setIsLetterModalOpen] = useState(false);
+  const [letterStudent, setLetterStudent] = useState<Student | null>(null);
+  const [selectedLetterType, setSelectedLetterType] = useState<"welcome" | "confirmation" | "agreement">("welcome");
 
   // Targets
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
@@ -221,7 +226,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
   };
 
   // Save Student (Add / Edit)
-  const handleSaveStudent = async (e: React.FormEvent) => {
+  const handleSaveStudent = async (e: React.FormEvent, openLetterAfterSave: boolean = false) => {
     e.preventDefault();
 
     if (!formData.student_name.trim()) {
@@ -251,6 +256,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
     };
 
     try {
+      let savedStudent: Student | null = null;
       if (editingStudentId) {
         // Edit existing
         const res = await studentService.updateStudent(editingStudentId, payload);
@@ -260,6 +266,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
         }
         toast.success(`Candidate "${formData.student_name}" updated successfully.`);
         setIsEditOpen(false);
+        savedStudent = res.data;
       } else {
         // Add new
         const res = await studentService.addStudent(payload);
@@ -269,8 +276,15 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
         }
         toast.success(`Candidate "${formData.student_name}" added successfully.`);
         setIsAddOpen(false);
+        savedStudent = res.data;
       }
       loadStudents();
+
+      if (openLetterAfterSave && savedStudent) {
+        setLetterStudent(savedStudent);
+        setSelectedLetterType("welcome");
+        setIsLetterModalOpen(true);
+      }
     } catch {
       toast.error("An unexpected error occurred while saving candidate record.");
     }
@@ -632,7 +646,20 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
 
                       {/* Actions */}
                       <td className="py-3.5 px-4 text-right">
-                        <div className="flex items-center justify-end gap-1">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setLetterStudent(student);
+                              setSelectedLetterType("welcome");
+                              setIsLetterModalOpen(true);
+                            }}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-300 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 transition-all shadow-sm shrink-0"
+                            title="Generate Official Training Letters (Welcome, Confirmation, Agreement)"
+                          >
+                            <FileText className="h-3.5 w-3.5" />
+                            <span>Letters</span>
+                          </button>
                           <button
                             type="button"
                             onClick={() => handleOpenView(student)}
@@ -959,24 +986,36 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
               </div>
 
               {/* Modal Footer */}
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => {
-                    setIsAddOpen(false);
-                    setIsEditOpen(false);
-                  }}
-                  className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs py-5 px-5"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-7 py-5 rounded-xl text-xs shadow-md"
-                >
-                  {editingStudentId ? "Update Candidate" : "Save Candidate Record"}
-                </Button>
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-800">
+                <div className="text-xs text-slate-400 text-center sm:text-left">
+                  💡 <span className="text-slate-300 font-medium">Tip:</span> Save candidate to immediately print Welcome Letter, Confirmation, or Agreement.
+                </div>
+                <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      setIsAddOpen(false);
+                      setIsEditOpen(false);
+                    }}
+                    className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs py-5 px-4"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={(e) => handleSaveStudent(e, true)}
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-5 rounded-xl text-xs shadow-md gap-1.5"
+                  >
+                    <FileText className="h-4 w-4" /> Save & Generate Letters
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-6 py-5 rounded-xl text-xs shadow-md"
+                  >
+                    {editingStudentId ? "Update Record" : "Save Record"}
+                  </Button>
+                </div>
               </div>
             </form>
           </div>
@@ -1089,6 +1128,56 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
               )}
             </div>
 
+            {/* 3 Quick Letter Action Buttons */}
+            <div className="p-3.5 bg-slate-950/80 rounded-2xl border border-slate-800 space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                  <FileText className="h-4 w-4" /> Download / Print Official Candidate Letters
+                </span>
+                <span className="text-[10px] text-slate-400 font-medium bg-slate-900 px-2 py-0.5 rounded-full border border-slate-800">
+                  Vocational Training Compliant
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() => {
+                    setLetterStudent(selectedStudent);
+                    setSelectedLetterType("welcome");
+                    setIsLetterModalOpen(true);
+                  }}
+                  className="bg-slate-800 hover:bg-slate-700 text-white text-[11px] h-9 rounded-xl font-semibold border border-slate-700 shadow-sm"
+                >
+                  🎓 Welcome Letter
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() => {
+                    setLetterStudent(selectedStudent);
+                    setSelectedLetterType("confirmation");
+                    setIsLetterModalOpen(true);
+                  }}
+                  className="bg-slate-800 hover:bg-slate-700 text-white text-[11px] h-9 rounded-xl font-semibold border border-slate-700 shadow-sm"
+                >
+                  📋 Confirmation Advice
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() => {
+                    setLetterStudent(selectedStudent);
+                    setSelectedLetterType("agreement");
+                    setIsLetterModalOpen(true);
+                  }}
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] h-9 rounded-xl font-semibold shadow-md"
+                >
+                  📜 Training Agreement
+                </Button>
+              </div>
+            </div>
+
             <div className="flex items-center justify-between pt-3 border-t border-slate-800">
               <Link
                 to={`/verify?app=${encodeURIComponent(selectedStudent.application_number)}`}
@@ -1149,6 +1238,21 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
             </div>
           </div>
         </div>
+      )}
+
+      {/* ==================================================
+          TRAINING LETTER / AGREEMENT GENERATOR MODAL
+          ================================================== */}
+      {isLetterModalOpen && letterStudent && (
+        <StudentLetterModal
+          student={letterStudent}
+          isOpen={isLetterModalOpen}
+          initialLetterType={selectedLetterType}
+          onClose={() => {
+            setIsLetterModalOpen(false);
+            setLetterStudent(null);
+          }}
+        />
       )}
     </div>
   );

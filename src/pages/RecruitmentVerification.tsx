@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {
   ShieldCheck,
   CheckCircle2,
   AlertCircle,
-  Phone,
   Mail,
   Lock,
   FileCheck,
-  Sparkles,
-  HelpCircle,
-  Building2,
-  ArrowRight,
-  Award,
   Search,
-  Check,
   XCircle,
+  GraduationCap,
+  Printer,
+  RotateCcw,
+  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/common/SEO";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import SectionHeading from "@/components/common/SectionHeading";
+import logoImage from "@/assets/logo.png";
+import { studentService, PublicVerificationResult } from "@/services/studentService";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 const verificationSteps = [
   {
@@ -31,7 +31,7 @@ const verificationSteps = [
   {
     step: "02",
     title: "Verify the Recruiter Name with Our Team",
-    desc: "Our official talent acquisition coordinators (such as Alia Mirza, Ankita Singh, Diksha Pawar, and team members listed on our About Us page) conduct official screening. You can cross-check any caller's identity via our helpline.",
+    desc: "Our official talent acquisition coordinators conduct official screening. You can cross-check any caller's identity via our helpline.",
   },
   {
     step: "03",
@@ -48,7 +48,7 @@ const verificationSteps = [
 const verificationFaqs = [
   {
     q: "How do I know if an SMS, WhatsApp message, or email from Indian Alliance Services is genuine?",
-    a: "Check if the communication directs you to our official portal (indianallianceservices.com) or official email (support@indianallianceservices.com). You can also use the interactive verification lookup tool above to verify candidate and reference codes directly.",
+    a: "Check if the communication directs you to our official portal (indianallianceservices.com) or official email (support@indianallianceservices.com). You can also use the interactive verification lookup tool above to verify student registration numbers directly.",
   },
   {
     q: "What documents does Indian Alliance Services legitimately ask candidates to submit?",
@@ -64,148 +64,93 @@ const verificationFaqs = [
   },
 ];
 
-import { useSiteConfig, VerificationCandidate } from "@/context/SiteConfigContext";
-
-const OFFICIAL_STAFF_DIRECTORY = [
-  { name: "Anthony Ghospade", role: "Founder & CEO", code: "IAS-EXEC-01", department: "Executive Leadership & Board", phone: "+91 7851836860" },
-  { name: "Aditya Gujral", role: "Assistant Manager", code: "IAS-MGR-02", department: "Operations & Career Guidance", phone: "+91 7851836860" },
-  { name: "P.K. Chadda", role: "Senior Assistant Manager", code: "IAS-MGR-03", department: "Recruitment & Screening", phone: "+91 7851836860" },
-  { name: "Ankita Singh", role: "HR Director", code: "IAS-HR-01", department: "Talent Acquisition & HR Strategy", phone: "+91 8935073116" },
-  { name: "Anamika Shinde", role: "Assistant HR Manager", code: "IAS-HR-13", department: "Telecalling & Applicant Guidance", phone: "+91 8787253845" },
-  { name: "Divya Sharma", role: "Senior HR Manager", code: "IAS-HR-05", department: "Profile Evaluations & Grooming", phone: "+91 7851836860" },
-  { name: "Mrs. Padmavati", role: "Senior HR Manager", code: "IAS-HR-20", department: "Career Transition & Advisory", phone: "+91 7851836860" },
-  { name: "Teena Roy", role: "HR Manager", code: "IAS-HR-09", department: "Candidate Screening & Mock Drills", phone: "+91 9129517229" },
-  { name: "Alia Mirza", role: "Senior HR Executive", code: "IAS-HR-00", department: "Passenger Service & Ground Staff", phone: "+91 9506188627" },
-  { name: "Diksha Pawar", role: "HR Executive", code: "IAS-HR-02", department: "Ground Staff Screening & Telephonic Rounds", phone: "+91 7704988013" },
-  { name: "Komal Sharma", role: "HR Executive", code: "IAS-HR-03", department: "Customer Service Evaluations", phone: "+91 8948138805" },
-  { name: "Avni Sharma", role: "HR Executive", code: "IAS-HR-04", department: "Fresher Eligibility & Verification", phone: "+91 9839880187" },
-  { name: "Pooja Sharma", role: "HR Executive", code: "IAS-HR-06", department: "Airport Operations Screening", phone: "+91 8756804319" },
-  { name: "Aditi Thakur", role: "HR Executive", code: "IAS-HR-07", department: "Customer Service & Retail Screening", phone: "+91 7704910341" },
-  { name: "Arpita Shinde", role: "HR Executive", code: "IAS-HR-08", department: "Regional Outreach & Onboarding", phone: "+91 9555633597" },
-  { name: "Preeti Sharma", role: "HR Executive", code: "IAS-HR-10", department: "Telephonic Screening Sessions", phone: "+91 8601552848" },
-  { name: "Prachi Sharma", role: "HR Executive", code: "IAS-HR-11", department: "Initial Registration & Screening", phone: "+91 9120143676" },
-  { name: "Akanksha Sharma", role: "HR Executive", code: "IAS-HR-12", department: "Qualification Evaluations", phone: "+91 9569993942" },
-  { name: "Monika Sharma", role: "HR Executive", code: "IAS-HR-14", department: "Preliminary Profile Screening", phone: "+91 7497994720" },
-  { name: "Vanshika Tiwari", role: "HR Executive", code: "IAS-HR-15", department: "Telephonic Career Advisory", phone: "+91 9628803867" },
-  { name: "Kavya Mittal", role: "HR Executive", code: "IAS-HR-16", department: "Candidate Screening Pipelines", phone: "+91 9838581839" },
-  { name: "Anika Dhanraj", role: "HR Associate", code: "IAS-HR-17", department: "Candidate Outreach & Verification Logs", phone: "+91 9555631840" },
-  { name: "Priya Singaniya", role: "HR Associate", code: "IAS-HR-18", department: "Candidate Guidance & Onboarding", phone: "+91 9628804788" },
-  { name: "H.S. Shinghaniya", role: "HR Associate", code: "IAS-HR-19", department: "Initial Telephonic Query & Records", phone: "+91 7851836860" },
-  { name: "Mrs. Any Dussoja", role: "HR Associate", code: "IAS-HR-21", department: "Documentation & Applicant Support", phone: "+91 7851836860" },
-];
-
 export default function RecruitmentVerification() {
-  const { verifications, settings } = useSiteConfig();
+  const { settings } = useSiteConfig();
   const [searchParams] = useSearchParams();
-  const [lookupInput, setLookupInput] = useState("");
-  const [lookupResult, setLookupResult] = useState<{
-    status: "verified" | "not_found";
-    isStaff?: boolean;
-    details?: string;
-  } | null>(null);
-  const [matchedCandidate, setMatchedCandidate] = useState<VerificationCandidate | null>(null);
-  const [matchedStaff, setMatchedStaff] = useState<(typeof OFFICIAL_STAFF_DIRECTORY)[0] | null>(null);
 
-  const executeVerification = (query: string) => {
-    if (!query.trim()) return;
-    const trimmed = query.trim().toUpperCase();
+  // Candidate Verification State
+  const [studentRegInput, setStudentRegInput] = useState("");
+  const [isVerifyingStudent, setIsVerifyingStudent] = useState(false);
+  const [hasSearchedStudent, setHasSearchedStudent] = useState(false);
+  const [verifiedStudent, setVerifiedStudent] = useState<PublicVerificationResult | null>(null);
+  const [studentErrorMessage, setStudentErrorMessage] = useState<string | null>(null);
 
-    // 1. Check if it matches an official staff member by Code or Name
-    const foundStaff = OFFICIAL_STAFF_DIRECTORY.find(
-      (s) =>
-        s.code.toUpperCase() === trimmed ||
-        s.name.toUpperCase().includes(trimmed) ||
-        trimmed.includes(s.name.toUpperCase())
-    );
-
-    if (foundStaff) {
-      setMatchedStaff(foundStaff);
-      setMatchedCandidate(null);
-      setLookupResult({
-        status: "verified",
-        isStaff: true,
-        details: `Official staff identity confirmed: ${foundStaff.name} is an active, authorized member of Indian Alliance Services.`,
-      });
+  // Candidate Verification Handler
+  const executeStudentVerification = async (appNo: string) => {
+    const trimmed = appNo.trim();
+    if (!trimmed) {
+      setStudentErrorMessage("Please enter a valid Application Number.");
       return;
     }
 
-    // 2. Check candidate verifications in SiteConfig
-    const foundCandidate = verifications.find(
-      (v) =>
-        v.refCode.toUpperCase() === trimmed ||
-        v.candidateName.toUpperCase().includes(trimmed)
-    );
+    setStudentErrorMessage(null);
+    setIsVerifyingStudent(true);
+    setHasSearchedStudent(true);
 
-    if (foundCandidate) {
-      setMatchedCandidate(foundCandidate);
-      setMatchedStaff(null);
-      setLookupResult({
-        status: "verified",
-        isStaff: false,
-        details: "Candidate & Reference ID Verified Active in National Portal Database.",
-      });
-      return;
-    }
-
-    const isMock =
-      trimmed.startsWith("IAS-") ||
-      trimmed.startsWith("ACS-") ||
-      trimmed.startsWith("APP-") ||
-      trimmed.startsWith("REF-") ||
-      /^\d{10}$/.test(trimmed);
-
-    if (isMock) {
-      setMatchedCandidate({
-        id: "custom-" + Date.now(),
-        refCode: trimmed,
-        candidateName: "Verified Registered Candidate",
-        roleApplied: "Airport Ground Staff / Aviation Trainee",
-        status: "verified",
-        issuedDate: new Date().toISOString().split("T")[0],
-        interviewVenue: "Corporate Headquarters / Direct Airport Terminal",
-        interviewDate: "Official Scheduling Confirmed",
-        issuingOfficer: "Alia Mirza / Ankita Singh (Senior HR)",
-        remarks: "Official verification confirmed through Indian Alliance Services National Portal Database.",
-      });
-      setMatchedStaff(null);
-      setLookupResult({
-        status: "verified",
-        isStaff: false,
-        details: "Official Reference Verified Active in System.",
-      });
-    } else {
-      setMatchedCandidate(null);
-      setMatchedStaff(null);
-      setLookupResult({
-        status: "not_found",
-        details: `Reference '${trimmed}' was not recognized automatically. Please ensure you entered the complete ID (e.g., IAS-HR-01, IAS-2026-XXXX, or 10-digit mobile number) or contact ${settings.supportEmail} directly.`,
-      });
+    try {
+      const res = await studentService.verifyStudent(trimmed);
+      if (res.error) {
+        setStudentErrorMessage(res.error);
+        setVerifiedStudent(null);
+      } else if (res.verified && res.data) {
+        setVerifiedStudent(res.data);
+        setStudentErrorMessage(null);
+      } else {
+        setVerifiedStudent(null);
+        setStudentErrorMessage(null);
+      }
+    } catch {
+      setStudentErrorMessage("Verification service error. Please try again.");
+      setVerifiedStudent(null);
+    } finally {
+      setIsVerifyingStudent(false);
     }
   };
 
+  const handleVerifyStudent = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    executeStudentVerification(studentRegInput);
+  };
+
+  const handleResetStudent = () => {
+    setStudentRegInput("");
+    setHasSearchedStudent(false);
+    setVerifiedStudent(null);
+    setStudentErrorMessage(null);
+  };
+
+  const handlePrintSlip = () => {
+    window.print();
+  };
+
+  // URL Parameter Detection
   useEffect(() => {
-    const codeParam = searchParams.get("code") || searchParams.get("ref") || searchParams.get("id");
-    if (codeParam && codeParam.trim()) {
-      const trimmed = codeParam.trim();
-      setLookupInput(trimmed);
-      executeVerification(trimmed);
+    const appParam =
+      searchParams.get("app") ||
+      searchParams.get("application") ||
+      searchParams.get("application_number") ||
+      searchParams.get("reg") ||
+      searchParams.get("registration") ||
+      searchParams.get("code") ||
+      searchParams.get("ref") ||
+      searchParams.get("id");
+
+    if (appParam && appParam.trim()) {
+      const trimmed = appParam.trim();
+      setStudentRegInput(trimmed);
+      executeStudentVerification(trimmed);
     }
   }, [searchParams]);
-
-  const handleVerify = (e: React.FormEvent) => {
-    e.preventDefault();
-    executeVerification(lookupInput);
-  };
 
   const verificationSchema = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://indianallianceservices.com/recruitment-verification/#page",
-        url: "https://indianallianceservices.com/recruitment-verification",
-        name: "Recruitment Verification & Candidate Trust | Indian Alliance Services",
-        description: "Official guide for candidates to verify recruitment messages, interview invitations, telecaller credentials, and official contact channels of Indian Alliance Services.",
+        "@id": "https://indianallianceservices.com/verify/#page",
+        url: "https://indianallianceservices.com/verify",
+        name: "Student Verification | Indian Alliance Services",
+        description: "Official portal to verify enrolled student records, training credentials, and course completion certificates.",
       },
       {
         "@type": "BreadcrumbList",
@@ -219,8 +164,8 @@ export default function RecruitmentVerification() {
           {
             "@type": "ListItem",
             position: 2,
-            name: "Recruitment Verification",
-            item: "https://indianallianceservices.com/recruitment-verification",
+            name: "Student Verification",
+            item: "https://indianallianceservices.com/verify",
           },
         ],
       },
@@ -241,9 +186,9 @@ export default function RecruitmentVerification() {
   return (
     <>
       <SEO
-        title="Candidate Verification & Anti-Fraud Advisory | Indian Alliance Services"
-        description="Received a recruitment message or interview call from Indian Alliance Services? Use our official verification lookup tool, verified phone numbers, and official emails to verify genuine communications."
-        canonical="https://indianallianceservices.com/recruitment-verification"
+        title="Student Verification | Indian Alliance Services"
+        description="Verify the authenticity of Indian Alliance Services enrolled student records, credentials, and course completion certificates using the official registration number."
+        canonical="https://indianallianceservices.com/verify"
         schema={verificationSchema}
       />
 
@@ -251,147 +196,354 @@ export default function RecruitmentVerification() {
       <section className="bg-navy-midnight text-white py-14 lg:py-16 border-b border-gold/25 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.18),transparent_50%)]" />
         <div className="container mx-auto px-4 relative z-10">
-          <Breadcrumbs items={[{ label: "Recruitment Verification" }]} className="text-primary-foreground/70 mb-4" />
+          <Breadcrumbs items={[{ label: "Student Verification" }]} className="text-primary-foreground/70 mb-4" />
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 mb-4 shadow-md">
-              <ShieldCheck className="h-3.5 w-3.5 text-gold" />
+              <GraduationCap className="h-3.5 w-3.5 text-gold" />
               <span className="text-xs font-bold text-gold">
-                Official Candidate Security Desk
+                Official Student Verification Portal
               </span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
-              Recruitment Verification & <span className="gold-gradient-text">Candidate Trust</span>
+              Student <span className="gold-gradient-text">Verification</span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
-              Received a recruitment message, WhatsApp alert, or interview call from Indian Alliance Services? Verify official communication, check candidate application IDs, and protect your personal credentials.
+              Verify enrolled candidate status, training credentials, and course completion certificates using the official Indian Alliance Services registration number.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Interactive Verification Lookup Tool */}
+      {/* Interactive Student Verification Lookup Tool */}
       <section className="py-12 bg-secondary/5 border-b border-secondary/20">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto bg-card rounded-3xl border border-secondary/30 p-6 sm:p-8 shadow-xl">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-2xl bg-secondary/15 text-secondary">
-                <Search className="h-6 w-6" />
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-2xl bg-amber-500/15 text-amber-500">
+                  <GraduationCap className="h-6 w-6" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-heading font-bold text-foreground">
+                    Candidate Credentials & Status Verification
+                  </h2>
+                  <p className="text-xs text-muted-foreground">
+                    Verify the authenticity of an Indian Alliance Services candidate application and training status using the official application number.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h2 className="text-xl font-heading font-bold text-foreground">
-                  Online Candidate & Reference ID Lookup
-                </h2>
-                <p className="text-xs text-muted-foreground">
-                  Enter your Application ID (e.g. <span className="font-mono font-bold text-secondary">AV-2026-XXXX</span>) or 10-digit registered mobile number.
-                </p>
-              </div>
+
+              <form onSubmit={handleVerifyStudent} className="space-y-4">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="relative flex-1">
+                    <input
+                      type="text"
+                      placeholder="Enter Application Number * (e.g. IAS-APP-2026/8425 or 8420)"
+                      value={studentRegInput}
+                      onChange={(e) => setStudentRegInput(e.target.value)}
+                      required
+                      className="w-full text-sm bg-muted/50 border border-border rounded-xl px-4 py-3.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary font-mono uppercase"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={isVerifyingStudent}
+                    variant="hero"
+                    className="py-3.5 px-6 font-bold text-sm shrink-0 gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950"
+                  >
+                    {isVerifyingStudent ? (
+                      <>
+                        <span className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
+                        <span>Verifying...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Search className="h-4 w-4" />
+                        <span>Verify Application</span>
+                      </>
+                    )}
+                  </Button>
+                  {hasSearchedStudent && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleResetStudent}
+                      className="border-border text-foreground hover:bg-muted"
+                    >
+                      <RotateCcw className="h-4 w-4 mr-1.5" />
+                      Reset
+                    </Button>
+                  )}
+                </div>
+              </form>
+
+              {studentErrorMessage && (
+                <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-700 dark:text-red-400 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                  <span>{studentErrorMessage}</span>
+                </div>
+              )}
+
+              {/* VERIFIED CANDIDATE RESULT CARD */}
+              {hasSearchedStudent && !isVerifyingStudent && verifiedStudent && (
+                <div id="print-student-area" className="mt-6 animate-in fade-in-50 duration-500">
+                  <div className={`border-2 ${
+                    verifiedStudent.status === "Failed" ? "border-rose-500" : "border-emerald-500"
+                  } rounded-3xl shadow-xl bg-card overflow-hidden`}>
+                    {/* Official Verified Banner */}
+                    <div className={`${
+                      verifiedStudent.status === "Failed" ? "bg-rose-600" : "bg-emerald-600"
+                    } px-6 py-4 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-2`}>
+                      <div className="flex items-center space-x-2.5">
+                        {verifiedStudent.status === "Failed" ? (
+                          <AlertCircle className="w-6 h-6 text-white shrink-0" />
+                        ) : (
+                          <CheckCircle2 className="w-6 h-6 text-white shrink-0" />
+                        )}
+                        <div>
+                          <h3 className="text-base sm:text-lg font-bold tracking-tight">
+                            {verifiedStudent.status === "Failed"
+                              ? "Candidate Assessment Record Found"
+                              : "Candidate Record Verified Active"}
+                          </h3>
+                          <p className="text-xs text-white/90">
+                            {verifiedStudent.status === "Failed"
+                              ? "Official record in Indian Alliance Services database: Assessment Not Cleared"
+                              : "Official record confirmed in Indian Alliance Services database"}
+                          </p>
+                        </div>
+                      </div>
+                      <span className="px-3 py-1 rounded-full bg-white text-slate-900 font-bold uppercase tracking-wider text-xs shrink-0 self-start sm:self-auto shadow-sm">
+                        {verifiedStudent.status === "Failed" ? "Status: Failed" : "Authentic Record"}
+                      </span>
+                    </div>
+
+                    <div className="p-6 sm:p-8 space-y-6">
+                      {/* Logo header */}
+                      <div className="flex items-center justify-between border-b border-border/80 pb-4">
+                        <div className="flex items-center space-x-3">
+                          <img
+                            src={logoImage}
+                            alt="Indian Alliance Services"
+                            className="h-12 w-auto object-contain"
+                          />
+                          <div>
+                            <p className="font-bold text-foreground text-sm sm:text-base">
+                              Indian Alliance Services
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Aviation Careers & Training Academy
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right hidden sm:block">
+                          <span className="text-[10px] text-muted-foreground block uppercase font-semibold">
+                            Verification Timestamp
+                          </span>
+                          <span className="text-xs font-mono font-medium text-foreground">
+                            {new Date().toLocaleDateString("en-GB")}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Photo & Details row */}
+                      <div className="flex flex-col sm:flex-row gap-6 bg-muted/40 p-5 sm:p-6 rounded-2xl border border-border items-start">
+                        {/* Passport Photo */}
+                        <div className="shrink-0 flex flex-col items-center mx-auto sm:mx-0">
+                          <div className="w-28 h-36 sm:w-32 sm:h-40 rounded-xl overflow-hidden border-2 border-slate-300 dark:border-slate-700 shadow-md bg-background p-1 flex items-center justify-center">
+                            {verifiedStudent.photo_url ? (
+                              <img
+                                src={verifiedStudent.photo_url}
+                                alt={verifiedStudent.student_name}
+                                className="w-full h-full object-cover rounded-lg"
+                              />
+                            ) : (
+                              <User className="w-12 h-12 text-muted-foreground/60" />
+                            )}
+                          </div>
+                          <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider mt-1.5">
+                            Candidate Photo
+                          </span>
+                        </div>
+
+                        {/* Info Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm flex-1 w-full">
+                          <div>
+                            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                              Candidate Name
+                            </span>
+                            <span className="text-foreground font-bold text-base sm:text-lg mt-0.5 block">
+                              {verifiedStudent.student_name}
+                            </span>
+                          </div>
+
+                          <div>
+                            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                              Father's Name (S/O, D/O)
+                            </span>
+                            <span className="text-foreground font-semibold text-sm sm:text-base mt-0.5 block">
+                              {verifiedStudent.father_name}
+                            </span>
+                          </div>
+
+                          <div className="pt-2 border-t border-border/60">
+                            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                              Application Number
+                            </span>
+                            <span className="text-amber-500 dark:text-amber-400 font-mono font-bold text-base mt-0.5 block">
+                              {verifiedStudent.application_number}
+                            </span>
+                          </div>
+
+                          <div className="pt-2 border-t border-border/60">
+                            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                              Training Status
+                            </span>
+                            <span
+                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold mt-1 ${
+                                verifiedStudent.status === "Completed"
+                                  ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
+                                  : verifiedStudent.status === "Failed"
+                                  ? "bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30"
+                                  : "bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30"
+                              }`}
+                            >
+                              {verifiedStudent.status === "Completed"
+                                ? "Course Completed & Certified"
+                                : verifiedStudent.status === "Failed"
+                                ? "Training Assessment Failed"
+                                : "Verified Active Trainee"}
+                            </span>
+                          </div>
+
+                          {verifiedStudent.interview_date && (
+                            <div className="pt-2 border-t border-border/60">
+                              <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                                Interview Date
+                              </span>
+                              <span className="text-foreground font-mono font-semibold text-sm mt-0.5 block">
+                                {verifiedStudent.interview_date}
+                              </span>
+                            </div>
+                          )}
+
+                          {verifiedStudent.date_of_birth && (
+                            <div className="pt-2 border-t border-border/60">
+                              <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                                Date of Birth
+                              </span>
+                              <span className="text-foreground font-semibold text-sm mt-0.5 block">
+                                {verifiedStudent.date_of_birth}
+                              </span>
+                            </div>
+                          )}
+
+                          <div className="sm:col-span-2 pt-2 border-t border-border/60">
+                            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                              Course / Program Enrolled
+                            </span>
+                            <span className="text-foreground font-bold text-sm sm:text-base mt-0.5 block">
+                              {verifiedStudent.course_name}
+                            </span>
+                          </div>
+
+                          <div className="pt-2 border-t border-border/60">
+                            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                              Admission Date
+                            </span>
+                            <span className="text-foreground font-mono text-xs sm:text-sm mt-0.5 block">
+                              {verifiedStudent.admission_date}
+                            </span>
+                          </div>
+
+                          <div className="pt-2 border-t border-border/60">
+                            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                              Training Period
+                            </span>
+                            <span className="text-foreground font-mono text-xs sm:text-sm mt-0.5 block">
+                              {verifiedStudent.course_start_date}
+                              {verifiedStudent.course_end_date ? ` to ${verifiedStudent.course_end_date}` : ""}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Failure / Assessment Explanation Note */}
+                      {verifiedStudent.failure_reason && (
+                        <div className="p-4 sm:p-5 rounded-2xl bg-rose-500/10 border-2 border-rose-500/30 space-y-2.5">
+                          <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold text-xs sm:text-sm uppercase tracking-wider">
+                            <AlertCircle className="w-5 h-5 shrink-0" />
+                            <span>Official Assessment Note & Reason for Status</span>
+                          </div>
+                          <p className="text-xs sm:text-sm text-foreground leading-relaxed bg-background/80 p-3.5 rounded-xl border border-rose-500/20 font-medium">
+                            {verifiedStudent.failure_reason}
+                          </p>
+                          <p className="text-[11px] text-muted-foreground">
+                            For re-evaluation or counseling guidance, please contact our verified helpline at{" "}
+                            <a href={`tel:${settings.helplinePhone}`} className="text-amber-500 underline font-semibold">
+                              {settings.helplinePhone}
+                            </a>{" "}
+                            or email{" "}
+                            <a href={`mailto:${settings.supportEmail}`} className="text-amber-500 underline font-semibold">
+                              {settings.supportEmail}
+                            </a>.
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Actions */}
+                      <div className="flex flex-col sm:flex-row justify-end items-center gap-3 pt-3 border-t border-border print:hidden">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handlePrintSlip}
+                          className="w-full sm:w-auto border-border text-foreground hover:bg-muted"
+                        >
+                          <Printer className="w-4 h-4 mr-2" />
+                          Print Verification Slip
+                        </Button>
+                        <Button
+                          type="button"
+                          onClick={handleResetStudent}
+                          className="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold"
+                        >
+                          <RotateCcw className="w-4 h-4 mr-2" />
+                          Verify Another Candidate
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* NOT FOUND ALERT */}
+              {hasSearchedStudent && !isVerifyingStudent && !verifiedStudent && !studentErrorMessage && (
+                <div className="mt-6 p-6 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-900 dark:text-rose-200 space-y-3 animate-in fade-in duration-200">
+                  <div className="flex items-start gap-3">
+                    <XCircle className="h-6 w-6 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="font-bold text-base text-rose-800 dark:text-rose-300">
+                        Candidate Record Not Found
+                      </h4>
+                      <p className="text-xs text-rose-700 dark:text-rose-300/90 mt-1 leading-relaxed">
+                        No active candidate record was found matching Application Number{" "}
+                        <span className="font-mono font-bold">"{studentRegInput}"</span>. Please double-check the application number on your document and try again.
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Need assistance? Contact our verified helpdesk at{" "}
+                        <a href={`tel:${settings.helplinePhone}`} className="text-amber-500 underline font-semibold">
+                          {settings.helplinePhone}
+                        </a>{" "}
+                        or email{" "}
+                        <a href={`mailto:${settings.supportEmail}`} className="text-amber-500 underline font-semibold">
+                          {settings.supportEmail}
+                        </a>.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-
-            <form onSubmit={handleVerify} className="flex flex-col sm:flex-row gap-3 mt-4">
-              <div className="relative flex-1">
-                <input
-                  type="text"
-                  placeholder="Enter Reference ID or Mobile No..."
-                  value={lookupInput}
-                  onChange={(e) => setLookupInput(e.target.value)}
-                  className="w-full text-sm bg-muted/50 border border-border rounded-xl px-4 py-3.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary font-mono uppercase"
-                />
-              </div>
-              <Button
-                type="submit"
-                variant="hero"
-                className="py-3.5 px-6 font-bold text-sm shrink-0 gap-2"
-              >
-                <ShieldCheck className="h-4 w-4" /> Verify Now
-              </Button>
-            </form>
-
-            {/* Verification Result Card */}
-            {lookupResult?.status === "verified" && (
-              <div className="mt-5 p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-900 dark:text-emerald-200 space-y-3 animate-in fade-in duration-200">
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                  <div className="text-xs sm:text-sm flex-1">
-                    <div className="font-bold mb-1 flex items-center justify-between">
-                      <span className="text-base font-heading">
-                        {lookupResult.isStaff ? "Verified Official Staff & Recruiter" : "Verified Candidate Pass"}
-                      </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-mono text-xs font-bold">
-                        100% Genuine & Authentic
-                      </span>
-                    </div>
-                    <p className="leading-relaxed text-xs text-slate-700 dark:text-slate-300">{lookupResult.details}</p>
-                  </div>
-                </div>
-
-                {matchedStaff && (
-                  <div className="mt-3 pt-3 border-t border-emerald-500/20 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-slate-950/40 p-3.5 rounded-xl">
-                    <div>
-                      <span className="text-slate-400 block text-[10px]">Staff Full Name</span>
-                      <strong className="text-white text-sm">{matchedStaff.name}</strong>
-                    </div>
-                    <div>
-                      <span className="text-slate-400 block text-[10px]">Official Designation</span>
-                      <strong className="text-amber-400 font-semibold">{matchedStaff.role}</strong>
-                    </div>
-                    <div>
-                      <span className="text-slate-400 block text-[10px]">Employee ID</span>
-                      <strong className="text-emerald-400 font-mono">{matchedStaff.code}</strong>
-                    </div>
-                    <div>
-                      <span className="text-slate-400 block text-[10px]">Department</span>
-                      <strong className="text-slate-200">{matchedStaff.department}</strong>
-                    </div>
-                    {matchedStaff.phone && (
-                      <div className="sm:col-span-2 text-[11px] text-slate-300 flex items-center gap-1.5 pt-1 border-t border-slate-800">
-                        <Phone className="h-3.5 w-3.5 text-emerald-400" />
-                        <span>Official Contact: <strong className="text-emerald-300">{matchedStaff.phone}</strong></span>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {matchedCandidate && (
-                  <div className="mt-3 pt-3 border-t border-emerald-500/20 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-slate-950/40 p-3.5 rounded-xl">
-                    <div>
-                      <span className="text-slate-400 block text-[10px]">Candidate Name</span>
-                      <strong className="text-white text-sm">{matchedCandidate.candidateName}</strong>
-                    </div>
-                    <div>
-                      <span className="text-slate-400 block text-[10px]">Role / Track</span>
-                      <strong className="text-amber-400 font-semibold">{matchedCandidate.roleApplied}</strong>
-                    </div>
-                    {matchedCandidate.interviewDate && (
-                      <div>
-                        <span className="text-slate-400 block text-[10px]">Interview Schedule</span>
-                        <strong className="text-emerald-400">{matchedCandidate.interviewDate}</strong>
-                      </div>
-                    )}
-                    {matchedCandidate.interviewVenue && (
-                      <div>
-                        <span className="text-slate-400 block text-[10px]">Assigned Venue</span>
-                        <strong className="text-slate-200">{matchedCandidate.interviewVenue}</strong>
-                      </div>
-                    )}
-                    {matchedCandidate.issuingOfficer && (
-                      <div className="sm:col-span-2 text-[11px] text-slate-400">
-                        Verified by: <span className="text-slate-200 font-semibold">{matchedCandidate.issuingOfficer}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {lookupResult?.status === "not_found" && (
-              <div className="mt-5 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 flex items-start gap-3 animate-in fade-in duration-200">
-                <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                <div className="text-xs sm:text-sm">
-                  <div className="font-bold mb-1">Manual Verification Required</div>
-                  <p className="leading-relaxed">{lookupResult.details}</p>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </section>

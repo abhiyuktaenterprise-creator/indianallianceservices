@@ -39,10 +39,10 @@ export default function Footer() {
             </div>
           </div>
           <Link
-            to="/recruitment-verification"
+            to="/verify"
             className="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-xl transition-all shadow-sm shrink-0"
           >
-            <ShieldCheck className="h-4 w-4" /> Verify Reference ID
+            <ShieldCheck className="h-4 w-4" /> Verify Credentials
           </Link>
         </div>
       </div>
@@ -117,6 +117,12 @@ export default function Footer() {
                 <Link to="/contact" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
                   <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
                   <span>Contact Our Team</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/verify" className="text-slate-600 hover:text-amber-700 transition-colors font-medium flex items-center gap-1.5 group">
+                  <ChevronRight className="h-3.5 w-3.5 text-amber-600 group-hover:translate-x-1 transition-transform" />
+                  <span>Verify Credentials</span>
                 </Link>
               </li>
             </ul>

@@ -37,8 +37,10 @@ import {
   Check,
   Send,
   Table,
+  GraduationCap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import StudentsManager from "@/components/admin/StudentsManager";
 import {
   useSiteConfig,
   JobPost,
@@ -85,8 +87,16 @@ export default function AdminDashboard() {
 
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<
-    "overview" | "careers" | "notifications" | "branches" | "settings" | "leads" | "database"
+    "overview" | "students" | "careers" | "notifications" | "branches" | "settings" | "leads" | "database"
   >("overview");
+  const [studentCount, setStudentCount] = useState<number>(() => {
+    try {
+      const raw = localStorage.getItem("ias_students_registry");
+      return raw ? JSON.parse(raw).length : 3;
+    } catch {
+      return 3;
+    }
+  });
 
   React.useEffect(() => {
     if (activeTab === "leads") {
@@ -164,7 +174,7 @@ export default function AdminDashboard() {
   // Google Sheet / Cloud Leads Sync State
   const [leadWebhookInput, setLeadWebhookInput] = useState(settings.leadWebhookUrl || "");
   const [leadCsvInput, setLeadCsvInput] = useState(settings.leadSheetCsvUrl || "");
-  const [leadAlertEmailInput, setLeadAlertEmailInput] = useState(settings.leadAlertEmail || "hemantsingh199272@gmail.com");
+  const [leadAlertEmailInput, setLeadAlertEmailInput] = useState(settings.leadAlertEmail || "support@indianallianceservices.com");
   const [isLeadSyncing, setIsLeadSyncing] = useState(false);
   const [isTestingWebhook, setIsTestingWebhook] = useState(false);
   const [isScriptCopied, setIsScriptCopied] = useState(false);
@@ -801,6 +811,7 @@ function doGet(e) {
             <div className="container mx-auto px-4 flex overflow-x-auto no-scrollbar gap-1.5 py-2">
               {[
                 { id: "overview", label: "Dashboard", icon: LayoutDashboard },
+                { id: "students", label: `Students (${studentCount})`, icon: GraduationCap },
                 { id: "careers", label: `Job Posts (${safeJobPosts.length})`, icon: Briefcase },
                 { id: "notifications", label: `Notices (${safeNotices.length})`, icon: Bell },
                 { id: "branches", label: `Offices (${safeBranches.length})`, icon: Building2 },
@@ -837,31 +848,51 @@ function doGet(e) {
           {activeTab === "overview" && (
             <div className="space-y-8 animate-in fade-in duration-200">
               {/* Stat Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div
+                  onClick={() => setActiveTab("students")}
+                  className="bg-slate-900 border border-slate-800 hover:border-amber-500/50 rounded-3xl p-5 shadow-sm cursor-pointer transition-all hover:scale-[1.01]"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                      Students & Trainees
+                    </span>
+                    <div className="rounded-xl bg-amber-500/10 p-2 text-amber-400">
+                      <GraduationCap className="h-4 w-4" />
+                    </div>
+                  </div>
+                  <div className="text-3xl font-heading font-black text-amber-400">
+                    {studentCount}
+                  </div>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Manage /verify registry records
+                  </p>
+                </div>
+
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                       Active Job Vacancies
                     </span>
-                    <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400">
-                      <Briefcase className="h-5 w-5" />
+                    <div className="rounded-xl bg-amber-500/10 p-2 text-amber-400">
+                      <Briefcase className="h-4 w-4" />
                     </div>
                   </div>
                   <div className="text-3xl font-heading font-black text-white">
                     {safeJobPosts.filter((j) => j?.status === "active").length}
                   </div>
                   <p className="text-xs text-slate-400 mt-1">
-                    Out of {safeJobPosts.length} total vacancies configured
+                    Out of {safeJobPosts.length} total vacancies
                   </p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                       Total Student Leads
                     </span>
-                    <div className="rounded-xl bg-blue-500/10 p-2.5 text-blue-400">
-                      <Users className="h-5 w-5" />
+                    <div className="rounded-xl bg-blue-500/10 p-2 text-blue-400">
+                      <Users className="h-4 w-4" />
                     </div>
                   </div>
                   <div className="text-3xl font-heading font-black text-white">
@@ -872,37 +903,37 @@ function doGet(e) {
                   </p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                       Active Notices
                     </span>
-                    <div className="rounded-xl bg-emerald-500/10 p-2.5 text-emerald-400">
-                      <Bell className="h-5 w-5" />
+                    <div className="rounded-xl bg-emerald-500/10 p-2 text-emerald-400">
+                      <Bell className="h-4 w-4" />
                     </div>
                   </div>
                   <div className="text-3xl font-heading font-black text-white">
                     {safeNotices.filter(isNoticeActive).length}
                   </div>
                   <p className="text-xs text-slate-400 mt-1">
-                    {safeNotices.length} total ({safeNotices.filter((n) => !isNoticeActive(n)).length} auto-expired)
+                    {safeNotices.length} total notices
                   </p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                       Live Helpline
                     </span>
-                    <div className="rounded-xl bg-purple-500/10 p-2.5 text-purple-400">
-                      <Phone className="h-5 w-5" />
+                    <div className="rounded-xl bg-purple-500/10 p-2 text-purple-400">
+                      <Phone className="h-4 w-4" />
                     </div>
                   </div>
-                  <div className="text-base font-heading font-bold text-white truncate">
+                  <div className="text-sm font-heading font-bold text-white truncate">
                     {settings.helplinePhone}
                   </div>
                   <p className="text-xs text-slate-400 mt-1 truncate">
-                    Email: {settings.supportEmail}
+                    {settings.supportEmail}
                   </p>
                 </div>
               </div>
@@ -916,10 +947,17 @@ function doGet(e) {
                   </h3>
                   <div className="space-y-3">
                     <Button
-                      onClick={handleOpenCreateJob}
+                      onClick={() => setActiveTab("students")}
                       className="w-full justify-start gap-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-5 rounded-2xl text-xs"
                     >
-                      <Plus className="h-4 w-4" /> Add New Job Vacancy
+                      <GraduationCap className="h-4 w-4" /> Manage Student Registry ({studentCount})
+                    </Button>
+                    <Button
+                      onClick={handleOpenCreateJob}
+                      variant="outline"
+                      className="w-full justify-start gap-2.5 border-slate-700 bg-slate-950/60 hover:bg-slate-800 text-white font-semibold py-5 rounded-2xl text-xs"
+                    >
+                      <Plus className="h-4 w-4 text-amber-400" /> Add New Job Vacancy
                     </Button>
                     <Button
                       onClick={handleOpenCreateNotice}
@@ -1023,7 +1061,14 @@ function doGet(e) {
           )}
 
           {/* ==================================================
-              2. CAREERS & JOB POSTS TAB
+              2. STUDENTS & TRAINEES REGISTRY TAB
+              ================================================== */}
+          {activeTab === "students" && (
+            <StudentsManager onTotalChange={setStudentCount} />
+          )}
+
+          {/* ==================================================
+              3. CAREERS & JOB POSTS TAB
               ================================================== */}
           {activeTab === "careers" && (
             <div className="space-y-6 animate-in fade-in duration-200">
@@ -2035,7 +2080,7 @@ function doGet(e) {
                         type="email"
                         value={leadAlertEmailInput}
                         onChange={(e) => setLeadAlertEmailInput(e.target.value)}
-                        placeholder="hemantsingh199272@gmail.com"
+                        placeholder="support@indianallianceservices.com"
                         className="w-full h-11 pl-10 pr-4 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs focus:outline-none focus:border-amber-500 font-mono font-medium"
                       />
                     </div>

@@ -24,6 +24,7 @@ const navLinks = [
   { label: "Interview Tips", href: "/interview-tips" },
   { label: "Notifications", href: "/notifications" },
   { label: "Contact Us", href: "/contact" },
+  { label: "Verify", href: "/verify" },
 ];
 
 export default function Navbar() {
@@ -115,17 +116,21 @@ export default function Navbar() {
           <nav className="hidden xl:flex items-center gap-1 bg-muted/40 p-1.5 rounded-2xl border border-border/80">
             {navLinks.map((link) => {
               const active = isActive(link.href);
+              const isVerify = link.href === "/verify";
               return (
                 <Link
                   key={link.href}
                   to={link.href}
-                  className={`relative px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                  className={`relative flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
                     active
                       ? "text-primary-foreground bg-primary shadow-sm"
+                      : isVerify
+                      ? "text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 hover:bg-emerald-500/10"
                       : "text-foreground/80 hover:text-foreground hover:bg-card/80"
                   }`}
                 >
-                  {link.label}
+                  {isVerify && <ShieldCheck className="h-3.5 w-3.5 text-emerald-500 shrink-0" />}
+                  <span>{link.label}</span>
                 </Link>
               );
             })}
@@ -168,21 +173,29 @@ export default function Navbar() {
         {isOpen && (
           <div className="xl:hidden bg-card/95 border-b border-border shadow-xl backdrop-blur-lg animate-in slide-in-from-top-2 duration-200">
             <div className="container mx-auto px-4 py-6 space-y-3">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-semibold transition-colors ${
-                    isActive(link.href)
-                      ? "bg-primary text-primary-foreground font-bold shadow-sm"
-                      : "text-foreground hover:bg-muted"
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  <ChevronRight className="h-4 w-4 opacity-50" />
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                const isVerify = link.href === "/verify";
+                return (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-semibold transition-colors ${
+                      isActive(link.href)
+                        ? "bg-primary text-primary-foreground font-bold shadow-sm"
+                        : isVerify
+                        ? "text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10"
+                        : "text-foreground hover:bg-muted"
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      {isVerify && <ShieldCheck className="h-4 w-4 text-emerald-500" />}
+                      <span>{link.label}</span>
+                    </span>
+                    <ChevronRight className="h-4 w-4 opacity-50" />
+                  </Link>
+                );
+              })}
 
               <div className="pt-3 flex flex-col gap-2">
                 <Button

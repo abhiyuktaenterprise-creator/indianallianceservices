@@ -370,7 +370,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   studentAccessPassword: "IAS#Student@2026",
   leadWebhookUrl: "https://script.google.com/macros/s/AKfycbxCEshgi71fYbR9KWaTN4ExGEZnciio1R6vwJsKRjMx3rK4RVd1_JSS0XkDgrppVXeyxg/exec",
   leadSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSS3Ip6lUaAy-3fzvaSleTTyoILKrip1eFn4h8Dnl7LeTwGqKPIgtU2ppaaP_KSC19LPHGAUJ6ypFHE/pub?output=csv",
-  leadAlertEmail: "hemantsingh199272@gmail.com",
+  leadAlertEmail: "support@indianallianceservices.com",
 };
 
 const DEFAULT_HOME_CONTENT: HomeContent = {
@@ -1485,8 +1485,8 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       }
     }
 
-    // 3. Dispatch real-time Email Alert to hemantsingh199272@gmail.com
-    const alertEmail = (settings.leadAlertEmail || "hemantsingh199272@gmail.com").trim();
+    // 3. Dispatch real-time Email Alert
+    const alertEmail = (settings.leadAlertEmail || "support@indianallianceservices.com").trim();
     if (alertEmail) {
       try {
         fetch(`https://formsubmit.co/ajax/${alertEmail}`, {

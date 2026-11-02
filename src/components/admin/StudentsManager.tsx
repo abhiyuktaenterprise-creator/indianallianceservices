@@ -668,6 +668,10 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                           className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
                             student.status === "Completed"
                               ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                              : student.status === "Joining"
+                              ? "bg-indigo-500/20 text-indigo-400 border border-indigo-500/30"
+                              : student.status === "Rejoining"
+                              ? "bg-teal-500/20 text-teal-400 border border-teal-500/30"
                               : student.status === "Failed"
                               ? "bg-rose-500/20 text-rose-400 border border-rose-500/30"
                               : student.status === "Active"
@@ -1001,7 +1005,9 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                     } rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500`}
                   >
                     <option value="Active">Active (Ongoing Training)</option>
-                    <option value="Completed">Completed (Passed / Certified)</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Joining">Joining</option>
+                    <option value="Rejoining">Rejoining</option>
                     <option value="Failed">Failed (Not Qualified)</option>
                     <option value="Discontinued">Discontinued</option>
                   </select>
@@ -1111,6 +1117,10 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                   className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase mb-1 ${
                     selectedStudent.status === "Completed"
                       ? "bg-emerald-500/20 text-emerald-400"
+                      : selectedStudent.status === "Joining"
+                      ? "bg-indigo-500/20 text-indigo-400"
+                      : selectedStudent.status === "Rejoining"
+                      ? "bg-teal-500/20 text-teal-400"
                       : selectedStudent.status === "Failed"
                       ? "bg-rose-500/20 text-rose-400"
                       : selectedStudent.status === "Active"

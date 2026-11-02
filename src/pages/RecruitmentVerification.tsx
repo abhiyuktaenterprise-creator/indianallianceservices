@@ -403,13 +403,21 @@ export default function RecruitmentVerification() {
                               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold mt-1 ${
                                 verifiedStudent.status === "Completed"
                                   ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
+                                  : verifiedStudent.status === "Joining"
+                                  ? "bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30"
+                                  : verifiedStudent.status === "Rejoining"
+                                  ? "bg-teal-500/20 text-teal-600 dark:text-teal-400 border border-teal-500/30"
                                   : verifiedStudent.status === "Failed"
                                   ? "bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30"
                                   : "bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30"
                               }`}
                             >
                               {verifiedStudent.status === "Completed"
-                                ? "Course Completed & Certified"
+                                ? "Completed"
+                                : verifiedStudent.status === "Joining"
+                                ? "Joining"
+                                : verifiedStudent.status === "Rejoining"
+                                ? "Rejoining"
                                 : verifiedStudent.status === "Failed"
                                 ? "Training Assessment Failed"
                                 : "Verified Active Trainee"}

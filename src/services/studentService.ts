@@ -20,7 +20,7 @@ export interface Student {
   course_start_date?: string | null;
   course_end_date?: string | null;
   interview_date?: string | null; // e.g. YYYY-MM-DD
-  status: 'Active' | 'Completed' | 'Failed' | 'Discontinued';
+  status: 'Active' | 'Completed' | 'Joining' | 'Rejoining' | 'Failed' | 'Discontinued';
   failure_reason?: string | null; // Note explaining failure if candidate failed
   is_archived: boolean;
   photo_url?: string | null; // Base64 data URL or external URL

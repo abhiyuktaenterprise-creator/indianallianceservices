@@ -7,13 +7,16 @@ export interface Student {
   id: string;
   application_number: string;
   registration_number?: string;
+  batch_code?: string; // e.g. IAS-TRG-2026/B1
   student_name: string;
   father_name: string;
   date_of_birth: string; // YYYY-MM-DD
   mobile_number: string;
   email?: string | null;
   course_name: string;
-  admission_date: string;
+  admission_date?: string;
+  placement_date?: string | null; // Date of Placement
+  visiting_date?: string | null; // Visiting Date
   course_start_date?: string | null;
   course_end_date?: string | null;
   interview_date?: string | null; // e.g. YYYY-MM-DD
@@ -34,9 +37,12 @@ export interface PublicVerificationResult {
   father_name: string;
   registration_number?: string;
   application_number: string;
+  batch_code?: string;
   date_of_birth?: string;
   course_name: string;
-  admission_date: string;
+  admission_date?: string;
+  placement_date?: string | null;
+  visiting_date?: string | null;
   course_start_date?: string | null;
   course_end_date?: string | null;
   interview_date?: string | null;
@@ -53,6 +59,7 @@ export const DEFAULT_STUDENTS: Student[] = [
     id: 'ias-std-134803',
     application_number: 'IAS-APP-2026/134803',
     registration_number: 'IAS26Y2NAG2026/134803',
+    batch_code: 'IAS-TRG-2026/134803',
     student_name: 'Khushbu Ashok Mahto',
     father_name: 'Ashok Mahto',
     date_of_birth: '2002-04-12',
@@ -60,6 +67,8 @@ export const DEFAULT_STUDENTS: Student[] = [
     email: 'khushbu.mahto@indianallianceservices.com',
     course_name: 'Airport Ground Staff & Passenger Services',
     admission_date: '2026-11-26',
+    placement_date: '2026-11-29',
+    visiting_date: '2027-02-28',
     course_start_date: '2026-11-29',
     course_end_date: '2027-02-28',
     interview_date: '2026-11-20',
@@ -73,6 +82,7 @@ export const DEFAULT_STUDENTS: Student[] = [
     id: 'ias-std-134557',
     application_number: 'IAS-APP-2026/134557',
     registration_number: 'IAS26Y2BBI2026/134557',
+    batch_code: 'IAS-TRG-2026/134557',
     student_name: 'Alraza Khan',
     father_name: 'Samsuddin Khan',
     date_of_birth: '2001-09-18',
@@ -80,6 +90,8 @@ export const DEFAULT_STUDENTS: Student[] = [
     email: 'alraza.khan@indianallianceservices.com',
     course_name: 'Aviation Customer Service & Airline Operations',
     admission_date: '2026-10-26',
+    placement_date: '2026-11-27',
+    visiting_date: '2027-02-27',
     course_start_date: '2026-11-27',
     course_end_date: '2027-02-27',
     interview_date: '2026-10-22',
@@ -93,6 +105,7 @@ export const DEFAULT_STUDENTS: Student[] = [
     id: 'ias-std-139960',
     application_number: 'IAS-APP-2026/139960',
     registration_number: 'IAS26Y2PUN2026/139960',
+    batch_code: 'IAS-TRG-2026/139960',
     student_name: 'Kiran Ishwar Kurhe',
     father_name: 'Ishwar Kurhe',
     date_of_birth: '2000-11-05',
@@ -100,6 +113,8 @@ export const DEFAULT_STUDENTS: Student[] = [
     email: 'kiran.kurhe@indianallianceservices.com',
     course_name: 'Airport Ground Staff & Passenger Services',
     admission_date: '2026-10-26',
+    placement_date: '2026-11-29',
+    visiting_date: '2027-02-28',
     course_start_date: '2026-11-29',
     course_end_date: '2027-02-28',
     interview_date: '2026-10-20',
@@ -113,6 +128,7 @@ export const DEFAULT_STUDENTS: Student[] = [
     id: 'ias-std-8425',
     application_number: 'IAS-APP-2026/8425',
     registration_number: 'IAS27Y2GV2026/8425',
+    batch_code: 'IAS-TRG-2024/8425',
     student_name: 'Abhishek Navnath Arkas',
     father_name: 'Navnath Namdev Arkas',
     date_of_birth: '2001-08-15',
@@ -120,6 +136,8 @@ export const DEFAULT_STUDENTS: Student[] = [
     email: 'abhishek.arkas@indianallianceservices.com',
     course_name: 'Airport Ground Staff & Passenger Services',
     admission_date: '2024-01-15',
+    placement_date: '2024-02-01',
+    visiting_date: '2024-11-30',
     course_start_date: '2024-02-01',
     course_end_date: '2024-11-30',
     interview_date: '2024-02-10',
@@ -133,6 +151,7 @@ export const DEFAULT_STUDENTS: Student[] = [
     id: 'ias-std-8420',
     application_number: 'IAS-APP-2026/8420',
     registration_number: 'IAS27Y2GV2026/8420',
+    batch_code: 'IAS-TRG-2024/8420',
     student_name: 'Rohit Kumar',
     father_name: 'Chandilal',
     date_of_birth: '2002-06-20',
@@ -140,6 +159,8 @@ export const DEFAULT_STUDENTS: Student[] = [
     email: 'rohit.kumar@indianallianceservices.com',
     course_name: 'Aviation Customer Service & Airline Operations',
     admission_date: '2024-01-15',
+    placement_date: '2024-02-01',
+    visiting_date: '2024-11-30',
     course_start_date: '2024-02-01',
     course_end_date: '2024-11-30',
     interview_date: '2024-02-12',
@@ -153,6 +174,7 @@ export const DEFAULT_STUDENTS: Student[] = [
     id: 'ias-std-100',
     application_number: 'IAS-APP-2026-100',
     registration_number: 'IAS-2026-100',
+    batch_code: 'IAS-TRG-2024/100',
     student_name: 'Aarav Sharma',
     father_name: 'Ramesh Sharma',
     date_of_birth: '2002-05-15',
@@ -160,6 +182,8 @@ export const DEFAULT_STUDENTS: Student[] = [
     email: 'aarav.sharma@example.com',
     course_name: 'Cabin Crew & In-Flight Safety Training',
     admission_date: '2024-02-10',
+    placement_date: '2024-03-01',
+    visiting_date: '2024-12-15',
     course_start_date: '2024-03-01',
     course_end_date: '2024-12-15',
     interview_date: '2024-03-05',
@@ -173,6 +197,7 @@ export const DEFAULT_STUDENTS: Student[] = [
     id: 'ias-std-101',
     application_number: 'IAS-APP-2026-101',
     registration_number: 'IAS-2026-101',
+    batch_code: 'IAS-TRG-2024/101',
     student_name: 'Pooja Verma',
     father_name: 'Suresh Verma',
     date_of_birth: '2003-09-12',
@@ -180,6 +205,8 @@ export const DEFAULT_STUDENTS: Student[] = [
     email: 'pooja.verma@example.com',
     course_name: 'Airport Ground Staff & Passenger Services',
     admission_date: '2024-03-01',
+    placement_date: '2024-03-15',
+    visiting_date: '2024-12-30',
     course_start_date: '2024-03-15',
     course_end_date: '2024-12-30',
     interview_date: '2024-03-20',
@@ -193,6 +220,7 @@ export const DEFAULT_STUDENTS: Student[] = [
     id: 'ias-std-8899',
     application_number: 'IAS-APP-2026/8899',
     registration_number: 'IAS-APP-2026/8899',
+    batch_code: 'IAS-TRG-2024/8899',
     student_name: 'Aakash Verma',
     father_name: 'Dharmendra Verma',
     date_of_birth: '2001-05-18',
@@ -200,6 +228,8 @@ export const DEFAULT_STUDENTS: Student[] = [
     email: 'aakash.verma@indianallianceservices.com',
     course_name: 'Airport Ground Staff & Passenger Services',
     admission_date: '2024-01-20',
+    placement_date: '2024-02-01',
+    visiting_date: '2024-11-15',
     course_start_date: '2024-02-01',
     course_end_date: '2024-11-15',
     interview_date: '2024-03-15',
@@ -235,14 +265,43 @@ const getLocalStudents = (): Student[] => {
     // Auto-merge any default official students that may be missing from existing local storage
     let modified = false;
     for (const def of DEFAULT_STUDENTS) {
-      const exists = list.some(
+      const idx = list.findIndex(
         (s) =>
           s.id === def.id ||
           s.application_number.toLowerCase() === def.application_number.toLowerCase() ||
           s.student_name.toLowerCase() === def.student_name.toLowerCase()
       );
-      if (!exists) {
+      if (idx === -1) {
         list.push(def);
+        modified = true;
+      } else {
+        if (!list[idx].batch_code && def.batch_code) {
+          list[idx].batch_code = def.batch_code;
+          modified = true;
+        }
+        if (!list[idx].placement_date && def.placement_date) {
+          list[idx].placement_date = def.placement_date;
+          modified = true;
+        }
+        if (!list[idx].visiting_date && def.visiting_date) {
+          list[idx].visiting_date = def.visiting_date;
+          modified = true;
+        }
+      }
+    }
+
+    // Ensure all stored students have batch_code and placement_date populated
+    for (const s of list) {
+      if (!s.batch_code) {
+        s.batch_code = `IAS-TRG-${s.application_number.replace(/\D/g, "") || "2026"}`;
+        modified = true;
+      }
+      if (!s.placement_date && s.course_start_date) {
+        s.placement_date = s.course_start_date;
+        modified = true;
+      }
+      if (!s.visiting_date && s.course_end_date) {
+        s.visiting_date = s.course_end_date;
         modified = true;
       }
     }
@@ -322,17 +381,25 @@ export const studentService = {
   ): Promise<{ data: Student | null; error: string | null }> {
     const appNo = student.application_number.trim();
     const regNo = (student.registration_number?.trim() || appNo);
+    const batchCode = (student.batch_code?.trim() || `IAS-TRG-${appNo.replace(/\D/g, "") || "2026"}`).toUpperCase();
+    const placementDate = student.placement_date?.trim() || student.course_start_date?.trim() || null;
+    const visitingDate = student.visiting_date?.trim() || student.course_end_date?.trim() || null;
+
     const payload = {
       ...student,
       application_number: appNo,
       registration_number: regNo,
+      batch_code: batchCode,
       student_name: student.student_name.trim(),
       father_name: student.father_name.trim(),
       mobile_number: student.mobile_number.trim(),
       email: student.email?.trim() || null,
       course_name: student.course_name.trim(),
-      course_start_date: student.course_start_date?.trim() || null,
-      course_end_date: student.course_end_date?.trim() || null,
+      admission_date: student.admission_date || new Date().toISOString().split("T")[0],
+      placement_date: placementDate,
+      visiting_date: visitingDate,
+      course_start_date: placementDate,
+      course_end_date: visitingDate,
       interview_date: student.interview_date?.trim() || null,
       failure_reason: student.failure_reason?.trim() || null,
       is_archived: student.is_archived ?? false,
@@ -395,6 +462,20 @@ export const studentService = {
           error: `Application Number "${cleanUpdates.application_number}" already exists on another candidate.`,
         };
       }
+    }
+
+    if (cleanUpdates.batch_code) {
+      cleanUpdates.batch_code = cleanUpdates.batch_code.trim().toUpperCase();
+    }
+    if (cleanUpdates.placement_date !== undefined) {
+      cleanUpdates.course_start_date = cleanUpdates.placement_date;
+    } else if (cleanUpdates.course_start_date !== undefined) {
+      cleanUpdates.placement_date = cleanUpdates.course_start_date;
+    }
+    if (cleanUpdates.visiting_date !== undefined) {
+      cleanUpdates.course_end_date = cleanUpdates.visiting_date;
+    } else if (cleanUpdates.course_end_date !== undefined) {
+      cleanUpdates.visiting_date = cleanUpdates.course_end_date;
     }
 
     const updated: Student = {
@@ -483,11 +564,14 @@ export const studentService = {
         father_name: match.father_name,
         registration_number: match.registration_number || match.application_number,
         application_number: match.application_number,
+        batch_code: match.batch_code || `IAS-TRG-${match.application_number.replace(/\D/g, "")}`,
         date_of_birth: match.date_of_birth,
         course_name: match.course_name,
         admission_date: match.admission_date,
-        course_start_date: match.course_start_date,
-        course_end_date: match.course_end_date,
+        placement_date: match.placement_date || match.course_start_date,
+        visiting_date: match.visiting_date || match.course_end_date,
+        course_start_date: match.placement_date || match.course_start_date,
+        course_end_date: match.visiting_date || match.course_end_date,
         interview_date: match.interview_date,
         status: match.status,
         failure_reason: match.failure_reason,

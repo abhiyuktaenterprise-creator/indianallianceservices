@@ -121,8 +121,11 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
     email: "",
     application_number: "",
     registration_number: "",
+    batch_code: "",
     course_name: "Airport Ground Staff & Passenger Services",
     admission_date: new Date().toISOString().split("T")[0],
+    placement_date: "",
+    visiting_date: "",
     course_start_date: "",
     course_end_date: "",
     interview_date: "",
@@ -184,11 +187,15 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
   const handleOpenAdd = () => {
     const randomNum = Math.floor(1000 + Math.random() * 9000);
     const generatedAppNo = `IAS-APP-2026/${randomNum}`;
+    const generatedBatchCode = `IAS-TRG-2026/B${Math.floor(1 + Math.random() * 5)}`;
     setFormData({
       ...initialFormState,
       application_number: generatedAppNo,
       registration_number: generatedAppNo,
+      batch_code: generatedBatchCode,
       interview_date: "",
+      placement_date: "",
+      visiting_date: "",
       failure_reason: "",
     });
     setEditingStudentId(null);
@@ -206,10 +213,15 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
       email: student.email || "",
       application_number: student.application_number,
       registration_number: student.registration_number || student.application_number,
+      batch_code:
+        student.batch_code ||
+        `IAS-TRG-${student.application_number ? student.application_number.replace(/\D/g, "") : "2026"}`,
       course_name: student.course_name,
-      admission_date: student.admission_date,
-      course_start_date: student.course_start_date,
-      course_end_date: student.course_end_date || "",
+      admission_date: student.admission_date || "",
+      placement_date: student.placement_date || student.course_start_date || "",
+      visiting_date: student.visiting_date || student.course_end_date || "",
+      course_start_date: student.placement_date || student.course_start_date || "",
+      course_end_date: student.visiting_date || student.course_end_date || "",
       interview_date: student.interview_date || "",
       status: student.status,
       failure_reason: student.failure_reason || "",
@@ -241,6 +253,10 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
       toast.error("Please enter application number.");
       return;
     }
+    if (!formData.batch_code?.trim()) {
+      toast.error("Please enter batch code.");
+      return;
+    }
     if (!formData.mobile_number.trim()) {
       toast.error("Please enter mobile number.");
       return;
@@ -250,9 +266,18 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
       return;
     }
 
+    const placementVal = formData.placement_date?.trim() || formData.course_start_date?.trim() || null;
+    const visitingVal = formData.visiting_date?.trim() || formData.course_end_date?.trim() || null;
+
     const payload = {
       ...formData,
+      batch_code: formData.batch_code.trim().toUpperCase(),
       registration_number: formData.registration_number || formData.application_number,
+      admission_date: formData.admission_date || new Date().toISOString().split("T")[0],
+      placement_date: placementVal,
+      visiting_date: visitingVal,
+      course_start_date: placementVal,
+      course_end_date: visitingVal,
     };
 
     try {
@@ -575,11 +600,16 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                         </div>
                       </td>
 
-                      {/* App No */}
+                      {/* App No & Batch */}
                       <td className="py-3.5 px-4 font-mono text-[11px]">
                         <div className="font-bold text-amber-400">
                           {student.application_number}
                         </div>
+                        {student.batch_code && (
+                          <div className="text-[10px] text-slate-400 mt-0.5">
+                            Batch: <span className="text-amber-300 font-semibold">{student.batch_code}</span>
+                          </div>
+                        )}
                       </td>
 
                       {/* Course */}
@@ -588,13 +618,17 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                           {student.course_name}
                         </div>
                         <div className="text-[10px] text-slate-500">
-                          {student.course_start_date ? (
+                          {(student.placement_date || student.course_start_date) ? (
                             <>
-                              {student.course_start_date}
-                              {student.course_end_date ? ` to ${student.course_end_date}` : ""}
+                              <span>Placement: {student.placement_date || student.course_start_date}</span>
+                              {(student.visiting_date || student.course_end_date) ? (
+                                <span className="ml-1.5 text-slate-400">
+                                  | Visit: {student.visiting_date || student.course_end_date}
+                                </span>
+                              ) : null}
                             </>
                           ) : (
-                            student.admission_date ? `Adm: ${student.admission_date}` : ""
+                            student.batch_code ? `Batch: ${student.batch_code}` : ""
                           )}
                         </div>
                       </td>
@@ -902,15 +936,16 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                   )}
                 </div>
 
-                {/* Dates & Status */}
+                {/* Batch, Dates & Placement */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-200 block">Admission Date *</label>
+                  <label className="text-xs font-bold text-slate-200 block">Batch Code *</label>
                   <input
-                    type="date"
-                    value={formData.admission_date}
-                    onChange={(e) => setFormData({ ...formData, admission_date: e.target.value })}
+                    type="text"
+                    placeholder="e.g. IAS-TRG-2026/B1"
+                    value={formData.batch_code || ""}
+                    onChange={(e) => setFormData({ ...formData, batch_code: e.target.value.toUpperCase() })}
                     required
-                    className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500"
+                    className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500 font-mono uppercase"
                   />
                 </div>
 
@@ -920,6 +955,38 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                     type="date"
                     value={formData.interview_date || ""}
                     onChange={(e) => setFormData({ ...formData, interview_date: e.target.value })}
+                    className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-200 block">Date of Placement</label>
+                  <input
+                    type="date"
+                    value={formData.placement_date || formData.course_start_date || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        placement_date: e.target.value,
+                        course_start_date: e.target.value,
+                      })
+                    }
+                    className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-200 block">Visiting Date (Optional)</label>
+                  <input
+                    type="date"
+                    value={formData.visiting_date || formData.course_end_date || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        visiting_date: e.target.value,
+                        course_end_date: e.target.value,
+                      })
+                    }
                     className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500"
                   />
                 </div>
@@ -1087,19 +1154,28 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                 <strong className="text-slate-300">{selectedStudent.email || "N/A"}</strong>
               </div>
               <div>
-                <span className="text-[10px] text-slate-500 uppercase block">Admission Date</span>
-                <strong className="text-slate-300">{selectedStudent.admission_date}</strong>
+                <span className="text-[10px] text-slate-500 uppercase block">Batch Code</span>
+                <strong className="text-amber-300 font-mono">
+                  {selectedStudent.batch_code || `IAS-TRG-${selectedStudent.application_number.replace(/\D/g, "")}`}
+                </strong>
               </div>
               <div className="col-span-2 pt-2 border-t border-slate-800">
                 <span className="text-[10px] text-slate-500 uppercase block">Course Enrolled</span>
                 <strong className="text-amber-300 text-sm block">{selectedStudent.course_name}</strong>
               </div>
-              {selectedStudent.course_start_date && (
-                <div className="col-span-2">
-                  <span className="text-[10px] text-slate-500 uppercase block">Course Duration</span>
+              {(selectedStudent.placement_date || selectedStudent.course_start_date) && (
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase block">Date of Placement</span>
                   <strong className="text-slate-300">
-                    {selectedStudent.course_start_date}
-                    {selectedStudent.course_end_date ? ` to ${selectedStudent.course_end_date}` : ""}
+                    {selectedStudent.placement_date || selectedStudent.course_start_date}
+                  </strong>
+                </div>
+              )}
+              {(selectedStudent.visiting_date || selectedStudent.course_end_date) && (
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase block">Visiting Date</span>
+                  <strong className="text-slate-300">
+                    {selectedStudent.visiting_date || selectedStudent.course_end_date}
                   </strong>
                 </div>
               )}

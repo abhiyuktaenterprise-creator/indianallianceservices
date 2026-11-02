@@ -313,11 +313,12 @@ export default function StudentLetterModal({
     "Nagpur Regional Training Center (Airport Zone, IATA: NAG)"
   );
   const [reportingDate, setReportingDate] = useState(
-    student.course_start_date || student.admission_date || "2026-11-29"
+    student.placement_date || student.course_start_date || student.admission_date || "2026-11-29"
   );
   const [reportingTime, setReportingTime] = useState("09:30 AM IST");
   const [batchCode, setBatchCode] = useState(
-    `IAS-TRG-${student.application_number ? student.application_number.replace(/\D/g, "") : "134803"}`
+    student.batch_code ||
+      `IAS-TRG-${student.application_number ? student.application_number.replace(/\D/g, "") : "134803"}`
   );
 
   if (!isOpen) return null;

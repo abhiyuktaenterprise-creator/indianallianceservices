@@ -449,21 +449,31 @@ export default function RecruitmentVerification() {
 
                           <div className="pt-2 border-t border-border/60">
                             <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
-                              Admission Date
+                              Batch Code
                             </span>
-                            <span className="text-foreground font-mono text-xs sm:text-sm mt-0.5 block">
-                              {verifiedStudent.admission_date}
+                            <span className="text-foreground font-mono font-bold text-xs sm:text-sm mt-0.5 block text-primary">
+                              {verifiedStudent.batch_code || `IAS-TRG-${verifiedStudent.application_number.replace(/\D/g, "")}`}
                             </span>
                           </div>
 
-                          {verifiedStudent.course_start_date && (
+                          {(verifiedStudent.placement_date || verifiedStudent.course_start_date) && (
                             <div className="pt-2 border-t border-border/60">
                               <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
-                                Training Period
+                                Date of Placement
                               </span>
                               <span className="text-foreground font-mono text-xs sm:text-sm mt-0.5 block">
-                                {verifiedStudent.course_start_date}
-                                {verifiedStudent.course_end_date ? ` to ${verifiedStudent.course_end_date}` : ""}
+                                {verifiedStudent.placement_date || verifiedStudent.course_start_date}
+                              </span>
+                            </div>
+                          )}
+
+                          {(verifiedStudent.visiting_date || verifiedStudent.course_end_date) && (
+                            <div className="pt-2 border-t border-border/60">
+                              <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                                Visiting Date
+                              </span>
+                              <span className="text-foreground font-mono text-xs sm:text-sm mt-0.5 block">
+                                {verifiedStudent.visiting_date || verifiedStudent.course_end_date}
                               </span>
                             </div>
                           )}

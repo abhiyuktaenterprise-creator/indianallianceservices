@@ -456,15 +456,17 @@ export default function RecruitmentVerification() {
                             </span>
                           </div>
 
-                          <div className="pt-2 border-t border-border/60">
-                            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
-                              Training Period
-                            </span>
-                            <span className="text-foreground font-mono text-xs sm:text-sm mt-0.5 block">
-                              {verifiedStudent.course_start_date}
-                              {verifiedStudent.course_end_date ? ` to ${verifiedStudent.course_end_date}` : ""}
-                            </span>
-                          </div>
+                          {verifiedStudent.course_start_date && (
+                            <div className="pt-2 border-t border-border/60">
+                              <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block">
+                                Training Period
+                              </span>
+                              <span className="text-foreground font-mono text-xs sm:text-sm mt-0.5 block">
+                                {verifiedStudent.course_start_date}
+                                {verifiedStudent.course_end_date ? ` to ${verifiedStudent.course_end_date}` : ""}
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
 

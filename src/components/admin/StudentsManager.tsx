@@ -123,7 +123,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
     registration_number: "",
     course_name: "Airport Ground Staff & Passenger Services",
     admission_date: new Date().toISOString().split("T")[0],
-    course_start_date: new Date().toISOString().split("T")[0],
+    course_start_date: "",
     course_end_date: "",
     interview_date: "",
     status: "Active",
@@ -588,8 +588,14 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                           {student.course_name}
                         </div>
                         <div className="text-[10px] text-slate-500">
-                          {student.course_start_date}
-                          {student.course_end_date ? ` to ${student.course_end_date}` : ""}
+                          {student.course_start_date ? (
+                            <>
+                              {student.course_start_date}
+                              {student.course_end_date ? ` to ${student.course_end_date}` : ""}
+                            </>
+                          ) : (
+                            student.admission_date ? `Adm: ${student.admission_date}` : ""
+                          )}
                         </div>
                       </td>
 
@@ -918,27 +924,6 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                   />
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-200 block">Course Start Date *</label>
-                  <input
-                    type="date"
-                    value={formData.course_start_date}
-                    onChange={(e) => setFormData({ ...formData, course_start_date: e.target.value })}
-                    required
-                    className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-200 block">Course End Date (Optional)</label>
-                  <input
-                    type="date"
-                    value={formData.course_end_date || ""}
-                    onChange={(e) => setFormData({ ...formData, course_end_date: e.target.value })}
-                    className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
                 <div className="space-y-1.5 sm:col-span-2">
                   <label className="text-xs font-bold text-slate-200 block">Training Status *</label>
                   <select
@@ -1109,13 +1094,15 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                 <span className="text-[10px] text-slate-500 uppercase block">Course Enrolled</span>
                 <strong className="text-amber-300 text-sm block">{selectedStudent.course_name}</strong>
               </div>
-              <div className="col-span-2">
-                <span className="text-[10px] text-slate-500 uppercase block">Course Duration</span>
-                <strong className="text-slate-300">
-                  {selectedStudent.course_start_date}
-                  {selectedStudent.course_end_date ? ` to ${selectedStudent.course_end_date}` : ""}
-                </strong>
-              </div>
+              {selectedStudent.course_start_date && (
+                <div className="col-span-2">
+                  <span className="text-[10px] text-slate-500 uppercase block">Course Duration</span>
+                  <strong className="text-slate-300">
+                    {selectedStudent.course_start_date}
+                    {selectedStudent.course_end_date ? ` to ${selectedStudent.course_end_date}` : ""}
+                  </strong>
+                </div>
+              )}
               {selectedStudent.failure_reason && (
                 <div className="col-span-2 pt-2 border-t border-rose-500/30 p-2.5 rounded-lg bg-rose-500/10">
                   <span className="text-[10px] text-rose-400 font-bold uppercase block">

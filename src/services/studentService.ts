@@ -14,7 +14,7 @@ export interface Student {
   email?: string | null;
   course_name: string;
   admission_date: string;
-  course_start_date: string;
+  course_start_date?: string | null;
   course_end_date?: string | null;
   interview_date?: string | null; // e.g. YYYY-MM-DD
   status: 'Active' | 'Completed' | 'Failed' | 'Discontinued';
@@ -37,7 +37,7 @@ export interface PublicVerificationResult {
   date_of_birth?: string;
   course_name: string;
   admission_date: string;
-  course_start_date: string;
+  course_start_date?: string | null;
   course_end_date?: string | null;
   interview_date?: string | null;
   status: string;
@@ -331,6 +331,8 @@ export const studentService = {
       mobile_number: student.mobile_number.trim(),
       email: student.email?.trim() || null,
       course_name: student.course_name.trim(),
+      course_start_date: student.course_start_date?.trim() || null,
+      course_end_date: student.course_end_date?.trim() || null,
       interview_date: student.interview_date?.trim() || null,
       failure_reason: student.failure_reason?.trim() || null,
       is_archived: student.is_archived ?? false,

@@ -349,9 +349,11 @@ export function normalizeGoogleSheetCsvUrl(rawUrl: string): string {
 }
 
 export const CANDIDATE_SHEET_URL_KEY = "ias_candidate_sheet_url";
+export const DEFAULT_CANDIDATE_SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6KRade5DEhxMSA4LjkI77Gbc5Pu0smrOU0dKoKJCcheAsVT5Afrjoa7pG8HyRmKrviceNvN4oTWsi/pub?output=csv";
 
 export function getCandidateSheetUrl(): string {
-  if (typeof window === "undefined") return "";
+  if (typeof window === "undefined") return DEFAULT_CANDIDATE_SHEET_URL;
   const direct = localStorage.getItem(CANDIDATE_SHEET_URL_KEY);
   if (direct && direct.trim()) return direct.trim();
 
@@ -365,7 +367,7 @@ export function getCandidateSheetUrl(): string {
     }
   } catch {}
 
-  return "";
+  return DEFAULT_CANDIDATE_SHEET_URL;
 }
 
 export function setCandidateSheetUrl(url: string): void {

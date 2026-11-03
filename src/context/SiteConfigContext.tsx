@@ -375,7 +375,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   leadWebhookUrl: "https://script.google.com/macros/s/AKfycbxCEshgi71fYbR9KWaTN4ExGEZnciio1R6vwJsKRjMx3rK4RVd1_JSS0XkDgrppVXeyxg/exec",
   leadSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSS3Ip6lUaAy-3fzvaSleTTyoILKrip1eFn4h8Dnl7LeTwGqKPIgtU2ppaaP_KSC19LPHGAUJ6ypFHE/pub?output=csv",
   leadAlertEmail: "support@indianallianceservices.com",
-  candidateSheetCsvUrl: "",
+  candidateSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6KRade5DEhxMSA4LjkI77Gbc5Pu0smrOU0dKoKJCcheAsVT5Afrjoa7pG8HyRmKrviceNvN4oTWsi/pub?output=csv",
   candidateWebhookUrl: "",
 };
 
@@ -940,6 +940,8 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             leadWebhookUrl: parsed.leadWebhookUrl || DEFAULT_SETTINGS.leadWebhookUrl,
             leadSheetCsvUrl: parsed.leadSheetCsvUrl || DEFAULT_SETTINGS.leadSheetCsvUrl,
             leadAlertEmail: parsed.leadAlertEmail || DEFAULT_SETTINGS.leadAlertEmail,
+            candidateSheetCsvUrl: parsed.candidateSheetCsvUrl || DEFAULT_SETTINGS.candidateSheetCsvUrl,
+            candidateWebhookUrl: parsed.candidateWebhookUrl || DEFAULT_SETTINGS.candidateWebhookUrl,
             displayAddress,
             bannerNotice,
             enableNoticeBanner,

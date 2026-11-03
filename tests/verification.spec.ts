@@ -49,7 +49,7 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await page.locator('button:has-text("Verify Application")').click();
 
     await expect(page.locator('text=Abhishek Navnath Arkas')).toBeVisible();
-    await expect(page.locator('text=Course Completed & Certified')).toBeVisible();
+    await expect(page.locator('text=Completed').first()).toBeVisible();
     await expect(page.locator('text=Authentic Record')).toBeVisible();
   });
 
@@ -124,15 +124,15 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
 
     // 4. Fill in all form fields
     const testAppNumber = 'IAS-APP-2026/TEST8899';
+    const testBatchCode = 'IAS-TRG-2026/B88';
     const testCandidateName = 'Aakash Verma Test';
     const testFatherName = 'Dharmendra Verma';
     const testDob = '2001-05-18';
     const testPhone = '9876501234';
     const testEmail = 'aakash.test@example.com';
     const testInterviewDate = '2024-03-15';
-    const testAdmDate = '2024-01-20';
-    const testStartDate = '2024-02-01';
-    const testEndDate = '2024-11-15';
+    const testPlacementDate = '2024-02-01';
+    const testVisitingDate = '2024-11-15';
     const testFailureReason = 'Candidate did not clear the mandatory aviation English communication fluency assessment during the panel round.';
 
     // Fill Candidate Name
@@ -158,12 +158,15 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     const courseSelect = page.locator('select').first();
     await courseSelect.selectOption('Airport Ground Staff & Passenger Services');
 
-    // Fill Dates: Admission Date (1), Interview Date (2), Course Start Date (3), Course End Date (4)
+    // Fill Batch Code
+    const batchInput = page.locator('input[placeholder*="IAS-TRG-"]');
+    await batchInput.fill(testBatchCode);
+
+    // Fill Dates: Interview Date (1), Date of Placement (2), Visiting Date (3)
     const dateInputs = page.locator('input[type="date"]');
-    await dateInputs.nth(1).fill(testAdmDate);
-    await dateInputs.nth(2).fill(testInterviewDate);
-    await dateInputs.nth(3).fill(testStartDate);
-    await dateInputs.nth(4).fill(testEndDate);
+    await dateInputs.nth(1).fill(testInterviewDate);
+    await dateInputs.nth(2).fill(testPlacementDate);
+    await dateInputs.nth(3).fill(testVisitingDate);
 
     // Select Training Status: Failed
     const statusSelect = page.locator('select').filter({ has: page.locator('option[value="Failed"]') });
@@ -175,7 +178,7 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await failureNoteTextarea.fill(testFailureReason);
 
     // 5. Submit Form
-    await page.locator('button:has-text("Save Candidate Record")').click();
+    await page.locator('button[type="submit"]').click();
 
     // 6. Confirm candidate appears in the admin registry table
     await expect(page.locator('table').locator(`text=${testCandidateName}`)).toBeVisible();
@@ -191,11 +194,71 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await expect(page.locator(`text=${testCandidateName}`)).toBeVisible();
     await expect(page.locator(`text=${testFatherName}`)).toBeVisible();
     await expect(page.locator(`text=${testAppNumber}`)).toBeVisible();
+    await expect(page.locator(`text=${testBatchCode}`)).toBeVisible();
     await expect(page.locator('text=Training Assessment Failed')).toBeVisible();
     await expect(page.locator('text=Status: Failed')).toBeVisible();
     await expect(page.locator(`text=${testInterviewDate}`)).toBeVisible();
     await expect(page.locator(`text=${testDob}`)).toBeVisible();
+    await expect(page.locator(`text=${testPlacementDate}`)).toBeVisible();
+    await expect(page.locator(`text=${testVisitingDate}`)).toBeVisible();
     await expect(page.locator('text=Official Assessment Note & Reason for Status')).toBeVisible();
     await expect(page.locator(`text=${testFailureReason}`)).toBeVisible();
+  });
+
+  test('Lookup candidate with Joining and Rejoining status options', async ({ page }) => {
+    // Set admin auth in session
+    await page.addInitScript(() => {
+      localStorage.setItem("acs_admin_session", "true");
+      sessionStorage.setItem("acs_admin_session", "true");
+    });
+
+    await page.goto('/admin/dashboard');
+
+    const studentTabBtn = page.locator('button').filter({ hasText: /Students \(\d+\)/ });
+    await expect(studentTabBtn).toBeVisible();
+    await studentTabBtn.click();
+
+    const addBtn = page.locator('button:has-text("Add Student")');
+    await expect(addBtn).toBeVisible();
+    await addBtn.click();
+
+    // Verify Training Status has Completed, Joining, and Rejoining options
+    const statusSelect = page.locator('select').filter({ has: page.locator('option[value="Joining"]') });
+    await expect(statusSelect).toBeVisible();
+    await expect(statusSelect.locator('option[value="Completed"]')).toHaveText('Completed');
+    await expect(statusSelect.locator('option[value="Joining"]')).toHaveText('Joining');
+    await expect(statusSelect.locator('option[value="Rejoining"]')).toHaveText('Rejoining');
+
+    const joiningAppNo = 'IAS-APP-2026/APP9090';
+    const joiningBatch = 'IAS-TRG-2026/J1';
+    const joiningName = 'Priya Sharma Candidate';
+
+    await page.locator('input[placeholder*="Abhishek Navnath"]').fill(joiningName);
+    await page.locator('input[placeholder*="Navnath Namdev"]').fill('Rakesh Sharma');
+    await page.locator('input[type="date"]').nth(0).fill('2002-08-10');
+    await page.locator('input[placeholder*="8858453069"]').fill('9988776655');
+    await page.locator('input[placeholder*="IAS-APP-2026/"]').fill(joiningAppNo);
+    await page.locator('input[placeholder*="IAS-TRG-"]').fill(joiningBatch);
+    await page.locator('input[type="date"]').nth(2).fill('2026-11-29');
+
+    // Select Joining
+    await statusSelect.selectOption('Joining');
+
+    await page.locator('button[type="submit"]').click();
+
+    // Verify table has Joining badge
+    await expect(page.locator('table').locator(`text=${joiningName}`)).toBeVisible();
+    await expect(page.locator('table').getByText('Joining', { exact: true })).toBeVisible();
+
+    // Verify on /verify page
+    await page.goto('/verify');
+    const verifySearchInput = page.locator('input[placeholder*="Application Number"]');
+    await verifySearchInput.fill(joiningAppNo);
+    await page.locator('button:has-text("Verify Application")').click();
+
+    await expect(page.locator(`text=${joiningName}`)).toBeVisible();
+    await expect(page.locator(`text=${joiningBatch}`)).toBeVisible();
+    await expect(page.getByText('Joining', { exact: true }).first()).toBeVisible();
+    await expect(page.locator('text=Authentic Record')).toBeVisible();
   });
 });

@@ -123,6 +123,16 @@ export default function RecruitmentVerification() {
     window.print();
   };
 
+  // Silent background sync with candidate Google Sheet if configured
+  useEffect(() => {
+    if (typeof window !== "undefined" && navigator.onLine) {
+      const sheetUrl = studentService.getCandidateSheetUrl();
+      if (sheetUrl) {
+        studentService.syncFromGoogleSheet(sheetUrl).catch(() => {});
+      }
+    }
+  }, []);
+
   // URL Parameter Detection
   useEffect(() => {
     const appParam =

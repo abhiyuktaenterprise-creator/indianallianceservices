@@ -23,6 +23,10 @@ import {
   X,
   Sparkles,
   FileText,
+  RefreshCw,
+  FileSpreadsheet,
+  Link2,
+  Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -101,6 +105,9 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
   const [isLetterModalOpen, setIsLetterModalOpen] = useState(false);
   const [letterStudent, setLetterStudent] = useState<Student | null>(null);
   const [selectedLetterType, setSelectedLetterType] = useState<"welcome" | "confirmation" | "agreement">("welcome");
+  const [isSyncingSheet, setIsSyncingSheet] = useState(false);
+  const [isSheetModalOpen, setIsSheetModalOpen] = useState(false);
+  const [sheetUrlInput, setSheetUrlInput] = useState(() => studentService.getCandidateSheetUrl());
 
   // Targets
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
@@ -156,6 +163,80 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
   useEffect(() => {
     loadStudents();
   }, [searchQuery, showArchived]);
+
+  // Real-time synchronization event listener (updates table across tabs and when cloud sync finishes)
+  useEffect(() => {
+    const handleSyncEvent = () => {
+      loadStudents();
+    };
+    window.addEventListener("ias_candidates_synced", handleSyncEvent);
+    window.addEventListener("storage", handleSyncEvent);
+    return () => {
+      window.removeEventListener("ias_candidates_synced", handleSyncEvent);
+      window.removeEventListener("storage", handleSyncEvent);
+    };
+  }, [searchQuery, showArchived]);
+
+  // Google Sheet Synchronize Action
+  const handleSyncGoogleSheet = async () => {
+    const currentUrl = (sheetUrlInput || studentService.getCandidateSheetUrl()).trim();
+    if (!currentUrl) {
+      setIsSheetModalOpen(true);
+      return;
+    }
+
+    setIsSyncingSheet(true);
+    try {
+      const res = await studentService.syncFromGoogleSheet(currentUrl);
+      if (res.success) {
+        toast.success(`Successfully synchronized ${res.count} candidates from Google Sheet!`);
+        await loadStudents();
+      } else {
+        toast.error(res.error || "Failed to sync candidates from Google Sheet.");
+        setIsSheetModalOpen(true);
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to sync from Google Sheet.");
+      setIsSheetModalOpen(true);
+    } finally {
+      setIsSyncingSheet(false);
+    }
+  };
+
+  // Save Sheet URL & Sync
+  const handleSaveSheetUrlAndSync = async () => {
+    const cleanUrl = sheetUrlInput.trim();
+    if (!cleanUrl) {
+      toast.error("Please enter a valid Google Sheet URL or published CSV link.");
+      return;
+    }
+    studentService.setCandidateSheetUrl(cleanUrl);
+    setIsSyncingSheet(true);
+    try {
+      const res = await studentService.syncFromGoogleSheet(cleanUrl);
+      if (res.success) {
+        toast.success(`Connected & synchronized ${res.count} candidates successfully!`);
+        setIsSheetModalOpen(false);
+        await loadStudents();
+      } else {
+        toast.error(res.error || "Failed to sync candidates.");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Connection failed.");
+    } finally {
+      setIsSyncingSheet(false);
+    }
+  };
+
+  // Export CSV
+  const handleExportCSV = () => {
+    try {
+      studentService.downloadCSV(students);
+      toast.success(`Exported ${students.length} candidates to CSV for Google Sheets!`);
+    } catch {
+      toast.error("Failed to export candidates CSV.");
+    }
+  };
 
   // Handle Photo File Upload
   const handlePhotoUpload = async (
@@ -422,6 +503,36 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
           >
             <Plus className="h-4 w-4" /> Add Candidate
           </Button>
+
+          <Button
+            onClick={handleSyncGoogleSheet}
+            disabled={isSyncingSheet}
+            variant="outline"
+            className="gap-1.5 text-xs border-emerald-600/50 bg-emerald-950/30 text-emerald-300 hover:bg-emerald-900/40 hover:text-white"
+            title="Sync with Google Sheet (Live across all mobile phones & laptops)"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 text-emerald-400 ${isSyncingSheet ? "animate-spin" : ""}`} />
+            <span>{isSyncingSheet ? "Syncing..." : "Sync Google Sheet"}</span>
+          </Button>
+
+          <Button
+            onClick={() => setIsSheetModalOpen(true)}
+            variant="outline"
+            className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800"
+            title="Google Sheet Link Settings"
+          >
+            <Link2 className="h-3.5 w-3.5 text-amber-400" /> Sheet Link
+          </Button>
+
+          <Button
+            onClick={handleExportCSV}
+            variant="outline"
+            className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800"
+            title="Download CSV formatted for Google Sheets (Upload to your sheet)"
+          >
+            <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" /> Export CSV
+          </Button>
+
           <Button
             onClick={handleExportJSON}
             variant="outline"
@@ -430,6 +541,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
           >
             <Download className="h-3.5 w-3.5" /> Export JSON
           </Button>
+
           <Button
             onClick={() => fileInputRef.current?.click()}
             variant="outline"
@@ -1326,6 +1438,103 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
             setLetterStudent(null);
           }}
         />
+      )}
+
+      {/* ==================================================
+          GOOGLE SHEET SYNC / CONNECTION MODAL
+          ================================================== */}
+      {isSheetModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-5">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-3 bg-emerald-500/20 text-emerald-400 rounded-2xl shrink-0">
+                  <FileSpreadsheet className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white">Google Sheet Real-Time Sync</h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Sync candidates live across all client laptops, phones & /verify portal
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsSheetModalOpen(false)}
+                className="text-slate-400 hover:text-white p-1"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div className="space-y-1.5">
+                <label className="font-semibold text-slate-300 block">
+                  Google Sheet URL / Published CSV Link
+                </label>
+                <div className="relative">
+                  <Link2 className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-400" />
+                  <input
+                    type="url"
+                    value={sheetUrlInput}
+                    onChange={(e) => setSheetUrlInput(e.target.value)}
+                    placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv or edit link"
+                    className="w-full h-11 pl-10 pr-4 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs focus:outline-none focus:border-amber-500 font-mono"
+                  />
+                </div>
+                <p className="text-[11px] text-slate-400">
+                  Paste either your Google Sheet share link or published CSV link (<code className="text-amber-300">File &gt; Share &gt; Publish to web &gt; CSV</code>).
+                </p>
+              </div>
+
+              {/* Instructions box */}
+              <div className="p-3.5 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-2 text-[11px] text-slate-300">
+                <div className="font-semibold text-amber-400 flex items-center gap-1.5">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  <span>How Cross-Device Sync Works:</span>
+                </div>
+                <ul className="list-disc list-inside space-y-1 text-slate-400 text-[11px]">
+                  <li>Any candidate row added in the Google Sheet syncs into this laptop and mobile phones.</li>
+                  <li>When a candidate verifies on mobile at <code className="text-amber-300 font-mono">/verify</code>, it fetches live from this sheet.</li>
+                  <li>Click <b>Export CSV</b> to download all current candidate records and copy them into your Google Sheet.</li>
+                </ul>
+              </div>
+
+              {/* Quick CSV Export button inside modal */}
+              <div className="flex items-center justify-between pt-1">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleExportCSV}
+                  className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800"
+                >
+                  <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" />
+                  Export Existing {students.length} Candidates to CSV
+                </Button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsSheetModalOpen(false)}
+                className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs py-2 px-4"
+              >
+                Close
+              </Button>
+              <Button
+                type="button"
+                onClick={handleSaveSheetUrlAndSync}
+                disabled={isSyncingSheet}
+                className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs py-2 px-5 shadow-md flex items-center gap-2"
+              >
+                <RefreshCw className={`h-4 w-4 ${isSyncingSheet ? "animate-spin" : ""}`} />
+                {isSyncingSheet ? "Syncing Candidates..." : "Save & Sync Now"}
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

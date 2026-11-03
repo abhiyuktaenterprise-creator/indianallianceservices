@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import StudentsManager from "@/components/admin/StudentsManager";
+import { studentService } from "@/services/studentService";
 import {
   useSiteConfig,
   JobPost,
@@ -78,6 +79,7 @@ export default function AdminDashboard() {
     reloadLeads,
     syncLeadsFromCloud,
     testLeadWebhook,
+    syncCandidatesFromGoogleSheet,
     cloudConfig,
     updateCloudConfig,
     syncWithCloud,
@@ -104,8 +106,27 @@ export default function AdminDashboard() {
       if (settings.leadSheetCsvUrl || settings.leadWebhookUrl) {
         syncLeadsFromCloud().catch(() => {});
       }
+    } else if (activeTab === "students") {
+      if (settings.candidateSheetCsvUrl) {
+        syncCandidatesFromGoogleSheet().catch(() => {});
+      }
     }
-  }, [activeTab, settings.leadSheetCsvUrl, settings.leadWebhookUrl]);
+  }, [activeTab, settings.leadSheetCsvUrl, settings.leadWebhookUrl, settings.candidateSheetCsvUrl]);
+
+  React.useEffect(() => {
+    const updateCount = () => {
+      try {
+        const raw = localStorage.getItem("ias_students_registry");
+        if (raw) setStudentCount(JSON.parse(raw).length);
+      } catch {}
+    };
+    window.addEventListener("ias_candidates_synced", updateCount);
+    window.addEventListener("storage", updateCount);
+    return () => {
+      window.removeEventListener("ias_candidates_synced", updateCount);
+      window.removeEventListener("storage", updateCount);
+    };
+  }, []);
 
   // Password change state
   const [adminEmail, setAdminEmail] = useState("admin@indianallianceservices.com");
@@ -179,6 +200,11 @@ export default function AdminDashboard() {
   const [isTestingWebhook, setIsTestingWebhook] = useState(false);
   const [isScriptCopied, setIsScriptCopied] = useState(false);
 
+  // Google Sheet Candidate Sync State
+  const [candidateCsvInput, setCandidateCsvInput] = useState(settings.candidateSheetCsvUrl || "");
+  const [candidateWebhookInput, setCandidateWebhookInput] = useState(settings.candidateWebhookUrl || "");
+  const [isCandidateSyncing, setIsCandidateSyncing] = useState(false);
+
   // Branch Modal State
   const [isBranchModalOpen, setIsBranchModalOpen] = useState(false);
   const [editingBranchId, setEditingBranchId] = useState<string | null>(null);
@@ -206,6 +232,8 @@ export default function AdminDashboard() {
     studentAccessPassword: "IAS#Student@2026",
     leadWebhookUrl: "",
     leadSheetCsvUrl: "",
+    candidateSheetCsvUrl: "",
+    candidateWebhookUrl: "",
   });
 
   // Sync settings into local form state
@@ -223,6 +251,12 @@ export default function AdminDashboard() {
       }
       if (settings.leadAlertEmail) {
         setLeadAlertEmailInput(settings.leadAlertEmail);
+      }
+      if (settings.candidateSheetCsvUrl) {
+        setCandidateCsvInput(settings.candidateSheetCsvUrl);
+      }
+      if (settings.candidateWebhookUrl) {
+        setCandidateWebhookInput(settings.candidateWebhookUrl);
       }
     }
   }, [settings]);
@@ -549,6 +583,25 @@ export default function AdminDashboard() {
     setIsLeadSyncing(false);
     if (result.success) {
       toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
+  };
+
+  // Sync Candidates from Google Sheet
+  const handleSyncCandidates = async () => {
+    setIsCandidateSyncing(true);
+    if (candidateCsvInput.trim() && candidateCsvInput.trim() !== settings.candidateSheetCsvUrl) {
+      await updateSettings({ candidateSheetCsvUrl: candidateCsvInput.trim() });
+    }
+    const result = await syncCandidatesFromGoogleSheet(candidateCsvInput.trim() || undefined);
+    setIsCandidateSyncing(false);
+    if (result.success) {
+      toast.success(result.message);
+      try {
+        const raw = localStorage.getItem("ias_students_registry");
+        if (raw) setStudentCount(JSON.parse(raw).length);
+      } catch {}
     } else {
       toast.error(result.message);
     }
@@ -1655,6 +1708,25 @@ function doGet(e) {
 
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-slate-300 block">
+                    Candidate & Trainee Registry Google Sheet URL (CSV / Web)
+                  </label>
+                  <div className="relative">
+                    <GraduationCap className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-400" />
+                    <input
+                      type="url"
+                      value={formData.candidateSheetCsvUrl || ""}
+                      onChange={(e) => setFormData({ ...formData, candidateSheetCsvUrl: e.target.value })}
+                      placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?output=csv or edit link"
+                      className="w-full h-11 pl-10 pr-4 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 font-mono font-medium"
+                    />
+                  </div>
+                  <p className="text-[11px] text-slate-500">
+                    Auto-syncs candidate records across all client laptops, phones & public /verify verification portal
+                  </p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-300 block">
                     Primary Display Address (Head Office)
                   </label>
                   <div className="relative">
@@ -2152,6 +2224,92 @@ function doGet(e) {
                     <li>Set <em>Execute as:</em> <strong>Me</strong> and set <em>Who has access:</em> <strong>Anyone</strong>.</li>
                     <li>Click <strong>Deploy</strong>, authorize Google permissions, copy the <strong>Web app URL</strong>, and paste it into field #1 above!</li>
                   </ol>
+                </div>
+              </div>
+
+              {/* Card 1.5: Candidate & Trainee Registry Google Sheet Sync */}
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-2xl bg-amber-500/15 p-3 text-amber-400">
+                      <GraduationCap className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-heading font-bold text-base text-white">
+                        Candidate & Trainee Registry Google Sheet Sync (Cross-Device)
+                      </h3>
+                      <p className="text-xs text-slate-400">
+                        {settings.candidateSheetCsvUrl
+                          ? "✅ Google Sheet Connected — Live sync active across client laptops & mobile /verify"
+                          : "⚡ Local Storage Mode (Connect your Google Sheet below to sync all devices)"}
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => studentService.downloadCSV()}
+                    className="border-slate-700 text-slate-300 hover:text-white text-xs gap-1.5 self-start sm:self-auto"
+                  >
+                    <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" />
+                    Export Candidates CSV
+                  </Button>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-200 block">
+                      Google Sheet Published CSV or Share URL
+                    </label>
+                    <div className="relative">
+                      <Table className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-400" />
+                      <input
+                        type="url"
+                        value={candidateCsvInput}
+                        onChange={(e) => setCandidateCsvInput(e.target.value)}
+                        placeholder="https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?output=csv or edit link"
+                        className="w-full h-11 pl-10 pr-4 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs focus:outline-none focus:border-amber-500 font-mono font-medium"
+                      />
+                    </div>
+                    <p className="text-[11px] text-slate-400">
+                      Publish your candidate Google Sheet (<code className="text-amber-300">File → Share → Publish to web → CSV</code>) or paste the share link.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3 pt-2">
+                    <Button
+                      onClick={async () => {
+                        await updateSettings({ candidateSheetCsvUrl: candidateCsvInput.trim() });
+                        toast.success("Candidate registry sheet settings saved successfully!");
+                      }}
+                      className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-5 px-6 rounded-2xl text-xs shadow-md"
+                    >
+                      <Save className="h-4 w-4" /> Save Candidate Sheet Settings
+                    </Button>
+
+                    <Button
+                      variant="outline"
+                      onClick={handleSyncCandidates}
+                      disabled={isCandidateSyncing}
+                      className="border-emerald-500/50 text-emerald-300 hover:bg-emerald-950/30 font-bold py-5 px-5 rounded-2xl text-xs"
+                    >
+                      <RefreshCw className={`h-4 w-4 ${isCandidateSyncing ? "animate-spin" : ""}`} />
+                      {isCandidateSyncing ? "Syncing Candidates..." : "Sync Candidates from Google Sheet"}
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="border-t border-slate-800 pt-4 space-y-2 text-xs text-slate-400">
+                  <div className="font-semibold text-slate-200 flex items-center gap-1.5">
+                    <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+                    <span>Candidate Google Sheet Column Structure:</span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed">
+                    Make sure your Google Sheet first row has these column headers:
+                  </p>
+                  <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-[10px] text-amber-300 overflow-x-auto whitespace-nowrap">
+                    Application Number, Registration Number, Batch Code, Candidate Name, Father Name, Date of Birth, Mobile Number, Email, Course Name, Date of Placement, Visiting Date, Interview Date, Status, Failure Reason, Photo URL
+                  </div>
                 </div>
               </div>
 

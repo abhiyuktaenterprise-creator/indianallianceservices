@@ -261,4 +261,72 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await expect(page.getByText('Joining', { exact: true }).first()).toBeVisible();
     await expect(page.locator('text=Authentic Record')).toBeVisible();
   });
+
+  test('Google Sheet candidate sync and export CSV workflow in Admin & verification lookup', async ({ page }) => {
+    // Intercept mock Google Sheet CSV URL
+    const mockSheetCsv = [
+      'Application Number,Registration Number,Batch Code,Candidate Name,Father Name,Date of Birth,Mobile Number,Email,Course Name,Date of Placement,Visiting Date,Interview Date,Status,Failure Reason,Photo URL',
+      'IAS-APP-2026/SHEET888,IAS26Y2DEL2026/SHEET888,IAS-TRG-2026/B888,Sunita Devi,Ramesh Devi,2001-05-15,9876543210,sunita@test.com,Airport Ground Staff & Passenger Services,2026-12-01,2027-03-01,2026-11-20,Joining,,',
+    ].join('\n');
+
+    await page.route('**/mock-google-sheet-candidates.csv', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'text/csv',
+        body: mockSheetCsv,
+      });
+    });
+
+    // Admin session
+    await page.addInitScript(() => {
+      localStorage.setItem('acs_admin_session', 'true');
+      sessionStorage.setItem('acs_admin_session', 'true');
+    });
+
+    await page.goto('/admin/dashboard');
+
+    // Click Candidates tab
+    const studentTabBtn = page.locator('button').filter({ hasText: /Candidates \(\d+\)/ });
+    await expect(studentTabBtn).toBeVisible();
+    await studentTabBtn.click();
+
+    // Verify toolbar buttons
+    const syncBtn = page.locator('button:has-text("Sync Google Sheet")');
+    await expect(syncBtn).toBeVisible();
+
+    const sheetLinkBtn = page.locator('button:has-text("Sheet Link")');
+    await expect(sheetLinkBtn).toBeVisible();
+
+    const exportCsvBtn = page.locator('button:has-text("Export CSV")');
+    await expect(exportCsvBtn).toBeVisible();
+
+    // Open Google Sheet Link modal
+    await sheetLinkBtn.click();
+    await expect(page.locator('h3:has-text("Google Sheet Real-Time Sync")')).toBeVisible();
+
+    // Fill in mock Google Sheet CSV URL
+    const sheetInput = page.locator('input[placeholder*="docs.google.com/spreadsheets"]');
+    await expect(sheetInput).toBeVisible();
+    await sheetInput.fill('https://example.com/mock-google-sheet-candidates.csv');
+
+    // Click Save & Sync Now
+    await page.locator('button:has-text("Save & Sync Now")').click();
+
+    // Verify candidate Sunita Devi appears in candidate table
+    await expect(page.locator('table').locator('text=Sunita Devi')).toBeVisible();
+    await expect(page.locator('table').locator('text=IAS-APP-2026/SHEET888')).toBeVisible();
+    await expect(page.locator('table').getByText('Joining', { exact: true })).toBeVisible();
+
+    // Now test public verification page
+    await page.goto('/verify');
+    const verifySearchInput = page.locator('input[placeholder*="Application Number"]');
+    await verifySearchInput.fill('IAS-APP-2026/SHEET888');
+    await page.locator('button:has-text("Verify Application")').click();
+
+    // Candidate should verify immediately
+    await expect(page.locator('text=Sunita Devi')).toBeVisible();
+    await expect(page.locator('text=IAS-TRG-2026/B888')).toBeVisible();
+    await expect(page.getByText('Joining', { exact: true }).first()).toBeVisible();
+    await expect(page.locator('text=Authentic Record')).toBeVisible();
+  });
 });

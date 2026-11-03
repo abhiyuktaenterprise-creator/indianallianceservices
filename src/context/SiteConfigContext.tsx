@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { saveSubmittedPhone, checkDuplicatePhone } from "@/utils/leadValidator";
+import { studentService } from "@/services/studentService";
 
 // 1. Job Post Interface
 export interface JobPost {
@@ -119,6 +120,8 @@ export interface SiteSettings {
   leadWebhookUrl?: string; // Google Apps Script Web App / Webhook URL for real-time lead submission
   leadSheetCsvUrl?: string; // Google Sheet Published CSV URL to sync leads into admin dashboard
   leadAlertEmail?: string; // Email address to receive immediate lead alerts
+  candidateSheetCsvUrl?: string; // Google Sheet Published CSV URL for enrolled candidates/students registry
+  candidateWebhookUrl?: string; // Optional Webhook URL to dispatch new candidates to Google Sheet
 }
 
 // 8. Cloud Config Interface
@@ -347,6 +350,7 @@ interface SiteConfigContextType {
   reloadLeads: () => void;
   syncLeadsFromCloud: (url?: string) => Promise<{ success: boolean; count: number; message: string }>;
   testLeadWebhook: (webhookUrl?: string) => Promise<{ success: boolean; message: string }>;
+  syncCandidatesFromGoogleSheet: (customUrl?: string) => Promise<{ success: boolean; count: number; message: string }>;
   cloudConfig: CloudConfig;
   updateCloudConfig: (config: Partial<CloudConfig>) => Promise<void>;
   syncWithCloud: () => Promise<boolean>;
@@ -371,6 +375,8 @@ const DEFAULT_SETTINGS: SiteSettings = {
   leadWebhookUrl: "https://script.google.com/macros/s/AKfycbxCEshgi71fYbR9KWaTN4ExGEZnciio1R6vwJsKRjMx3rK4RVd1_JSS0XkDgrppVXeyxg/exec",
   leadSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSS3Ip6lUaAy-3fzvaSleTTyoILKrip1eFn4h8Dnl7LeTwGqKPIgtU2ppaaP_KSC19LPHGAUJ6ypFHE/pub?output=csv",
   leadAlertEmail: "support@indianallianceservices.com",
+  candidateSheetCsvUrl: "",
+  candidateWebhookUrl: "",
 };
 
 const DEFAULT_HOME_CONTENT: HomeContent = {
@@ -1214,6 +1220,9 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   // Settings
   const updateSettings = async (newSettings: Partial<SiteSettings>) => {
+    if (newSettings.candidateSheetCsvUrl !== undefined) {
+      studentService.setCandidateSheetUrl(newSettings.candidateSheetCsvUrl);
+    }
     setSettings((prev) => ({ ...prev, ...newSettings }));
   };
 
@@ -1769,6 +1778,20 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   };
 
+  const syncCandidatesFromGoogleSheet = async (
+    customUrl?: string
+  ): Promise<{ success: boolean; count: number; message: string }> => {
+    const url = (customUrl || settings.candidateSheetCsvUrl || "").trim();
+    const res = await studentService.syncFromGoogleSheet(url);
+    return {
+      success: res.success,
+      count: res.count,
+      message: res.success
+        ? `Successfully synchronized ${res.count} candidates from Google Sheet!`
+        : res.error || "Failed to sync candidates from Google Sheet.",
+    };
+  };
+
   // Cloud Config
   const updateCloudConfig = async (config: Partial<CloudConfig>) => {
     setCloudConfig((prev) => ({ ...prev, ...config }));
@@ -1820,6 +1843,7 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         reloadLeads,
         syncLeadsFromCloud,
         testLeadWebhook,
+        syncCandidatesFromGoogleSheet,
         cloudConfig,
         updateCloudConfig,
         syncWithCloud,

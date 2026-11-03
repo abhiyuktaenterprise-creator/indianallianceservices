@@ -241,6 +241,328 @@ export const DEFAULT_STUDENTS: Student[] = [
   },
 ];
 
+// Helper to parse standard CSV text (handles quotes, commas, multiline values)
+export function parseCSV(csvText: string): string[][] {
+  const rows: string[][] = [];
+  let currentRow: string[] = [];
+  let currentField = "";
+  let insideQuotes = false;
+
+  for (let i = 0; i < csvText.length; i++) {
+    const char = csvText[i];
+    const nextChar = csvText[i + 1];
+
+    if (char === '"') {
+      if (insideQuotes && nextChar === '"') {
+        currentField += '"';
+        i++;
+      } else {
+        insideQuotes = !insideQuotes;
+      }
+    } else if (char === "," && !insideQuotes) {
+      currentRow.push(currentField.trim());
+      currentField = "";
+    } else if ((char === "\r" || char === "\n") && !insideQuotes) {
+      if (char === "\r" && nextChar === "\n") i++;
+      currentRow.push(currentField.trim());
+      if (currentRow.some((f) => f.length > 0)) {
+        rows.push(currentRow);
+      }
+      currentRow = [];
+      currentField = "";
+    } else {
+      currentField += char;
+    }
+  }
+  if (currentField.length > 0 || currentRow.length > 0) {
+    currentRow.push(currentField.trim());
+    if (currentRow.some((f) => f.length > 0)) {
+      rows.push(currentRow);
+    }
+  }
+  return rows;
+}
+
+// Normalize dates from various sheet formats (YYYY-MM-DD, DD/MM/YYYY, DD-MM-YYYY, etc.) to YYYY-MM-DD
+export function normalizeDate(raw: string | undefined | null): string | null {
+  if (!raw || !raw.trim()) return null;
+  const s = raw.trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  const dmyMatch = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if (dmyMatch) {
+    const day = dmyMatch[1].padStart(2, "0");
+    const month = dmyMatch[2].padStart(2, "0");
+    const year = dmyMatch[3];
+    return `${year}-${month}-${day}`;
+  }
+  const ymdMatch = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+  if (ymdMatch) {
+    const year = ymdMatch[1];
+    const month = ymdMatch[2].padStart(2, "0");
+    const day = ymdMatch[3].padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+  const parsed = Date.parse(s);
+  if (!isNaN(parsed)) {
+    const d = new Date(parsed);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+  return s;
+}
+
+// Normalize status values to allowed union
+export function normalizeStatus(raw: string | undefined | null): Student["status"] {
+  if (!raw) return "Active";
+  const s = raw.trim().toLowerCase();
+  if (s.includes("rejoin")) return "Rejoining";
+  if (s.includes("join")) return "Joining";
+  if (s.includes("comp") || s.includes("pass") || s.includes("cert")) return "Completed";
+  if (s.includes("fail")) return "Failed";
+  if (s.includes("disc") || s.includes("drop")) return "Discontinued";
+  return "Active";
+}
+
+// Normalize any Google Sheet URL (pubhtml, standard /edit share link, or CSV link) to live CSV
+export function normalizeGoogleSheetCsvUrl(rawUrl: string): string {
+  let url = (rawUrl || "").trim();
+  if (!url) return "";
+
+  if (url.includes("/pub?") && url.includes("output=csv")) {
+    return url;
+  }
+  if (url.includes("/pubhtml")) {
+    return url.replace("/pubhtml", "/pub?output=csv");
+  }
+  if (url.includes("docs.google.com/spreadsheets/d/")) {
+    const match = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+    if (match && match[1]) {
+      const sheetId = match[1];
+      const gidMatch = url.match(/[?&#]gid=([0-9]+)/);
+      const gidParam = gidMatch ? `&gid=${gidMatch[1]}` : "";
+      return `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv${gidParam}`;
+    }
+  }
+  return url;
+}
+
+export const CANDIDATE_SHEET_URL_KEY = "ias_candidate_sheet_url";
+
+export function getCandidateSheetUrl(): string {
+  if (typeof window === "undefined") return "";
+  const direct = localStorage.getItem(CANDIDATE_SHEET_URL_KEY);
+  if (direct && direct.trim()) return direct.trim();
+
+  try {
+    const rawSettings = localStorage.getItem("acs_site_settings");
+    if (rawSettings) {
+      const parsed = JSON.parse(rawSettings);
+      if (parsed && parsed.candidateSheetCsvUrl && parsed.candidateSheetCsvUrl.trim()) {
+        return parsed.candidateSheetCsvUrl.trim();
+      }
+    }
+  } catch {}
+
+  return "";
+}
+
+export function setCandidateSheetUrl(url: string): void {
+  if (typeof window === "undefined") return;
+  const clean = url.trim();
+  localStorage.setItem(CANDIDATE_SHEET_URL_KEY, clean);
+
+  try {
+    const rawSettings = localStorage.getItem("acs_site_settings");
+    const parsed = rawSettings ? JSON.parse(rawSettings) : {};
+    parsed.candidateSheetCsvUrl = clean;
+    localStorage.setItem("acs_site_settings", JSON.stringify(parsed));
+  } catch {}
+}
+
+// Convert CSV rows into Student array from Google Sheet
+export function parseGoogleSheetsCandidates(csvText: string): Student[] {
+  const rows = parseCSV(csvText);
+  if (rows.length < 2) return [];
+
+  const headers = rows[0].map((h) => h.toLowerCase().replace(/[^a-z0-9]/g, ""));
+
+  const appIdx = headers.findIndex((h) => h.includes("app") || h.includes("roll"));
+  const regIdx = headers.findIndex((h) => h.includes("reg") && !h.includes("app"));
+  const batchIdx = headers.findIndex((h) => h.includes("batch"));
+  const nameIdx = headers.findIndex(
+    (h) => (h.includes("name") || h.includes("candidate") || h.includes("student")) &&
+      !h.includes("father") &&
+      !h.includes("course")
+  );
+  const fatherIdx = headers.findIndex((h) => h.includes("father") || h.includes("parent"));
+  const dobIdx = headers.findIndex((h) => h.includes("dob") || h.includes("birth"));
+  const mobileIdx = headers.findIndex(
+    (h) => h.includes("mobile") || h.includes("phone") || h.includes("contact") || h.includes("whatsapp")
+  );
+  const emailIdx = headers.findIndex((h) => h.includes("email") || h.includes("mail"));
+  const courseIdx = headers.findIndex(
+    (h) => h.includes("course") || h.includes("trade") || h.includes("program") || h.includes("training")
+  );
+  const admIdx = headers.findIndex((h) => h.includes("admission") || h.includes("enrol"));
+  const placeIdx = headers.findIndex((h) => h.includes("placement") || (h.includes("start") && !h.includes("batch")));
+  const visitIdx = headers.findIndex((h) => h.includes("visit") || h.includes("completion") || h.includes("end"));
+  const interviewIdx = headers.findIndex((h) => h.includes("interview"));
+  const statusIdx = headers.findIndex((h) => h.includes("status"));
+  const reasonIdx = headers.findIndex((h) => h.includes("reason") || h.includes("failure") || h.includes("remark") || h.includes("note"));
+  const photoIdx = headers.findIndex((h) => h.includes("photo") || h.includes("image") || h.includes("pic") || h.includes("avatar"));
+
+  const parsedStudents: Student[] = [];
+
+  for (let r = 1; r < rows.length; r++) {
+    const row = rows[r];
+    const studentName = nameIdx !== -1 && row[nameIdx] ? row[nameIdx].trim() : (row[0] || "").trim();
+    let appNo = appIdx !== -1 && row[appIdx] ? row[appIdx].trim() : "";
+
+    if (!studentName && !appNo) continue;
+
+    if (!appNo) {
+      appNo = `IAS-APP-2026/${130000 + r}`;
+    }
+
+    const regNo = regIdx !== -1 && row[regIdx] ? row[regIdx].trim() : appNo;
+    const batchCode = batchIdx !== -1 && row[batchIdx] ? row[batchIdx].trim() : `IAS-TRG-2026/${appNo.replace(/\D/g, "").slice(-6) || r}`;
+    const fatherName = fatherIdx !== -1 && row[fatherIdx] ? row[fatherIdx].trim() : "Not Provided";
+    const dob = dobIdx !== -1 && row[dobIdx] ? normalizeDate(row[dobIdx]) || "2000-01-01" : "2000-01-01";
+    const mobile = mobileIdx !== -1 && row[mobileIdx] ? row[mobileIdx].trim().replace(/^'+/, "") : "";
+    const email = emailIdx !== -1 && row[emailIdx] ? row[emailIdx].trim() : null;
+    const courseName = courseIdx !== -1 && row[courseIdx] ? row[courseIdx].trim() : "Airport Ground Staff & Passenger Services";
+    
+    const admissionDate = admIdx !== -1 && row[admIdx] ? normalizeDate(row[admIdx]) || new Date().toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
+    const placementDate = placeIdx !== -1 && row[placeIdx] ? normalizeDate(row[placeIdx]) : admissionDate;
+    const visitingDate = visitIdx !== -1 && row[visitIdx] ? normalizeDate(row[visitIdx]) : null;
+    const interviewDate = interviewIdx !== -1 && row[interviewIdx] ? normalizeDate(row[interviewIdx]) : null;
+    const status = normalizeStatus(statusIdx !== -1 ? row[statusIdx] : "Active");
+    const failureReason = reasonIdx !== -1 && row[reasonIdx] ? row[reasonIdx].trim() : null;
+    const photoUrl = photoIdx !== -1 && row[photoIdx] ? row[photoIdx].trim() : null;
+
+    parsedStudents.push({
+      id: `ias-std-${appNo.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase()}`,
+      application_number: appNo,
+      registration_number: regNo,
+      batch_code: batchCode,
+      student_name: studentName,
+      father_name: fatherName,
+      date_of_birth: dob,
+      mobile_number: mobile,
+      email: email || undefined,
+      course_name: courseName,
+      admission_date: admissionDate,
+      placement_date: placementDate,
+      visiting_date: visitingDate,
+      course_start_date: placementDate,
+      course_end_date: visitingDate,
+      interview_date: interviewDate,
+      status,
+      failure_reason: failureReason,
+      is_archived: false,
+      photo_url: photoUrl,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    });
+  }
+
+  return parsedStudents;
+}
+
+// Helper to export candidates to CSV formatted for Google Sheets
+export function exportCandidatesToCSV(customList?: Student[]): string {
+  const students = customList || getLocalStudents();
+  const headers = [
+    "Application Number",
+    "Registration Number",
+    "Batch Code",
+    "Candidate Name",
+    "Father Name",
+    "Date of Birth",
+    "Mobile Number",
+    "Email",
+    "Course Name",
+    "Date of Placement",
+    "Visiting Date",
+    "Interview Date",
+    "Status",
+    "Failure Reason",
+    "Photo URL"
+  ];
+
+  const escapeCSV = (val: string | null | undefined): string => {
+    if (val === null || val === undefined) return "";
+    const str = String(val);
+    if (str.includes(",") || str.includes('"') || str.includes("\n") || str.includes("\r")) {
+      return `"${str.replace(/"/g, '""')}"`;
+    }
+    return str;
+  };
+
+  const rows = students.map((s) => [
+    escapeCSV(s.application_number),
+    escapeCSV(s.registration_number || s.application_number),
+    escapeCSV(s.batch_code || `IAS-TRG-${s.application_number.replace(/\D/g, "")}`),
+    escapeCSV(s.student_name),
+    escapeCSV(s.father_name),
+    escapeCSV(s.date_of_birth),
+    escapeCSV(s.mobile_number),
+    escapeCSV(s.email || ""),
+    escapeCSV(s.course_name),
+    escapeCSV(s.placement_date || s.course_start_date || ""),
+    escapeCSV(s.visiting_date || s.course_end_date || ""),
+    escapeCSV(s.interview_date || ""),
+    escapeCSV(s.status),
+    escapeCSV(s.failure_reason || ""),
+    escapeCSV(s.photo_url || "")
+  ].join(","));
+
+  return [headers.join(","), ...rows].join("\r\n");
+}
+
+// Trigger browser download of CSV file with UTF-8 BOM
+export function downloadCandidatesCSV(customList?: Student[]): void {
+  if (typeof window === "undefined") return;
+  const csvContent = exportCandidatesToCSV(customList);
+  const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  const dateStr = new Date().toISOString().split("T")[0];
+  link.setAttribute("href", url);
+  link.setAttribute("download", `IAS_Candidates_Registry_${dateStr}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+// Candidate matcher helper
+function findCandidateMatch(list: Student[], queryTrimmed: string, dobTrimmed?: string): Student | undefined {
+  const cleanQuery = queryTrimmed.toUpperCase();
+  return list.find((s) => {
+    const appClean = s.application_number.trim().toUpperCase();
+    const regClean = s.registration_number ? s.registration_number.trim().toUpperCase() : "";
+
+    const appMatches =
+      appClean === cleanQuery ||
+      appClean.endsWith(`/${cleanQuery}`) ||
+      appClean.endsWith(`-${cleanQuery}`) ||
+      cleanQuery.endsWith(appClean);
+
+    const regMatches =
+      regClean === cleanQuery ||
+      regClean.endsWith(`/${cleanQuery}`) ||
+      regClean.endsWith(`-${cleanQuery}`) ||
+      cleanQuery.endsWith(regClean);
+
+    if ((!appMatches && !regMatches) || s.is_archived) return false;
+    if (dobTrimmed) return s.date_of_birth === dobTrimmed;
+    return true;
+  });
+}
+
 // Helper to get local students
 const getLocalStudents = (): Student[] => {
   try {
@@ -429,6 +751,22 @@ export const studentService = {
     list.unshift(newStudent);
     saveLocalStudents(list);
 
+    // Background dispatch to Candidate Webhook if configured
+    try {
+      const rawSettings = localStorage.getItem('acs_site_settings');
+      if (rawSettings) {
+        const parsed = JSON.parse(rawSettings);
+        if (parsed.candidateWebhookUrl && parsed.candidateWebhookUrl.trim()) {
+          fetch(parsed.candidateWebhookUrl.trim(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newStudent),
+            mode: 'no-cors',
+          }).catch((e) => console.warn('Candidate webhook dispatch notice:', e));
+        }
+      }
+    } catch {}
+
     return { data: newStudent, error: null };
   },
 
@@ -524,6 +862,7 @@ export const studentService = {
   /**
    * Public Verification Lookup
    * Checks by Application Number (or fallback Registration Number)
+   * If candidate is not cached locally, automatically queries the configured Google Sheet
    */
   async verifyStudent(
     queryNumber: string,
@@ -536,27 +875,24 @@ export const studentService = {
       return { data: null, verified: false, error: 'Application Number is required.' };
     }
 
-    const list = getLocalStudents();
-    const cleanQuery = queryTrimmed.toUpperCase();
+    let list = getLocalStudents();
+    let match = findCandidateMatch(list, queryTrimmed, dobTrimmed);
 
-    const match = list.find((s) => {
-      const appClean = s.application_number.trim().toUpperCase();
-      const regClean = s.registration_number ? s.registration_number.trim().toUpperCase() : '';
-
-      const appMatches =
-        appClean === cleanQuery ||
-        appClean.endsWith(`/${cleanQuery}`) ||
-        appClean.endsWith(`-${cleanQuery}`);
-
-      const regMatches =
-        regClean === cleanQuery ||
-        regClean.endsWith(`/${cleanQuery}`) ||
-        regClean.endsWith(`-${cleanQuery}`);
-
-      if ((!appMatches && !regMatches) || s.is_archived) return false;
-      if (dobTrimmed) return s.date_of_birth === dobTrimmed;
-      return true;
-    });
+    // If candidate is not found locally, and we are online and have a Google Sheet URL, fetch live data
+    if (!match && typeof window !== 'undefined' && navigator.onLine) {
+      const sheetUrl = getCandidateSheetUrl();
+      if (sheetUrl) {
+        try {
+          const syncRes = await studentService.syncFromGoogleSheet(sheetUrl);
+          if (syncRes.success && syncRes.data.length > 0) {
+            list = syncRes.data;
+            match = findCandidateMatch(list, queryTrimmed, dobTrimmed);
+          }
+        } catch (err) {
+          console.warn('Real-time Google Sheet candidate sync on verification lookup notice:', err);
+        }
+      }
+    }
 
     if (match) {
       const publicResult: PublicVerificationResult = {
@@ -581,6 +917,122 @@ export const studentService = {
     }
 
     return { data: null, verified: false, error: null };
+  },
+
+  /**
+   * Sync candidates from Google Sheet CSV
+   * Merges incoming Google Sheet entries with local storage registry
+   */
+  async syncFromGoogleSheet(
+    customUrl?: string
+  ): Promise<{ success: boolean; count: number; error: string | null; data: Student[] }> {
+    const targetRaw = (customUrl || getCandidateSheetUrl()).trim();
+    if (!targetRaw) {
+      return {
+        success: false,
+        count: 0,
+        error: 'No Google Sheet URL configured. Please enter a published CSV link or Google Sheet URL.',
+        data: getLocalStudents(),
+      };
+    }
+
+    const fetchUrl = normalizeGoogleSheetCsvUrl(targetRaw);
+
+    try {
+      const res = await fetch(fetchUrl, { cache: 'no-store' });
+      if (!res.ok) {
+        throw new Error(`Failed to fetch sheet (HTTP ${res.status}). Ensure the sheet is public or published to web.`);
+      }
+
+      const csvText = await res.text();
+      const incoming = parseGoogleSheetsCandidates(csvText);
+
+      if (incoming.length === 0) {
+        return {
+          success: false,
+          count: 0,
+          error: 'No candidate records found in the sheet. Please ensure column headers include Application Number and Candidate Name.',
+          data: getLocalStudents(),
+        };
+      }
+
+      // Merge incoming candidates with local registry
+      const currentList = getLocalStudents();
+      const merged: Student[] = [...currentList];
+
+      for (const inc of incoming) {
+        const idx = merged.findIndex(
+          (s) =>
+            s.application_number.trim().toUpperCase() === inc.application_number.trim().toUpperCase() ||
+            (s.registration_number && inc.registration_number && s.registration_number.trim().toUpperCase() === inc.registration_number.trim().toUpperCase()) ||
+            s.id === inc.id
+        );
+
+        if (idx !== -1) {
+          // Update existing candidate, preserving local photo if incoming has none
+          merged[idx] = {
+            ...merged[idx],
+            ...inc,
+            photo_url: inc.photo_url || merged[idx].photo_url,
+            is_archived: merged[idx].is_archived,
+            updated_at: new Date().toISOString(),
+          };
+        } else {
+          // Add candidate from sheet
+          merged.push(inc);
+        }
+      }
+
+      saveLocalStudents(merged);
+
+      // Save working URL
+      setCandidateSheetUrl(targetRaw);
+
+      // Dispatch sync events across all open tabs/components
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('ias_candidates_synced', { detail: { count: incoming.length } }));
+        window.dispatchEvent(new Event('storage'));
+      }
+
+      return {
+        success: true,
+        count: incoming.length,
+        error: null,
+        data: merged,
+      };
+    } catch (err: any) {
+      console.error('Error syncing candidates from Google Sheet:', err);
+      return {
+        success: false,
+        count: 0,
+        error: err.message || 'Failed to sync with Google Sheet. Please check the URL and internet connection.',
+        data: getLocalStudents(),
+      };
+    }
+  },
+
+  /**
+   * Helper to get configured candidate Google Sheet URL
+   */
+  getCandidateSheetUrl,
+
+  /**
+   * Helper to set configured candidate Google Sheet URL
+   */
+  setCandidateSheetUrl,
+
+  /**
+   * Export all candidate records as CSV formatted for Google Sheets
+   */
+  exportCSV(customList?: Student[]): string {
+    return exportCandidatesToCSV(customList);
+  },
+
+  /**
+   * Trigger browser file download of CSV
+   */
+  downloadCSV(customList?: Student[]): void {
+    downloadCandidatesCSV(customList);
   },
 
   /**

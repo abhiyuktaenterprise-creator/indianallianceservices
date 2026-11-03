@@ -149,8 +149,8 @@ export default function RecruitmentVerification() {
         "@type": "WebPage",
         "@id": "https://indianallianceservices.com/verify/#page",
         url: "https://indianallianceservices.com/verify",
-        name: "Student Verification | Indian Alliance Services",
-        description: "Official portal to verify enrolled student records, training credentials, and course completion certificates.",
+        name: "Candidate Verification | Indian Alliance Services",
+        description: "Official portal to verify enrolled candidate records, training credentials, and course completion certificates.",
       },
       {
         "@type": "BreadcrumbList",
@@ -164,7 +164,7 @@ export default function RecruitmentVerification() {
           {
             "@type": "ListItem",
             position: 2,
-            name: "Student Verification",
+            name: "Candidate Verification",
             item: "https://indianallianceservices.com/verify",
           },
         ],
@@ -186,8 +186,8 @@ export default function RecruitmentVerification() {
   return (
     <>
       <SEO
-        title="Student Verification | Indian Alliance Services"
-        description="Verify the authenticity of Indian Alliance Services enrolled student records, credentials, and course completion certificates using the official registration number."
+        title="Candidate Verification | Indian Alliance Services"
+        description="Verify the authenticity of Indian Alliance Services enrolled candidate records, credentials, and course completion certificates using the official registration number."
         canonical="https://indianallianceservices.com/verify"
         schema={verificationSchema}
       />
@@ -196,16 +196,16 @@ export default function RecruitmentVerification() {
       <section className="bg-navy-midnight text-white py-14 lg:py-16 border-b border-gold/25 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(212,175,55,0.18),transparent_50%)]" />
         <div className="container mx-auto px-4 relative z-10">
-          <Breadcrumbs items={[{ label: "Student Verification" }]} className="text-primary-foreground/70 mb-4" />
+          <Breadcrumbs items={[{ label: "Candidate Verification" }]} className="text-primary-foreground/70 mb-4" />
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full bg-navy-dark border border-gold/40 px-4 py-1 mb-4 shadow-md">
               <GraduationCap className="h-3.5 w-3.5 text-gold" />
               <span className="text-xs font-bold text-gold">
-                Official Student Verification Portal
+                Official Candidate Verification Portal
               </span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white leading-tight">
-              Student <span className="gold-gradient-text">Verification</span>
+              Candidate <span className="gold-gradient-text">Verification</span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-primary-foreground/80 leading-relaxed font-normal">
               Verify enrolled candidate status, training credentials, and course completion certificates using the official Indian Alliance Services registration number.

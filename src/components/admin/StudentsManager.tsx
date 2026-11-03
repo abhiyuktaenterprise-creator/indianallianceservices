@@ -147,7 +147,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
         }
       }
     } catch {
-      toast.error("Failed to load student records.");
+      toast.error("Failed to load candidate records.");
     } finally {
       setLoading(false);
     }
@@ -336,12 +336,12 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
     if (!deletingStudentId) return;
     const res = await studentService.deleteStudent(deletingStudentId);
     if (res.success) {
-      toast.success("Student permanently removed from registry.");
+      toast.success("Candidate permanently removed from registry.");
       setIsDeleteOpen(false);
       setDeletingStudentId(null);
       loadStudents();
     } else {
-      toast.error(res.error || "Failed to delete student record.");
+      toast.error(res.error || "Failed to delete candidate record.");
     }
   };
 
@@ -352,10 +352,10 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `ias_students_registry_backup_${new Date().toISOString().split("T")[0]}.json`;
+    link.download = `ias_candidates_registry_backup_${new Date().toISOString().split("T")[0]}.json`;
     link.click();
     URL.revokeObjectURL(url);
-    toast.success("Student registry exported successfully.");
+    toast.success("Candidate registry exported successfully.");
   };
 
   // Import JSON Backup
@@ -372,7 +372,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
         if (res.error) {
           toast.error(res.error);
         } else {
-          toast.success(`Successfully imported ${res.count} student records!`);
+          toast.success(`Successfully imported ${res.count} candidate records!`);
           loadStudents();
         }
       } catch {
@@ -387,7 +387,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
   const handleResetRegistry = async () => {
     if (
       window.confirm(
-        "Are you sure you want to reset the registry to default official academy records? This will restore sample official students."
+        "Are you sure you want to reset the registry to default official academy records? This will restore sample official candidates."
       )
     ) {
       await studentService.resetToRegistry();
@@ -407,10 +407,10 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
         <div>
           <h2 className="text-xl sm:text-2xl font-heading font-extrabold text-white flex items-center gap-2.5">
             <GraduationCap className="h-6 w-6 text-amber-400" />
-            <span>Student & Trainee Registry ({students.length})</span>
+            <span>Candidate & Trainee Registry ({students.length})</span>
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Manage enrolled students, training records, passport photos, and public verification status at /verify
+            Manage enrolled candidates, training records, passport photos, and public verification status at /verify
           </p>
         </div>
 
@@ -420,7 +420,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
             variant="hero"
             className="gap-2 font-bold text-xs py-2 px-4 shadow-md bg-amber-500 hover:bg-amber-600 text-slate-950"
           >
-            <Plus className="h-4 w-4" /> Add Student
+            <Plus className="h-4 w-4" /> Add Candidate
           </Button>
           <Button
             onClick={handleExportJSON}
@@ -500,7 +500,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by student name, registration no, application no, father name, or mobile..."
+            placeholder="Search by candidate name, registration no, application no, father name, or mobile..."
             className="w-full h-10 pl-10 pr-4 bg-slate-950 border border-slate-800 rounded-xl text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-500"
           />
         </div>
@@ -708,7 +708,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                             type="button"
                             onClick={() => handleOpenView(student)}
                             className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-                            title="View Student Profile"
+                            title="View Candidate Profile"
                           >
                             <Eye className="h-4 w-4" />
                           </button>
@@ -716,7 +716,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                             type="button"
                             onClick={() => handleOpenEdit(student)}
                             className="p-1.5 rounded-lg text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 transition-colors"
-                            title="Edit Student"
+                            title="Edit Candidate"
                           >
                             <Pencil className="h-4 w-4" />
                           </button>
@@ -739,7 +739,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                               setIsDeleteOpen(true);
                             }}
                             className="p-1.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
-                            title="Delete Student Record"
+                            title="Delete Candidate Record"
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
@@ -1028,7 +1028,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                     onChange={(e) => setFormData({ ...formData, failure_reason: e.target.value })}
                     placeholder={
                       formData.status === "Failed"
-                        ? "Enter reason why student failed (e.g. English communication benchmarks or grooming standards not met)..."
+                        ? "Enter reason why candidate failed (e.g. English communication benchmarks or grooming standards not met)..."
                         : "Optional note or remark for candidate..."
                     }
                     className={`w-full p-3 bg-slate-950 border ${
@@ -1089,7 +1089,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <h3 className="text-lg font-heading font-extrabold text-white flex items-center gap-2">
                 <User className="h-5 w-5 text-amber-400" />
-                <span>Student Profile Summary</span>
+                <span>Candidate Profile Summary</span>
               </h3>
               <button
                 type="button"
@@ -1283,9 +1283,9 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                 <Trash2 className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-white">Delete Student Record?</h3>
+                <h3 className="text-base font-bold text-white">Delete Candidate Record?</h3>
                 <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Are you sure you want to permanently delete this student record from the database? This action cannot be undone.
+                  Are you sure you want to permanently delete this candidate record from the database? This action cannot be undone.
                 </p>
               </div>
             </div>

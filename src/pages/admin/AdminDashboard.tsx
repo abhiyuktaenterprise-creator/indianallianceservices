@@ -811,7 +811,7 @@ function doGet(e) {
             <div className="container mx-auto px-4 flex overflow-x-auto no-scrollbar gap-1.5 py-2">
               {[
                 { id: "overview", label: "Dashboard", icon: LayoutDashboard },
-                { id: "students", label: `Students (${studentCount})`, icon: GraduationCap },
+                { id: "students", label: `Candidates (${studentCount})`, icon: GraduationCap },
                 { id: "careers", label: `Job Posts (${safeJobPosts.length})`, icon: Briefcase },
                 { id: "notifications", label: `Notices (${safeNotices.length})`, icon: Bell },
                 { id: "branches", label: `Offices (${safeBranches.length})`, icon: Building2 },
@@ -855,7 +855,7 @@ function doGet(e) {
                 >
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                      Students & Trainees
+                      Candidates & Trainees
                     </span>
                     <div className="rounded-xl bg-amber-500/10 p-2 text-amber-400">
                       <GraduationCap className="h-4 w-4" />
@@ -889,7 +889,7 @@ function doGet(e) {
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-sm">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                      Total Student Leads
+                      Total Candidate Leads
                     </span>
                     <div className="rounded-xl bg-blue-500/10 p-2 text-blue-400">
                       <Users className="h-4 w-4" />
@@ -950,7 +950,7 @@ function doGet(e) {
                       onClick={() => setActiveTab("students")}
                       className="w-full justify-start gap-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-5 rounded-2xl text-xs"
                     >
-                      <GraduationCap className="h-4 w-4" /> Manage Student Registry ({studentCount})
+                      <GraduationCap className="h-4 w-4" /> Manage Candidate Registry ({studentCount})
                     </Button>
                     <Button
                       onClick={handleOpenCreateJob}
@@ -985,7 +985,7 @@ function doGet(e) {
                       variant="outline"
                       className="w-full justify-start gap-2.5 border-slate-700 bg-slate-950/60 hover:bg-slate-800 text-white font-semibold py-5 rounded-2xl text-xs"
                     >
-                      <FileSpreadsheet className="h-4 w-4 text-emerald-400" /> Export Student Leads (.CSV)
+                      <FileSpreadsheet className="h-4 w-4 text-emerald-400" /> Export Candidate Leads (.CSV)
                     </Button>
                   </div>
                 </div>
@@ -1696,18 +1696,18 @@ function doGet(e) {
                   <div className="flex items-center justify-between mb-1.5">
                     <label className="text-xs font-semibold text-slate-300 block flex items-center gap-1.5">
                       <KeyRound className="h-3.5 w-3.5 text-amber-400" />
-                      <span>Student Interview Tips Portal Access Password</span>
+                      <span>Candidate Interview Tips Portal Access Password</span>
                     </label>
                   </div>
                   <input
                     type="text"
                     value={formData.studentAccessPassword || ""}
                     onChange={(e) => setFormData({ ...formData, studentAccessPassword: e.target.value })}
-                    placeholder="IAS#Student@2026"
+                    placeholder="IAS#Candidate@2026"
                     className="w-full h-11 px-3.5 bg-slate-950 border border-amber-500/40 text-amber-300 placeholder:text-slate-500 rounded-xl text-xs font-mono font-bold focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
                   />
                   <p className="text-[11px] text-slate-400">
-                    Students visiting <code className="text-amber-400 font-mono">/interview-tips</code> must enter this password to unlock interview question banks, GD tips, and mock interview answers.
+                    Candidates visiting <code className="text-amber-400 font-mono">/interview-tips</code> must enter this password to unlock interview question banks, GD tips, and mock interview answers.
                   </p>
                 </div>
 

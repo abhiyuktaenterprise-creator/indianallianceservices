@@ -343,7 +343,7 @@ export default function StudentLetterModal({
         ? "Training Welcome Letter"
         : letterType === "confirmation"
         ? "Training Confirmation Advice"
-        : "Student Training Agreement"
+        : "Candidate Training Agreement"
     }</title>
           <style>${LETTER_PREVIEW_CSS}</style>
         </head>
@@ -416,7 +416,7 @@ export default function StudentLetterModal({
             >
               <option value="welcome">🎓 Training Welcome Letter</option>
               <option value="confirmation">📋 Training Confirmation Advice</option>
-              <option value="agreement">📜 Student Agreement (3-Page)</option>
+              <option value="agreement">📜 Candidate Agreement (3-Page)</option>
             </select>
           </div>
 
@@ -808,17 +808,17 @@ function renderLetterContent(
           <div className="content-body">
             <div className="candidate-box">
               <div className="candidate-col">
-                <p><strong>Trainee / Student:</strong> {student.student_name}</p>
+                <p><strong>Trainee / Candidate:</strong> {student.student_name}</p>
                 <p><strong>Father's Name:</strong> {student.father_name}</p>
               </div>
               <div className="candidate-col" style={{ textAlign: "right" }}>
-                <p><strong>Student Ref:</strong> {student.application_number}</p>
+                <p><strong>Candidate Ref:</strong> {student.application_number}</p>
                 <p><strong>Training Program:</strong> {student.course_name}</p>
               </div>
             </div>
 
             <p className="clause-p" style={{ marginTop: "3px" }}>
-              This Student Vocational Training Agreement (the "Agreement") is entered into by and between{" "}
+              This Candidate Vocational Training Agreement (the "Agreement") is entered into by and between{" "}
               <strong>INDIAN ALLIANCE SERVICES</strong> (hereinafter referred to as the <strong>"Institute"</strong>) and{" "}
               <strong>{student.student_name}</strong> (hereinafter referred to as the <strong>"Trainee"</strong>).
             </p>

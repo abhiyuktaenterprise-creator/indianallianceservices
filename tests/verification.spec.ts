@@ -73,13 +73,13 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     // Navigate to admin dashboard
     await page.goto('/admin/dashboard');
 
-    // Click on Students tab in navbar
-    const studentTabBtn = page.locator('button').filter({ hasText: /Students \(\d+\)/ });
+    // Click on Candidates tab in navbar
+    const studentTabBtn = page.locator('button').filter({ hasText: /Candidates \(\d+\)/ });
     await expect(studentTabBtn).toBeVisible();
     await studentTabBtn.click();
 
-    // Click Add Student button
-    const addBtn = page.locator('button:has-text("Add Student")');
+    // Click Add Candidate button
+    const addBtn = page.locator('button:has-text("Add Candidate")');
     await expect(addBtn).toBeVisible();
     await addBtn.click();
 
@@ -109,13 +109,13 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     // 1. Navigate to Admin Dashboard
     await page.goto('/admin/dashboard');
 
-    // 2. Open Students tab
-    const studentTabBtn = page.locator('button').filter({ hasText: /Students \(\d+\)/ });
+    // 2. Open Candidates tab
+    const studentTabBtn = page.locator('button').filter({ hasText: /Candidates \(\d+\)/ });
     await expect(studentTabBtn).toBeVisible();
     await studentTabBtn.click();
 
     // 3. Open Add Candidate modal
-    const addBtn = page.locator('button:has-text("Add Student")');
+    const addBtn = page.locator('button:has-text("Add Candidate")');
     await expect(addBtn).toBeVisible();
     await addBtn.click();
 
@@ -173,7 +173,7 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await statusSelect.selectOption('Failed');
 
     // Enter Failure Reason Note
-    const failureNoteTextarea = page.locator('textarea[placeholder*="Enter reason why student failed"]');
+    const failureNoteTextarea = page.locator('textarea[placeholder*="Enter reason why candidate failed"]');
     await expect(failureNoteTextarea).toBeVisible();
     await failureNoteTextarea.fill(testFailureReason);
 
@@ -214,11 +214,11 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
 
     await page.goto('/admin/dashboard');
 
-    const studentTabBtn = page.locator('button').filter({ hasText: /Students \(\d+\)/ });
+    const studentTabBtn = page.locator('button').filter({ hasText: /Candidates \(\d+\)/ });
     await expect(studentTabBtn).toBeVisible();
     await studentTabBtn.click();
 
-    const addBtn = page.locator('button:has-text("Add Student")');
+    const addBtn = page.locator('button:has-text("Add Candidate")');
     await expect(addBtn).toBeVisible();
     await addBtn.click();
 

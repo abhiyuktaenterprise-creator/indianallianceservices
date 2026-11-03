@@ -204,6 +204,7 @@ export default function AdminDashboard() {
   const [candidateCsvInput, setCandidateCsvInput] = useState(settings.candidateSheetCsvUrl || "");
   const [candidateWebhookInput, setCandidateWebhookInput] = useState(settings.candidateWebhookUrl || "");
   const [isCandidateSyncing, setIsCandidateSyncing] = useState(false);
+  const [isCandidateScriptCopied, setIsCandidateScriptCopied] = useState(false);
 
   // Branch Modal State
   const [isBranchModalOpen, setIsBranchModalOpen] = useState(false);
@@ -759,6 +760,76 @@ function doGet(e) {
     setIsScriptCopied(true);
     toast.success("Google Apps Script code copied to clipboard!");
     setTimeout(() => setIsScriptCopied(false), 3000);
+  };
+
+  // Copy Candidate Registry Google Apps Script Template
+  const handleCopyCandidateAppsScript = () => {
+    const script = `// ================================================================
+// INDIAN ALLIANCE SERVICES — CANDIDATE REGISTRY GOOGLE APPS SCRIPT
+// ================================================================
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    
+    // Auto-create standard column headers if sheet is empty
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        "Application Number",
+        "Registration Number",
+        "Batch Code",
+        "Candidate Name",
+        "Father Name",
+        "Date of Birth",
+        "Mobile Number",
+        "Email",
+        "Course Name",
+        "Date of Placement",
+        "Visiting Date",
+        "Interview Date",
+        "Status",
+        "Failure Reason",
+        "Photo URL"
+      ]);
+    }
+    
+    sheet.appendRow([
+      data.application_number || "",
+      data.registration_number || data.application_number || "",
+      data.batch_code || "",
+      data.student_name || "",
+      data.father_name || "",
+      data.date_of_birth || "",
+      "'" + (data.mobile_number || ""),
+      data.email || "",
+      data.course_name || "",
+      data.placement_date || data.course_start_date || "",
+      data.visiting_date || data.course_end_date || "",
+      data.interview_date || "",
+      data.status || "Active",
+      data.failure_reason || "",
+      data.photo_url || ""
+    ]);
+    
+    return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var rows = sheet.getDataRange().getValues();
+  return ContentService.createTextOutput(JSON.stringify({ rows: rows }))
+    .setMimeType(ContentService.MimeType.JSON);
+}`;
+
+    navigator.clipboard.writeText(script);
+    setIsCandidateScriptCopied(true);
+    toast.success("Candidate Apps Script code copied to clipboard!");
+    setTimeout(() => setIsCandidateScriptCopied(false), 3000);
   };
 
   // Safe collections
@@ -2309,6 +2380,18 @@ function doGet(e) {
                   </p>
                   <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-[10px] text-amber-300 overflow-x-auto whitespace-nowrap">
                     Application Number, Registration Number, Batch Code, Candidate Name, Father Name, Date of Birth, Mobile Number, Email, Course Name, Date of Placement, Visiting Date, Interview Date, Status, Failure Reason, Photo URL
+                  </div>
+                  <div className="flex items-center justify-between pt-2">
+                    <span className="text-[11px] text-slate-400">Want automatic real-time push to Google Sheet?</span>
+                    <Button
+                      type="button"
+                      onClick={handleCopyCandidateAppsScript}
+                      variant="outline"
+                      className="border-amber-500/40 text-amber-400 hover:bg-amber-500/15 text-xs font-bold gap-1.5 h-9 rounded-xl"
+                    >
+                      {isCandidateScriptCopied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                      {isCandidateScriptCopied ? "Copied Script!" : "Copy Candidate Apps Script"}
+                    </Button>
                   </div>
                 </div>
               </div>

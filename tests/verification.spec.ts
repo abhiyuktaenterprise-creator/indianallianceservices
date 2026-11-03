@@ -329,4 +329,68 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await expect(page.getByText('Joining', { exact: true }).first()).toBeVisible();
     await expect(page.locator('text=Authentic Record')).toBeVisible();
   });
+
+  test('Local candidate addition followed by Google Sheet sync enables live cross-device verification', async ({ browser }) => {
+    // Session 1: Client adds candidate on Local Laptop
+    const context1 = await browser.newContext();
+    const page1 = await context1.newPage();
+
+    await page1.addInitScript(() => {
+      localStorage.setItem('acs_admin_session', 'true');
+      sessionStorage.setItem('acs_admin_session', 'true');
+    });
+
+    await page1.goto('/admin/dashboard');
+
+    // Go to candidates
+    const studentTabBtn = page1.locator('button').filter({ hasText: /Candidates \(\d+\)/ });
+    await studentTabBtn.click();
+
+    // Add candidate on local
+    await page1.locator('button:has-text("Add Candidate")').click();
+    const newCandAppNo = 'IAS-APP-2026/LOCAL-SYNC-999';
+    const newCandName = 'Rajesh Kumar Verma';
+    await page1.locator('input[placeholder*="Abhishek Navnath"]').fill(newCandName);
+    await page1.locator('input[placeholder*="Navnath Namdev"]').fill('Manoj Kumar Verma');
+    await page1.locator('input[type="date"]').nth(0).fill('2001-07-20');
+    await page1.locator('input[placeholder*="8858453069"]').fill('9811223344');
+    await page1.locator('input[placeholder*="IAS-APP-2026/"]').fill(newCandAppNo);
+    await page1.locator('input[placeholder*="IAS-TRG-"]').fill('IAS-TRG-2026/B999');
+    await page1.locator('button[type="submit"]').click();
+
+    // Candidate appears on Local laptop
+    await expect(page1.locator('table').locator(`text=${newCandName}`)).toBeVisible();
+
+    // Session 2: A different user / mobile phone visiting the live site (fresh context, no local storage!)
+    const context2 = await browser.newContext();
+    const page2 = await context2.newPage();
+
+    // Mock the Google Sheet feed containing the candidate that was synced to the sheet
+    const googleSheetContent = [
+      'Application Number,Registration Number,Batch Code,Candidate Name,Father Name,Date of Birth,Mobile Number,Email,Course Name,Date of Placement,Visiting Date,Interview Date,Status,Failure Reason,Photo URL',
+      `${newCandAppNo},IAS26Y2DEL2026/999,IAS-TRG-2026/B999,${newCandName},Manoj Kumar Verma,2001-07-20,9811223344,rajesh@example.com,Airport Ground Staff & Passenger Services,2026-11-29,2027-02-28,2026-11-20,Active,,`,
+    ].join('\n');
+
+    await page2.route('**/pub?output=csv*', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'text/csv',
+        body: googleSheetContent,
+      });
+    });
+
+    // Mobile user opens /verify directly
+    await page2.goto('/verify');
+    const mobileSearchInput = page2.locator('input[placeholder*="Application Number"]');
+    await mobileSearchInput.fill(newCandAppNo);
+    await page2.locator('button:has-text("Verify Application")').click();
+
+    // Verified live on mobile via Google Sheet sync!
+    await expect(page2.locator(`text=${newCandName}`)).toBeVisible();
+    await expect(page2.locator('text=IAS-TRG-2026/B999')).toBeVisible();
+    await expect(page2.locator('text=Authentic Record')).toBeVisible();
+
+    await context1.close();
+    await context2.close();
+  });
 });

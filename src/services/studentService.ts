@@ -454,12 +454,11 @@ export async function pushAllCandidatesToWebhook(webhookUrl?: string): Promise<{
   return { success: true, count: pushed, error: null };
 }
 
-// Convert CSV rows into Student array from Google Sheet
-export function parseGoogleSheetsCandidates(csvText: string): Student[] {
-  const rows = parseCSV(csvText);
+// Parse candidate rows (2D array of string cells)
+export function parseCandidateRows(rows: string[][]): Student[] {
   if (rows.length < 2) return [];
 
-  const headers = rows[0].map((h) => h.toLowerCase().replace(/[^a-z0-9]/g, ""));
+  const headers = rows[0].map((h) => String(h || "").toLowerCase().replace(/[^a-z0-9]/g, ""));
 
   const appIdx = headers.findIndex((h) => h.includes("app") || h.includes("roll"));
   const regIdx = headers.findIndex((h) => h.includes("reg") && !h.includes("app"));
@@ -490,8 +489,8 @@ export function parseGoogleSheetsCandidates(csvText: string): Student[] {
 
   for (let r = 1; r < rows.length; r++) {
     const row = rows[r];
-    const studentName = nameIdx !== -1 && row[nameIdx] ? row[nameIdx].trim() : (row[0] || "").trim();
-    let appNo = appIdx !== -1 && row[appIdx] ? row[appIdx].trim() : "";
+    const studentName = nameIdx !== -1 && row[nameIdx] ? String(row[nameIdx]).trim() : String(row[0] || "").trim();
+    let appNo = appIdx !== -1 && row[appIdx] ? String(row[appIdx]).trim() : "";
 
     if (!studentName && !appNo) continue;
 
@@ -499,21 +498,21 @@ export function parseGoogleSheetsCandidates(csvText: string): Student[] {
       appNo = `IAS-APP-2026/${130000 + r}`;
     }
 
-    const regNo = regIdx !== -1 && row[regIdx] ? row[regIdx].trim() : appNo;
-    const batchCode = batchIdx !== -1 && row[batchIdx] ? row[batchIdx].trim() : `IAS-TRG-2026/${appNo.replace(/\D/g, "").slice(-6) || r}`;
-    const fatherName = fatherIdx !== -1 && row[fatherIdx] ? row[fatherIdx].trim() : "Not Provided";
-    const dob = dobIdx !== -1 && row[dobIdx] ? normalizeDate(row[dobIdx]) || "2000-01-01" : "2000-01-01";
-    const mobile = mobileIdx !== -1 && row[mobileIdx] ? row[mobileIdx].trim().replace(/^'+/, "") : "";
-    const email = emailIdx !== -1 && row[emailIdx] ? row[emailIdx].trim() : null;
-    const courseName = courseIdx !== -1 && row[courseIdx] ? row[courseIdx].trim() : "Airport Ground Staff & Passenger Services";
+    const regNo = regIdx !== -1 && row[regIdx] ? String(row[regIdx]).trim() : appNo;
+    const batchCode = batchIdx !== -1 && row[batchIdx] ? String(row[batchIdx]).trim() : `IAS-TRG-2026/${appNo.replace(/\D/g, "").slice(-6) || r}`;
+    const fatherName = fatherIdx !== -1 && row[fatherIdx] ? String(row[fatherIdx]).trim() : "Not Provided";
+    const dob = dobIdx !== -1 && row[dobIdx] ? normalizeDate(String(row[dobIdx])) || "2000-01-01" : "2000-01-01";
+    const mobile = mobileIdx !== -1 && row[mobileIdx] ? String(row[mobileIdx]).trim().replace(/^'+/, "") : "";
+    const email = emailIdx !== -1 && row[emailIdx] ? String(row[emailIdx]).trim() : null;
+    const courseName = courseIdx !== -1 && row[courseIdx] ? String(row[courseIdx]).trim() : "Airport Ground Staff & Passenger Services";
     
-    const admissionDate = admIdx !== -1 && row[admIdx] ? normalizeDate(row[admIdx]) || new Date().toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
-    const placementDate = placeIdx !== -1 && row[placeIdx] ? normalizeDate(row[placeIdx]) : admissionDate;
-    const visitingDate = visitIdx !== -1 && row[visitIdx] ? normalizeDate(row[visitIdx]) : null;
-    const interviewDate = interviewIdx !== -1 && row[interviewIdx] ? normalizeDate(row[interviewIdx]) : null;
-    const status = normalizeStatus(statusIdx !== -1 ? row[statusIdx] : "Active");
-    const failureReason = reasonIdx !== -1 && row[reasonIdx] ? row[reasonIdx].trim() : null;
-    const photoUrl = photoIdx !== -1 && row[photoIdx] ? row[photoIdx].trim() : null;
+    const admissionDate = admIdx !== -1 && row[admIdx] ? normalizeDate(String(row[admIdx])) || new Date().toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
+    const placementDate = placeIdx !== -1 && row[placeIdx] ? normalizeDate(String(row[placeIdx])) : admissionDate;
+    const visitingDate = visitIdx !== -1 && row[visitIdx] ? normalizeDate(String(row[visitIdx])) : null;
+    const interviewDate = interviewIdx !== -1 && row[interviewIdx] ? normalizeDate(String(row[interviewIdx])) : null;
+    const status = normalizeStatus(statusIdx !== -1 ? String(row[statusIdx]) : "Active");
+    const failureReason = reasonIdx !== -1 && row[reasonIdx] ? String(row[reasonIdx]).trim() : null;
+    const photoUrl = photoIdx !== -1 && row[photoIdx] ? String(row[photoIdx]).trim() : null;
 
     parsedStudents.push({
       id: `ias-std-${appNo.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase()}`,
@@ -542,6 +541,61 @@ export function parseGoogleSheetsCandidates(csvText: string): Student[] {
   }
 
   return parsedStudents;
+}
+
+// Convert CSV or JSON text into Student array from Google Sheet / Web App
+export function parseGoogleSheetsCandidates(csvOrJsonText: string): Student[] {
+  const trimmed = (csvOrJsonText || "").trim();
+  if (!trimmed) return [];
+
+  // Support JSON responses from Google Apps Script Web Apps
+  if (trimmed.startsWith("[") || trimmed.startsWith("{")) {
+    try {
+      const parsed = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) {
+        if (parsed.length > 0 && Array.isArray(parsed[0])) {
+          return parseCandidateRows(parsed as string[][]);
+        }
+        if (parsed.length > 0 && typeof parsed[0] === "object" && parsed[0] !== null) {
+          const list: Student[] = [];
+          for (let i = 0; i < parsed.length; i++) {
+            const item = parsed[i];
+            const appNo = item.application_number || item.app_no || item.applicationNumber || `IAS-APP-2026/${130000 + i}`;
+            const studentName = item.student_name || item.candidate_name || item.name || "";
+            if (!studentName && !item.application_number) continue;
+            list.push({
+              id: item.id || `ias-std-${String(appNo).replace(/[^a-zA-Z0-9]/g, "-").toLowerCase()}`,
+              application_number: String(appNo).trim(),
+              registration_number: item.registration_number ? String(item.registration_number).trim() : String(appNo).trim(),
+              batch_code: item.batch_code ? String(item.batch_code).trim() : `IAS-TRG-2026/${String(appNo).replace(/\D/g, "")}`,
+              student_name: String(studentName).trim(),
+              father_name: item.father_name ? String(item.father_name).trim() : "Not Provided",
+              date_of_birth: item.date_of_birth ? normalizeDate(String(item.date_of_birth)) || "2000-01-01" : "2000-01-01",
+              mobile_number: item.mobile_number ? String(item.mobile_number).trim().replace(/^'+/, "") : "",
+              email: item.email ? String(item.email).trim() : undefined,
+              course_name: item.course_name ? String(item.course_name).trim() : "Airport Ground Staff & Passenger Services",
+              admission_date: item.admission_date ? normalizeDate(String(item.admission_date)) : new Date().toISOString().split("T")[0],
+              placement_date: item.placement_date ? normalizeDate(String(item.placement_date)) : null,
+              visiting_date: item.visiting_date ? normalizeDate(String(item.visiting_date)) : null,
+              course_start_date: item.placement_date ? normalizeDate(String(item.placement_date)) : null,
+              course_end_date: item.visiting_date ? normalizeDate(String(item.visiting_date)) : null,
+              interview_date: item.interview_date ? normalizeDate(String(item.interview_date)) : null,
+              status: normalizeStatus(item.status),
+              failure_reason: item.failure_reason ? String(item.failure_reason).trim() : null,
+              is_archived: Boolean(item.is_archived),
+              photo_url: item.photo_url ? String(item.photo_url).trim() : null,
+              created_at: item.created_at || new Date().toISOString(),
+              updated_at: item.updated_at || new Date().toISOString(),
+            });
+          }
+          return list;
+        }
+      }
+    } catch {}
+  }
+
+  const rows = parseCSV(trimmed);
+  return parseCandidateRows(rows);
 }
 
 // Helper to export candidates to CSV formatted for Google Sheets
@@ -1015,10 +1069,14 @@ export const studentService = {
       const incoming = parseGoogleSheetsCandidates(csvText);
 
       if (incoming.length === 0) {
+        const isEmpty = !csvText || !csvText.trim();
+        const errorMsg = isEmpty
+          ? "The connected Google Sheet link returned 0 records (empty). In Google Sheets: File > Share > Publish to web > make sure 'Entire Document' is selected and 'Automatically republish' is checked, or paste your standard Google Sheet /edit link shared as 'Anyone with the link can view'."
+          : "Found data in the sheet, but could not match candidate columns. Please ensure headers include 'Application Number' and 'Candidate Name'.";
         return {
           success: false,
           count: 0,
-          error: 'No candidate records found in the sheet. Please ensure column headers include Application Number and Candidate Name.',
+          error: errorMsg,
           data: getLocalStudents(),
         };
       }

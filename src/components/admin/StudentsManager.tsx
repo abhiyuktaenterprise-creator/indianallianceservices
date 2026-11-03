@@ -173,6 +173,16 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
     loadStudents();
   }, [searchQuery, showArchived]);
 
+  // Auto-sync candidate records from Google Sheet on initial mount if online
+  useEffect(() => {
+    if (typeof window !== "undefined" && navigator.onLine) {
+      const sheetUrl = studentService.getCandidateSheetUrl();
+      if (sheetUrl) {
+        studentService.syncFromGoogleSheet(sheetUrl).catch(() => {});
+      }
+    }
+  }, []);
+
   // Real-time synchronization event listener (updates table across tabs and when cloud sync finishes)
   useEffect(() => {
     const handleSyncEvent = () => {
@@ -1508,8 +1518,8 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                     className="w-full h-11 pl-10 pr-4 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs focus:outline-none focus:border-amber-500 font-mono"
                   />
                 </div>
-                <p className="text-[11px] text-slate-400">
-                  Paste either your Google Sheet share link or published CSV link (<code className="text-amber-300">File &gt; Share &gt; Publish to web &gt; CSV</code>).
+                <p className="text-[11px] text-slate-400 leading-relaxed">
+                  Paste your standard Google Sheet link (<code className="text-amber-300">Share &gt; Anyone with link can view</code>) or published CSV link (<code className="text-amber-300">File &gt; Share &gt; Publish to web &gt; Entire Document &gt; CSV</code>).
                 </p>
               </div>
 

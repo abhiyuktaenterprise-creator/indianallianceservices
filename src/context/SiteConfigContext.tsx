@@ -376,7 +376,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   leadSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSS3Ip6lUaAy-3fzvaSleTTyoILKrip1eFn4h8Dnl7LeTwGqKPIgtU2ppaaP_KSC19LPHGAUJ6ypFHE/pub?output=csv",
   leadAlertEmail: "support@indianallianceservices.com",
   candidateSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6KRade5DEhxMSA4LjkI77Gbc5Pu0smrOU0dKoKJCcheAsVT5Afrjoa7pG8HyRmKrviceNvN4oTWsi/pub?output=csv",
-  candidateWebhookUrl: "",
+  candidateWebhookUrl: "https://script.google.com/macros/s/AKfycbwykanH-6NeQpokDteFlchwGZqt89ZGJpTLLtdGYBrK9qvXPJYP3vwgL07ggKSZRhyW/exec",
 };
 
 const DEFAULT_HOME_CONTENT: HomeContent = {

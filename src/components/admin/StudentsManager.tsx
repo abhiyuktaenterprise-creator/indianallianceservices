@@ -27,6 +27,7 @@ import {
   FileSpreadsheet,
   Link2,
   Check,
+  Send,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,7 +40,14 @@ import StudentLetterModal from "./StudentLetterModal";
 
 export const POPULAR_COURSES = [
   "Airport Ground Staff & Passenger Services",
+  "Customer Service Assistant (CSA)",
+  "Customer Service Assistant",
   "Cabin Crew & In-Flight Operations",
+  "Cabin Crew",
+  "Air Hostess & Hospitality Services",
+  "Air Hostess",
+  "Customs Officer & Airport Cargo",
+  "Customs Officer",
   "Ramp Security & Aircraft Servicing",
   "Aviation Customer Service & Ticketing",
   "Airport Cargo & Logistics Operations",
@@ -106,6 +114,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
   const [letterStudent, setLetterStudent] = useState<Student | null>(null);
   const [selectedLetterType, setSelectedLetterType] = useState<"welcome" | "confirmation" | "agreement">("welcome");
   const [isSyncingSheet, setIsSyncingSheet] = useState(false);
+  const [isPushingWebhook, setIsPushingWebhook] = useState(false);
   const [isSheetModalOpen, setIsSheetModalOpen] = useState(false);
   const [sheetUrlInput, setSheetUrlInput] = useState(() => studentService.getCandidateSheetUrl());
 
@@ -235,6 +244,23 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
       toast.success(`Exported ${students.length} candidates to CSV for Google Sheets!`);
     } catch {
       toast.error("Failed to export candidates CSV.");
+    }
+  };
+
+  // Push All Local Candidates to Google Sheet Webhook
+  const handlePushAllToWebhook = async () => {
+    setIsPushingWebhook(true);
+    try {
+      const res = await studentService.pushAllToWebhook();
+      if (res.success) {
+        toast.success(`Successfully pushed ${res.count} candidates to Google Sheet Webhook!`);
+      } else {
+        toast.error(res.error || "Failed to push candidates to Webhook.");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to push to Webhook.");
+    } finally {
+      setIsPushingWebhook(false);
     }
   };
 
@@ -1500,8 +1526,20 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                 </ul>
               </div>
 
-              {/* Quick CSV Export button inside modal */}
-              <div className="flex items-center justify-between pt-1">
+              {/* Action buttons inside modal */}
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handlePushAllToWebhook}
+                  disabled={isPushingWebhook}
+                  className="gap-1.5 text-xs border-amber-500/50 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20"
+                  title="Push all local candidates directly to Google Sheet Webhook"
+                >
+                  <Send className={`h-3.5 w-3.5 text-amber-400 ${isPushingWebhook ? "animate-spin" : ""}`} />
+                  {isPushingWebhook ? "Pushing to Sheet..." : `Push All ${students.length} to Google Sheet`}
+                </Button>
+
                 <Button
                   type="button"
                   variant="outline"
@@ -1509,7 +1547,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                   className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800"
                 >
                   <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" />
-                  Export Existing {students.length} Candidates to CSV
+                  Export CSV
                 </Button>
               </div>
             </div>

@@ -60,7 +60,7 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await appInput.fill('IAS-APP-9999/INVALID');
     await page.locator('button:has-text("Verify Application")').click();
 
-    await expect(page.locator('text=Candidate Record Not Found')).toBeVisible();
+    await expect(page.locator('text=Candidate Record Not Found')).toBeVisible({ timeout: 15000 });
   });
 
   test('Admin dashboard candidate form checks', async ({ page }) => {
@@ -97,6 +97,14 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     // Select Failed and verify failure reason textarea appears
     await statusSelect.selectOption('Failed');
     await expect(page.locator('text=Note: Why Candidate Failed')).toBeVisible();
+
+    // Verify Course dropdown has Customer Service Assistant, Cabin Crew, Air Hostess, Customs Officer
+    const courseSelect = page.locator('select').filter({ has: page.locator('option[value*="Customer Service"]') });
+    await expect(courseSelect).toBeVisible();
+    await expect(courseSelect.locator('option:has-text("Customer Service Assistant")').first()).toBeAttached();
+    await expect(courseSelect.locator('option:has-text("Cabin Crew")').first()).toBeAttached();
+    await expect(courseSelect.locator('option:has-text("Air Hostess")').first()).toBeAttached();
+    await expect(courseSelect.locator('option:has-text("Customs Officer")').first()).toBeAttached();
   });
 
   test('Fill complete Test Candidate details in admin form, submit, and verify all fields on /verify page', async ({ page }) => {

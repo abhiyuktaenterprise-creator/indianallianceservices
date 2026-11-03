@@ -383,6 +383,77 @@ export function setCandidateSheetUrl(url: string): void {
   } catch {}
 }
 
+export const CANDIDATE_WEBHOOK_URL_KEY = "ias_candidate_webhook_url";
+export const DEFAULT_CANDIDATE_WEBHOOK_URL =
+  "https://script.google.com/macros/s/AKfycbwykanH-6NeQpokDteFlchwGZqt89ZGJpTLLtdGYBrK9qvXPJYP3vwgL07ggKSZRhyW/exec";
+
+export function getCandidateWebhookUrl(): string {
+  if (typeof window === "undefined") return DEFAULT_CANDIDATE_WEBHOOK_URL;
+  const direct = localStorage.getItem(CANDIDATE_WEBHOOK_URL_KEY);
+  if (direct && direct.trim()) return direct.trim();
+
+  try {
+    const rawSettings = localStorage.getItem("acs_site_settings");
+    if (rawSettings) {
+      const parsed = JSON.parse(rawSettings);
+      if (parsed && parsed.candidateWebhookUrl && parsed.candidateWebhookUrl.trim()) {
+        return parsed.candidateWebhookUrl.trim();
+      }
+    }
+  } catch {}
+
+  return DEFAULT_CANDIDATE_WEBHOOK_URL;
+}
+
+export function setCandidateWebhookUrl(url: string): void {
+  if (typeof window === "undefined") return;
+  const clean = url.trim();
+  localStorage.setItem(CANDIDATE_WEBHOOK_URL_KEY, clean);
+
+  try {
+    const rawSettings = localStorage.getItem("acs_site_settings");
+    const parsed = rawSettings ? JSON.parse(rawSettings) : {};
+    parsed.candidateWebhookUrl = clean;
+    localStorage.setItem("acs_site_settings", JSON.stringify(parsed));
+  } catch {}
+}
+
+// Background push single candidate to Google Apps Script Webhook
+export async function pushCandidateToWebhook(candidate: Student, webhookUrl?: string): Promise<boolean> {
+  const url = (webhookUrl || getCandidateWebhookUrl()).trim();
+  if (!url) return false;
+  try {
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(candidate),
+      mode: "no-cors",
+    });
+    return true;
+  } catch (err) {
+    console.warn("Failed to push candidate to webhook:", err);
+    return false;
+  }
+}
+
+// Push all local candidates to Google Sheet Webhook
+export async function pushAllCandidatesToWebhook(webhookUrl?: string): Promise<{ success: boolean; count: number; error: string | null }> {
+  const url = (webhookUrl || getCandidateWebhookUrl()).trim();
+  if (!url) {
+    return { success: false, count: 0, error: "No Candidate Webhook URL configured." };
+  }
+  const list = getLocalStudents();
+  if (list.length === 0) {
+    return { success: false, count: 0, error: "No candidates to push." };
+  }
+  let pushed = 0;
+  for (const cand of list) {
+    await pushCandidateToWebhook(cand, url);
+    pushed++;
+  }
+  return { success: true, count: pushed, error: null };
+}
+
 // Convert CSV rows into Student array from Google Sheet
 export function parseGoogleSheetsCandidates(csvText: string): Student[] {
   const rows = parseCSV(csvText);
@@ -753,20 +824,9 @@ export const studentService = {
     list.unshift(newStudent);
     saveLocalStudents(list);
 
-    // Background dispatch to Candidate Webhook if configured
+    // Auto-push to Candidate Google Webhook
     try {
-      const rawSettings = localStorage.getItem('acs_site_settings');
-      if (rawSettings) {
-        const parsed = JSON.parse(rawSettings);
-        if (parsed.candidateWebhookUrl && parsed.candidateWebhookUrl.trim()) {
-          fetch(parsed.candidateWebhookUrl.trim(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newStudent),
-            mode: 'no-cors',
-          }).catch((e) => console.warn('Candidate webhook dispatch notice:', e));
-        }
-      }
+      pushCandidateToWebhook(newStudent);
     } catch {}
 
     return { data: newStudent, error: null };
@@ -826,6 +886,11 @@ export const studentService = {
 
     list[idx] = updated;
     saveLocalStudents(list);
+
+    // Auto-push updated candidate to Google Webhook
+    try {
+      pushCandidateToWebhook(updated);
+    } catch {}
 
     return { data: updated, error: null };
   },
@@ -1022,6 +1087,26 @@ export const studentService = {
    * Helper to set configured candidate Google Sheet URL
    */
   setCandidateSheetUrl,
+
+  /**
+   * Helper to get candidate Webhook URL
+   */
+  getCandidateWebhookUrl,
+
+  /**
+   * Helper to set candidate Webhook URL
+   */
+  setCandidateWebhookUrl,
+
+  /**
+   * Push single candidate to Webhook
+   */
+  pushToWebhook: pushCandidateToWebhook,
+
+  /**
+   * Push all local candidates to Webhook
+   */
+  pushAllToWebhook: pushAllCandidatesToWebhook,
 
   /**
    * Export all candidate records as CSV formatted for Google Sheets

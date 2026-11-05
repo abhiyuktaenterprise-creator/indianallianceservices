@@ -36,7 +36,7 @@ import {
   NewStudentInput,
 } from "@/services/studentService";
 import { toast } from "sonner";
-import StudentLetterModal from "./StudentLetterModal";
+import StudentLetterModal, { LetterType } from "./StudentLetterModal";
 
 export const POPULAR_COURSES = [
   "Airport Ground Staff & Passenger Services",
@@ -120,7 +120,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
   const [isClearingAll, setIsClearingAll] = useState(false);
   const [isLetterModalOpen, setIsLetterModalOpen] = useState(false);
   const [letterStudent, setLetterStudent] = useState<Student | null>(null);
-  const [selectedLetterType, setSelectedLetterType] = useState<"welcome" | "confirmation" | "agreement">("welcome");
+  const [selectedLetterType, setSelectedLetterType] = useState<LetterType>("welcome");
   const [isSyncingSheet, setIsSyncingSheet] = useState(false);
   const [isPushingWebhook, setIsPushingWebhook] = useState(false);
   const [isSheetModalOpen, setIsSheetModalOpen] = useState(false);
@@ -1421,10 +1421,10 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                     <FileText className="h-4 w-4" /> Download / Print Official Candidate Letters
                   </span>
                   <span className="text-[10px] text-slate-400 font-medium bg-slate-900 px-2 py-0.5 rounded-full border border-slate-800">
-                    Vocational Training Compliant
+                    Official Formats
                   </span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   <Button
                     type="button"
                     size="sm"
@@ -1433,21 +1433,21 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                       setSelectedLetterType("welcome");
                       setIsLetterModalOpen(true);
                     }}
-                    className="bg-slate-800 hover:bg-slate-700 text-white text-[11px] h-9 rounded-xl font-semibold border border-slate-700 shadow-sm"
+                    className="bg-slate-800 hover:bg-slate-700 text-white text-[10px] sm:text-[11px] h-9 rounded-xl font-semibold border border-slate-700 shadow-sm"
                   >
-                    🎓 Welcome Letter
+                    🎓 Welcome (1-P)
                   </Button>
                   <Button
                     type="button"
                     size="sm"
                     onClick={() => {
                       setLetterStudent(selectedStudent);
-                      setSelectedLetterType("confirmation");
+                      setSelectedLetterType("final_letter");
                       setIsLetterModalOpen(true);
                     }}
-                    className="bg-slate-800 hover:bg-slate-700 text-white text-[11px] h-9 rounded-xl font-semibold border border-slate-700 shadow-sm"
+                    className="bg-slate-800 hover:bg-slate-700 text-amber-300 text-[10px] sm:text-[11px] h-9 rounded-xl font-semibold border border-slate-700 shadow-sm"
                   >
-                    📋 Confirmation Advice
+                    📋 Final (5-P)
                   </Button>
                   <Button
                     type="button"
@@ -1457,9 +1457,21 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                       setSelectedLetterType("agreement");
                       setIsLetterModalOpen(true);
                     }}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] h-9 rounded-xl font-semibold shadow-md"
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] sm:text-[11px] h-9 rounded-xl font-semibold shadow-md"
                   >
-                    📜 Training Agreement
+                    📜 Agreement (12-P)
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={() => {
+                      setLetterStudent(selectedStudent);
+                      setSelectedLetterType("confirmation");
+                      setIsLetterModalOpen(true);
+                    }}
+                    className="bg-slate-800 hover:bg-slate-700 text-white text-[10px] sm:text-[11px] h-9 rounded-xl font-semibold border border-slate-700 shadow-sm"
+                  >
+                    📑 Advice (1-P)
                   </Button>
                 </div>
               </div>

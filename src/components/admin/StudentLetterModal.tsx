@@ -3,14 +3,14 @@ import { X, Printer, FileText, CheckCircle2, ShieldCheck, ChevronRight, Settings
 import { Button } from "@/components/ui/button";
 import { Student } from "@/services/studentService";
 
+export type LetterType = "welcome" | "final_letter" | "agreement" | "confirmation";
+
 interface StudentLetterModalProps {
   student: Student;
   isOpen: boolean;
   onClose: () => void;
   initialLetterType?: LetterType;
 }
-
-type LetterType = "welcome" | "confirmation" | "agreement";
 
 const LETTER_PREVIEW_CSS = `
   @page {
@@ -26,8 +26,8 @@ const LETTER_PREVIEW_CSS = `
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: #1e293b;
     background-color: transparent;
-    font-size: 9.5pt;
-    line-height: 1.4;
+    font-size: 8.8pt;
+    line-height: 1.36;
   }
   .letter-page-scope .page {
     width: 210mm;
@@ -36,11 +36,12 @@ const LETTER_PREVIEW_CSS = `
     margin: 0 auto 24px auto;
     background: #ffffff;
     position: relative;
-    padding: 12mm 16mm 10mm 16mm;
+    padding: 10mm 15mm 8mm 15mm;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     page-break-after: always;
+    break-after: page;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
     border-radius: 4px;
@@ -54,6 +55,11 @@ const LETTER_PREVIEW_CSS = `
       margin: 0 auto !important;
       box-shadow: none !important;
       border-radius: 0 !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      min-height: 297mm !important;
+      max-height: 297mm !important;
+      height: 297mm !important;
     }
   }
   .letter-page-scope .watermark {
@@ -74,18 +80,18 @@ const LETTER_PREVIEW_CSS = `
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 8px;
+    padding-bottom: 7px;
     border-bottom: 2px solid #0f2d59;
   }
   .letter-page-scope .header-gold-line {
     height: 3px;
     background: linear-gradient(90deg, #d4af37, #f3e5ab, #d4af37);
     margin-top: 2px;
-    margin-bottom: 10px;
+    margin-bottom: 9px;
   }
   .letter-page-scope .logo-container img {
-    height: 52px !important;
-    max-height: 52px !important;
+    height: 50px !important;
+    max-height: 50px !important;
     width: auto !important;
     object-fit: contain;
     display: block;
@@ -94,7 +100,7 @@ const LETTER_PREVIEW_CSS = `
     text-align: right;
     font-size: 8pt;
     color: #334155;
-    line-height: 1.35;
+    line-height: 1.32;
   }
   .letter-page-scope .org-details strong {
     color: #0f2d59;
@@ -107,20 +113,20 @@ const LETTER_PREVIEW_CSS = `
     display: flex;
     justify-content: space-between;
     font-size: 8.5pt;
-    color: #475569;
+    color: #334155;
     font-weight: 600;
-    margin-bottom: 10px;
-    padding-bottom: 4px;
+    margin-bottom: 8px;
+    padding-bottom: 3px;
     border-bottom: 1px solid #e2e8f0;
   }
   .letter-page-scope .doc-title-container {
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     position: relative;
     z-index: 1;
   }
   .letter-page-scope .doc-title {
-    font-size: 13.5pt;
+    font-size: 13pt;
     font-weight: 800;
     color: #0f2d59;
     letter-spacing: 0.5px;
@@ -143,8 +149,8 @@ const LETTER_PREVIEW_CSS = `
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    font-size: 9pt;
+    gap: 7px;
+    font-size: 8.8pt;
     color: #1e293b;
   }
   .letter-page-scope .candidate-box {
@@ -152,10 +158,10 @@ const LETTER_PREVIEW_CSS = `
     border: 1px solid #cbd5e1;
     border-left: 4px solid #0f2d59;
     border-radius: 4px;
-    padding: 7px 12px;
+    padding: 6px 12px;
     display: flex;
     justify-content: space-between;
-    font-size: 9pt;
+    font-size: 8.8pt;
   }
   .letter-page-scope .candidate-col p {
     margin: 1.5px 0;
@@ -183,24 +189,6 @@ const LETTER_PREVIEW_CSS = `
   .letter-page-scope .data-table tr:nth-child(even) {
     background-color: #f8fafc;
   }
-  .letter-page-scope .disclaimer-box {
-    background: #fffbeb;
-    border: 1.5px solid #f59e0b;
-    border-radius: 5px;
-    padding: 7px 10px;
-    font-size: 8pt;
-    color: #92400e;
-    line-height: 1.35;
-    margin: 4px 0;
-  }
-  .letter-page-scope .disclaimer-box strong {
-    color: #b45309;
-    font-size: 8.5pt;
-    display: block;
-    margin-bottom: 2px;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
   .letter-page-scope .signatures-section {
     position: relative;
     z-index: 1;
@@ -217,33 +205,33 @@ const LETTER_PREVIEW_CSS = `
   }
   .letter-page-scope .sig-line {
     border-top: 1px solid #64748b;
-    margin-top: 25px;
+    margin-top: 20px;
     padding-top: 3px;
-    line-height: 1.4;
+    line-height: 1.35;
   }
   .letter-page-scope .stamp-sig-container {
     position: relative;
-    height: 65px;
+    height: 60px;
     margin-top: 2px;
   }
   .letter-page-scope .stamp-img {
     position: absolute;
     bottom: -6px;
     right: 80px;
-    width: 78px !important;
+    width: 76px !important;
     opacity: 0.95;
   }
   .letter-page-scope .sig-img {
     position: absolute;
     bottom: 2px;
     right: 15px;
-    width: 105px !important;
+    width: 100px !important;
     opacity: 0.98;
   }
   .letter-page-scope .footer {
     position: relative;
     z-index: 1;
-    padding-top: 6px;
+    padding-top: 5px;
     margin-top: 4px;
     border-top: 2px solid #d4af37;
     text-align: center;
@@ -264,7 +252,7 @@ const LETTER_PREVIEW_CSS = `
   .letter-page-scope .list-styled {
     padding-left: 16px;
     font-size: 8.5pt;
-    line-height: 1.38;
+    line-height: 1.36;
   }
   .letter-page-scope .list-styled li {
     margin-bottom: 2px;
@@ -272,16 +260,16 @@ const LETTER_PREVIEW_CSS = `
   .letter-page-scope .clause-title {
     font-weight: 700;
     color: #0f2d59;
-    font-size: 9pt;
-    margin-top: 5px;
+    font-size: 8.9pt;
+    margin-top: 4px;
     margin-bottom: 2px;
   }
   .letter-page-scope .clause-p {
     font-size: 8.5pt;
     color: #334155;
     text-align: justify;
-    line-height: 1.38;
-    margin-bottom: 5px;
+    line-height: 1.36;
+    margin-bottom: 4px;
   }
   .letter-page-scope .page-number-text {
     font-size: 7.5pt;
@@ -369,25 +357,28 @@ export default function StudentLetterModal({
     year: "numeric",
   });
 
-  const [refNo, setRefNo] = useState(
-    `IAS/TRG/${student.application_number ? student.application_number.replace("IAS-APP-", "") : "2026/01"}`
-  );
+  const appDigits = student.application_number ? student.application_number.replace(/\D/g, "") : "134557";
+
+  const [refNo, setRefNo] = useState(`REF: 2026/2027/DELHI/MUM/2234/${appDigits}`);
   const [letterDate, setLetterDate] = useState(todayFormatted);
   const [centerLocation, setCenterLocation] = useState(
-    "Nagpur Regional Training Center (Airport Zone, IATA: NAG)"
+    "Jagadguru Sant Tukaram Maharaj Pune International Airport, Lohegaon, Pune, Maharashtra 411032"
   );
   const [reportingDate, setReportingDate] = useState(
-    student.placement_date || student.course_start_date || student.admission_date || "2026-11-29"
+    student.placement_date || student.course_start_date || "29-Nov-2026"
   );
-  const [reportingTime, setReportingTime] = useState("09:30 AM IST");
+  const [reportingTime, setReportingTime] = useState("10:30 AM – 5:00 PM");
   const [batchCode, setBatchCode] = useState(
-    student.batch_code ||
-      `IAS-TRG-${student.application_number ? student.application_number.replace(/\D/g, "") : "134803"}`
+    student.batch_code || appDigits || "134803"
   );
+  const [designation, setDesignation] = useState(
+    student.course_name ? student.course_name.toUpperCase() : "CUSTOMER SERVICE ASSISTANT"
+  );
+  const [fundPolicyAmount, setFundPolicyAmount] = useState("14,235");
+  const [securityDeposit, setSecurityDeposit] = useState("6,845");
 
   if (!isOpen) return null;
 
-  // Print function
   const handlePrint = () => {
     const printContent = document.getElementById("printable-letter-container");
     if (!printContent) return;
@@ -398,17 +389,18 @@ export default function StudentLetterModal({
       return;
     }
 
+    const docTitles: Record<LetterType, string> = {
+      welcome: "Official Welcome Letter (1 Page)",
+      final_letter: "Final Joining & Fund Policy Letter (5 Pages)",
+      agreement: "Master Agreement & Annexures (12 Pages)",
+      confirmation: "Training & Admission Confirmation",
+    };
+
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
         <head>
-          <title>${student.student_name} - ${
-      letterType === "welcome"
-        ? "Training Welcome Letter"
-        : letterType === "confirmation"
-        ? "Training Confirmation Advice"
-        : "Candidate Training Agreement"
-    }</title>
+          <title>${student.student_name} - ${docTitles[letterType]}</title>
           <style>${LETTER_PREVIEW_CSS}</style>
         </head>
         <body style="background: #ffffff; margin: 0; padding: 0;">
@@ -429,11 +421,10 @@ export default function StudentLetterModal({
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-      {/* Inject Scoped CSS for the preview */}
       <style>{LETTER_PREVIEW_CSS}</style>
 
       <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-5xl w-full p-3 sm:p-6 shadow-2xl flex flex-col max-h-[95vh] overflow-hidden my-auto">
-        {/* Modal Header */}
+        {/* Header */}
         <div className="border-b border-slate-800 pb-3 shrink-0">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5 min-w-0">
@@ -445,7 +436,7 @@ export default function StudentLetterModal({
                   Letter Preview: <span className="text-amber-400">{student.student_name}</span>
                 </h3>
                 <p className="text-[11px] text-slate-400 truncate hidden sm:block">
-                  Official Indian Alliance Services Letterhead & Training Undertaking
+                  Indian Alliance Services & Jetstar Airways Official Letterhead & Documentation
                 </p>
               </div>
             </div>
@@ -486,16 +477,17 @@ export default function StudentLetterModal({
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
             <div className="flex-1">
               <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
-                Select Document Type
+                Select Official Document Template
               </label>
               <select
                 value={letterType}
                 onChange={(e) => setLetterType(e.target.value as LetterType)}
                 className="w-full bg-slate-900 border border-amber-500/50 text-amber-300 font-semibold rounded-lg p-2 text-xs focus:outline-none"
               >
-                <option value="welcome">🎓 Training Welcome Letter</option>
-                <option value="confirmation">📋 Training Confirmation Advice</option>
-                <option value="agreement">📜 Candidate Agreement (3-Page)</option>
+                <option value="welcome">🎓 Official Welcome Letter (1 Page - Jetstar Format)</option>
+                <option value="final_letter">📋 Final Joining & Fund Policy Letter (5 Pages - Complete Package)</option>
+                <option value="agreement">📜 Complete Master Agreement & Annexures (12 Pages - Full Contract)</option>
+                <option value="confirmation">📑 Training & Admission Confirmation Advice (1 Page)</option>
               </select>
             </div>
 
@@ -506,7 +498,7 @@ export default function StudentLetterModal({
                 className="text-[11px] text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1 bg-slate-900 px-2.5 py-1.5 rounded-lg border border-slate-800"
               >
                 <Settings2 className="h-3.5 w-3.5" />
-                <span>{showAdvancedConfig ? "Hide Extra Fields" : "Edit Center/Date/Ref"}</span>
+                <span>{showAdvancedConfig ? "Hide Fields" : "Edit Details & Amounts"}</span>
               </button>
 
               {/* View Zoom Toggle */}
@@ -539,7 +531,7 @@ export default function StudentLetterModal({
           <div className={`${showAdvancedConfig ? "grid" : "hidden sm:grid"} grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 border-t border-slate-800/80`}>
             <div>
               <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
-                Training Center Location
+                Visiting Airport / Center Location
               </label>
               <input
                 type="text"
@@ -551,15 +543,12 @@ export default function StudentLetterModal({
 
             <div>
               <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
-                Reporting Date & Time
+                Reporting / Joining Date
               </label>
               <input
                 type="text"
-                value={`${reportingDate} (${reportingTime})`}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setReportingDate(val);
-                }}
+                value={reportingDate}
+                onChange={(e) => setReportingDate(e.target.value)}
                 className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-xs focus:outline-none"
               />
             </div>
@@ -575,10 +564,48 @@ export default function StudentLetterModal({
                 className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-xs font-mono focus:outline-none"
               />
             </div>
+
+            {showAdvancedConfig && (
+              <>
+                <div>
+                  <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
+                    Designation / Role
+                  </label>
+                  <input
+                    type="text"
+                    value={designation}
+                    onChange={(e) => setDesignation(e.target.value)}
+                    className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-xs focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
+                    Fund Policy Amount (Rs.)
+                  </label>
+                  <input
+                    type="text"
+                    value={fundPolicyAmount}
+                    onChange={(e) => setFundPolicyAmount(e.target.value)}
+                    className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-xs focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
+                    Security Deposit Amount (Rs.)
+                  </label>
+                  <input
+                    type="text"
+                    value={securityDeposit}
+                    onChange={(e) => setSecurityDeposit(e.target.value)}
+                    className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-xs focus:outline-none"
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
 
-        {/* Live Preview Area with Exact Paper Dimension and Styling */}
+        {/* Live Preview Area */}
         <div className="flex-1 overflow-x-auto overflow-y-auto bg-slate-950/80 p-2 sm:p-6 rounded-2xl border border-slate-800/80 touch-pan-x touch-pan-y [-webkit-overflow-scrolling:touch]">
           <div
             id="printable-letter-container"
@@ -594,7 +621,10 @@ export default function StudentLetterModal({
               centerLocation,
               reportingDate,
               reportingTime,
-              batchCode
+              batchCode,
+              designation,
+              fundPolicyAmount,
+              securityDeposit
             )}
           </div>
         </div>
@@ -603,7 +633,68 @@ export default function StudentLetterModal({
   );
 }
 
-// Subcomponent to render selected letter
+// Master Header Component
+function renderHeader() {
+  return (
+    <div>
+      <div className="header">
+        <div className="logo-container">
+          <img
+            src="/logo.png"
+            alt="Indian Alliance Services"
+            style={{ height: "50px", maxHeight: "50px", width: "auto", objectFit: "contain", display: "block" }}
+          />
+        </div>
+        <div className="org-details">
+          <strong>INDIAN ALLIANCE SERVICES</strong><br />
+          Main Office: D.No. 45-8-28/1, 2nd Floor, Dwaraka Nagar,<br />
+          Visakhapatnam-530016, Andhra Pradesh, India<br />
+          <span>+91 8707617134 / +91 9651212713</span><br />
+          <span>careers@indianallianceservices.com | www.indianallianceservices.com</span>
+        </div>
+      </div>
+      <div className="header-gold-line"></div>
+    </div>
+  );
+}
+
+// Master Footer Component
+function renderFooter() {
+  return (
+    <div className="footer">
+      <div className="footer-services">
+        CABIN CREW | GROUND STAFF | CUSTOMER SERVICES | AIRPORT OPERATIONS | TRAINING & DEVELOPMENT
+      </div>
+      <div className="footer-tagline">
+        INDIAN ALLIANCE SERVICES - BUILDING CAREERS CONNECTING OPPORTUNITIES
+      </div>
+    </div>
+  );
+}
+
+// Master Watermark
+function renderWatermark() {
+  return (
+    <img
+      className="watermark"
+      src="/logo.png"
+      alt="watermark"
+      style={{
+        position: "absolute",
+        top: "52%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: "440px",
+        maxWidth: "440px",
+        opacity: 0.04,
+        pointerEvents: "none",
+        zIndex: 0,
+      }}
+    />
+  );
+}
+
+// Render selected letter content
 function renderLetterContent(
   letterType: LetterType,
   student: Student,
@@ -612,254 +703,397 @@ function renderLetterContent(
   centerLocation: string,
   reportingDate: string,
   reportingTime: string,
-  batchCode: string
+  batchCode: string,
+  designation: string,
+  fundPolicyAmount: string,
+  securityDeposit: string
 ) {
-  const header = (
-    <div>
-      <div className="header">
-        <div className="logo-container">
-          <img
-            src="/logo.png"
-            alt="Indian Alliance Services"
-            style={{ height: "52px", maxHeight: "52px", width: "auto", objectFit: "contain", display: "block" }}
-          />
-        </div>
-        <div className="org-details">
-          <strong>INDIAN ALLIANCE SERVICES</strong><br />
-          Aviation Training & Career Academy<br />
-          Main Office: D.No. 45-8-28/1, 2nd Floor, Dwaraka Nagar,<br />
-          Visakhapatnam - 530016, Andhra Pradesh, India<br />
-          <span>Ph: +91 8707617134 / +91 9651212713</span><br />
-          <span>Email: careers@indianallianceservices.com | www.indianallianceservices.com</span>
-        </div>
-      </div>
-      <div className="header-gold-line"></div>
-    </div>
-  );
-
-  const footer = (
-    <div className="footer">
-      <div className="footer-services">
-        CABIN CREW &bull; GROUND STAFF &bull; CUSTOMER SERVICES &bull; AIRPORT OPERATIONS &bull; TRAINING & DEVELOPMENT
-      </div>
-      <div className="footer-tagline">
-        INDIAN ALLIANCE SERVICES - BUILDING CAREERS &bull; CONNECTING OPPORTUNITIES
-      </div>
-    </div>
-  );
-
   if (letterType === "welcome") {
-    return (
-      <div className="page">
-        <img
-          className="watermark"
-          src="/logo.png"
-          alt="watermark"
-          style={{ position: "absolute", top: "52%", left: "50%", transform: "translate(-50%, -50%)", width: "440px", maxWidth: "440px", opacity: 0.04, pointerEvents: "none", zIndex: 0 }}
-        />
-        <div>
-          {header}
-          <div className="ref-date-bar">
-            <div><strong>REF NO:</strong> {refNo}</div>
-            <div><strong>DATE:</strong> {letterDate}</div>
-          </div>
-
-          <div className="doc-title-container">
-            <div className="doc-title">OFFICIAL TRAINING WELCOME LETTER</div>
-            <div className="doc-subtitle">{student.course_name}</div>
-          </div>
-
-          <div className="content-body">
-            <div className="candidate-box">
-              <div className="candidate-col">
-                <p><strong>Candidate Name:</strong> {student.student_name}</p>
-                <p><strong>Father's Name:</strong> {student.father_name}</p>
-              </div>
-              <div className="candidate-col" style={{ textAlign: "right" }}>
-                <p><strong>Enrollment Batch Code:</strong> {batchCode}</p>
-                <p><strong>App Number:</strong> {student.application_number}</p>
-              </div>
-            </div>
-
-            <p style={{ fontSize: "8.8pt", lineHeight: 1.4 }}>
-              Dear <strong>{student.student_name}</strong>,<br />
-              We are pleased to inform you that you have been successfully accepted for the{" "}
-              <strong>Aviation Induction & Ground Operations Skill Training Program</strong> at{" "}
-              <strong>Indian Alliance Services</strong>. We warmly welcome you to our academy. Our comprehensive training 
-              curriculum is structured to impart core operational competence, airport customer service skills, and airline industry readiness.
-            </p>
-
-            <p style={{ fontSize: "8.8pt", fontWeight: 600, color: "#0f2d59" }}>
-              You are required to report for your training orientation and induction as per the schedule below:
-            </p>
-
-            <table className="data-table">
-              <tbody>
-                <tr>
-                  <th style={{ width: "32%" }}>Program Title</th>
-                  <td><strong>{student.course_name}</strong></td>
-                </tr>
-                <tr>
-                  <th>Reporting Date</th>
-                  <td><strong>{reportingDate}</strong> (Reporting Time: {reportingTime})</td>
-                </tr>
-                <tr>
-                  <th>Training Center Location</th>
-                  <td><strong>{centerLocation}</strong></td>
-                </tr>
-                <tr>
-                  <th>Program Duration</th>
-                  <td>As per prescribed academic curriculum (Detailed batch timetable provided upon arrival)</td>
-                </tr>
-                <tr>
-                  <th>Batch Allocation Code</th>
-                  <td><strong>{batchCode}</strong></td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div>
-              <div style={{ fontWeight: 700, color: "#0f2d59", fontSize: "8.8pt", marginBottom: "3px" }}>
-                MANDATORY DOCUMENTS REQUIRED FOR INDUCTION:
-              </div>
-              <ol className="list-styled">
-                <li>Original Educational Certificates & Marksheets (10th / 12th / Graduation) + 2 sets of self-attested copies.</li>
-                <li>Valid Government Identity Proof & Address Proof (Aadhaar Card, Voter ID, or Passport).</li>
-                <li>Character Certificate & Medical Fitness Certificate issued by a certified medical practitioner.</li>
-                <li>Six (6) recent passport-sized color photographs in formal attire.</li>
-                <li>Prior IATA / Airline ticketing certification or relevant internship/experience letters (if any).</li>
-              </ol>
-            </div>
-
-            <p style={{ fontSize: "8.5pt", color: "#334155" }}>
-              Please ensure you report punctually on the designated date in formal professional business attire. Neatly groomed presentation is mandatory for all aviation academy sessions.
-            </p>
-
-            <div className="disclaimer-box">
-              <strong>OFFICIAL STATUTORY NOTICE & TRAINING DISCLAIMER:</strong>
-              Indian Alliance Services is an independent vocational aviation skill development and training academy. This letter is issued exclusively for admission into our skill development training program. Indian Alliance Services does <u>NOT</u> provide direct airline employment, appointment orders, or guaranteed airport job placements. Candidates are trained and evaluated strictly on academic merit, discipline, and practical performance. All aviation recruitments in India are conducted independently by airline operators and ground handlers according to their statutory norms.
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div className="signatures-section">
-            <div className="sig-block">
-              <p><strong>Candidate Acknowledgment:</strong></p>
-              <p style={{ fontSize: "7.8pt", color: "#64748b" }}>I accept the admission and confirm understanding that this is purely a training program.</p>
-              <div className="sig-line">
-                Candidate Signature: _______________________<br />
-                Date: ________________________
-              </div>
-            </div>
-            <div className="sig-block" style={{ textAlign: "right" }}>
-              <p><strong>For Indian Alliance Services</strong></p>
-              <p style={{ fontSize: "7.8pt", color: "#64748b" }}>Authorized Academic Signatory</p>
-              <div className="stamp-sig-container">
-                <img
-                  className="stamp-img"
-                  src="/stamp.png"
-                  alt="seal"
-                  style={{ position: "absolute", bottom: "-6px", right: "80px", width: "78px", height: "auto" }}
-                />
-                <img
-                  className="sig-img"
-                  src="/signature.png"
-                  alt="signature"
-                  style={{ position: "absolute", bottom: "2px", right: "15px", width: "105px", height: "auto" }}
-                />
-              </div>
-              <div style={{ fontSize: "8pt", fontWeight: 700, color: "#0f2d59", marginTop: "2px" }}>
-                Training & Operations Department
-              </div>
-            </div>
-          </div>
-          {footer}
-        </div>
-      </div>
+    return renderWelcomeLetter(
+      student,
+      refNo,
+      letterDate,
+      centerLocation,
+      reportingDate,
+      batchCode
     );
   }
 
-  if (letterType === "confirmation") {
-    return (
+  if (letterType === "final_letter") {
+    return renderFinalLetter(
+      student,
+      refNo,
+      letterDate,
+      centerLocation,
+      reportingDate,
+      reportingTime,
+      designation
+    );
+  }
+
+  if (letterType === "agreement") {
+    return renderMasterAgreement(
+      student,
+      refNo,
+      letterDate,
+      centerLocation,
+      reportingDate,
+      designation,
+      fundPolicyAmount,
+      securityDeposit
+    );
+  }
+
+  return renderConfirmationLetter(
+    student,
+    refNo,
+    letterDate,
+    centerLocation,
+    reportingDate,
+    reportingTime,
+    batchCode
+  );
+}
+
+// =========================================================================
+// 1. WELCOME LETTER (1 Page) - Exactly matches Khushbu Ashok Mahto PDF
+// =========================================================================
+function renderWelcomeLetter(
+  student: Student,
+  refNo: string,
+  letterDate: string,
+  centerLocation: string,
+  reportingDate: string,
+  batchCode: string
+) {
+  return (
+    <div className="page">
+      {renderWatermark()}
+      <div>
+        {renderHeader()}
+        <div className="ref-date-bar">
+          <div><strong>Ref No:</strong> {refNo}</div>
+          <div><strong>Date:</strong> {letterDate}</div>
+        </div>
+
+        <div className="doc-title-container">
+          <div className="doc-title">WELCOME LETTER</div>
+        </div>
+
+        <div className="content-body">
+          <div className="candidate-box">
+            <div className="candidate-col">
+              <p><strong>Dear:</strong> ={student.student_name}</p>
+              <p><strong>Father's Name:</strong> ={student.father_name}</p>
+            </div>
+            <div className="candidate-col" style={{ textAlign: "right" }}>
+              <p><strong>Batch Code:</strong> {batchCode}</p>
+              <p><strong>App Number:</strong> {student.application_number || "IAS-APP-" + batchCode}</p>
+            </div>
+          </div>
+
+          <p style={{ fontSize: "8.9pt", lineHeight: 1.45, marginTop: "4px" }}>
+            We are pleased to inform you that you have been selected for the Training Program with Jetstar Airways.<br />
+            We welcome you to be a part of our dynamic team and are confident that your skills and dedication will be a valuable addition to our organization.
+          </p>
+
+          <p style={{ fontSize: "8.8pt", fontWeight: 600, color: "#0f2d59" }}>
+            You are required to undergo the mandatory training program as per the details given below:
+          </p>
+
+          <table className="data-table">
+            <tbody>
+              <tr>
+                <th style={{ width: "32%" }}>DATE OF VISITING</th>
+                <td><strong>: {reportingDate}</strong></td>
+              </tr>
+              <tr>
+                <th>TRAINING LOCATION</th>
+                <td><strong>: {centerLocation}</strong></td>
+              </tr>
+              <tr>
+                <th>PROGRAM</th>
+                <td><strong>: {student.course_name || "Induction & Aviation Operations Training"}</strong></td>
+              </tr>
+              <tr>
+                <th>DURATION</th>
+                <td>: As per training schedule (Details will be shared separately)</td>
+              </tr>
+              <tr>
+                <th>BATCH CODE</th>
+                <td><strong>: {batchCode}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div>
+            <div style={{ fontWeight: 700, color: "#0f2d59", fontSize: "8.8pt", marginBottom: "4px" }}>
+              DOCUMENTS REQUIRED
+            </div>
+            <p style={{ fontSize: "8.5pt", color: "#334155", marginBottom: "4px" }}>
+              Please carry self-attested copies of the following documents:
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px 16px", fontSize: "8.5pt" }}>
+              <div>1. Education Documents</div>
+              <div>4. Address Proof</div>
+              <div>2. Character Certificate</div>
+              <div>5. Medical Certificate</div>
+              <div>3. Aadhar Card</div>
+              <div>6. IATA Airline Ticketing & Reservation – CSA Certification</div>
+            </div>
+            <p style={{ fontSize: "8.5pt", marginTop: "4px" }}>
+              7. An IATA software internship or experience letter is required.
+            </p>
+          </div>
+
+          <p style={{ fontSize: "8.5pt", color: "#334155", lineHeight: 1.4, marginTop: "2px" }}>
+            Please ensure that you report on time on the training date with all the above documents. Failure to do so may result in delay or cancellation of your training. We look forward to a successful training experience and a long association with Jetstar Airways. For any queries, feel free to contact our HR team.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <div className="signatures-section">
+          <div className="sig-block">
+            <p><strong>Warm Regards,</strong></p>
+            <p style={{ marginTop: "3px", fontWeight: 700, color: "#0f2d59" }}>Jaala Sahil</p>
+            <p style={{ fontSize: "8pt", color: "#64748b" }}>HR Department</p>
+            <p style={{ fontSize: "8.5pt", fontWeight: 700, color: "#0f2d59" }}>JET STAR AIRWAYS</p>
+          </div>
+          <div className="sig-block" style={{ textAlign: "right" }}>
+            <p><strong>For Indian Alliance Services</strong></p>
+            <p style={{ fontSize: "8pt", color: "#64748b" }}>Authorized Academic Signatory</p>
+            <div className="stamp-sig-container">
+              <img
+                className="stamp-img"
+                src="/stamp.png"
+                alt="seal"
+                style={{ position: "absolute", bottom: "-6px", right: "80px", width: "76px", height: "auto" }}
+              />
+              <img
+                className="sig-img"
+                src="/signature.png"
+                alt="signature"
+                style={{ position: "absolute", bottom: "2px", right: "15px", width: "100px", height: "auto" }}
+              />
+            </div>
+          </div>
+        </div>
+        {renderFooter()}
+      </div>
+    </div>
+  );
+}
+
+// =========================================================================
+// 2. FINAL LETTER & FUND POLICY (5 Pages) - Exactly matches Alraza Khan PDF
+// =========================================================================
+function renderFinalLetter(
+  student: Student,
+  refNo: string,
+  letterDate: string,
+  centerLocation: string,
+  reportingDate: string,
+  reportingTime: string,
+  designation: string
+) {
+  return (
+    <>
+      {/* PAGE 1: Letter of Agreement */}
       <div className="page">
-        <img
-          className="watermark"
-          src="/logo.png"
-          alt="watermark"
-          style={{ position: "absolute", top: "52%", left: "50%", transform: "translate(-50%, -50%)", width: "440px", maxWidth: "440px", opacity: 0.04, pointerEvents: "none", zIndex: 0 }}
-        />
+        {renderWatermark()}
         <div>
-          {header}
+          {renderHeader()}
           <div className="ref-date-bar">
-            <div><strong>REF NO:</strong> {refNo}</div>
-            <div><strong>DATE:</strong> {letterDate}</div>
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>Date:</strong> {letterDate}</div>
           </div>
 
           <div className="doc-title-container">
-            <div className="doc-title">TRAINING ADMISSION & REPORTING CONFIRMATION</div>
-            <div className="doc-subtitle">{student.course_name}</div>
+            <div className="doc-title">LETTER OF AGREEMENT</div>
           </div>
 
           <div className="content-body">
-            <div className="candidate-box">
-              <div className="candidate-col">
-                <p><strong>Trainee Name:</strong> {student.student_name}</p>
-                <p><strong>Father's Name:</strong> {student.father_name}</p>
-              </div>
-              <div className="candidate-col" style={{ textAlign: "right" }}>
-                <p><strong>Candidate ID:</strong> {student.application_number}</p>
-                <p><strong>Training Status:</strong> {student.status}</p>
-              </div>
+            <div style={{ fontSize: "9pt", lineHeight: 1.45 }}>
+              <p><strong>To,</strong></p>
+              <p><strong>Mr./Ms:</strong> {student.student_name}</p>
+              <p><strong>Father's Name:</strong> {student.father_name}</p>
             </div>
 
-            <p style={{ fontSize: "8.8pt", lineHeight: 1.4 }}>
-              Dear <strong>{student.student_name}</strong>,<br />
-              We are pleased to confirm your admission into the <strong>Aviation Customer Service & Airport Passenger Handling Skill Program</strong>{" "}
-              conducted by <strong>Indian Alliance Services</strong>. This curriculum covers essential passenger handling SOPs, 
-              terminal customer service, reservation systems, and professional aviation communication.
+            <p className="clause-p" style={{ marginTop: "6px" }}>
+              Whereas Indian Alliance Services (hereinafter referred to as the company) has stated that it provides aviation and airport services and requires personnel for ground-handling related activities.
             </p>
 
-            <table className="data-table">
-              <tbody>
-                <tr>
-                  <th style={{ width: "32%" }}>Training Course</th>
-                  <td><strong>{student.course_name}</strong></td>
-                </tr>
-                <tr>
-                  <th>Reporting Training Center</th>
-                  <td><strong>{centerLocation}</strong></td>
-                </tr>
-                <tr>
-                  <th>Reporting & Induction Date</th>
-                  <td><strong>{reportingDate}</strong> (Reporting Time: {reportingTime})</td>
-                </tr>
-                <tr>
-                  <th>Curriculum Focus</th>
-                  <td>Passenger Service SOPs, Airline Check-in, Boarding Gate Protocol, Soft Skills & Interview Drills</td>
-                </tr>
-              </tbody>
-            </table>
+            <p className="clause-p" style={{ fontSize: "9.2pt", fontWeight: 700, color: "#0f2d59", margin: "8px 0" }}>
+              We are pleased to offer you an engagement as a {designation} for a period of 20 years.
+            </p>
 
-            <div>
-              <div style={{ fontWeight: 700, color: "#0f2d59", fontSize: "8.8pt", marginBottom: "3px" }}>
-                TRAINING RULES & ACADEMY PROTOCOLS:
+            <div style={{ background: "#f8fafc", border: "1.5px solid #cbd5e1", borderRadius: "5px", padding: "10px 14px", margin: "6px 0" }}>
+              <p style={{ fontSize: "8.8pt", color: "#0f2d59", fontWeight: 700 }}>
+                Visiting Address:
+              </p>
+              <p style={{ fontSize: "8.8pt", color: "#334155", marginTop: "3px" }}>
+                IN {centerLocation} ({reportingDate})
+              </p>
+            </div>
+
+            <div className="clause-title" style={{ marginTop: "10px" }}>1. JURISDICTION</div>
+            <p className="clause-p">
+              This Agreement shall be governed by the laws of India and the Courts of Mumbai, India shall have exclusive jurisdiction to try all disputes between parties pursuant to this Agreement.
+            </p>
+
+            <div style={{ marginTop: "16px" }}>
+              <p style={{ fontSize: "8.5pt", color: "#334155" }}>
+                Yours Faithfully,<br />
+                <strong>For Indian Alliance Services</strong><br />
+                Authorized Signatory
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ borderTop: "1px solid #cbd5e1", paddingTop: "8px", marginTop: "10px", fontSize: "8.5pt" }}>
+            <p style={{ fontSize: "8.2pt", color: "#475569", marginBottom: "12px" }}>
+              I have read and understood the aforesaid terms and conditions of engagement and the implications thereof and agree to accept and abide by the same.
+            </p>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div>
+                Signature: _______________________<br />
+                Name: {student.student_name}<br />
+                Date: {letterDate}
               </div>
-              <ul className="list-styled">
-                <li><strong>Attendance Requirement:</strong> Trainees must maintain a minimum of 85% attendance to qualify for course assessments and certification.</li>
-                <li><strong>Grooming & Attire:</strong> Professional business formal attire is mandatory during all training sessions. Candidates must adhere to airline industry grooming standards.</li>
-                <li><strong>Documentation:</strong> Candidate must submit self-attested copies of educational marksheets, Aadhaar card, and 4 passport-size photographs on the reporting date.</li>
-                <li><strong>Verification:</strong> All student credentials and registration status can be verified 24/7 on our official registry at <em>indianallianceservices.com</em>.</li>
+              <div style={{ textAlign: "right" }}>
+                <div className="stamp-sig-container" style={{ display: "inline-block", width: "160px" }}>
+                  <img className="stamp-img" src="/stamp.png" alt="seal" style={{ width: "70px", right: "70px", bottom: "0" }} />
+                  <img className="sig-img" src="/signature.png" alt="sig" style={{ width: "95px", right: "10px", bottom: "5px" }} />
+                </div>
+              </div>
+            </div>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 1 of 5</div>
+        </div>
+      </div>
+
+      {/* PAGE 2: Service & Career Overview */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>CANDIDATE:</strong> {student.student_name}</div>
+          </div>
+
+          <div className="doc-title-container">
+            <div className="doc-title">CORPORATE ENGAGEMENT OVERVIEW</div>
+            <div className="doc-subtitle">Jetstar Airways & Airport Operations Alliance</div>
+          </div>
+
+          <div className="content-body">
+            <p className="clause-p" style={{ fontSize: "9pt", lineHeight: 1.45 }}>
+              Indian Alliance Services in strategic association with Jetstar Airways and leading airport ground service handlers across India delivers world-class aviation operational standards. Our personnel are deployed in comprehensive airport operational roles, terminal customer assistance, ramp operations, and check-in support.
+            </p>
+
+            <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", borderRadius: "5px", padding: "10px 14px", margin: "8px 0" }}>
+              <div style={{ fontWeight: 700, color: "#0f2d59", fontSize: "9pt", marginBottom: "6px" }}>
+                CORE OPERATIONAL DOMAINS
+              </div>
+              <ul className="list-styled" style={{ gap: "5px" }}>
+                <li><strong>Airport Terminal Operations:</strong> Passenger check-in assistance, boarding gate protocols, baggage tag tracking, and terminal crowd navigation.</li>
+                <li><strong>Aviation Customer Service:</strong> Executive passenger hospitality, special assistance for PRM (Passengers with Reduced Mobility), VIP escort services.</li>
+                <li><strong>Operations Safety Compliance:</strong> Compliance with BCAS (Bureau of Civil Aviation Security) mandates, DGCA standard operating guidelines, and airline partner SOPs.</li>
+                <li><strong>Career Progression Framework:</strong> Defined advancement from Grade G1 (Junior Associate) up to Grade G4 (Operations Lead / Station Manager) based on annual operational appraisal.</li>
               </ul>
             </div>
 
-            <div className="disclaimer-box">
-              <strong>CRITICAL LEGAL ADVISORY & ANTI-FRAUD NOTICE:</strong>
-              Indian Alliance Services is an independent aviation career guidance and vocational training academy. <u>THIS DOCUMENT IS STRICTLY AN ADMISSION TO TRAINING AND DOES NOT CONSTITUTE AN EMPLOYMENT CONTRACT, SALARY COMMITMENT, OR GUARANTEED JOB PLACEMENT</u>. Indian Alliance Services is not an airline operator or a government airport authority. We never demand unauthorized cash deposits, gate-pass bribes, or informal UPI transfers. Successful completion of the program entitles the student to a Certificate of Training Completion to assist in independent recruitment applications.
+            <div style={{ border: "1.5px solid #0f2d59", borderRadius: "5px", padding: "10px 14px", marginTop: "10px" }}>
+              <div style={{ fontWeight: 700, color: "#0f2d59", fontSize: "9pt", marginBottom: "4px" }}>
+                ENGAGEMENT ASSURANCE & OPERATIONAL CONTINUITY
+              </div>
+              <p className="clause-p" style={{ margin: 0 }}>
+                This engagement confirms candidate onboarding into active aviation ground operations. The candidate shall undergo structured on-the-job orientation followed by station deployment. All administrative documentation, Airport Entry Permit (AEP) coordination, and statutory employee benefits are facilitated by Indian Alliance Services.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8pt", color: "#64748b", padding: "3px 0", borderTop: "1px solid #e2e8f0" }}>
+            <span>Candidate Signature: ____________________</span>
+            <span>Authorized Signatory: [IAS Verified]</span>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 2 of 5</div>
+        </div>
+      </div>
+
+      {/* PAGE 3: Annexure - A Emoluments Details */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>Date:</strong> {letterDate}</div>
+          </div>
+
+          <div className="doc-title-container">
+            <div className="doc-title">ANNEXURE - A</div>
+            <div className="doc-subtitle">Emoluments Details & Monthly Salary Break-up</div>
+          </div>
+
+          <div className="content-body">
+            <div style={{ fontSize: "9pt", fontWeight: 700, color: "#0f2d59", marginBottom: "4px" }}>
+              Salary Break-up per Month: Rs. p.m. (Grade G1)
             </div>
 
-            <p style={{ fontSize: "8pt", color: "#475569", fontStyle: "italic" }}>
-              <strong>Jurisdiction:</strong> Any legal matter or inquiry concerning this training enrollment shall be governed by the laws of India and subject to the exclusive jurisdiction of the competent courts in Visakhapatnam / Mumbai.
+            <table className="data-table" style={{ marginTop: "4px" }}>
+              <thead>
+                <tr>
+                  <th style={{ width: "70%" }}>Particulars</th>
+                  <th style={{ textAlign: "right" }}>Amount (Rs.)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1) Basic</td>
+                  <td style={{ textAlign: "right", fontWeight: 700 }}>28,456</td>
+                </tr>
+                <tr>
+                  <td>2) Attendance Bonus</td>
+                  <td style={{ textAlign: "right" }}>3,500</td>
+                </tr>
+                <tr>
+                  <td>3) Special Allowance</td>
+                  <td style={{ textAlign: "right" }}>3,500</td>
+                </tr>
+                <tr style={{ background: "#f1f5f9", fontWeight: 800 }}>
+                  <td style={{ color: "#0f2d59" }}>Gross Salary</td>
+                  <td style={{ textAlign: "right", color: "#0f2d59" }}>35,456</td>
+                </tr>
+                <tr>
+                  <td>Employees Contribution to P.F.</td>
+                  <td style={{ textAlign: "right" }}>2,350</td>
+                </tr>
+                <tr>
+                  <td>Professional Tax</td>
+                  <td style={{ textAlign: "right" }}>1,394</td>
+                </tr>
+                <tr>
+                  <td>ESIC</td>
+                  <td style={{ textAlign: "right" }}>800</td>
+                </tr>
+                <tr>
+                  <td>Income Tax</td>
+                  <td style={{ textAlign: "right" }}>40,000</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p style={{ fontSize: "8pt", color: "#64748b", fontStyle: "italic", marginTop: "4px" }}>
+              Note: The salary figures above are reproduced from the standard employment terms for Grade G1 and are subject to statutory revisions under applicable laws.
             </p>
           </div>
         </div>
@@ -867,271 +1101,1026 @@ function renderLetterContent(
         <div>
           <div className="signatures-section">
             <div className="sig-block">
-              <p><strong>Trainee Declaration & Acceptance:</strong></p>
-              <p style={{ fontSize: "7.8pt", color: "#64748b" }}>I confirm that I have enrolled voluntarily for skills training only.</p>
+              <p><strong>Candidate Acceptance:</strong></p>
               <div className="sig-line">
-                Candidate Signature: _______________________<br />
-                Date: ________________________
+                SIGNATURE: _______________________<br />
+                NAME: {student.student_name}<br />
+                DESIGNATION: {designation}<br />
+                DATE: {letterDate}
               </div>
             </div>
             <div className="sig-block" style={{ textAlign: "right" }}>
               <p><strong>For Indian Alliance Services</strong></p>
-              <p style={{ fontSize: "7.8pt", color: "#64748b" }}>Authorized Signatory</p>
+              <p style={{ fontSize: "8pt", color: "#64748b" }}>Authorized HR Signatory</p>
               <div className="stamp-sig-container">
-                <img
-                  className="stamp-img"
-                  src="/stamp.png"
-                  alt="seal"
-                  style={{ position: "absolute", bottom: "-6px", right: "80px", width: "78px", height: "auto" }}
-                />
-                <img
-                  className="sig-img"
-                  src="/signature.png"
-                  alt="signature"
-                  style={{ position: "absolute", bottom: "2px", right: "15px", width: "105px", height: "auto" }}
-                />
-              </div>
-              <div style={{ fontSize: "8pt", fontWeight: 700, color: "#0f2d59", marginTop: "2px" }}>
-                Registrar of Training & Admissions
+                <img className="stamp-img" src="/stamp.png" alt="seal" style={{ width: "74px", right: "75px" }} />
+                <img className="sig-img" src="/signature.png" alt="sig" style={{ width: "95px", right: "12px" }} />
               </div>
             </div>
           </div>
-          {footer}
+          {renderFooter()}
+          <div className="page-number-text">Page 3 of 5</div>
         </div>
       </div>
-    );
-  }
 
-  // 3-Page Agreement
-  return (
-    <>
-      {/* PAGE 1 */}
+      {/* PAGE 4: Joining & Reporting Details + Fund Policy */}
       <div className="page">
-        <img
-          className="watermark"
-          src="/logo.png"
-          alt="watermark"
-          style={{ position: "absolute", top: "52%", left: "50%", transform: "translate(-50%, -50%)", width: "440px", maxWidth: "440px", opacity: 0.04, pointerEvents: "none", zIndex: 0 }}
-        />
+        {renderWatermark()}
         <div>
-          {header}
+          {renderHeader()}
           <div className="ref-date-bar">
-            <div><strong>REF NO:</strong> {refNo}</div>
-            <div><strong>DATE:</strong> {letterDate}</div>
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>Date:</strong> {letterDate}</div>
           </div>
 
           <div className="doc-title-container">
-            <div className="doc-title">STUDENT VOCATIONAL TRAINING AGREEMENT</div>
-            <div className="doc-subtitle">Terms of Enrollment, Academic Conduct & Training Undertaking</div>
+            <div className="doc-title">JOINING & REPORTING DETAILS</div>
+            <div className="doc-subtitle">JETSTAR AIRLINE – {designation}</div>
           </div>
 
           <div className="content-body">
-            <div className="candidate-box">
-              <div className="candidate-col">
-                <p><strong>Trainee / Candidate:</strong> {student.student_name}</p>
-                <p><strong>Father's Name:</strong> {student.father_name}</p>
-              </div>
-              <div className="candidate-col" style={{ textAlign: "right" }}>
-                <p><strong>Candidate Ref:</strong> {student.application_number}</p>
-                <p><strong>Training Program:</strong> {student.course_name}</p>
-              </div>
+            <div style={{ fontWeight: 700, color: "#0f2d59", fontSize: "9pt", marginBottom: "3px" }}>
+              JOINING & GROOMING REQUIREMENTS
+            </div>
+            <ul className="list-styled" style={{ gap: "3px" }}>
+              <li><strong>Reporting:</strong> {reportingTime}</li>
+              <li><strong>Documents:</strong> Originals + 2 sets of photocopies + nominee details, if applicable.</li>
+              <li><strong>IATA:</strong> IATA Software internship Proof / Experience Letter is required.</li>
+              <li><strong>Dress Code:</strong> Formal attire with polished black formal shoes.</li>
+              <li><strong>Male Grooming:</strong> Clean-shaven / neatly trimmed beard & well-groomed hair.</li>
+              <li><strong>Female Grooming:</strong> Neat hairstyle, formal attire & minimal accessories.</li>
+              <li><strong>Joining:</strong> Report on the allotted date and within the specified time.</li>
+              <li><strong>Company Process:</strong> Your fund policy amount will be refunded as per the company's refund policy after your airport visit. The refund details and receipt will be provided in your final letter. The UTR number / receipt of the payment you make will also be mentioned in the letter for your reference.</li>
+            </ul>
+
+            <div style={{ fontWeight: 800, color: "#0f2d59", fontSize: "9.2pt", margin: "6px 0 2px 0", textTransform: "uppercase" }}>
+              JET STAR PAN REGION AS CHECKER, FOR GROUND STAFF
             </div>
 
-            <p className="clause-p" style={{ marginTop: "3px" }}>
-              This Candidate Vocational Training Agreement (the "Agreement") is entered into by and between{" "}
-              <strong>INDIAN ALLIANCE SERVICES</strong> (hereinafter referred to as the <strong>"Institute"</strong>) and{" "}
-              <strong>{student.student_name}</strong> (hereinafter referred to as the <strong>"Trainee"</strong>).
-            </p>
-
-            <p className="clause-p" style={{ background: "#f1f5f9", padding: "5px 8px", borderRadius: "4px" }}>
-              <strong>RECITALS:</strong> Whereas the Institute is an independent academy providing vocational skill coaching, aviation communication grooming, and airport operational training modules; and whereas the Trainee has voluntarily applied for admission to enhance personal knowledge and career skills.
-            </p>
-
-            <div className="clause-title">1. Training Program & Center Allocation</div>
-            <p className="clause-p">
-              The Trainee is enrolled in the <strong>{student.course_name}</strong>. 
-              Training will be conducted at the <strong>{centerLocation}</strong>. 
-              The scheduled batch orientation commences on <strong>{reportingDate}</strong> for a structured duration of 3 months.
-            </p>
-
-            <div className="clause-title">2. Verification of Credentials & Identity</div>
-            <p className="clause-p">
-              Admission is subject to verification of the Trainee's educational testimonials, proof of age, address, and character certificates. 
-              If any document or statement provided is discovered to be fraudulent, misleading, or forged, the Institute reserves the right to immediately terminate the enrollment with forfeiture of fees, without prejudice to legal remedies.
-            </p>
-
-            <div className="clause-title">3. Attendance & Academic Progression</div>
-            <p className="clause-p">
-              Aviation operations require unwavering punctuality. The Trainee must maintain a minimum of <strong>85% attendance</strong> across all theoretical classroom modules, customer service drills, and practical simulations. Unauthorized absence for continuous 5 days may result in batch de-registration.
-            </p>
-
-            <div className="clause-title">4. Training Modules & Scope of Curriculum</div>
-            <p className="clause-p">
-              The curriculum encompasses: (a) Aviation Industry Basics & Airport Terminal Layout; (b) Customer Relationship Management (CRM) & Passenger Assistance; (c) Check-in Procedures & Baggage Tagging Standards; (d) Passenger with Reduced Mobility (PRM) special handling; (e) Aviation Safety, Dangerous Goods Awareness & Emergency Drills; and (f) Executive Grooming & Interview Readiness.
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8pt", color: "#64748b", padding: "3px 0", borderTop: "1px solid #e2e8f0" }}>
-            <span>Trainee Initials: ____________________</span>
-            <span>Authorized Signatory Initials: [IAS Verified]</span>
-          </div>
-          {footer}
-          <div className="page-number-text">Page 1 of 3</div>
-        </div>
-      </div>
-
-      {/* PAGE 2 */}
-      <div className="page">
-        <img
-          className="watermark"
-          src="/logo.png"
-          alt="watermark"
-          style={{ position: "absolute", top: "52%", left: "50%", transform: "translate(-50%, -50%)", width: "440px", maxWidth: "440px", opacity: 0.04, pointerEvents: "none", zIndex: 0 }}
-        />
-        <div>
-          {header}
-          <div className="ref-date-bar">
-            <div><strong>REF NO:</strong> {refNo}</div>
-            <div><strong>STUDENT:</strong> {student.student_name}</div>
-          </div>
-
-          <div className="content-body">
-            <div className="clause-title">5. Grooming, Uniform & Discipline Standards</div>
-            <p className="clause-p">
-              The Trainee shall strictly maintain the professional grooming guidelines established by the Institute, including prescribed business attire, neat appearance, and respectful decorum. No unruly behavior, insubordination, or disturbance in the training facility will be tolerated.
-            </p>
-
-            <div className="clause-title">6. Training Fees, Tuition & Facilities</div>
-            <p className="clause-p">
-              The training fees charged are strictly tuition charges for instruction, coaching materials, and administrative facility overheads. 
-              Official GST-compliant receipts will be issued for all payments made through official bank channels. 
-              The Institute does NOT demand arbitrary security deposits, gate-pass clearance charges, or unauthorized cash collections.
-            </p>
-
-            <div className="disclaimer-box" style={{ margin: "6px 0", padding: "10px" }}>
-              <strong style={{ fontSize: "9pt", color: "#b45309", marginBottom: "3px" }}>
-                7. STRICT STATUTORY DISCLAIMER - NO EMPLOYMENT OR PLACEMENT GUARANTEE:
-              </strong>
-              <span style={{ fontSize: "8.5pt", color: "#78350f", lineHeight: 1.4, display: "block" }}>
-                (A) <strong>NON-EMPLOYMENT STATUS:</strong> Indian Alliance Services is solely an independent vocational training and career advisory academy. This Agreement is EXCLUSIVELY for skills training and learning. <strong>THIS DOCUMENT DOES NOT CONSTITUTE AN EMPLOYMENT CONTRACT, APPOINTMENT LETTER, SALARY OFFER, OR DIRECT RECRUITMENT ORDER.</strong><br /><br />
-                (B) <strong>NO PLACEMENT GUARANTEE:</strong> Indian Alliance Services does NOT guarantee, warrant, or promise employment, jobs, or permanent posting in any airline, airport, or ground handling agency. Successful completion of the course awards a Certificate of Training Completion. Final selection in the aviation sector is the exclusive discretion of hiring employers based on merit, personal interviews, medical fitness, and BCAS security vetting.<br /><br />
-                (C) <strong>NO OFFICIAL AIRLINE AFFILIATION:</strong> Indian Alliance Services is not a subsidiary or hiring agent of Jetstar Airways, Air India, IndiGo, or any specific airline. All airline brand marks and codes referenced in training coursework are used solely for educational, pedagogical, and simulation purposes.
-              </span>
-            </div>
-
-            <div className="clause-title">8. Confidentiality & Academy Course Materials</div>
-            <p className="clause-p">
-              All course guides, mock tests, simulation software, presentations, and intellectual materials supplied by the Institute remain the exclusive property of Indian Alliance Services. Trainees shall not record, copy, distribute, or commercially exploit any educational content.
-            </p>
-
-            <div className="clause-title">9. Medical Fitness & Safety Guidelines</div>
-            <p className="clause-p">
-              Aviation training involves active standing, simulation drills, and situational exercises. The Trainee affirms that they possess adequate physical fitness and have disclosed any pre-existing medical conditions that might impair participation.
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8pt", color: "#64748b", padding: "3px 0", borderTop: "1px solid #e2e8f0" }}>
-            <span>Trainee Initials: ____________________</span>
-            <span>Authorized Signatory Initials: [IAS Verified]</span>
-          </div>
-          {footer}
-          <div className="page-number-text">Page 2 of 3</div>
-        </div>
-      </div>
-
-      {/* PAGE 3 */}
-      <div className="page">
-        <img
-          className="watermark"
-          src="/logo.png"
-          alt="watermark"
-          style={{ position: "absolute", top: "52%", left: "50%", transform: "translate(-50%, -50%)", width: "440px", maxWidth: "440px", opacity: 0.04, pointerEvents: "none", zIndex: 0 }}
-        />
-        <div>
-          {header}
-          <div className="ref-date-bar">
-            <div><strong>REF NO:</strong> {refNo}</div>
-            <div><strong>STUDENT:</strong> {student.student_name}</div>
-          </div>
-
-          <div className="content-body">
-            <div className="clause-title">10. Code of Conduct & Academic Integrity</div>
-            <p className="clause-p">
-              Trainees must exhibit high standards of integrity and moral conduct. Prohibited activities include: (a) harassment or discrimination; (b) damage or vandalism of academy assets; (c) fraudulent claims; (d) unauthorized financial transactions or solicitation of gratuity. Violations will lead to immediate expulsion from the program.
-            </p>
-
-            <div className="clause-title">11. Governing Law & Dispute Resolution</div>
-            <p className="clause-p">
-              This Agreement shall be governed and interpreted in accordance with the laws of the Republic of India. In the event of any dispute or controversy arising out of this training agreement, the parties agree to submit to the exclusive jurisdiction of the competent courts in Visakhapatnam / Mumbai.
-            </p>
-
-            <div style={{ background: "#f8fafc", border: "1.5px solid #0f2d59", borderRadius: "5px", padding: "10px 12px", marginTop: "5px" }}>
-              <div style={{ fontWeight: 800, color: "#0f2d59", fontSize: "9.5pt", marginBottom: "4px", textTransform: "uppercase" }}>
-                12. Trainee Solemn Declaration & Undertaking
+            <div style={{ background: "#f8fafc", border: "1.5px solid #0f2d59", borderRadius: "5px", padding: "10px 12px", marginTop: "4px" }}>
+              <div style={{ fontWeight: 800, color: "#0f2d59", fontSize: "9.5pt", marginBottom: "4px" }}>
+                FUND POLICY
               </div>
-              <p style={{ fontSize: "8.5pt", color: "#1e293b", lineHeight: 1.4, textAlign: "justify" }}>
-                I, <strong>{student.student_name}</strong>, Son/Daughter of <strong>Mr. {student.father_name}</strong>, hereby solemnly declare that:
-                <br />1. I have carefully read, reviewed, and understood all twelve (12) clauses of this Vocational Training Agreement.
-                <br />2. I acknowledge and confirm that <strong>Indian Alliance Services provides training services only and does NOT provide, promise, or guarantee job placement, salary, or airline appointment</strong>.
-                <br />3. I am enrolling voluntarily to acquire vocational skills, and I agree to abide strictly by the rules and code of conduct of the Institute.
+              <p className="clause-p" style={{ marginBottom: "5px" }}>
+                As part of the engagement terms stated in this document, a Fund Policy is required to be submitted on the same day on which this letter is received, subject to applicable company procedures and independent verification.
               </p>
-
-              <div style={{ display: "flex", justifyContent: "space-between", marginTop: "14px", fontSize: "8.5pt" }}>
-                <div style={{ width: "48%" }}>
-                  <div style={{ borderTop: "1px solid #475569", paddingTop: "3px" }}>
-                    <strong>Signature of Trainee:</strong> _____________________<br />
-                    <strong>Name:</strong> {student.student_name}<br />
-                    <strong>Date:</strong> ________________________<br />
-                    <strong>Place:</strong> {centerLocation.split(" ")[0]}
-                  </div>
-                </div>
-                <div style={{ width: "48%" }}>
-                  <div style={{ borderTop: "1px solid #475569", paddingTop: "3px" }}>
-                    <strong>Signature of Parent / Guardian:</strong> _____________________<br />
-                    <strong>Name:</strong> {student.father_name}<br />
-                    <strong>Date:</strong> ________________________<br />
-                    <strong>Contact:</strong> {student.mobile_number || "_____________________"}
-                  </div>
-                </div>
-              </div>
+              <p className="clause-p" style={{ marginBottom: "5px" }}>
+                The stated purpose of the Fund Policy is to provide a long-term employee benefit arrangement, noting that retirement benefits or pension, if any, shall be governed strictly by the applicable employment terms and company policy.
+              </p>
+              <p className="clause-p" style={{ margin: 0, fontWeight: 600, color: "#0f2d59" }}>
+                Under the proposed contribution structure, 70% is to be contributed by the Company and 30% is to be contributed by the Candidate. All contributions, eligibility conditions, refundability, and settlement terms shall be subject to the applicable written policy and official verification.
+              </p>
             </div>
           </div>
         </div>
 
         <div>
-          <div className="signatures-section" style={{ marginTop: "4px" }}>
-            <div className="sig-block" style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-              <div style={{ textAlign: "right", width: "50%" }}>
-                <p><strong>For Indian Alliance Services</strong></p>
-                <p style={{ fontSize: "7.5pt", color: "#64748b" }}>Authorized Signatory - Academic & Operations</p>
-                <div className="stamp-sig-container">
-                  <img
-                    className="stamp-img"
-                    src="/stamp.png"
-                    alt="seal"
-                    style={{ position: "absolute", bottom: "-6px", right: "80px", width: "78px", height: "auto" }}
-                  />
-                  <img
-                    className="sig-img"
-                    src="/signature.png"
-                    alt="signature"
-                    style={{ position: "absolute", bottom: "2px", right: "15px", width: "105px", height: "auto" }}
-                  />
-                </div>
-                <div style={{ fontSize: "8pt", fontWeight: 700, color: "#0f2d59", marginTop: "2px" }}>
-                  Executive Director / Registrar
-                </div>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8pt", color: "#64748b", padding: "3px 0", borderTop: "1px solid #e2e8f0" }}>
+            <span>Candidate Acknowledged: ____________________</span>
+            <span>Authorized Signatory: [IAS Verified]</span>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 4 of 5</div>
+        </div>
+      </div>
+
+      {/* PAGE 5: Company Policies, Confidentiality & Signatures */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>Date:</strong> {letterDate}</div>
+          </div>
+
+          <div className="content-body">
+            <div className="clause-title" style={{ fontSize: "9.5pt" }}>2.(A) COMPANY POLICIES</div>
+            <p className="clause-p">
+              You will be, at all times, governed by the rules and regulations framed by the Company, as applicable and amended from time to time, provided however that in case there is any conflict between such rules and regulations and the provisions of this letter of appointment, the provisions herein alone shall apply and prevail.
+            </p>
+            <p className="clause-p">
+              You shall only be entitled to the benefits and emoluments as offered hereinabove and accepted by you irrespective of your place of posting during your engagement period. This letter of Engagement, if not extended or terminated earlier, will automatically expire at the end of the period as mentioned above without the company having to do any other action.
+            </p>
+
+            <div className="clause-title" style={{ fontSize: "9.5pt", marginTop: "6px" }}>(B) CONFIDENTIALITY & NON-DISCLOSURE</div>
+            <p className="clause-p">
+              The confidentiality clauses shall come into effect from the date of signing this letter and the provision of this clause shall survive the termination of this Contract. If there is any breach of the terms with regard to confidentiality, the Company shall have the right to terminate your engagement at any time in writing without notice and shall be entitled to damages.
+            </p>
+            <p className="clause-p">
+              In addition to the provisions of this clause, your confidentiality obligations towards the Company shall be governed by the terms and conditions of an Individual Non-Disclosure Agreement, attached hereto as Annexure B, which shall be considered as an integral part of this Letter of Engagement.
+            </p>
+
+            <div className="clause-title" style={{ fontSize: "9.5pt", marginTop: "6px" }}>(C) CONDUCT & DISCIPLINARY COMPLIANCE</div>
+            <p className="clause-p">
+              In the event of your involvement in any kind of acts which is detrimental to the interest of the Company or in the event of your arrest by the Police/Customs/any other government authority for involvement in any criminal offence, your engagement may be terminated immediately. In the event of misconduct under applicable rules and regulations, the company may take appropriate action.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div className="signatures-section" style={{ marginTop: "12px" }}>
+            <div className="sig-block">
+              <p><strong>Candidate Acceptance:</strong></p>
+              <div className="sig-line">
+                Signature: _______________________<br />
+                Name: {student.student_name}<br />
+                Place: {centerLocation.split(" ")[0]}<br />
+                Date: {letterDate}
+              </div>
+            </div>
+            <div className="sig-block" style={{ textAlign: "right" }}>
+              <p><strong>For Indian Alliance Services</strong></p>
+              <p style={{ fontSize: "8pt", color: "#64748b" }}>Authorized Signatory</p>
+              <div className="stamp-sig-container">
+                <img className="stamp-img" src="/stamp.png" alt="seal" style={{ width: "74px", right: "75px" }} />
+                <img className="sig-img" src="/signature.png" alt="sig" style={{ width: "95px", right: "12px" }} />
+              </div>
+              <div style={{ fontSize: "8pt", fontWeight: 700, color: "#0f2d59", marginTop: "2px" }}>
+                Authorized HR Designation
               </div>
             </div>
           </div>
-          {footer}
-          <div className="page-number-text">Page 3 of 3</div>
+          {renderFooter()}
+          <div className="page-number-text">Page 5 of 5</div>
         </div>
       </div>
     </>
+  );
+}
+
+// =========================================================================
+// 3. MASTER AGREEMENT & ANNEXURES (12 Pages) - Matches Kiran Ishwar Kurhe PDF
+// =========================================================================
+function renderMasterAgreement(
+  student: Student,
+  refNo: string,
+  letterDate: string,
+  centerLocation: string,
+  reportingDate: string,
+  designation: string,
+  fundPolicyAmount: string,
+  securityDeposit: string
+) {
+  return (
+    <>
+      {/* PAGE 1: Agreement & Probation */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>Date:</strong> {letterDate}</div>
+          </div>
+
+          <div style={{ fontSize: "8.8pt", lineHeight: 1.4, marginBottom: "6px" }}>
+            <p><strong>To,</strong></p>
+            <p><strong>Mr./MS=</strong>{student.student_name}</p>
+            <p><strong>S/O.MR=</strong>{student.father_name}</p>
+          </div>
+
+          <div className="doc-title-container">
+            <div className="doc-title">LETTER OF AGREEMENT</div>
+          </div>
+
+          <div className="content-body">
+            <p className="clause-p">
+              Whereas Indian Alliance Services (herein after referred to as "the company"), has secured ground handling contracts at Airports in India and in order to fulfills this contractual obligation, the company desires to engage personnel.
+            </p>
+            <p className="clause-p" style={{ fontWeight: 600, color: "#0f2d59" }}>
+              The terms and conditions are as follows:
+            </p>
+
+            <div className="clause-title">1. Agreement</div>
+            <p className="clause-p">
+              We are pleased to offer you an engagement as a <strong>{designation}</strong> for a period of 20 years. Your date of joining = <strong>{reportingDate}</strong>.
+            </p>
+            <p className="clause-p">
+              Your engagement is subject to the verification of your antecedents and character testimonials. The information provided by you to the company would be subject to verification by the company and in case of any discrepancy or facility which comes to the knowledge of the company, your services shall be terminated without notice or you may also be subjected to further penal action as warranted. Your engagement for service in the company will be subject to your being found medically fit to carry out the job for which your services are engaged.
+            </p>
+            <p className="clause-p">
+              During the validity and pendency of engagement, if you are unable to perform your obligation/duties due to medical unfitness either temporary (lasting for more than 45 days) or permanent medical unfitness as determined by company's appointed Medical Officer, or for any other reasons (lasting more than 45 days) the engagement will come to an end automatically and the management will be absolved of any obligation/liability, whatsoever, either to extend or enter into any fresh engagement with you. In such an event, the engagement for service will be terminated without any compensation and you will not be entitled to any payment for the period of absence.
+            </p>
+            <p className="clause-p">
+              Your employment and remuneration start only upon issuance of the AEP by the authorities, and your commencement of work at your allotted station/department. Furthermore, if any time for any reason, your AEP is revoked, the company may terminate your services without notice. In case your place of work is in the operational area for which an AEP is requirement to perform your duties, your employment and remuneration will commence after you have attained an AEP and restored for work in your allotted department. In other cases, your employment and remuneration will commence from the date you have joined duties.
+            </p>
+
+            <div className="clause-title">2. Probation Confirmation</div>
+            <p className="clause-p">
+              You will be placed on probation on your joining the company. The Probation period will be as per the grade, which is as follows: <strong>G1 to G2 - 3 Months</strong>. The probation period may be extended if so deemed necessary by the company for such further period as it deems fit. After Completion of Probation period, either initial or extended as the case may be, the company may at its sole discretion confirm your engagement with the company for a period of 30 years inclusive of probation. If the probationary period is not extended or confirmed in writing, your service will stand terminated by the company.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8pt", color: "#64748b", padding: "3px 0", borderTop: "1px solid #e2e8f0" }}>
+            <span>Candidate Initials: ____________________</span>
+            <span>Authorized Signatory Initials: [IAS Verified]</span>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 1 of 12</div>
+        </div>
+      </div>
+
+      {/* PAGE 2: Training, Compensation, Benefits, Location */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>STUDENT:</strong> {student.student_name}</div>
+          </div>
+
+          <div className="content-body">
+            <div className="clause-title">3. Training</div>
+            <p className="clause-p">
+              You shall, if required at any time undergo any training or refresher course as may be determined by the company. As an employee of the company, you are liable to serve or undergo training anywhere in or outside India, as may be required.
+            </p>
+            <p className="clause-p">
+              In the event, if you abscond soon after training, the company will view this as an act of gross misconduct and take disciplinary action, including legal to cover the investments that have been made on you.
+            </p>
+            <p className="clause-p">
+              You shall be required to deposit with the company an amount of Rs. 8865 towards the cost of training incurred on you by the company and experience gained in the company in the course of employment. This amount will be refunded only after completion of 2 or more years of service in the company at the time of separation. (Grade G1: Rs. 8865.00).
+            </p>
+
+            <div className="clause-title">4. Compensation</div>
+            <p className="clause-p">
+              Your Monthly Gross Salary will be Rs. 28,456/- to Rs. 35,456/- subject to statutory deductions. The details are as indicated in the Annexure-A. You will not be entitled to any other monetary compensation.
+            </p>
+
+            <div className="clause-title">5. Statutory Benefits & Deductions</div>
+            <p className="clause-p">
+              You will be eligible for provident fund as per the Provident Fund and Miscellaneous Provisions Act, 1952 or any amendments thereto after deducting the appropriate sums from your gross salary. The Maximum employer contribution will be up to a Basic Salary of Rs. 40,000/- per month. The amount payable to you shall be subject to income tax deduction at source.
+            </p>
+
+            <div className="clause-title">6. Gratuity</div>
+            <p className="clause-p">
+              You will be eligible for gratuity as per the Payment of Gratuity Act 1972.
+            </p>
+
+            <div className="clause-title">7. Medical Benefits & Fitness</div>
+            <p className="clause-p">
+              Your continuation in the company will be strictly subject to your continued medical fitness. You will be required to comply with the medical standards prescribed by the company including weight as per company standards, grooming and appearance, failing which your services are liable to be terminated.
+            </p>
+            <p className="clause-p">
+              You will be entitled for medical benefits as per the Employees' State Insurance Act 1948 ("ESIC Act") for those employees who come under the purview of the Act. For Employees who are outside the Purview of the Act, the company insured them for an amount of Rs. 100,000/- towards hospitalization.
+            </p>
+
+            <div className="clause-title">8. Location</div>
+            <p className="clause-p">
+              You will be initially posted at Delhi or the designated station but you can be transferred to any other group company/affiliate/sister concern/subsidiary of the company anywhere in India. Your base location will be at the absolute discretion of the company. Refusal to carry out such instructions shall constitute "Misconduct", for which your services shall be liable to be terminated. Deployment of services will be at the sole discretion of the Management and subject to the exigencies of the company.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8pt", color: "#64748b", padding: "3px 0", borderTop: "1px solid #e2e8f0" }}>
+            <span>Candidate Initials: ____________________</span>
+            <span>Authorized Signatory Initials: [IAS Verified]</span>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 2 of 12</div>
+        </div>
+      </div>
+
+      {/* PAGE 3: Personal Particulars, AEP, Uniforms, Accommodation */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>STUDENT:</strong> {student.student_name}</div>
+          </div>
+
+          <div className="content-body">
+            <div className="clause-title">9. Personal Particulars</div>
+            <p className="clause-p">
+              You shall keep the company informed in writing of any change of your marital status and residential address. In the event of you not informing the company about the change in your Residence Address, any communication sent to you at the address available with the company shall be deemed to have been served on you.
+            </p>
+
+            <div className="clause-title">10. Identity card & AEP</div>
+            <p className="clause-p">
+              For identification and security, you will be issued an identity Card. If you are required to work in the Airport premises, you will also be issued an Airport Entry Pass (AEP) at the time of being engaged, which is to be displayed at all times in the company and Airport Premises.
+            </p>
+            <p className="clause-p">
+              If your place of work is within the Airport wherein the Entry inside the airport is restricted, i.e. controlled/regulated by BCAS, the issuance of an airport Entry Pass (AEP) is clarified that your engagement with this company shall be subject to AEP being issued and renewed by the competent authorities.
+            </p>
+            <p className="clause-p">
+              Loss of Identity Card must be reported to the HRD immediately; duplicate will be issued with a charge of Rs. 150/-. In case of loss of AEP, you will be required to follow the rules laid by BCAS. If at any time, for any reason whatsoever, your AEP is revoked, your services with the company lapses and will stand terminated.
+            </p>
+
+            <div className="clause-title">11. Uniforms</div>
+            <p className="clause-p">
+              You shall carry out your official obligations in the uniform provided by the Company and shall be responsible for the safe custody of all sets of uniforms supplied to you.
+            </p>
+            <p className="clause-p">
+              On Induction into the company, you will be required to pay uniform Deposit of Rs. 4215/-. In case of loss/damage of uniform, you will be required to pay the cost of the additional uniform. In case of separation from the Company prior to completion of mandatory tenure, this Uniform deposit will be forfeited.
+            </p>
+            <p className="clause-p">
+              In case you are transferred to a position where you are not required to wear a uniform, the uniform deposit will be refunded and the uniforms will be required to be surrendered to the company. Your Uniform deposit will be refunded only at the time of separation in the full and final settlement after having surrendered the uniforms. (Grade G1 Uniform deposit: Rs. 4215.00).
+            </p>
+
+            <div className="clause-title">12. Accommodation</div>
+            <p className="clause-p">
+              You will be provided Food and accommodation by the Company during the training period. After that, company only provides quarters not any kind of food and personal accommodation.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8pt", color: "#64748b", padding: "3px 0", borderTop: "1px solid #e2e8f0" }}>
+            <span>Candidate Initials: ____________________</span>
+            <span>Authorized Signatory Initials: [IAS Verified]</span>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 3 of 12</div>
+        </div>
+      </div>
+
+      {/* PAGE 4: Transportation, Working Hours, Attendance, Leave, Termination */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>STUDENT:</strong> {student.student_name}</div>
+          </div>
+
+          <div className="content-body">
+            <div className="clause-title">13. Transportation</div>
+            <p className="clause-p">
+              Transportation if considered by the Company at any time or reason whatever shall be at the discretion of the Management.
+            </p>
+
+            <div className="clause-title">14. Working hours</div>
+            <p className="clause-p">
+              Your working hours will be 48 hours per week (whether on shifts or otherwise excluding break periods), and shall also be subject to change without notice. You may be required to work for additional hours in case of any exigency, for which you will be compensated as per Company policy.
+            </p>
+
+            <div className="clause-title">15. Attendance</div>
+            <p className="clause-p">
+              You shall be at work at the establishment at the times fixed and notified. If you attend late or after recording attendance are found absent from your place of work during working hours without permission or without sufficient reason, you shall be liable for disciplinary action as deemed fit. Salary or wages will be paid as per the time recorded in the system such as biometric system.
+            </p>
+
+            <div className="clause-title">16. Leave</div>
+            <p className="clause-p">
+              You will not be eligible for any type of leave for the first 3 months of your probation period. No type of leave can be availed of as a matter of right. The Management reserves its discretion either to grant or refuse leave applied depending upon exigencies of service.
+            </p>
+            <p className="clause-p">
+              A leave year is from 1st April to 31st March (Financial Year). There will be no accumulation of leaves and unutilized leaves lap at year end:
+            </p>
+            <ul className="list-styled">
+              <li><strong>a. Declared Public Holidays:</strong> Eligible for 10 days declared holidays in a Calendar year.</li>
+              <li><strong>b. Casual Leave (CL):</strong> Eligible for Casual Leave to the extent of 7 days in a Financial Year.</li>
+              <li><strong>c. Sick Leave (SL):</strong> Eligible for Sick Leave to the extent of 7 days on full pay. Sick leave of more than 2 days must be supported by a registered medical practitioner's certificate.</li>
+              <li><strong>d. Privilege Leave (PL):</strong> Eligible for 21 days Privilege Leave in a Financial Year on pro-rata basis. Privilege Leave needs to be applied 15 days in advance.</li>
+            </ul>
+
+            <div className="clause-title">17. Termination of Service (Part A)</div>
+            <p className="clause-p">
+              In the event of your absence from work for a continuous period of 8 days without obtaining prior approval of the Company or over-staying sanctioned leave beyond 8 days, your engagement shall be liable to be terminated without notice. During engagement, if conduct is unsatisfactory, engagement will be terminated immediately. On expiry of engagement period, you will not claim any monetary benefits other than applicable dues.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8pt", color: "#64748b", padding: "3px 0", borderTop: "1px solid #e2e8f0" }}>
+            <span>Candidate Initials: ____________________</span>
+            <span>Authorized Signatory Initials: [IAS Verified]</span>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 4 of 12</div>
+        </div>
+      </div>
+
+      {/* PAGE 5: Termination Part B, Notice Period, Separation, Company Policies */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>STUDENT:</strong> {student.student_name}</div>
+          </div>
+
+          <div className="content-body">
+            <div className="clause-title">17. Termination of Service (Part B)</div>
+            <p className="clause-p">
+              In the event of your involvement in any kind of acts detrimental to the interest of the Company or in the event of arrest by Police/Customs/government authority for involvement in criminal offence, your engagement will be terminated immediately. In the event of misconduct, the company shall be entitled to terminate your engagement forthwith.
+            </p>
+            <p className="clause-p">
+              In the event contracts with Customer Airlines are terminated at any time for any reason whatsoever, your engagement comes to an end automatically without compensation. In case performance is assessed as unsatisfactory or attitudinal deficiencies arise, engagement is liable to be terminated.
+            </p>
+
+            <div className="clause-title">18. Notice Period</div>
+            <p className="clause-p">
+              An employee on probation may leave or be discharged with a notice of 7 days or 7 days' gross salary. After confirmation, the Company reserves the right to terminate engagement at any time by giving One month's notice in writing or One month's Gross salary in lieu thereof.
+            </p>
+            <p className="clause-p">
+              Likewise, in case you wish to leave your contractual engagement, you shall be required to give one month's notice in writing or one month's Gross Salary in lieu thereof (Grade G1 to G2: 1 month). Breach of conditions renders liability to termination without notice; outstanding dues shall be forfeited.
+            </p>
+
+            <div className="clause-title">19. Separation</div>
+            <p className="clause-p">
+              Should you leave the organization without giving the requisite notice period, no dues will be payable and no full & final settlement shall be processed.
+            </p>
+            <p className="clause-p">
+              On termination/resignation, you will immediately return all company assets (ID card, AEP, Uniforms, Laptop, Cell Phone, documents, etc.) in your custody and obtain clearance certificates. Dues will be settled within 45 working days only after obtaining all clearances. If full and final settlement is not claimed within 90 days of leaving, no dues shall be payable.
+            </p>
+
+            <div className="clause-title">20. Company Policies</div>
+            <p className="clause-p">
+              You will be, at all times, governed by the rules and regulations framed by the Company, as applicable and amended from time to time. In case of any conflict between such rules and this letter of appointment, the provisions herein alone shall apply and prevail. You shall only be entitled to the benefits and emoluments offered herein and accepted by you. This engagement, if not extended or terminated earlier, will automatically expire at the end of the period.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8pt", color: "#64748b", padding: "3px 0", borderTop: "1px solid #e2e8f0" }}>
+            <span>Candidate Initials: ____________________</span>
+            <span>Authorized Signatory Initials: [IAS Verified]</span>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 5 of 12</div>
+        </div>
+      </div>
+
+      {/* PAGE 6: Confidentiality & Code of Conduct */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>STUDENT:</strong> {student.student_name}</div>
+          </div>
+
+          <div className="content-body">
+            <div className="clause-title">21. Confidentiality</div>
+            <p className="clause-p">
+              You shall undertake to maintain the strictest secrecy concerning the activities of the Company. You shall not publish or cause to be published any article, book, photograph, letter or give any interview or broadcast or deliver any lecture on any matter which concerns your duties or business of the Company without prior written permission.
+            </p>
+            <p className="clause-p">
+              (i) You acknowledge that during your employment, you may have access to and become familiar with trade secrets and confidential business information of the Company, operations, processes, finances, and affairs. Therefore, you shall not during or after the term of engagement disclose to any third party such trade secrets, directly or indirectly, or use them in any way for your own purposes.
+            </p>
+            <p className="clause-p">
+              (ii) You shall not copy, extract, translate, remove or delete documents or papers containing such trade secrets except as authorized by your duties. Confidentiality clauses 21(i) and 21(ii) survive termination of this Contract. Breaches entitle the Company to terminate engagement and claim damages. Confidentiality obligations are further governed by the Individual Non-Disclosure Agreement (Annexure B).
+            </p>
+
+            <div className="clause-title">22. Code of Conduct</div>
+            <p className="clause-p">
+              During the tenure of this engagement, you shall discharge your duties honestly, diligently, and conscientiously in all respects, at all times in the best interest of the Company. You shall not sign any other contract or render assistance to any other organization or person.
+            </p>
+            <p className="clause-p">
+              If investigated and found to have exhibited unsatisfactory conduct including insubordination, dishonesty, theft, intimidation, ethical infractions, or committing acts detrimental to the reputation and business interests of the Company, the engagement will be terminated forthwith.
+            </p>
+            <p className="clause-p">
+              You shall be liable to make good any loss caused to the company due to your negligence, default, or breach of instructions. In addition to this clause, you shall abide by the Code of Conduct attached hereto as Annexure C.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8pt", color: "#64748b", padding: "3px 0", borderTop: "1px solid #e2e8f0" }}>
+            <span>Candidate Signature: ____________________</span>
+            <span>Authorized Signatory: [IAS Verified]</span>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 6 of 12</div>
+        </div>
+      </div>
+
+      {/* PAGE 7: Jurisdiction, Airport Allocation, Submissions & Signatures */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>Date:</strong> {letterDate}</div>
+          </div>
+
+          <div className="content-body">
+            <div className="clause-title">23. Jurisdiction</div>
+            <p className="clause-p">
+              This Agreement shall be governed by the laws of India and the Courts of Mumbai, India shall have exclusive jurisdiction to try all disputes between parties pursuant to this Agreement.
+            </p>
+
+            <div className="clause-title">24. Statutory Deductions</div>
+            <p className="clause-p">
+              The income tax and other statutory deductions will be made as per the prevailing laws.
+            </p>
+
+            <div className="clause-title">25. Airport Station Allocation</div>
+            <p className="clause-p" style={{ fontWeight: 600, color: "#0f2d59" }}>
+              You are requested to visit ({designation}) IN {centerLocation} ({reportingDate}).
+            </p>
+
+            <div className="clause-title">26. Fund Policy</div>
+            <p className="clause-p">
+              Must be need fund policy amount Rs. {fundPolicyAmount}/- as per company policy schedule.
+            </p>
+
+            <div className="clause-title">27. Required Documents & Submission Checklist</div>
+            <div style={{ fontSize: "8.2pt", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px 14px", margin: "2px 0 4px 0" }}>
+              <div>a. Education qualification certificates & SLC</div>
+              <div>f. Permanent Account Number (PAN Card)</div>
+              <div>b. Experience Certificate (if applicable)</div>
+              <div>g. IATA Software certificate & medical cert</div>
+              <div>c. Birth Certificate / Residence Proof</div>
+              <div>h. Rs. {securityDeposit}/- refundable security policy</div>
+              <div>d. 2 Photo ID proofs (Aadhaar, Passport, etc.)</div>
+              <div>i. IATA software internship or exp letter</div>
+              <div>e. 10 Passport size Photographs</div>
+              <div>• Refundable security after 90 days completion</div>
+            </div>
+            <p className="clause-p" style={{ fontSize: "8pt", color: "#64748b", margin: "2px 0" }}>
+              NOTE – Complete submission of your security amount ensures uninterrupted joining process and document issuance.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ borderTop: "1px solid #cbd5e1", paddingTop: "6px", marginTop: "4px", fontSize: "8.5pt" }}>
+            <p style={{ fontSize: "8pt", color: "#475569", marginBottom: "8px" }}>
+              I have read and understood the aforesaid terms and conditions of engagement and the implications thereof and agree to accept and abide by the same.
+            </p>
+            <div className="signatures-section" style={{ marginTop: 0 }}>
+              <div className="sig-block">
+                Signature: _______________________<br />
+                Name: {student.student_name}<br />
+                Place: {centerLocation.split(" ")[0]}<br />
+                Date: {letterDate}
+              </div>
+              <div className="sig-block" style={{ textAlign: "right" }}>
+                <p><strong>Yours Faithfully,</strong></p>
+                <p><strong>For Indian Alliance Services</strong></p>
+                <div className="stamp-sig-container">
+                  <img className="stamp-img" src="/stamp.png" alt="seal" style={{ width: "70px", right: "70px" }} />
+                  <img className="sig-img" src="/signature.png" alt="sig" style={{ width: "95px", right: "10px" }} />
+                </div>
+                <div style={{ fontSize: "8pt", fontWeight: 700, color: "#0f2d59" }}>
+                  Authorized Signatory Designation
+                </div>
+              </div>
+            </div>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 7 of 12</div>
+        </div>
+      </div>
+
+      {/* PAGE 8: Section Two Divider */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>STUDENT:</strong> {student.student_name}</div>
+          </div>
+
+          <div className="doc-title-container" style={{ marginTop: "30px" }}>
+            <div className="doc-title">SECTION TWO: ANNEXURES</div>
+            <div className="doc-subtitle">Operational Directives & Mandatory Covenants</div>
+          </div>
+
+          <div className="content-body" style={{ marginTop: "20px" }}>
+            <div style={{ background: "#f8fafc", border: "1.5px solid #0f2d59", borderRadius: "8px", padding: "18px 20px" }}>
+              <div style={{ fontWeight: 800, color: "#0f2d59", fontSize: "10pt", marginBottom: "12px", textAlign: "center" }}>
+                TABLE OF CONTRACTUAL ANNEXURES
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "9pt" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #e2e8f0", paddingBottom: "6px" }}>
+                  <strong>ANNEXURE - A:</strong>
+                  <span>Emoluments Details & Monthly Salary Break-up (Grade G1)</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #e2e8f0", paddingBottom: "6px" }}>
+                  <strong>ANNEXURE - B:</strong>
+                  <span>Airport Proprietary Information & Non-Disclosure Agreement (NDA)</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #e2e8f0", paddingBottom: "6px" }}>
+                  <strong>ANNEXURE - C:</strong>
+                  <span>Code of Conduct & Employee Ethical Obligations</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #e2e8f0", paddingBottom: "6px" }}>
+                  <strong>ANNEXURE - D:</strong>
+                  <span>Job Purpose & Ground Staff Specific Responsibilities (SOPs)</span>
+                </div>
+              </div>
+            </div>
+
+            <p className="clause-p" style={{ textAlign: "center", marginTop: "24px", color: "#64748b", fontStyle: "italic" }}>
+              All following annexures are executed as integral components of this Master Employment Agreement and carry equal legal validity and binding enforceability.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "8pt", color: "#64748b", padding: "3px 0", borderTop: "1px solid #e2e8f0" }}>
+            <span>Candidate Signature: ____________________</span>
+            <span>Authorized Signatory: [IAS Verified]</span>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 8 of 12</div>
+        </div>
+      </div>
+
+      {/* PAGE 9: Annexure A Emoluments Details */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>Date:</strong> {letterDate}</div>
+          </div>
+
+          <div className="doc-title-container">
+            <div className="doc-title">ANNEXURE - A</div>
+            <div className="doc-subtitle">Emoluments Details & Monthly Salary Break-up</div>
+          </div>
+
+          <div className="content-body">
+            <div style={{ fontSize: "9pt", fontWeight: 700, color: "#0f2d59", marginBottom: "4px" }}>
+              Salary Break-up per Month: Rs. p.m. (Grade G1)
+            </div>
+
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th style={{ width: "70%" }}>Particulars</th>
+                  <th style={{ textAlign: "right" }}>Amount (Rs.)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1) Basic</td>
+                  <td style={{ textAlign: "right", fontWeight: 700 }}>28,456</td>
+                </tr>
+                <tr>
+                  <td>2) Attendance Bonus</td>
+                  <td style={{ textAlign: "right" }}>3,500</td>
+                </tr>
+                <tr>
+                  <td>3) Special Allowance</td>
+                  <td style={{ textAlign: "right" }}>3,500</td>
+                </tr>
+                <tr style={{ background: "#f1f5f9", fontWeight: 800 }}>
+                  <td style={{ color: "#0f2d59" }}>Gross Salary</td>
+                  <td style={{ textAlign: "right", color: "#0f2d59" }}>35,456</td>
+                </tr>
+                <tr>
+                  <td>Employees Contribution to P.F.</td>
+                  <td style={{ textAlign: "right" }}>2,350</td>
+                </tr>
+                <tr>
+                  <td>Professional Tax</td>
+                  <td style={{ textAlign: "right" }}>1,394</td>
+                </tr>
+                <tr>
+                  <td>ESIC</td>
+                  <td style={{ textAlign: "right" }}>800</td>
+                </tr>
+                <tr>
+                  <td>Income Tax</td>
+                  <td style={{ textAlign: "right" }}>40,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <div className="signatures-section">
+            <div className="sig-block">
+              <div className="sig-line">
+                Signature: _______________________<br />
+                Name: {student.student_name}<br />
+                Place: {centerLocation.split(" ")[0]}<br />
+                Date: {letterDate}
+              </div>
+            </div>
+            <div className="sig-block" style={{ textAlign: "right" }}>
+              <p><strong>For Indian Alliance Services</strong></p>
+              <div className="stamp-sig-container">
+                <img className="stamp-img" src="/stamp.png" alt="seal" style={{ width: "72px", right: "75px" }} />
+                <img className="sig-img" src="/signature.png" alt="sig" style={{ width: "95px", right: "12px" }} />
+              </div>
+            </div>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 9 of 12</div>
+        </div>
+      </div>
+
+      {/* PAGE 10: Annexure B NDA */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>STUDENT:</strong> {student.student_name}</div>
+          </div>
+
+          <div className="doc-title-container">
+            <div className="doc-title">ANNEXURE - B</div>
+            <div className="doc-subtitle">Airport Proprietary Information & Non-Disclosure Agreement</div>
+          </div>
+
+          <div className="content-body">
+            <p className="clause-p">
+              At all times during my employment with Airport and thereafter, I will hold in strictest confidence and will not disclose, use, lecture upon or publish any of the Airport JVC Proprietary Information, except as such disclosure, use or publication may be required in connection with my work for Airport JVC, or unless an officer expressly authorizes in writing.
+            </p>
+
+            <div className="clause-title">Proprietary Information</div>
+            <p className="clause-p">
+              The term "Proprietary Information" shall mean any and all confidential and/or proprietary knowledge, data or information of Airport JVC. By way of illustration but not limitation, Proprietary Information includes:
+            </p>
+            <ul className="list-styled" style={{ gap: "2px" }}>
+              <li>(a) Information regarding plans for operations, passenger volumes, security methods, budgets, licenses, prices and costs;</li>
+              <li>(b) Information regarding skills and compensation of other personnel;</li>
+              <li>(c) Trade secrets, inventions, ground handling processes, technical software, and airline algorithms.</li>
+            </ul>
+
+            <div className="clause-title">Third Party Information</div>
+            <p className="clause-p">
+              I understand that Airport JVC has received and will receive from third parties confidential or proprietary information subject to a duty to maintain confidentiality and use it only for certain limited purposes. During employment and thereafter, I will hold Third Party Information in strictest confidence.
+            </p>
+
+            <div className="clause-title">No Improper Use of Information of Prior Employers</div>
+            <p className="clause-p">
+              During my employment, I will not improperly use or disclose confidential information or trade secrets of any former employer, and will use only information generally known and legally in the public domain.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div className="signatures-section">
+            <div className="sig-block">
+              <div className="sig-line">
+                Signature: _______________________<br />
+                Name: {student.student_name}<br />
+                Designation: {designation}
+              </div>
+            </div>
+            <div className="sig-block" style={{ textAlign: "right" }}>
+              <p><strong>For Indian Alliance Services</strong></p>
+              <div className="stamp-sig-container">
+                <img className="stamp-img" src="/stamp.png" alt="seal" style={{ width: "72px", right: "75px" }} />
+                <img className="sig-img" src="/signature.png" alt="sig" style={{ width: "95px", right: "12px" }} />
+              </div>
+            </div>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 10 of 12</div>
+        </div>
+      </div>
+
+      {/* PAGE 11: Annexure C Code of Conduct */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>STUDENT:</strong> {student.student_name}</div>
+          </div>
+
+          <div className="doc-title-container">
+            <div className="doc-title">ANNEXURE - C</div>
+            <div className="doc-subtitle">Code of Conduct & Employee Obligations</div>
+          </div>
+
+          <div className="content-body">
+            <ol className="list-styled" style={{ gap: "6px" }}>
+              <li>
+                <strong>1. Absolute Integrity:</strong> Every employee of the company shall at all times maintain absolute integrity and devotion to duty and conduct himself/herself in a manner conducive to the best interest, credit and prestige of the company. An employee must always report to work in company issued uniform.
+              </li>
+              <li>
+                <strong>2. Commercial Enterprise:</strong> An employee whether on leave or in active service shall not, without the previous sanction of the company, take part in the promotion, registration or management of any commercial enterprise.
+              </li>
+              <li>
+                <strong>3. Official Documents:</strong> No employee shall communicate directly any official documents or information to any unauthorized person.
+              </li>
+              <li>
+                <strong>4. Media & Broadcasts:</strong> No employee shall except with the previous approval of the CEO edit or manage any publication, or participate in radio/TV/online broadcasts, except of a purely literary or artistic character.
+              </li>
+              <li>
+                <strong>5. Evidence in Inquiry:</strong> No employee shall, except with previous sanction of Senior Management, give evidence in connection with any inquiry conducted by external committees.
+              </li>
+              <li>
+                <strong>6. Airport Authority Regulations:</strong> All employees have to abide by the code of conduct under the Airport Authority of India (AAI) and respective Airport Operators.
+              </li>
+              <li>
+                <strong>7. Prohibition of Gifts:</strong> An employee must not accept gifts of any kind from external parties. Any gift must be immediately surrendered to HR/Admin Department.
+              </li>
+            </ol>
+            <p className="clause-p" style={{ marginTop: "6px", fontWeight: 600 }}>
+              The terms set out are acceptable to me, and are hereby agreed to.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div className="signatures-section">
+            <div className="sig-block">
+              <div className="sig-line">
+                Signature: _______________________<br />
+                Name: {student.student_name}<br />
+                Designation: {designation}<br />
+                Date: {letterDate}
+              </div>
+            </div>
+            <div className="sig-block" style={{ textAlign: "right" }}>
+              <p><strong>For Indian Alliance Services</strong></p>
+              <div className="stamp-sig-container">
+                <img className="stamp-img" src="/stamp.png" alt="seal" style={{ width: "72px", right: "75px" }} />
+                <img className="sig-img" src="/signature.png" alt="sig" style={{ width: "95px", right: "12px" }} />
+              </div>
+            </div>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 11 of 12</div>
+        </div>
+      </div>
+
+      {/* PAGE 12: Annexure D Job Purpose & SOPs */}
+      <div className="page">
+        {renderWatermark()}
+        <div>
+          {renderHeader()}
+          <div className="ref-date-bar">
+            <div><strong>REF:</strong> {refNo}</div>
+            <div><strong>STUDENT:</strong> {student.student_name}</div>
+          </div>
+
+          <div className="doc-title-container">
+            <div className="doc-title">ANNEXURE - D</div>
+            <div className="doc-subtitle">Job Purpose & Specific Responsibilities</div>
+          </div>
+
+          <div className="content-body">
+            <ul className="list-styled" style={{ gap: "4px" }}>
+              <li>Shall be responsible for loading and offloading while ensuring the SOPs and guidelines issued by Airport and customer airlines are followed.</li>
+              <li>Report to work on time as allocated and attend all daily shift briefings.</li>
+              <li>Carry out baggage condition checks before loading and unloading; immediately inform seniors about any damaged bag.</li>
+              <li>Look out for Dangerous Goods Stickers on baggage/items and escalate to supervisor immediately.</li>
+              <li>Perform general airport operations functions such as boarding counter preparation, wheelchair guidance, and gate closing as required.</li>
+            </ul>
+
+            <div className="clause-title" style={{ marginTop: "6px" }}>Assist Wheelchair Passengers (PRM Protocol):</div>
+            <ul className="list-styled" style={{ gap: "3px" }}>
+              <li>At all times personnel will report for duty in company full uniform worn with reflective jacket labeled as "No Tips".</li>
+              <li>Assist Passengers with Reduced Mobility (PRM) by providing wheelchair services from departure gate to aircraft and from arrival flight to curbside.</li>
+              <li>Wheelchair assistant is not authorized to carry any passenger personal baggage voluntarily or involuntarily.</li>
+              <li>Concentrate on wheelchair passenger safety and comfort at all times during movement.</li>
+              <li>Assist needy passengers at check-in counter to keep baggage on weighing scales; remove old luggage tags.</li>
+              <li>Meet & Assist assigned Pax (VVIP, VIP, CIP, and unaccompanied minors) as advised by shift Duty Managers.</li>
+              <li style={{ fontWeight: 700, color: "#0f2d59" }}>
+                Zero Gratuity Policy: Strictly no tips or personal gratuity in cash or kind is allowed. Anyone indulging in such practices is liable for immediate service termination.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <div className="signatures-section">
+            <div className="sig-block">
+              <div className="sig-line">
+                Signature: _______________________<br />
+                Name: {student.student_name}<br />
+                Designation: {designation}<br />
+                Date: {letterDate}
+              </div>
+            </div>
+            <div className="sig-block" style={{ textAlign: "right" }}>
+              <p><strong>For Indian Alliance Services</strong></p>
+              <div className="stamp-sig-container">
+                <img className="stamp-img" src="/stamp.png" alt="seal" style={{ width: "72px", right: "75px" }} />
+                <img className="sig-img" src="/signature.png" alt="sig" style={{ width: "95px", right: "12px" }} />
+              </div>
+            </div>
+          </div>
+          {renderFooter()}
+          <div className="page-number-text">Page 12 of 12</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// =========================================================================
+// 4. CONFIRMATION ADVICE (1 Page) - Clean Corporate Training Confirmation
+// =========================================================================
+function renderConfirmationLetter(
+  student: Student,
+  refNo: string,
+  letterDate: string,
+  centerLocation: string,
+  reportingDate: string,
+  reportingTime: string,
+  batchCode: string
+) {
+  return (
+    <div className="page">
+      {renderWatermark()}
+      <div>
+        {renderHeader()}
+        <div className="ref-date-bar">
+          <div><strong>REF NO:</strong> {refNo}</div>
+          <div><strong>DATE:</strong> {letterDate}</div>
+        </div>
+
+        <div className="doc-title-container">
+          <div className="doc-title">TRAINING ADMISSION & REPORTING CONFIRMATION</div>
+          <div className="doc-subtitle">{student.course_name || "Aviation Ground Operations Program"}</div>
+        </div>
+
+        <div className="content-body">
+          <div className="candidate-box">
+            <div className="candidate-col">
+              <p><strong>Trainee Name:</strong> {student.student_name}</p>
+              <p><strong>Father's Name:</strong> {student.father_name}</p>
+            </div>
+            <div className="candidate-col" style={{ textAlign: "right" }}>
+              <p><strong>Candidate ID:</strong> {student.application_number}</p>
+              <p><strong>Batch Code:</strong> {batchCode}</p>
+            </div>
+          </div>
+
+          <p style={{ fontSize: "8.8pt", lineHeight: 1.45, marginTop: "4px" }}>
+            Dear <strong>{student.student_name}</strong>,<br />
+            We are pleased to confirm your admission into the <strong>Aviation Customer Service & Airport Passenger Handling Skill Program</strong> conducted by <strong>Indian Alliance Services</strong>. This curriculum covers essential passenger handling SOPs, terminal customer service, reservation systems, and professional aviation communication.
+          </p>
+
+          <table className="data-table">
+            <tbody>
+              <tr>
+                <th style={{ width: "32%" }}>Training Course</th>
+                <td><strong>{student.course_name || "Customer Service & Airport Operations"}</strong></td>
+              </tr>
+              <tr>
+                <th>Reporting Center / Airport</th>
+                <td><strong>{centerLocation}</strong></td>
+              </tr>
+              <tr>
+                <th>Reporting & Induction Date</th>
+                <td><strong>{reportingDate}</strong> (Reporting Time: {reportingTime})</td>
+              </tr>
+              <tr>
+                <th>Curriculum Focus</th>
+                <td>Passenger Service SOPs, Airline Check-in, Boarding Gate Protocol, Soft Skills & Interview Drills</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div>
+            <div style={{ fontWeight: 700, color: "#0f2d59", fontSize: "8.8pt", marginBottom: "3px" }}>
+              TRAINING RULES & ACADEMY PROTOCOLS:
+            </div>
+            <ul className="list-styled">
+              <li><strong>Attendance Requirement:</strong> Trainees must maintain a minimum of 85% attendance to qualify for course assessments and certification.</li>
+              <li><strong>Grooming & Attire:</strong> Professional business formal attire is mandatory during all training sessions. Candidates must adhere to airline industry grooming standards.</li>
+              <li><strong>Documentation:</strong> Candidate must submit self-attested copies of educational marksheets, Aadhaar card, and 4 passport-size photographs on the reporting date.</li>
+              <li><strong>Verification:</strong> All student credentials and registration status can be verified 24/7 on our official registry at <em>indianallianceservices.com</em>.</li>
+            </ul>
+          </div>
+
+          <p style={{ fontSize: "8pt", color: "#475569", fontStyle: "italic", marginTop: "4px" }}>
+            <strong>Jurisdiction:</strong> Any inquiry concerning this training enrollment shall be governed by the laws of India and subject to the exclusive jurisdiction of the competent courts in Visakhapatnam / Mumbai.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <div className="signatures-section">
+          <div className="sig-block">
+            <p><strong>Trainee Declaration & Acceptance:</strong></p>
+            <div className="sig-line">
+              Candidate Signature: _______________________<br />
+              Date: {letterDate}
+            </div>
+          </div>
+          <div className="sig-block" style={{ textAlign: "right" }}>
+            <p><strong>For Indian Alliance Services</strong></p>
+            <p style={{ fontSize: "7.8pt", color: "#64748b" }}>Authorized Signatory</p>
+            <div className="stamp-sig-container">
+              <img className="stamp-img" src="/stamp.png" alt="seal" style={{ width: "74px", right: "75px" }} />
+              <img className="sig-img" src="/signature.png" alt="sig" style={{ width: "95px", right: "12px" }} />
+            </div>
+            <div style={{ fontSize: "8pt", fontWeight: 700, color: "#0f2d59", marginTop: "2px" }}>
+              Registrar of Training & Admissions
+            </div>
+          </div>
+        </div>
+        {renderFooter()}
+      </div>
+    </div>
   );
 }

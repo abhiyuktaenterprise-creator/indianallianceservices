@@ -113,6 +113,20 @@ export default function AdminDashboard() {
     }
   }, [activeTab, settings.leadSheetCsvUrl, settings.leadWebhookUrl, settings.candidateSheetCsvUrl]);
 
+  // Sync candidates on initial load so overview count & navbar badge are always up-to-date
+  React.useEffect(() => {
+    if (typeof window !== "undefined" && navigator.onLine) {
+      const sheetUrl = settings.candidateSheetCsvUrl || studentService.getCandidateSheetUrl();
+      if (sheetUrl) {
+        studentService.syncFromGoogleSheet(sheetUrl).then((res) => {
+          if (res.success && res.data) {
+            setStudentCount(res.data.length);
+          }
+        }).catch(() => {});
+      }
+    }
+  }, [settings.candidateSheetCsvUrl]);
+
   React.useEffect(() => {
     const updateCount = () => {
       try {
@@ -120,6 +134,7 @@ export default function AdminDashboard() {
         if (raw) setStudentCount(JSON.parse(raw).length);
       } catch {}
     };
+    updateCount();
     window.addEventListener("ias_candidates_synced", updateCount);
     window.addEventListener("storage", updateCount);
     return () => {

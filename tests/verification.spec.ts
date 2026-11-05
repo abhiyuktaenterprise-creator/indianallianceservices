@@ -379,7 +379,7 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
       `${newCandAppNo},IAS26Y2DEL2026/999,IAS-TRG-2026/B999,${newCandName},Manoj Kumar Verma,2001-07-20,9811223344,rajesh@example.com,Airport Ground Staff & Passenger Services,2026-11-29,2027-02-28,2026-11-20,Active,,`,
     ].join('\n');
 
-    await page2.route('**/pub?output=csv*', async (route) => {
+    await page2.route(/(pub\?output=csv|export\?format=csv|gviz\/tq)/, async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'text/csv',

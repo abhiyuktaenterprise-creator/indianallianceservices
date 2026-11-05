@@ -342,7 +342,7 @@ export function normalizeGoogleSheetCsvUrl(rawUrl: string): string {
       const sheetId = match[1];
       const gidMatch = url.match(/[?&#]gid=([0-9]+)/);
       const gidParam = gidMatch ? `&gid=${gidMatch[1]}` : "";
-      return `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv${gidParam}`;
+      return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv${gidParam}`;
     }
   }
   return url;
@@ -350,7 +350,7 @@ export function normalizeGoogleSheetCsvUrl(rawUrl: string): string {
 
 export const CANDIDATE_SHEET_URL_KEY = "ias_candidate_sheet_url";
 export const DEFAULT_CANDIDATE_SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6KRade5DEhxMSA4LjkI77Gbc5Pu0smrOU0dKoKJCcheAsVT5Afrjoa7pG8HyRmKrviceNvN4oTWsi/pub?output=csv";
+  "https://docs.google.com/spreadsheets/d/19q9QrHZTIASnQGpBKlEdIJCasIaEG72wQuyvjWRt9cw/edit?gid=1404974299#gid=1404974299";
 
 export function getCandidateSheetUrl(): string {
   if (typeof window === "undefined") return DEFAULT_CANDIDATE_SHEET_URL;
@@ -1066,6 +1066,23 @@ export const studentService = {
       }
 
       const csvText = await res.text();
+
+      // Check if Google returned a sign-in / permission restricted page
+      if (
+        csvText.includes("Sign in to your Google Account") ||
+        csvText.includes("accounts.google.com") ||
+        csvText.includes("ServiceLogin") ||
+        csvText.includes("Allow Google Sheets access")
+      ) {
+        return {
+          success: false,
+          count: 0,
+          error:
+            "This Google Sheet is currently Restricted (Private). Please open the Google Sheet, click 'Share' in top-right, change General access to 'Anyone with the link' -> 'Viewer', and sync again.",
+          data: getLocalStudents(),
+        };
+      }
+
       const incoming = parseGoogleSheetsCandidates(csvText);
 
       if (incoming.length === 0) {

@@ -178,7 +178,11 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
     if (typeof window !== "undefined" && navigator.onLine) {
       const sheetUrl = studentService.getCandidateSheetUrl();
       if (sheetUrl) {
-        studentService.syncFromGoogleSheet(sheetUrl).catch(() => {});
+        studentService.syncFromGoogleSheet(sheetUrl).then((res) => {
+          if (res.success) {
+            loadStudents();
+          }
+        }).catch(() => {});
       }
     }
   }, []);

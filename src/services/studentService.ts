@@ -355,14 +355,33 @@ export const DEFAULT_CANDIDATE_SHEET_URL =
 export function getCandidateSheetUrl(): string {
   if (typeof window === "undefined") return DEFAULT_CANDIDATE_SHEET_URL;
   const direct = localStorage.getItem(CANDIDATE_SHEET_URL_KEY);
-  if (direct && direct.trim()) return direct.trim();
+  if (direct && direct.trim()) {
+    const cleanDirect = direct.trim();
+    if (
+      cleanDirect.includes("2PACX-1vQ6KRade5DEhxMSA4LjkI77Gbc5Pu0smrOU0dKoKJCcheAsVT5Afrjoa7pG8HyRmKrviceNvN4oTWsi") ||
+      !cleanDirect.includes("19q9QrHZTIASnQGpBKlEdIJCasIaEG72wQuyvjWRt9cw")
+    ) {
+      localStorage.setItem(CANDIDATE_SHEET_URL_KEY, DEFAULT_CANDIDATE_SHEET_URL);
+      return DEFAULT_CANDIDATE_SHEET_URL;
+    }
+    return cleanDirect;
+  }
 
   try {
     const rawSettings = localStorage.getItem("acs_site_settings");
     if (rawSettings) {
       const parsed = JSON.parse(rawSettings);
       if (parsed && parsed.candidateSheetCsvUrl && parsed.candidateSheetCsvUrl.trim()) {
-        return parsed.candidateSheetCsvUrl.trim();
+        const cleanUrl = parsed.candidateSheetCsvUrl.trim();
+        if (
+          cleanUrl.includes("2PACX-1vQ6KRade5DEhxMSA4LjkI77Gbc5Pu0smrOU0dKoKJCcheAsVT5Afrjoa7pG8HyRmKrviceNvN4oTWsi") ||
+          !cleanUrl.includes("19q9QrHZTIASnQGpBKlEdIJCasIaEG72wQuyvjWRt9cw")
+        ) {
+          parsed.candidateSheetCsvUrl = DEFAULT_CANDIDATE_SHEET_URL;
+          localStorage.setItem("acs_site_settings", JSON.stringify(parsed));
+          return DEFAULT_CANDIDATE_SHEET_URL;
+        }
+        return cleanUrl;
       }
     }
   } catch {}

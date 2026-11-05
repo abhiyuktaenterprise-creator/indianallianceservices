@@ -940,7 +940,12 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             leadWebhookUrl: parsed.leadWebhookUrl || DEFAULT_SETTINGS.leadWebhookUrl,
             leadSheetCsvUrl: parsed.leadSheetCsvUrl || DEFAULT_SETTINGS.leadSheetCsvUrl,
             leadAlertEmail: parsed.leadAlertEmail || DEFAULT_SETTINGS.leadAlertEmail,
-            candidateSheetCsvUrl: parsed.candidateSheetCsvUrl || DEFAULT_SETTINGS.candidateSheetCsvUrl,
+            candidateSheetCsvUrl:
+              parsed.candidateSheetCsvUrl &&
+              !parsed.candidateSheetCsvUrl.includes("2PACX-1vQ6KRade5DEhxMSA4LjkI77Gbc5Pu0smrOU0dKoKJCcheAsVT5Afrjoa7pG8HyRmKrviceNvN4oTWsi") &&
+              parsed.candidateSheetCsvUrl.includes("19q9QrHZTIASnQGpBKlEdIJCasIaEG72wQuyvjWRt9cw")
+                ? parsed.candidateSheetCsvUrl
+                : DEFAULT_SETTINGS.candidateSheetCsvUrl,
             candidateWebhookUrl: parsed.candidateWebhookUrl || DEFAULT_SETTINGS.candidateWebhookUrl,
             displayAddress,
             bannerNotice,

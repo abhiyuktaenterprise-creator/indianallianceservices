@@ -41,19 +41,25 @@ import StudentLetterModal from "./StudentLetterModal";
 export const POPULAR_COURSES = [
   "Airport Ground Staff & Passenger Services",
   "Customer Service Assistant (CSA)",
-  "Customer Service Assistant",
   "Cabin Crew & In-Flight Operations",
-  "Cabin Crew",
   "Air Hostess & Hospitality Services",
-  "Air Hostess",
   "Customs Officer & Airport Cargo",
-  "Customs Officer",
   "Ramp Security & Aircraft Servicing",
   "Aviation Customer Service & Ticketing",
   "Airport Cargo & Logistics Operations",
   "Aviation Security & Safety Management",
   "Airline Operations & Load Planning",
 ];
+
+// Helper to canonicalize course names so variations from Google Sheets match canonical options cleanly
+export const canonicalCourse = (course: string): string => {
+  const c = (course || "").trim();
+  if (/^customer service assistant$/i.test(c)) return "Customer Service Assistant (CSA)";
+  if (/^cabin crew$/i.test(c)) return "Cabin Crew & In-Flight Operations";
+  if (/^air hostess$/i.test(c)) return "Air Hostess & Hospitality Services";
+  if (/^customs officer$/i.test(c)) return "Customs Officer & Airport Cargo";
+  return c;
+};
 
 // Helper to compress uploaded student photo to compact lightweight Base64 JPEG (~25KB)
 const compressImage = (file: File): Promise<string> => {
@@ -339,7 +345,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
       batch_code:
         student.batch_code ||
         `IAS-TRG-${student.application_number ? student.application_number.replace(/\D/g, "") : "2026"}`,
-      course_name: student.course_name,
+      course_name: canonicalCourse(student.course_name),
       admission_date: student.admission_date || "",
       placement_date: student.placement_date || student.course_start_date || "",
       visiting_date: student.visiting_date || student.course_end_date || "",
@@ -556,87 +562,93 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <Button
-            onClick={handleOpenAdd}
-            variant="hero"
-            className="gap-2 font-bold text-xs py-2 px-4 shadow-md bg-amber-500 hover:bg-amber-600 text-slate-950"
-          >
-            <Plus className="h-4 w-4" /> Add Candidate
-          </Button>
-
-          <Button
-            onClick={handleSyncGoogleSheet}
-            disabled={isSyncingSheet}
-            variant="outline"
-            className="gap-1.5 text-xs border-emerald-600/50 bg-emerald-950/30 text-emerald-300 hover:bg-emerald-900/40 hover:text-white"
-            title="Sync with Google Sheet (Live across all mobile phones & laptops)"
-          >
-            <RefreshCw className={`h-3.5 w-3.5 text-emerald-400 ${isSyncingSheet ? "animate-spin" : ""}`} />
-            <span>{isSyncingSheet ? "Syncing..." : "Sync Google Sheet"}</span>
-          </Button>
-
-          <Button
-            onClick={() => setIsSheetModalOpen(true)}
-            variant="outline"
-            className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800"
-            title="Google Sheet Link Settings"
-          >
-            <Link2 className="h-3.5 w-3.5 text-amber-400" /> Sheet Link
-          </Button>
-
-          <Button
-            onClick={handleExportCSV}
-            variant="outline"
-            className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800"
-            title="Download CSV formatted for Google Sheets (Upload to your sheet)"
-          >
-            <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" /> Export CSV
-          </Button>
-
-          <Button
-            onClick={handleExportJSON}
-            variant="outline"
-            className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800"
-            title="Download JSON backup"
-          >
-            <Download className="h-3.5 w-3.5" /> Export JSON
-          </Button>
-
-          <Button
-            onClick={() => fileInputRef.current?.click()}
-            variant="outline"
-            className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800"
-            title="Import from JSON backup"
-          >
-            <Upload className="h-3.5 w-3.5" /> Import JSON
-          </Button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".json,application/json"
-            onChange={handleImportJSON}
-            className="hidden"
-          />
-
-          {students.length > 0 && (
+        <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2">
+          {/* Primary Action Buttons */}
+          <div className="flex items-center gap-2">
             <Button
-              onClick={() => setIsClearAllOpen(true)}
-              variant="outline"
-              className="gap-1.5 text-xs border-rose-800/60 bg-rose-950/20 text-rose-400 hover:bg-rose-900/40 hover:text-white"
-              title="Clear all candidate records from database"
+              onClick={handleOpenAdd}
+              variant="hero"
+              className="flex-1 sm:flex-initial gap-2 font-bold text-xs py-2 px-4 shadow-md bg-amber-500 hover:bg-amber-600 text-slate-950 h-10"
             >
-              <Trash2 className="h-3.5 w-3.5 text-rose-400" /> Clear All ({students.length})
+              <Plus className="h-4 w-4" /> Add Candidate
             </Button>
-          )}
-          <Button
-            onClick={handleResetRegistry}
-            variant="outline"
-            className="gap-1.5 text-xs border-slate-800 text-slate-400 hover:text-amber-400 hover:bg-slate-800"
-            title="Restore default official records"
-          >
-            <RotateCcw className="h-3.5 w-3.5" /> Reset
-          </Button>
+
+            <Button
+              onClick={handleSyncGoogleSheet}
+              disabled={isSyncingSheet}
+              variant="outline"
+              className="flex-1 sm:flex-initial gap-1.5 text-xs border-emerald-600/50 bg-emerald-950/30 text-emerald-300 hover:bg-emerald-900/40 hover:text-white h-10"
+              title="Sync with Google Sheet (Live across all mobile phones & laptops)"
+            >
+              <RefreshCw className={`h-3.5 w-3.5 text-emerald-400 ${isSyncingSheet ? "animate-spin" : ""}`} />
+              <span>{isSyncingSheet ? "Syncing..." : "Sync Google Sheet"}</span>
+            </Button>
+          </div>
+
+          {/* Secondary Utilities */}
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <Button
+              onClick={() => setIsSheetModalOpen(true)}
+              variant="outline"
+              className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 h-9 px-3"
+              title="Google Sheet Link Settings"
+            >
+              <Link2 className="h-3.5 w-3.5 text-amber-400" /> Sheet Link
+            </Button>
+
+            <Button
+              onClick={handleExportCSV}
+              variant="outline"
+              className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 h-9 px-3"
+              title="Download CSV formatted for Google Sheets (Upload to your sheet)"
+            >
+              <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-400" /> Export CSV
+            </Button>
+
+            <Button
+              onClick={handleExportJSON}
+              variant="outline"
+              className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 h-9 px-3"
+              title="Download JSON backup"
+            >
+              <Download className="h-3.5 w-3.5" /> JSON
+            </Button>
+
+            <Button
+              onClick={() => fileInputRef.current?.click()}
+              variant="outline"
+              className="gap-1.5 text-xs border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 h-9 px-3"
+              title="Import from JSON backup"
+            >
+              <Upload className="h-3.5 w-3.5" /> Import
+            </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json,application/json"
+              onChange={handleImportJSON}
+              className="hidden"
+            />
+
+            {students.length > 0 && (
+              <Button
+                onClick={() => setIsClearAllOpen(true)}
+                variant="outline"
+                className="gap-1.5 text-xs border-rose-800/60 bg-rose-950/20 text-rose-400 hover:bg-rose-900/40 hover:text-white h-9 px-3"
+                title="Clear all candidate records from database"
+              >
+                <Trash2 className="h-3.5 w-3.5 text-rose-400" /> Clear All ({students.length})
+              </Button>
+            )}
+            <Button
+              onClick={handleResetRegistry}
+              variant="outline"
+              className="gap-1.5 text-xs border-slate-800 text-slate-400 hover:text-amber-400 hover:bg-slate-800 h-9 px-3"
+              title="Restore default official records"
+            >
+              <RotateCcw className="h-3.5 w-3.5" /> Reset
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -712,7 +724,14 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
 
       {/* Students Table */}
       <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
+        {/* Mobile Swipe Hint */}
+        <div className="md:hidden px-4 py-2 bg-slate-950/80 border-b border-slate-800 text-[11px] text-amber-400/90 flex items-center justify-between">
+          <span className="flex items-center gap-1.5 font-medium">
+            <span>👉 Swipe table sideways to see details &amp; actions</span>
+          </span>
+          <span className="text-slate-400 font-mono text-[10px]">{students.length} Candidates</span>
+        </div>
+        <div className="overflow-x-auto touch-pan-x [-webkit-overflow-scrolling:touch]">
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-950/80 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
               <tr>
@@ -942,12 +961,12 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
           ADD / EDIT STUDENT MODAL
           ================================================== */}
       {(isAddOpen || isEditOpen) && (
-        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-5 my-8 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-lg sm:text-xl font-heading font-extrabold text-white flex items-center gap-2">
-                <GraduationCap className="h-5 w-5 text-amber-400" />
-                <span>{editingStudentId ? "Edit Candidate Record" : "Add New Candidate Record"}</span>
+        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-2xl w-full flex flex-col max-h-[92vh] shadow-2xl my-auto overflow-hidden">
+            <div className="p-4 sm:p-6 pb-3 border-b border-slate-800 flex items-center justify-between shrink-0 bg-slate-900">
+              <h3 className="text-base sm:text-xl font-heading font-extrabold text-white flex items-center gap-2">
+                <GraduationCap className="h-5 w-5 text-amber-400 shrink-0" />
+                <span className="truncate">{editingStudentId ? "Edit Candidate Record" : "Add New Candidate Record"}</span>
               </h3>
               <button
                 type="button"
@@ -955,13 +974,15 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                   setIsAddOpen(false);
                   setIsEditOpen(false);
                 }}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+                className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+                title="Close"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveStudent} className="space-y-4">
+            <form onSubmit={handleSaveStudent} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1 touch-pan-y [-webkit-overflow-scrolling:touch]">
               {/* Photo Upload Section */}
               <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex items-center gap-4">
                 <div className="w-20 h-24 rounded-xl border border-dashed border-slate-700 bg-slate-900 overflow-hidden shrink-0 flex flex-col items-center justify-center relative">
@@ -1102,7 +1123,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                     Course / Training Enrolled *
                   </label>
                   <select
-                    value={formData.course_name}
+                    value={canonicalCourse(formData.course_name)}
                     onChange={(e) => setFormData({ ...formData, course_name: e.target.value })}
                     className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500 mb-2"
                   >
@@ -1111,9 +1132,14 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                         {course}
                       </option>
                     ))}
+                    {formData.course_name &&
+                      !POPULAR_COURSES.includes(canonicalCourse(formData.course_name)) &&
+                      formData.course_name !== "custom" && (
+                        <option value={formData.course_name}>{formData.course_name}</option>
+                      )}
                     <option value="custom">Other / Custom Course Title...</option>
                   </select>
-                  {(!POPULAR_COURSES.includes(formData.course_name) || formData.course_name === "custom") && (
+                  {(!POPULAR_COURSES.includes(canonicalCourse(formData.course_name)) || formData.course_name === "custom") && (
                     <input
                       type="text"
                       placeholder="Type custom course title..."
@@ -1226,13 +1252,14 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                   )}
                 </div>
               </div>
+            </div>
 
-              {/* Modal Footer */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-800">
-                <div className="text-xs text-slate-400 text-center sm:text-left">
+            {/* Modal Sticky Footer */}
+              <div className="p-4 sm:p-6 pt-3 border-t border-slate-800 shrink-0 bg-slate-900 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="text-[11px] text-slate-400 text-center sm:text-left hidden sm:block">
                   💡 <span className="text-slate-300 font-medium">Tip:</span> Save candidate to immediately print Welcome Letter, Confirmation, or Agreement.
                 </div>
-                <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto justify-end">
                   <Button
                     type="button"
                     variant="outline"
@@ -1240,20 +1267,20 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                       setIsAddOpen(false);
                       setIsEditOpen(false);
                     }}
-                    className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs py-5 px-4"
+                    className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs h-10 px-4 flex-1 sm:flex-initial"
                   >
                     Cancel
                   </Button>
                   <Button
                     type="button"
                     onClick={(e) => handleSaveStudent(e, true)}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-5 rounded-xl text-xs shadow-md gap-1.5"
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 h-10 rounded-xl text-xs shadow-md gap-1.5 flex-1 sm:flex-initial"
                   >
-                    <FileText className="h-4 w-4" /> Save & Generate Letters
+                    <FileText className="h-4 w-4" /> Save &amp; Generate Letters
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-6 py-5 rounded-xl text-xs shadow-md"
+                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-6 h-10 rounded-xl text-xs shadow-md w-full sm:w-auto"
                   >
                     {editingStudentId ? "Update Record" : "Save Record"}
                   </Button>
@@ -1268,174 +1295,177 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
           VIEW STUDENT DETAILS MODAL
           ================================================== */}
       {isViewOpen && selectedStudent && (
-        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl space-y-5 my-8">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-lg font-heading font-extrabold text-white flex items-center gap-2">
-                <User className="h-5 w-5 text-amber-400" />
-                <span>Candidate Profile Summary</span>
+        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-xl w-full flex flex-col max-h-[92vh] shadow-2xl my-auto overflow-hidden">
+            <div className="p-4 sm:p-6 pb-3 border-b border-slate-800 flex items-center justify-between shrink-0 bg-slate-900">
+              <h3 className="text-base sm:text-lg font-heading font-extrabold text-white flex items-center gap-2">
+                <User className="h-5 w-5 text-amber-400 shrink-0" />
+                <span className="truncate">Candidate Profile Summary</span>
               </h3>
               <button
                 type="button"
                 onClick={() => setIsViewOpen(false)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+                className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+                title="Close"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-5 items-start bg-slate-950 p-5 rounded-2xl border border-slate-800">
-              <div className="w-24 h-28 rounded-xl border border-slate-700 bg-slate-900 overflow-hidden shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
-                {selectedStudent.photo_url ? (
-                  <img
-                    src={selectedStudent.photo_url}
-                    alt={selectedStudent.student_name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <User className="w-8 h-8 text-slate-600" />
-                )}
-              </div>
-              <div className="space-y-1 flex-1 text-center sm:text-left">
-                <span
-                  className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase mb-1 ${
-                    selectedStudent.status === "Completed"
-                      ? "bg-emerald-500/20 text-emerald-400"
-                      : selectedStudent.status === "Joining"
-                      ? "bg-indigo-500/20 text-indigo-400"
-                      : selectedStudent.status === "Rejoining"
-                      ? "bg-teal-500/20 text-teal-400"
-                      : selectedStudent.status === "Failed"
-                      ? "bg-rose-500/20 text-rose-400"
-                      : selectedStudent.status === "Active"
-                      ? "bg-blue-500/20 text-blue-400"
-                      : "bg-slate-700 text-slate-300"
-                  }`}
-                >
-                  {selectedStudent.status}
-                </span>
-                <h4 className="text-lg font-bold text-white">
-                  {selectedStudent.student_name}
-                </h4>
-                <p className="text-xs text-slate-400">
-                  Father's Name: <strong className="text-slate-200">{selectedStudent.father_name}</strong>
-                </p>
-                <p className="text-xs text-amber-400 font-mono">
-                  App No: {selectedStudent.application_number}
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 text-xs bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
-              <div>
-                <span className="text-[10px] text-slate-500 uppercase block">Application No</span>
-                <strong className="text-slate-300 font-mono">{selectedStudent.application_number}</strong>
-              </div>
-              <div>
-                <span className="text-[10px] text-slate-500 uppercase block">Interview Date</span>
-                <strong className="text-amber-400 font-mono">{selectedStudent.interview_date || "Not Scheduled"}</strong>
-              </div>
-              <div>
-                <span className="text-[10px] text-slate-500 uppercase block">Date of Birth</span>
-                <strong className="text-slate-300">{selectedStudent.date_of_birth}</strong>
-              </div>
-              <div>
-                <span className="text-[10px] text-slate-500 uppercase block">Mobile Number</span>
-                <strong className="text-emerald-400 font-mono">{selectedStudent.mobile_number}</strong>
-              </div>
-              <div>
-                <span className="text-[10px] text-slate-500 uppercase block">Email Address</span>
-                <strong className="text-slate-300">{selectedStudent.email || "N/A"}</strong>
-              </div>
-              <div>
-                <span className="text-[10px] text-slate-500 uppercase block">Batch Code</span>
-                <strong className="text-amber-300 font-mono">
-                  {selectedStudent.batch_code || `IAS-TRG-${selectedStudent.application_number.replace(/\D/g, "")}`}
-                </strong>
-              </div>
-              <div className="col-span-2 pt-2 border-t border-slate-800">
-                <span className="text-[10px] text-slate-500 uppercase block">Course Enrolled</span>
-                <strong className="text-amber-300 text-sm block">{selectedStudent.course_name}</strong>
-              </div>
-              {(selectedStudent.placement_date || selectedStudent.course_start_date) && (
-                <div>
-                  <span className="text-[10px] text-slate-500 uppercase block">Date of Placement</span>
-                  <strong className="text-slate-300">
-                    {selectedStudent.placement_date || selectedStudent.course_start_date}
-                  </strong>
+            <div className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1 touch-pan-y [-webkit-overflow-scrolling:touch]">
+              <div className="flex flex-col sm:flex-row gap-5 items-start bg-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800">
+                <div className="w-24 h-28 rounded-xl border border-slate-700 bg-slate-900 overflow-hidden shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
+                  {selectedStudent.photo_url ? (
+                    <img
+                      src={selectedStudent.photo_url}
+                      alt={selectedStudent.student_name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <User className="w-8 h-8 text-slate-600" />
+                  )}
                 </div>
-              )}
-              {(selectedStudent.visiting_date || selectedStudent.course_end_date) && (
-                <div>
-                  <span className="text-[10px] text-slate-500 uppercase block">Visiting Date</span>
-                  <strong className="text-slate-300">
-                    {selectedStudent.visiting_date || selectedStudent.course_end_date}
-                  </strong>
-                </div>
-              )}
-              {selectedStudent.failure_reason && (
-                <div className="col-span-2 pt-2 border-t border-rose-500/30 p-2.5 rounded-lg bg-rose-500/10">
-                  <span className="text-[10px] text-rose-400 font-bold uppercase block">
-                    Assessment / Failure Note (Visible to Candidate):
+                <div className="space-y-1 flex-1 text-center sm:text-left">
+                  <span
+                    className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase mb-1 ${
+                      selectedStudent.status === "Completed"
+                        ? "bg-emerald-500/20 text-emerald-400"
+                        : selectedStudent.status === "Joining"
+                        ? "bg-indigo-500/20 text-indigo-400"
+                        : selectedStudent.status === "Rejoining"
+                        ? "bg-teal-500/20 text-teal-400"
+                        : selectedStudent.status === "Failed"
+                        ? "bg-rose-500/20 text-rose-400"
+                        : selectedStudent.status === "Active"
+                        ? "bg-blue-500/20 text-blue-400"
+                        : "bg-slate-700 text-slate-300"
+                    }`}
+                  >
+                    {selectedStudent.status}
                   </span>
-                  <p className="text-rose-200 text-xs mt-1 leading-relaxed">
-                    {selectedStudent.failure_reason}
+                  <h4 className="text-lg font-bold text-white">
+                    {selectedStudent.student_name}
+                  </h4>
+                  <p className="text-xs text-slate-400">
+                    Father's Name: <strong className="text-slate-200">{selectedStudent.father_name}</strong>
+                  </p>
+                  <p className="text-xs text-amber-400 font-mono">
+                    App No: {selectedStudent.application_number}
                   </p>
                 </div>
-              )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 text-xs bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase block">Application No</span>
+                  <strong className="text-slate-300 font-mono">{selectedStudent.application_number}</strong>
+                </div>
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase block">Interview Date</span>
+                  <strong className="text-amber-400 font-mono">{selectedStudent.interview_date || "Not Scheduled"}</strong>
+                </div>
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase block">Date of Birth</span>
+                  <strong className="text-slate-300">{selectedStudent.date_of_birth}</strong>
+                </div>
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase block">Mobile Number</span>
+                  <strong className="text-emerald-400 font-mono">{selectedStudent.mobile_number}</strong>
+                </div>
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase block">Email Address</span>
+                  <strong className="text-slate-300">{selectedStudent.email || "N/A"}</strong>
+                </div>
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase block">Batch Code</span>
+                  <strong className="text-amber-300 font-mono">
+                    {selectedStudent.batch_code || `IAS-TRG-${selectedStudent.application_number.replace(/\D/g, "")}`}
+                  </strong>
+                </div>
+                <div className="col-span-2 pt-2 border-t border-slate-800">
+                  <span className="text-[10px] text-slate-500 uppercase block">Course Enrolled</span>
+                  <strong className="text-amber-300 text-sm block">{selectedStudent.course_name}</strong>
+                </div>
+                {(selectedStudent.placement_date || selectedStudent.course_start_date) && (
+                  <div>
+                    <span className="text-[10px] text-slate-500 uppercase block">Date of Placement</span>
+                    <strong className="text-slate-300">
+                      {selectedStudent.placement_date || selectedStudent.course_start_date}
+                    </strong>
+                  </div>
+                )}
+                {(selectedStudent.visiting_date || selectedStudent.course_end_date) && (
+                  <div>
+                    <span className="text-[10px] text-slate-500 uppercase block">Visiting Date</span>
+                    <strong className="text-slate-300">
+                      {selectedStudent.visiting_date || selectedStudent.course_end_date}
+                    </strong>
+                  </div>
+                )}
+                {selectedStudent.failure_reason && (
+                  <div className="col-span-2 pt-2 border-t border-rose-500/30 p-2.5 rounded-lg bg-rose-500/10">
+                    <span className="text-[10px] text-rose-400 font-bold uppercase block">
+                      Assessment / Failure Note (Visible to Candidate):
+                    </span>
+                    <p className="text-rose-200 text-xs mt-1 leading-relaxed">
+                      {selectedStudent.failure_reason}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* 3 Quick Letter Action Buttons */}
+              <div className="p-3.5 bg-slate-950/80 rounded-2xl border border-slate-800 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                    <FileText className="h-4 w-4" /> Download / Print Official Candidate Letters
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-medium bg-slate-900 px-2 py-0.5 rounded-full border border-slate-800">
+                    Vocational Training Compliant
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={() => {
+                      setLetterStudent(selectedStudent);
+                      setSelectedLetterType("welcome");
+                      setIsLetterModalOpen(true);
+                    }}
+                    className="bg-slate-800 hover:bg-slate-700 text-white text-[11px] h-9 rounded-xl font-semibold border border-slate-700 shadow-sm"
+                  >
+                    🎓 Welcome Letter
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={() => {
+                      setLetterStudent(selectedStudent);
+                      setSelectedLetterType("confirmation");
+                      setIsLetterModalOpen(true);
+                    }}
+                    className="bg-slate-800 hover:bg-slate-700 text-white text-[11px] h-9 rounded-xl font-semibold border border-slate-700 shadow-sm"
+                  >
+                    📋 Confirmation Advice
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={() => {
+                      setLetterStudent(selectedStudent);
+                      setSelectedLetterType("agreement");
+                      setIsLetterModalOpen(true);
+                    }}
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] h-9 rounded-xl font-semibold shadow-md"
+                  >
+                    📜 Training Agreement
+                  </Button>
+                </div>
+              </div>
             </div>
 
-            {/* 3 Quick Letter Action Buttons */}
-            <div className="p-3.5 bg-slate-950/80 rounded-2xl border border-slate-800 space-y-2.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
-                  <FileText className="h-4 w-4" /> Download / Print Official Candidate Letters
-                </span>
-                <span className="text-[10px] text-slate-400 font-medium bg-slate-900 px-2 py-0.5 rounded-full border border-slate-800">
-                  Vocational Training Compliant
-                </span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <Button
-                  type="button"
-                  size="sm"
-                  onClick={() => {
-                    setLetterStudent(selectedStudent);
-                    setSelectedLetterType("welcome");
-                    setIsLetterModalOpen(true);
-                  }}
-                  className="bg-slate-800 hover:bg-slate-700 text-white text-[11px] h-9 rounded-xl font-semibold border border-slate-700 shadow-sm"
-                >
-                  🎓 Welcome Letter
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
-                  onClick={() => {
-                    setLetterStudent(selectedStudent);
-                    setSelectedLetterType("confirmation");
-                    setIsLetterModalOpen(true);
-                  }}
-                  className="bg-slate-800 hover:bg-slate-700 text-white text-[11px] h-9 rounded-xl font-semibold border border-slate-700 shadow-sm"
-                >
-                  📋 Confirmation Advice
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
-                  onClick={() => {
-                    setLetterStudent(selectedStudent);
-                    setSelectedLetterType("agreement");
-                    setIsLetterModalOpen(true);
-                  }}
-                  className="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] h-9 rounded-xl font-semibold shadow-md"
-                >
-                  📜 Training Agreement
-                </Button>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between pt-3 border-t border-slate-800">
+            <div className="p-4 sm:p-6 pt-3 border-t border-slate-800 shrink-0 bg-slate-900 flex items-center justify-between">
               <Link
                 to={`/verify?app=${encodeURIComponent(selectedStudent.application_number)}`}
                 target="_blank"
@@ -1447,7 +1477,7 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
               <Button
                 type="button"
                 onClick={() => setIsViewOpen(false)}
-                className="bg-slate-800 hover:bg-slate-700 text-white text-xs px-5 py-2 rounded-xl"
+                className="bg-slate-800 hover:bg-slate-700 text-white text-xs px-5 py-2 rounded-xl h-9"
               >
                 Close
               </Button>

@@ -907,7 +907,7 @@ function doGet(e) {
         noIndex={true}
       />
 
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans overflow-x-hidden w-full max-w-full">
         {/* Top Executive Header */}
         <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 shadow-md">
           <div className="container mx-auto px-4 py-3 flex items-center justify-between">
@@ -947,7 +947,7 @@ function doGet(e) {
 
           {/* Navigation Tabs Bar */}
           <div className="border-t border-slate-800/80 bg-slate-900/50">
-            <div className="container mx-auto px-4 flex overflow-x-auto no-scrollbar gap-1.5 py-2">
+            <div className="container mx-auto px-4 flex overflow-x-auto no-scrollbar touch-pan-x [-webkit-overflow-scrolling:touch] gap-1.5 py-2">
               {[
                 { id: "overview", label: "Dashboard", icon: LayoutDashboard },
                 { id: "students", label: `Candidates (${studentCount})`, icon: GraduationCap },
@@ -2477,22 +2477,23 @@ function doGet(e) {
             JOB CREATE / EDIT MODAL
             ================================================== */}
         {isJobModalOpen && (
-          <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-            <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-5 my-8 max-h-[90vh] overflow-y-auto">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 className="text-lg sm:text-xl font-heading font-extrabold text-white">
+          <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+            <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-2xl w-full flex flex-col max-h-[92vh] shadow-2xl my-auto overflow-hidden">
+              <div className="p-4 sm:p-6 pb-3 border-b border-slate-800 flex items-center justify-between shrink-0 bg-slate-900">
+                <h3 className="text-base sm:text-xl font-heading font-extrabold text-white">
                   {editingJobId ? "Edit Job Vacancy" : "Post New Job Vacancy"}
                 </h3>
                 <button
                   type="button"
                   onClick={() => setIsJobModalOpen(false)}
-                  className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+                  className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <form onSubmit={handleSaveJob} className="space-y-4">
+              <form onSubmit={handleSaveJob} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+                <div className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1 touch-pan-y [-webkit-overflow-scrolling:touch]">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5 sm:col-span-2">
                     <label className="text-xs font-bold text-slate-200 block">Job Title *</label>
@@ -2785,18 +2786,20 @@ function doGet(e) {
                   />
                 </div>
 
-                <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                </div>
+
+                <div className="p-4 sm:p-6 pt-3 border-t border-slate-800 shrink-0 bg-slate-900 flex items-center justify-end gap-3">
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => setIsJobModalOpen(false)}
-                    className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs py-5 px-5"
+                    className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs h-10 px-5"
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-7 py-5 rounded-xl text-xs shadow-md"
+                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-7 h-10 rounded-xl text-xs shadow-md"
                   >
                     {editingJobId ? "Save Job Changes" : "Publish Job Post"}
                   </Button>
@@ -2810,22 +2813,23 @@ function doGet(e) {
             NOTIFICATION CREATE / EDIT MODAL
             ================================================== */}
         {isNoticeModalOpen && (
-          <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-            <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-5 my-8">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 className="text-lg font-heading font-extrabold text-white">
+          <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+            <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full flex flex-col max-h-[92vh] shadow-2xl my-auto overflow-hidden">
+              <div className="p-4 sm:p-6 pb-3 border-b border-slate-800 flex items-center justify-between shrink-0 bg-slate-900">
+                <h3 className="text-base sm:text-lg font-heading font-extrabold text-white">
                   {editingNoticeId ? "Edit Notification Alert" : "Publish New Recruitment Alert"}
                 </h3>
                 <button
                   type="button"
                   onClick={() => setIsNoticeModalOpen(false)}
-                  className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+                  className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <form onSubmit={handleSaveNotice} className="space-y-4">
+              <form onSubmit={handleSaveNotice} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+                <div className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1 touch-pan-y [-webkit-overflow-scrolling:touch]">
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-200 block">Notice Title *</label>
                   <input
@@ -2901,18 +2905,20 @@ function doGet(e) {
                   />
                 </div>
 
-                <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                </div>
+
+                <div className="p-4 sm:p-6 pt-3 border-t border-slate-800 shrink-0 bg-slate-900 flex items-center justify-end gap-3">
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => setIsNoticeModalOpen(false)}
-                    className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs py-5 px-5"
+                    className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs h-10 px-5"
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-7 py-5 rounded-xl text-xs shadow-md"
+                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-7 h-10 rounded-xl text-xs shadow-md"
                   >
                     {editingNoticeId ? "Save Changes" : "Publish Notice"}
                   </Button>
@@ -2926,71 +2932,73 @@ function doGet(e) {
             BRANCH CREATE / EDIT MODAL
             ================================================== */}
         {isBranchModalOpen && (
-          <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-            <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-5 my-8">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 className="text-lg font-heading font-extrabold text-white">
+          <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+            <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full flex flex-col max-h-[92vh] shadow-2xl my-auto overflow-hidden">
+              <div className="p-4 sm:p-6 pb-3 border-b border-slate-800 flex items-center justify-between shrink-0 bg-slate-900">
+                <h3 className="text-base sm:text-lg font-heading font-extrabold text-white">
                   {editingBranchId ? "Edit Office Center" : "Add New Office Location"}
                 </h3>
                 <button
                   type="button"
                   onClick={() => setIsBranchModalOpen(false)}
-                  className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+                  className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <form onSubmit={handleSaveBranch} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+              <form onSubmit={handleSaveBranch} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+                <div className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1 touch-pan-y [-webkit-overflow-scrolling:touch]">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-200 block">City / State *</label>
+                      <input
+                        type="text"
+                        value={branchFormData.city}
+                        onChange={(e) => setBranchFormData({ ...branchFormData, city: e.target.value })}
+                        placeholder="e.g. Bangalore"
+                        required
+                        className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-200 block">Office Title</label>
+                      <input
+                        type="text"
+                        value={branchFormData.officeName}
+                        onChange={(e) => setBranchFormData({ ...branchFormData, officeName: e.target.value })}
+                        placeholder="e.g. Karnataka Regional Hub"
+                        className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500"
+                      />
+                    </div>
+                  </div>
+
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-200 block">City / State *</label>
-                    <input
-                      type="text"
-                      value={branchFormData.city}
-                      onChange={(e) => setBranchFormData({ ...branchFormData, city: e.target.value })}
-                      placeholder="e.g. Bangalore"
+                    <label className="text-xs font-bold text-slate-200 block">Full Physical Address *</label>
+                    <textarea
+                      rows={2}
+                      value={branchFormData.address}
+                      onChange={(e) => setBranchFormData({ ...branchFormData, address: e.target.value })}
+                      placeholder="Enter complete office address..."
                       required
-                      className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-200 block">Office Title</label>
-                    <input
-                      type="text"
-                      value={branchFormData.officeName}
-                      onChange={(e) => setBranchFormData({ ...branchFormData, officeName: e.target.value })}
-                      placeholder="e.g. Karnataka Regional Hub"
-                      className="w-full h-11 px-3.5 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-sm font-medium focus:outline-none focus:border-amber-500"
+                      className="w-full p-3 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs leading-relaxed focus:outline-none focus:border-amber-500 font-medium"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-200 block">Full Physical Address *</label>
-                  <textarea
-                    rows={2}
-                    value={branchFormData.address}
-                    onChange={(e) => setBranchFormData({ ...branchFormData, address: e.target.value })}
-                    placeholder="Enter complete office address..."
-                    required
-                    className="w-full p-3 bg-slate-950 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-xs leading-relaxed focus:outline-none focus:border-amber-500 font-medium"
-                  />
-                </div>
-
-                <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <div className="p-4 sm:p-6 pt-3 border-t border-slate-800 shrink-0 bg-slate-900 flex items-center justify-end gap-3">
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => setIsBranchModalOpen(false)}
-                    className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs py-5 px-5"
+                    className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs h-10 px-5"
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-7 py-5 rounded-xl text-xs shadow-md"
+                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-7 h-10 rounded-xl text-xs shadow-md"
                   >
                     {editingBranchId ? "Save Office" : "Add Office"}
                   </Button>

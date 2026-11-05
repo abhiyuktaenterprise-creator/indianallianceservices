@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Printer, FileText, CheckCircle2, ShieldCheck, ChevronRight } from "lucide-react";
+import { X, Printer, FileText, CheckCircle2, ShieldCheck, ChevronRight, Settings2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Student } from "@/services/studentService";
 
@@ -289,6 +289,68 @@ const LETTER_PREVIEW_CSS = `
     text-align: right;
     margin-top: 2px;
   }
+  @media screen and (max-width: 768px) {
+    .letter-fit-screen .page {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      min-height: auto !important;
+      max-height: none !important;
+      margin: 0 0 16px 0 !important;
+      padding: 14px 12px 14px 12px !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+      font-size: 8pt !important;
+    }
+    .letter-fit-screen .watermark {
+      width: 180px !important;
+      max-width: 180px !important;
+    }
+    .letter-fit-screen .logo-container img {
+      height: 36px !important;
+      max-height: 36px !important;
+    }
+    .letter-fit-screen .org-details {
+      font-size: 6.8pt !important;
+      line-height: 1.25 !important;
+    }
+    .letter-fit-screen .doc-title {
+      font-size: 10pt !important;
+    }
+    .letter-fit-screen .doc-subtitle {
+      font-size: 7.2pt !important;
+    }
+    .letter-fit-screen .candidate-box {
+      flex-direction: column !important;
+      gap: 6px !important;
+      padding: 8px 10px !important;
+      font-size: 8pt !important;
+    }
+    .letter-fit-screen .data-table {
+      font-size: 7.5pt !important;
+    }
+    .letter-fit-screen .data-table th, .letter-fit-screen .data-table td {
+      padding: 3.5px 6px !important;
+    }
+    .letter-fit-screen .signatures-section {
+      flex-direction: column !important;
+      gap: 12px !important;
+      align-items: flex-start !important;
+    }
+    .letter-fit-screen .sig-block {
+      width: 100% !important;
+    }
+    .letter-fit-screen .stamp-sig-container {
+      height: 50px !important;
+    }
+    .letter-fit-screen .stamp-img {
+      width: 60px !important;
+      right: 90px !important;
+    }
+    .letter-fit-screen .sig-img {
+      width: 80px !important;
+      right: 15px !important;
+    }
+  }
 `;
 
 export default function StudentLetterModal({
@@ -298,6 +360,8 @@ export default function StudentLetterModal({
   initialLetterType = "welcome",
 }: StudentLetterModalProps) {
   const [letterType, setLetterType] = useState<LetterType>(initialLetterType);
+  const [showAdvancedConfig, setShowAdvancedConfig] = useState(false);
+  const [isFitWidth, setIsFitWidth] = useState(true);
 
   const todayFormatted = new Date().toLocaleDateString("en-GB", {
     day: "2-digit",
@@ -368,103 +432,159 @@ export default function StudentLetterModal({
       {/* Inject Scoped CSS for the preview */}
       <style>{LETTER_PREVIEW_CSS}</style>
 
-      <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-5xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[95vh]">
+      <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-5xl w-full p-3 sm:p-6 shadow-2xl flex flex-col max-h-[95vh] overflow-hidden my-auto">
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
-              <FileText className="h-5 w-5" />
+        <div className="border-b border-slate-800 pb-3 shrink-0">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+                <FileText className="h-4 sm:h-5 w-4 sm:w-5" />
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-sm sm:text-lg font-heading font-extrabold text-white truncate">
+                  Letter Preview: <span className="text-amber-400">{student.student_name}</span>
+                </h3>
+                <p className="text-[11px] text-slate-400 truncate hidden sm:block">
+                  Official Indian Alliance Services Letterhead & Training Undertaking
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-base sm:text-lg font-heading font-extrabold text-white">
-                Training Letter Preview: <span className="text-amber-400">{student.student_name}</span>
-              </h3>
-              <p className="text-xs text-slate-400">
-                Official Indian Alliance Services Letterhead & Training Undertaking
-              </p>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <Button
+                type="button"
+                onClick={handlePrint}
+                className="hidden sm:inline-flex bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs gap-1.5 shadow-md"
+              >
+                <Printer className="h-4 w-4" /> Print / Save as PDF
+              </Button>
+              <button
+                type="button"
+                onClick={onClose}
+                className="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition-colors"
+                title="Close"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* Mobile Print Button Bar */}
+          <div className="sm:hidden mt-2.5">
             <Button
               type="button"
               onClick={handlePrint}
-              className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs gap-1.5 shadow-md"
+              className="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs gap-1.5 shadow-md justify-center"
             >
-              <Printer className="h-4 w-4" /> Print / Save as PDF
+              <Printer className="h-4 w-4" /> Print / Save Letter (PDF)
             </Button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition-colors"
-            >
-              <X className="h-5 w-5" />
-            </button>
           </div>
         </div>
 
         {/* Configuration Bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-slate-950 p-3 rounded-2xl border border-slate-800 my-3 text-xs">
-          <div>
-            <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
-              Select Document Type
-            </label>
-            <select
-              value={letterType}
-              onChange={(e) => setLetterType(e.target.value as LetterType)}
-              className="w-full bg-slate-900 border border-amber-500/50 text-amber-300 font-semibold rounded-lg p-2 text-xs focus:outline-none"
-            >
-              <option value="welcome">🎓 Training Welcome Letter</option>
-              <option value="confirmation">📋 Training Confirmation Advice</option>
-              <option value="agreement">📜 Candidate Agreement (3-Page)</option>
-            </select>
+        <div className="bg-slate-950 p-2.5 sm:p-3.5 rounded-2xl border border-slate-800 my-2.5 sm:my-3 text-xs shrink-0 space-y-2.5">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
+            <div className="flex-1">
+              <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
+                Select Document Type
+              </label>
+              <select
+                value={letterType}
+                onChange={(e) => setLetterType(e.target.value as LetterType)}
+                className="w-full bg-slate-900 border border-amber-500/50 text-amber-300 font-semibold rounded-lg p-2 text-xs focus:outline-none"
+              >
+                <option value="welcome">🎓 Training Welcome Letter</option>
+                <option value="confirmation">📋 Training Confirmation Advice</option>
+                <option value="agreement">📜 Candidate Agreement (3-Page)</option>
+              </select>
+            </div>
+
+            <div className="flex items-center justify-between sm:justify-end gap-2 pt-1 sm:pt-0">
+              <button
+                type="button"
+                onClick={() => setShowAdvancedConfig(!showAdvancedConfig)}
+                className="text-[11px] text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1 bg-slate-900 px-2.5 py-1.5 rounded-lg border border-slate-800"
+              >
+                <Settings2 className="h-3.5 w-3.5" />
+                <span>{showAdvancedConfig ? "Hide Extra Fields" : "Edit Center/Date/Ref"}</span>
+              </button>
+
+              {/* View Zoom Toggle */}
+              <div className="flex items-center gap-1 bg-slate-900 p-0.5 rounded-lg border border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setIsFitWidth(true)}
+                  className={`px-2 py-1 rounded text-[10px] font-bold transition-all ${
+                    isFitWidth ? "bg-amber-500 text-slate-950" : "text-slate-400 hover:text-white"
+                  }`}
+                  title="Fit document width to screen"
+                >
+                  Fit Screen
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsFitWidth(false)}
+                  className={`px-2 py-1 rounded text-[10px] font-bold transition-all ${
+                    !isFitWidth ? "bg-amber-500 text-slate-950" : "text-slate-400 hover:text-white"
+                  }`}
+                  title="View at 100% full paper size"
+                >
+                  100% Full
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
-              Training Center Location
-            </label>
-            <input
-              type="text"
-              value={centerLocation}
-              onChange={(e) => setCenterLocation(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-xs focus:outline-none"
-            />
-          </div>
+          {/* Collapsible Details */}
+          <div className={`${showAdvancedConfig ? "grid" : "hidden sm:grid"} grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 border-t border-slate-800/80`}>
+            <div>
+              <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
+                Training Center Location
+              </label>
+              <input
+                type="text"
+                value={centerLocation}
+                onChange={(e) => setCenterLocation(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-xs focus:outline-none"
+              />
+            </div>
 
-          <div>
-            <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
-              Reporting Date & Time
-            </label>
-            <input
-              type="text"
-              value={`${reportingDate} (${reportingTime})`}
-              onChange={(e) => {
-                const val = e.target.value;
-                setReportingDate(val);
-              }}
-              className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-xs focus:outline-none"
-            />
-          </div>
+            <div>
+              <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
+                Reporting Date & Time
+              </label>
+              <input
+                type="text"
+                value={`${reportingDate} (${reportingTime})`}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setReportingDate(val);
+                }}
+                className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-xs focus:outline-none"
+              />
+            </div>
 
-          <div>
-            <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
-              Reference Number
-            </label>
-            <input
-              type="text"
-              value={refNo}
-              onChange={(e) => setRefNo(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-xs font-mono focus:outline-none"
-            />
+            <div>
+              <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
+                Reference Number
+              </label>
+              <input
+                type="text"
+                value={refNo}
+                onChange={(e) => setRefNo(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-xs font-mono focus:outline-none"
+              />
+            </div>
           </div>
         </div>
 
         {/* Live Preview Area with Exact Paper Dimension and Styling */}
-        <div className="flex-1 overflow-y-auto bg-slate-950/80 p-4 sm:p-6 rounded-2xl border border-slate-800/80 flex flex-col items-center">
+        <div className="flex-1 overflow-x-auto overflow-y-auto bg-slate-950/80 p-2 sm:p-6 rounded-2xl border border-slate-800/80 touch-pan-x touch-pan-y [-webkit-overflow-scrolling:touch]">
           <div
             id="printable-letter-container"
-            className="letter-page-scope w-full flex flex-col items-center"
+            className={`letter-page-scope w-full flex flex-col items-center ${
+              isFitWidth ? "letter-fit-screen" : "letter-full-paper"
+            }`}
           >
             {renderLetterContent(
               letterType,

@@ -110,6 +110,8 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isClearAllOpen, setIsClearAllOpen] = useState(false);
+  const [isClearingAll, setIsClearingAll] = useState(false);
   const [isLetterModalOpen, setIsLetterModalOpen] = useState(false);
   const [letterStudent, setLetterStudent] = useState<Student | null>(null);
   const [selectedLetterType, setSelectedLetterType] = useState<"welcome" | "confirmation" | "agreement">("welcome");
@@ -466,6 +468,25 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
     }
   };
 
+  // Clear All Students
+  const handleClearAllCandidates = async () => {
+    setIsClearingAll(true);
+    try {
+      const res = await studentService.clearAllStudents();
+      if (res.success) {
+        toast.success("All candidate records cleared successfully.");
+        setIsClearAllOpen(false);
+        await loadStudents();
+      } else {
+        toast.error(res.error || "Failed to clear candidate records.");
+      }
+    } catch {
+      toast.error("Failed to clear candidate records.");
+    } finally {
+      setIsClearingAll(false);
+    }
+  };
+
   // Export JSON Backup
   const handleExportJSON = () => {
     const jsonStr = studentService.exportStudents();
@@ -597,6 +618,17 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
             onChange={handleImportJSON}
             className="hidden"
           />
+
+          {students.length > 0 && (
+            <Button
+              onClick={() => setIsClearAllOpen(true)}
+              variant="outline"
+              className="gap-1.5 text-xs border-rose-800/60 bg-rose-950/20 text-rose-400 hover:bg-rose-900/40 hover:text-white"
+              title="Clear all candidate records from database"
+            >
+              <Trash2 className="h-3.5 w-3.5 text-rose-400" /> Clear All ({students.length})
+            </Button>
+          )}
           <Button
             onClick={handleResetRegistry}
             variant="outline"
@@ -1459,6 +1491,50 @@ export default function StudentsManager({ onTotalChange }: StudentsManagerProps)
                 className="bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-xs py-2 px-4 shadow-md"
               >
                 Confirm Delete
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ==================================================
+          CLEAR ALL CANDIDATES CONFIRMATION MODAL
+          ================================================== */}
+      {isClearAllOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="p-3 bg-red-500/20 text-red-400 rounded-2xl shrink-0">
+                <Trash2 className="h-6 w-6" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-white">Delete All {students.length} Candidate Records?</h3>
+                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                  Are you sure you want to delete all candidate records from this system? This will clear the registry completely.
+                </p>
+                <div className="mt-3 p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-[11px] text-amber-300">
+                  <b>Google Sheet note:</b> To also remove these candidates from your Google Sheet, open your sheet and delete rows 2 onwards (keep the header row intact).
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isClearingAll}
+                onClick={() => setIsClearAllOpen(false)}
+                className="border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs py-2 px-4"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                disabled={isClearingAll}
+                onClick={handleClearAllCandidates}
+                className="bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-xs py-2 px-4 shadow-md flex items-center gap-2"
+              >
+                <Trash2 className="h-4 w-4" />
+                {isClearingAll ? "Clearing..." : `Confirm Delete All (${students.length})`}
               </Button>
             </div>
           </div>

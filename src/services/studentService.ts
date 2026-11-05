@@ -712,7 +712,8 @@ function findCandidateMatch(list: Student[], queryTrimmed: string, dobTrimmed?: 
 // Helper to get local students
 const getLocalStudents = (): Student[] => {
   try {
-    const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const wasCleared = typeof window !== "undefined" && localStorage.getItem("ias_students_cleared") === "true";
+    const raw = typeof window !== "undefined" ? localStorage.getItem(LOCAL_STORAGE_KEY) : null;
     let list: Student[] = [];
     if (raw) {
       try {
@@ -725,8 +726,14 @@ const getLocalStudents = (): Student[] => {
       }
     }
 
-    if (list.length === 0) {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DEFAULT_STUDENTS));
+    if (wasCleared) {
+      return list;
+    }
+
+    if (raw === null && list.length === 0) {
+      if (typeof window !== "undefined") {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DEFAULT_STUDENTS));
+      }
       return DEFAULT_STUDENTS;
     }
 
@@ -894,6 +901,9 @@ export const studentService = {
       updated_at: new Date().toISOString(),
     };
 
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("ias_students_cleared");
+    }
     list.unshift(newStudent);
     saveLocalStudents(list);
 
@@ -997,6 +1007,23 @@ export const studentService = {
     }
     saveLocalStudents(filtered);
     return { success: true, error: null };
+  },
+
+  /**
+   * Permanently clear all candidate records
+   */
+  async clearAllStudents(): Promise<{ success: boolean; error: string | null }> {
+    try {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("ias_students_cleared", "true");
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([]));
+        window.dispatchEvent(new CustomEvent("ias_candidates_synced", { detail: { count: 0 } }));
+        window.dispatchEvent(new Event("storage"));
+      }
+      return { success: true, error: null };
+    } catch (err: any) {
+      return { success: false, error: err.message || "Failed to clear candidates." };
+    }
   },
 
   /**

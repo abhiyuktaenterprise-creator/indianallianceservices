@@ -161,7 +161,7 @@ export default function InterviewTips() {
       entered.toLowerCase() === "student123" ||
       entered.toLowerCase() === "student" ||
       entered.toLowerCase() === "admin" ||
-      entered === "AS#Aviation@2026!Admin";
+      entered === "IAS#Aviation@2026!Super";
 
     setTimeout(() => {
       setIsAuthenticating(false);

@@ -25,6 +25,8 @@ for (const vp of viewports) {
       await page.addInitScript(() => {
         localStorage.setItem('acs_admin_session', 'true');
         sessionStorage.setItem('acs_admin_session', 'true');
+        localStorage.setItem('acs_admin_session_version', 'ias_admin_v3_session_20261116');
+        sessionStorage.setItem('acs_admin_session_version', 'ias_admin_v3_session_20261116');
       });
 
       await page.goto('/admin/dashboard');
@@ -146,6 +148,8 @@ test.describe('Training Letter Modal Mobile Viewport Test (iPhone 16 - 393x852)'
     await page.addInitScript(() => {
       localStorage.setItem('acs_admin_session', 'true');
       sessionStorage.setItem('acs_admin_session', 'true');
+      localStorage.setItem('acs_admin_session_version', 'ias_admin_v3_session_20261116');
+      sessionStorage.setItem('acs_admin_session_version', 'ias_admin_v3_session_20261116');
     });
 
     await page.goto('/admin/dashboard');

@@ -907,6 +907,36 @@ const DEFAULT_LEADS: CandidateLead[] = [
 
 const SiteConfigContext = createContext<SiteConfigContextType | undefined>(undefined);
 
+// Global Auth Session Version - bumping this key forces an immediate global logout on all devices
+export const ADMIN_AUTH_SESSION_VERSION = "ias_admin_v3_session_20261116";
+
+// Helper to verify if the active browser session matches current security version
+export const checkAdminSessionValidity = (): boolean => {
+  try {
+    const isLogged =
+      sessionStorage.getItem("acs_admin_session") === "true" ||
+      localStorage.getItem("acs_admin_session") === "true";
+    const sessionVer =
+      sessionStorage.getItem("acs_admin_session_version") ||
+      localStorage.getItem("acs_admin_session_version");
+
+    if (isLogged && sessionVer === ADMIN_AUTH_SESSION_VERSION) {
+      return true;
+    }
+
+    // If session flag exists without valid matching version, purge legacy credentials session immediately
+    if (isLogged && sessionVer !== ADMIN_AUTH_SESSION_VERSION) {
+      sessionStorage.removeItem("acs_admin_session");
+      localStorage.removeItem("acs_admin_session");
+      sessionStorage.removeItem("acs_admin_session_version");
+      localStorage.removeItem("acs_admin_session_version");
+    }
+    return false;
+  } catch (e) {
+    return false;
+  }
+};
+
 export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // 1. Settings
   const [settings, setSettings] = useState<SiteSettings>(() => {
@@ -1081,6 +1111,16 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   });
 
   // 9. Admin Auth
+  const LEGACY_BLOCKED_PASSWORDS = [
+    "AS#Aviation@2026!Admin",
+    "admin123",
+    "Admin@123",
+    "admin",
+    "IAS@2026",
+    "IAS#Aviation@2026!Admin",
+  ];
+  const MASTER_ADMIN_PASS = "IAS#Aviation@2026!Super";
+
   const [adminAuth, setAdminAuth] = useState<{
     email: string;
     passwordHash: string;
@@ -1090,8 +1130,8 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === "object") {
-          if (parsed.passwordHash === "admin123") {
-            return { email: "admin@indianallianceservices.com", passwordHash: "AS#Aviation@2026!Admin" };
+          if (LEGACY_BLOCKED_PASSWORDS.includes(parsed.passwordHash)) {
+            return { email: "admin@indianallianceservices.com", passwordHash: MASTER_ADMIN_PASS };
           }
           return parsed;
         }
@@ -1099,19 +1139,34 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     } catch (e) {
       console.warn("Error reading acs_admin_auth:", e);
     }
-    return { email: "admin@indianallianceservices.com", passwordHash: "AS#Aviation@2026!Admin" };
+    return { email: "admin@indianallianceservices.com", passwordHash: MASTER_ADMIN_PASS };
   });
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    try {
-      return (
-        sessionStorage.getItem("acs_admin_session") === "true" ||
-        localStorage.getItem("acs_admin_session") === "true"
-      );
-    } catch (e) {
-      return false;
-    }
+    return checkAdminSessionValidity();
   });
+
+  // Global Session Integrity Pulse - immediately detects revoked/expired session
+  useEffect(() => {
+    const enforceSessionIntegrity = () => {
+      const isValid = checkAdminSessionValidity();
+      if (!isValid && isAuthenticated) {
+        setIsAuthenticated(false);
+      }
+    };
+
+    enforceSessionIntegrity();
+
+    window.addEventListener("storage", enforceSessionIntegrity);
+    window.addEventListener("focus", enforceSessionIntegrity);
+    const interval = setInterval(enforceSessionIntegrity, 3000);
+
+    return () => {
+      window.removeEventListener("storage", enforceSessionIntegrity);
+      window.removeEventListener("focus", enforceSessionIntegrity);
+      clearInterval(interval);
+    };
+  }, [isAuthenticated]);
 
   // LocalStorage Persistence
   useEffect(() => {
@@ -1192,15 +1247,22 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       cleanEmail.includes("admin") ||
       cleanEmail.length > 0;
 
+    // Explicitly reject any old legacy passwords
+    if (LEGACY_BLOCKED_PASSWORDS.includes(cleanPass)) {
+      return false;
+    }
+
     const isPasswordMatch =
+      cleanPass === MASTER_ADMIN_PASS ||
       cleanPass === currentAuth.passwordHash.trim() ||
-      cleanPass === adminAuth.passwordHash.trim() ||
-      cleanPass === "AS#Aviation@2026!Admin";
+      cleanPass === adminAuth.passwordHash.trim();
 
     if (isEmailMatch && isPasswordMatch) {
       setIsAuthenticated(true);
       sessionStorage.setItem("acs_admin_session", "true");
       localStorage.setItem("acs_admin_session", "true");
+      sessionStorage.setItem("acs_admin_session_version", ADMIN_AUTH_SESSION_VERSION);
+      localStorage.setItem("acs_admin_session_version", ADMIN_AUTH_SESSION_VERSION);
       return true;
     }
     return false;
@@ -1210,6 +1272,8 @@ export const SiteConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setIsAuthenticated(false);
     sessionStorage.removeItem("acs_admin_session");
     localStorage.removeItem("acs_admin_session");
+    sessionStorage.removeItem("acs_admin_session_version");
+    localStorage.removeItem("acs_admin_session_version");
   };
 
   const updateAdminCredentials = (newEmail: string, newPass: string) => {

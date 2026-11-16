@@ -1330,7 +1330,7 @@ function renderMasterAgreement(
           {renderHeader()}
           <div className="ref-date-bar">
             <div><strong>REF:</strong> {refNo}</div>
-            <div><strong>STUDENT:</strong> {student.student_name}</div>
+            <div><strong>CANDIDATE:</strong> {student.student_name}</div>
           </div>
 
           <div className="content-body">
@@ -1392,7 +1392,7 @@ function renderMasterAgreement(
           {renderHeader()}
           <div className="ref-date-bar">
             <div><strong>REF:</strong> {refNo}</div>
-            <div><strong>STUDENT:</strong> {student.student_name}</div>
+            <div><strong>CANDIDATE:</strong> {student.student_name}</div>
           </div>
 
           <div className="content-body">
@@ -1447,7 +1447,7 @@ function renderMasterAgreement(
           {renderHeader()}
           <div className="ref-date-bar">
             <div><strong>REF:</strong> {refNo}</div>
-            <div><strong>STUDENT:</strong> {student.student_name}</div>
+            <div><strong>CANDIDATE:</strong> {student.student_name}</div>
           </div>
 
           <div className="content-body">
@@ -1504,7 +1504,7 @@ function renderMasterAgreement(
           {renderHeader()}
           <div className="ref-date-bar">
             <div><strong>REF:</strong> {refNo}</div>
-            <div><strong>STUDENT:</strong> {student.student_name}</div>
+            <div><strong>CANDIDATE:</strong> {student.student_name}</div>
           </div>
 
           <div className="content-body">
@@ -1556,7 +1556,7 @@ function renderMasterAgreement(
           {renderHeader()}
           <div className="ref-date-bar">
             <div><strong>REF:</strong> {refNo}</div>
-            <div><strong>STUDENT:</strong> {student.student_name}</div>
+            <div><strong>CANDIDATE:</strong> {student.student_name}</div>
           </div>
 
           <div className="content-body">
@@ -1681,7 +1681,7 @@ function renderMasterAgreement(
           {renderHeader()}
           <div className="ref-date-bar">
             <div><strong>REF:</strong> {refNo}</div>
-            <div><strong>STUDENT:</strong> {student.student_name}</div>
+            <div><strong>CANDIDATE:</strong> {student.student_name}</div>
           </div>
 
           <div className="doc-title-container" style={{ marginTop: "30px" }}>
@@ -1825,7 +1825,7 @@ function renderMasterAgreement(
           {renderHeader()}
           <div className="ref-date-bar">
             <div><strong>REF:</strong> {refNo}</div>
-            <div><strong>STUDENT:</strong> {student.student_name}</div>
+            <div><strong>CANDIDATE:</strong> {student.student_name}</div>
           </div>
 
           <div className="doc-title-container">
@@ -1889,7 +1889,7 @@ function renderMasterAgreement(
           {renderHeader()}
           <div className="ref-date-bar">
             <div><strong>REF:</strong> {refNo}</div>
-            <div><strong>STUDENT:</strong> {student.student_name}</div>
+            <div><strong>CANDIDATE:</strong> {student.student_name}</div>
           </div>
 
           <div className="doc-title-container">
@@ -1957,7 +1957,7 @@ function renderMasterAgreement(
           {renderHeader()}
           <div className="ref-date-bar">
             <div><strong>REF:</strong> {refNo}</div>
-            <div><strong>STUDENT:</strong> {student.student_name}</div>
+            <div><strong>CANDIDATE:</strong> {student.student_name}</div>
           </div>
 
           <div className="doc-title-container">
@@ -2045,7 +2045,7 @@ function renderConfirmationLetter(
         <div className="content-body">
           <div className="candidate-box">
             <div className="candidate-col">
-              <p><strong>Trainee Name:</strong> {student.student_name}</p>
+              <p><strong>Candidate Name:</strong> {student.student_name}</p>
               <p><strong>Father's Name:</strong> {student.father_name}</p>
             </div>
             <div className="candidate-col" style={{ textAlign: "right" }}>
@@ -2088,7 +2088,7 @@ function renderConfirmationLetter(
               <li><strong>Attendance Requirement:</strong> Trainees must maintain a minimum of 85% attendance to qualify for course assessments and certification.</li>
               <li><strong>Grooming & Attire:</strong> Professional business formal attire is mandatory during all training sessions. Candidates must adhere to airline industry grooming standards.</li>
               <li><strong>Documentation:</strong> Candidate must submit self-attested copies of educational marksheets, Aadhaar card, and 4 passport-size photographs on the reporting date.</li>
-              <li><strong>Verification:</strong> All student credentials and registration status can be verified 24/7 on our official registry at <em>indianallianceservices.com</em>.</li>
+              <li><strong>Verification:</strong> All candidate credentials and registration status can be verified 24/7 on our official registry at <em>indianallianceservices.com</em>.</li>
             </ul>
           </div>
 
@@ -2101,7 +2101,7 @@ function renderConfirmationLetter(
       <div>
         <div className="signatures-section">
           <div className="sig-block">
-            <p><strong>Trainee Declaration & Acceptance:</strong></p>
+            <p><strong>Candidate Declaration & Acceptance:</strong></p>
             <div className="sig-line">
               Candidate Signature: _______________________<br />
               Date: {letterDate}

@@ -68,6 +68,8 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await page.addInitScript(() => {
       localStorage.setItem("acs_admin_session", "true");
       sessionStorage.setItem("acs_admin_session", "true");
+      localStorage.setItem("acs_admin_session_version", "ias_admin_v3_session_20261116");
+      sessionStorage.setItem("acs_admin_session_version", "ias_admin_v3_session_20261116");
     });
 
     // Navigate to admin dashboard
@@ -112,6 +114,8 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await page.addInitScript(() => {
       localStorage.setItem("acs_admin_session", "true");
       sessionStorage.setItem("acs_admin_session", "true");
+      localStorage.setItem("acs_admin_session_version", "ias_admin_v3_session_20261116");
+      sessionStorage.setItem("acs_admin_session_version", "ias_admin_v3_session_20261116");
     });
 
     // 1. Navigate to Admin Dashboard
@@ -218,6 +222,8 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await page.addInitScript(() => {
       localStorage.setItem("acs_admin_session", "true");
       sessionStorage.setItem("acs_admin_session", "true");
+      localStorage.setItem("acs_admin_session_version", "ias_admin_v3_session_20261116");
+      sessionStorage.setItem("acs_admin_session_version", "ias_admin_v3_session_20261116");
     });
 
     await page.goto('/admin/dashboard');
@@ -289,6 +295,8 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await page.addInitScript(() => {
       localStorage.setItem('acs_admin_session', 'true');
       sessionStorage.setItem('acs_admin_session', 'true');
+      localStorage.setItem('acs_admin_session_version', 'ias_admin_v3_session_20261116');
+      sessionStorage.setItem('acs_admin_session_version', 'ias_admin_v3_session_20261116');
     });
 
     await page.goto('/admin/dashboard');
@@ -346,6 +354,8 @@ test.describe('Candidate Verification & Admin Registry Tests', () => {
     await page1.addInitScript(() => {
       localStorage.setItem('acs_admin_session', 'true');
       sessionStorage.setItem('acs_admin_session', 'true');
+      localStorage.setItem('acs_admin_session_version', 'ias_admin_v3_session_20261116');
+      sessionStorage.setItem('acs_admin_session_version', 'ias_admin_v3_session_20261116');
     });
 
     await page1.goto('/admin/dashboard');

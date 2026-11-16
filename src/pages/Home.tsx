@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  Phone,
   Sparkles,
   CheckCircle2,
   Users,
@@ -899,7 +898,7 @@ export default function Home() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
                 { name: "Ankita Singh", role: "HR Director", code: "IAS-HR-01", img: ankitaImg },
-                { name: "Anamika Shinde", role: "Assistant HR Manager", code: "IAS-HR-13", img: anamikaImg, phone: "+91 8787253845" },
+                { name: "Anamika Shinde", role: "Assistant HR Manager", code: "IAS-HR-13", img: anamikaImg },
                 { name: "Divya Sharma", role: "Senior HR Manager", code: "IAS-HR-05", img: divyaImg },
                 { name: "Mrs. Padmavati", role: "Senior HR Manager", code: "IAS-HR-20", img: padmavatiImg },
                 { name: "Teena Roy", role: "HR Manager", code: "IAS-HR-09", img: teenaImg },
@@ -923,20 +922,9 @@ export default function Home() {
                   </div>
 
                   <div className="mt-3.5 pt-2.5 border-t border-border/50 flex items-center justify-center text-xs">
-                    {m.phone ? (
-                      <a
-                        href={`tel:${m.phone.replace(/\s+/g, "")}`}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-secondary hover:underline"
-                        title="Direct Calling Line"
-                      >
-                        <Phone className="h-3 w-3" />
-                        <span>{m.phone}</span>
-                      </a>
-                    ) : (
-                      <span className="text-[11px] text-muted-foreground font-medium flex items-center gap-1">
-                        <BadgeCheck className="h-3.5 w-3.5 text-secondary" /> Verified HR
-                      </span>
-                    )}
+                    <span className="text-[11px] text-muted-foreground font-medium flex items-center gap-1">
+                      <BadgeCheck className="h-3.5 w-3.5 text-secondary" /> Verified HR
+                    </span>
                   </div>
                 </div>
               ))}
